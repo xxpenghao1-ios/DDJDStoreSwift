@@ -14,6 +14,8 @@ import SwiftyJSON
 ///成功返回
 typealias SuccessClosure = (_ result:PHRequestResult) -> Void
 
+
+
 /// 失败
 typealias FailClosure = (_ errorMsg: String?) -> Void
 /// 网络请求
