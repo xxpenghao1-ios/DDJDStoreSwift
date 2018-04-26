@@ -15,6 +15,11 @@
 		63FBEE462091746F00BE6B81 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63FBEE442091746F00BE6B81 /* LaunchScreen.storyboard */; };
 		63FBEE512091746F00BE6B81 /* DDJDStoreSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE502091746F00BE6B81 /* DDJDStoreSwiftTests.swift */; };
 		63FBEE5C2091746F00BE6B81 /* DDJDStoreSwiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE5B2091746F00BE6B81 /* DDJDStoreSwiftUITests.swift */; };
+		63FBEE6E209178CC00BE6B81 /* PHRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE6D209178CC00BE6B81 /* PHRequest.swift */; };
+		63FBEE712091A35900BE6B81 /* PublicAPPRelated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE702091A35900BE6B81 /* PublicAPPRelated.swift */; };
+		63FBEE752091AAFA00BE6B81 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE742091AAFA00BE6B81 /* LoginController.swift */; };
+		63FBEE782091AB5A00BE6B81 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE772091AB5A00BE6B81 /* BaseViewController.swift */; };
+		76CBF673A3FB8C81D82D8270 /* Pods_DDJDStoreSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF7492EEEFB038440091AD75 /* Pods_DDJDStoreSwift.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		06D06206B3D20328945610B0 /* Pods-DDJDStoreSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDJDStoreSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDJDStoreSwift/Pods-DDJDStoreSwift.debug.xcconfig"; sourceTree = "<group>"; };
+		0864E71D7B92CB100FA623EE /* Pods-DDJDStoreSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDJDStoreSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDJDStoreSwift/Pods-DDJDStoreSwift.release.xcconfig"; sourceTree = "<group>"; };
 		63FBEE352091746B00BE6B81 /* DDJDStoreSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDJDStoreSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63FBEE382091746B00BE6B81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63FBEE3A2091746C00BE6B81 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +56,12 @@
 		63FBEE572091746F00BE6B81 /* DDJDStoreSwiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DDJDStoreSwiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		63FBEE5B2091746F00BE6B81 /* DDJDStoreSwiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DDJDStoreSwiftUITests.swift; sourceTree = "<group>"; };
 		63FBEE5D2091747000BE6B81 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63FBEE69209174F000BE6B81 /* DDJDStoreSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DDJDStoreSwift-Bridging-Header.h"; sourceTree = "<group>"; };
+		63FBEE6D209178CC00BE6B81 /* PHRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PHRequest.swift; sourceTree = "<group>"; };
+		63FBEE702091A35900BE6B81 /* PublicAPPRelated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicAPPRelated.swift; sourceTree = "<group>"; };
+		63FBEE742091AAFA00BE6B81 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
+		63FBEE772091AB5A00BE6B81 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		BF7492EEEFB038440091AD75 /* Pods_DDJDStoreSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DDJDStoreSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76CBF673A3FB8C81D82D8270 /* Pods_DDJDStoreSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +90,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01D830AE5EA702E8F88FE610 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BF7492EEEFB038440091AD75 /* Pods_DDJDStoreSwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		17DECDC0869A78E9D598AB22 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				06D06206B3D20328945610B0 /* Pods-DDJDStoreSwift.debug.xcconfig */,
+				0864E71D7B92CB100FA623EE /* Pods-DDJDStoreSwift.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		63FBEE2C2091746B00BE6B81 = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +114,8 @@
 				63FBEE4F2091746F00BE6B81 /* DDJDStoreSwiftTests */,
 				63FBEE5A2091746F00BE6B81 /* DDJDStoreSwiftUITests */,
 				63FBEE362091746B00BE6B81 /* Products */,
+				17DECDC0869A78E9D598AB22 /* Pods */,
+				01D830AE5EA702E8F88FE610 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,6 +132,9 @@
 		63FBEE372091746B00BE6B81 /* DDJDStoreSwift */ = {
 			isa = PBXGroup;
 			children = (
+				63FBEE722091AABA00BE6B81 /* Controller */,
+				63FBEE6F2091A29F00BE6B81 /* Common */,
+				63FBEE6C209176FA00BE6B81 /* Request */,
 				63FBEE382091746B00BE6B81 /* AppDelegate.swift */,
 				63FBEE3A2091746C00BE6B81 /* ViewController.swift */,
 				63FBEE3C2091746C00BE6B81 /* Main.storyboard */,
@@ -106,6 +142,7 @@
 				63FBEE442091746F00BE6B81 /* LaunchScreen.storyboard */,
 				63FBEE472091746F00BE6B81 /* Info.plist */,
 				63FBEE3F2091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld */,
+				63FBEE69209174F000BE6B81 /* DDJDStoreSwift-Bridging-Header.h */,
 			);
 			path = DDJDStoreSwift;
 			sourceTree = "<group>";
@@ -128,6 +165,47 @@
 			path = DDJDStoreSwiftUITests;
 			sourceTree = "<group>";
 		};
+		63FBEE6C209176FA00BE6B81 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				63FBEE6D209178CC00BE6B81 /* PHRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		63FBEE6F2091A29F00BE6B81 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				63FBEE762091AB3300BE6B81 /* BaseViewController */,
+				63FBEE702091A35900BE6B81 /* PublicAPPRelated.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		63FBEE722091AABA00BE6B81 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				63FBEE732091AAE000BE6B81 /* Login */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		63FBEE732091AAE000BE6B81 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				63FBEE742091AAFA00BE6B81 /* LoginController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		63FBEE762091AB3300BE6B81 /* BaseViewController */ = {
+			isa = PBXGroup;
+			children = (
+				63FBEE772091AB5A00BE6B81 /* BaseViewController.swift */,
+			);
+			path = BaseViewController;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,9 +213,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 63FBEE602091747000BE6B81 /* Build configuration list for PBXNativeTarget "DDJDStoreSwift" */;
 			buildPhases = (
+				3EFA6EABAEDBF531C66E6864 /* [CP] Check Pods Manifest.lock */,
 				63FBEE312091746B00BE6B81 /* Sources */,
 				63FBEE322091746B00BE6B81 /* Frameworks */,
 				63FBEE332091746B00BE6B81 /* Resources */,
+				9A993884615BC4590356B5FF /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,6 +276,7 @@
 				TargetAttributes = {
 					63FBEE342091746B00BE6B81 = {
 						CreatedOnToolsVersion = 9.3;
+						LastSwiftMigration = 0930;
 					};
 					63FBEE4B2091746F00BE6B81 = {
 						CreatedOnToolsVersion = 9.3;
@@ -254,14 +335,77 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3EFA6EABAEDBF531C66E6864 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DDJDStoreSwift-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9A993884615BC4590356B5FF /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-DDJDStoreSwift/Pods-DDJDStoreSwift-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjcExceptionBridging/ObjcExceptionBridging.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/XCGLogger/XCGLogger.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjcExceptionBridging.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XCGLogger.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-DDJDStoreSwift/Pods-DDJDStoreSwift-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		63FBEE312091746B00BE6B81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				63FBEE412091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld in Sources */,
+				63FBEE752091AAFA00BE6B81 /* LoginController.swift in Sources */,
+				63FBEE712091A35900BE6B81 /* PublicAPPRelated.swift in Sources */,
 				63FBEE3B2091746C00BE6B81 /* ViewController.swift in Sources */,
 				63FBEE392091746B00BE6B81 /* AppDelegate.swift in Sources */,
+				63FBEE782091AB5A00BE6B81 /* BaseViewController.swift in Sources */,
+				63FBEE6E209178CC00BE6B81 /* PHRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,37 +576,46 @@
 		};
 		63FBEE612091747000BE6B81 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 06D06206B3D20328945610B0 /* Pods-DDJDStoreSwift.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = DDJDStoreSwift/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = penghao.DDJDStoreSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nmore.phddjdStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DDJDStoreSwift/DDJDStoreSwift-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		63FBEE622091747000BE6B81 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0864E71D7B92CB100FA623EE /* Pods-DDJDStoreSwift.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = DDJDStoreSwift/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = penghao.DDJDStoreSwift;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nmore.phddjdStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "DDJDStoreSwift/DDJDStoreSwift-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
