@@ -10,5 +10,8 @@ import Foundation
 import UIKit
 ///父类
 class BaseViewController:UIViewController {
-
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor=UIColor.viewBgdColor()
+    }
 }

@@ -11,29 +11,30 @@ import Moya
 import Result
 import ObjectMapper
 import SwiftyJSON
+import RxSwift
 ///成功返回
-typealias SuccessClosure = (_ result:PHRequestResult) -> Void
+typealias SuccessClosure = (_ result:JSON) -> Void
 /// 失败
 typealias FailClosure = (_ errorMsg: String?) -> Void
 /// 网络请求
 public class PHRequest:NSObject{
-    static let sharedInstance = PHRequest()
+    static let shared = PHRequest()
     private override init(){}
     private let failInfo="数据解析失败"
     /// 请求JSON数据
     func requestDataWithTargetJSON<T:TargetType>(target:T,successClosure:@escaping SuccessClosure,failClosure: @escaping FailClosure) {
         let requestProvider = MoyaProvider<T>(requestClosure:requestTimeoutClosure(target: target))
-        let _=requestProvider.request(target) { (result) -> () in
-            switch result{
+        let _=requestProvider.rx.request(target).subscribe { [weak self] (event) in
+            switch event {
             case let .success(response):
                 do {
                     let mapjson = try response.mapJSON()
-                    successClosure(PHRequestResult(json: mapjson))
+                    successClosure(JSON(mapjson))
                 } catch {
-                    failClosure(self.failInfo)
+                    failClosure(self?.failInfo)
                 }
-            case let .failure(error):
-                failClosure(error.errorDescription)
+            case let .error(error):
+                failClosure(error.localizedDescription)
             }
         }
     }
@@ -45,7 +46,7 @@ public class PHRequest:NSObject{
             case let .success(response):
                 do {
                     let str = try response.mapString()
-                    successClosure(PHRequestResult(str:str))
+                    successClosure(JSON(str))
                 } catch {
                     failClosure(self.failInfo)
                 }
@@ -76,32 +77,37 @@ extension TargetType{
     public var baseURL:URL{
         return Foundation.URL(string:URL)!
     }
+    //请求类型
+    public var headers: [String : String]? {
+        return nil
+    }
 }
-///网络请求返回结果
-public struct PHRequestResult{
-    ///保存返回json
-    private var json:Any?
-    ///保存返回字符串
-    private var str:String?
-    init(json:Any?=nil,str:String?=nil){
-        self.json=json
-        self.str=str
-    }
-    ///返回对应的entity
-    public func toEntity<M:Mappable>() -> M?{
-        return Mapper<M>().map(JSONObject:json)
-    }
-    ///返回对应的类型的数组
-    public func toArrEntity<M:Mappable>() -> [M]?{
-        return Mapper<M>().mapArray(JSONObject:json)
-    }
-    ///返回json
-    public func toJSON() -> JSON{
-        return JSON(json ?? "")
-    }
-    ///返回字符串
-    public func toString() -> String?{
-        return str
-    }
 
-}
+/////网络请求返回结果
+//public struct PHRequestResult{
+//    ///保存返回json
+//    private var json:Any?
+//    ///保存返回字符串
+//    private var str:String?
+//    init(json:Any?=nil,str:String?=nil){
+//        self.json=json
+//        self.str=str
+//    }
+//    ///返回对应的entity
+//    public func toEntity<M:Mappable>(target:M) -> M?{
+//        return Mapper<M>().map(JSONObject:json)
+//    }
+//    ///返回对应的类型的数组
+//    public func toArrEntity<M:Mappable>(target:M) -> [M]?{
+//        return Mapper<M>().mapArray(JSONObject:json)
+//    }
+//    ///返回json
+//    public func toJSON() -> JSON{
+//        return JSON(json ?? "")
+//    }
+//    ///返回字符串
+//    public func toString() -> String?{
+//        return str
+//    }
+//
+//}

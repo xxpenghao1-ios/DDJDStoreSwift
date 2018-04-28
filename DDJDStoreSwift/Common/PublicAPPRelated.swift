@@ -7,10 +7,10 @@
 //
 import UIKit
 ///图片请求路径
-let URL_IMG="http://c.hnddjd.com";
+let URL_IMG="http://www.hnddjd.com";
 ///c.hnddjd.com
 ///数据请求路径
-let URL="http://c.hnddjd.com";
+let URL="http://www.hnddjd.com/front/";
 
 /// 屏幕宽
 let SCREEN_WIDTH=UIScreen.main.bounds.width
