@@ -9,7 +9,7 @@
 import Foundation
 import SVProgressHUD
 
-enum HUDType {
+public enum HUDType {
     case success
     case error
     case loading
@@ -18,7 +18,6 @@ enum HUDType {
 }
 
 class PHProgressHUD: NSObject {
-
     class func initProgressHUD() {
         SVProgressHUD.setForegroundColor(UIColor(white: 1, alpha: 1))
         SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))
@@ -48,14 +47,14 @@ class PHProgressHUD: NSObject {
 }
 
 extension PHProgressHUD {
-    class func showProgressHUD(type: HUDType, status: String, progress: CGFloat = 0) {
+    class func showProgressHUD(type: HUDType,status:String, progress: CGFloat = 0) {
         switch type {
         case .success:
             SVProgressHUD.showSuccess(withStatus: status)
         case .error:
             SVProgressHUD.showError(withStatus: status)
         case .loading:
-            SVProgressHUD.show(withStatus: status)
+            SVProgressHUD.show(withStatus:status)
             SVProgressHUD.setDefaultMaskType(.clear)
         case .info:
             SVProgressHUD.showInfo(withStatus: status)

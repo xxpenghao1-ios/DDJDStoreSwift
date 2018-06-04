@@ -148,6 +148,7 @@
 		6333E7472092C53E00CEC3B7 /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
+				63FBEE472091746F00BE6B81 /* Info.plist */,
 				63FBEE382091746B00BE6B81 /* AppDelegate.swift */,
 				6333E7482092C5EF00CEC3B7 /* SetUpApp.swift */,
 			);
@@ -160,7 +161,6 @@
 				63FBEE422091746F00BE6B81 /* Assets.xcassets */,
 				63FBEE3C2091746C00BE6B81 /* Main.storyboard */,
 				63FBEE442091746F00BE6B81 /* LaunchScreen.storyboard */,
-				63FBEE472091746F00BE6B81 /* Info.plist */,
 				63FBEE3F2091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld */,
 				63FBEE69209174F000BE6B81 /* DDJDStoreSwift-Bridging-Header.h */,
 			);
@@ -478,6 +478,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-DDJDStoreSwift/Pods-DDJDStoreSwift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/Moya/Moya.framework",
@@ -485,6 +486,7 @@
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
+				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -494,6 +496,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Moya.framework",
@@ -501,6 +504,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
@@ -714,7 +718,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
-				INFOPLIST_FILE = "$(SRCROOT)/DDJDStoreSwift/Resource/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/DDJDStoreSwift/AppDelegate/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nmore.phddjdStore;
@@ -734,7 +738,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
-				INFOPLIST_FILE = "$(SRCROOT)/DDJDStoreSwift/Resource/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/DDJDStoreSwift/AppDelegate/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nmore.phddjdStore;

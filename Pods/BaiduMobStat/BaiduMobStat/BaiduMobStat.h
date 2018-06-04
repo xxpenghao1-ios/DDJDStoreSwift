@@ -23,12 +23,20 @@ typedef enum _BaiduMobStatLogStrategy {
 
 /**
  百度移动应用统计接口
- 当前版本 4.6.5
+ 当前版本 4.7.2
  */
 @interface BaiduMobStat : NSObject
 /**
  以下property属性，均为可选设置
  */
+
+/**
+ 设置用户自定义的用户识别id，在startWithAppId之前调用
+ 设置一次UserId后，用户被永久标记。传入新的userId将替换老的userId。
+ 传入nil或空字符串@""，可清空标记。
+ 自定义规则的用户识别id（可以使登录用户账号、手机号等），长度限制256字节
+ */
+@property (nonatomic, copy) NSString *userId;
 
 /**
  设置app的版本号
@@ -109,7 +117,6 @@ typedef enum _BaiduMobStatLogStrategy {
  @param appKey 用户在mtj网站上创建应用，获取对应的appKey
  */
 - (void)startWithAppId:(NSString *)appKey;
-
 
 /**
  记录一次事件的点击，eventId请在网站上创建。未创建的evenId记录将无效。
@@ -212,6 +219,21 @@ typedef enum _BaiduMobStatLogStrategy {
  @param body WKScriptMessage的body 只接受NSDictionary类型
  */
 - (void)didReceiveScriptMessage:(NSString*)name body:(NSDictionary *)body;
+
+/**
+ * 主动上传的Exception信息记录
+ *
+ * @param exception 自己捕获的，需要上传的exception
+ */
+- (void)recordException:(NSException *)exception;
+
+/**
+ * 主动上传的NSError信息记录
+ *
+ * @param error 自己捕获的，需要上传的error
+ */
+- (void)recordError:(NSError *)error;
+
 /**
  获取cuid的值
  返回SDK生成的cuid

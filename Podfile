@@ -10,12 +10,14 @@ target ‘DDJDStoreSwift’ do
     pod 'SnapKit' #自动布局库，swift版
     pod 'SVProgressHUD'    #菊花动画
     pod 'XCGLogger' #日志管理类库
-    pod 'Moya/RxSwift' #对Alamofire的封装
     pod 'BaiduMobStat'#百度统计
     pod 'SwiftyJSON' #json
     pod 'MJRefresh' #下拉刷新
     pod 'JPush' #极光推送
-    pod 'RxSwift' #响应式编程
+    #rx
+    pod 'RxSwift'
     pod 'RxCocoa'
+    pod 'Moya/RxSwift'
+    pod 'RxDataSources'
 end
 

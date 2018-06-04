@@ -1,28 +1,33 @@
 PODS:
-  - Alamofire (4.6.0)
-  - BaiduMobStat (4.6.5)
-  - IQKeyboardManagerSwift (5.0.7)
-  - JCore (1.1.7)
-  - JPush (3.0.8):
-    - JCore (~> 1.1.7)
+  - Alamofire (4.7.2)
+  - BaiduMobStat (4.7.2)
+  - Differentiator (3.0.2)
+  - IQKeyboardManagerSwift (6.0.3)
+  - JCore (1.2.0)
+  - JPush (3.0.9):
+    - JCore (~> 1.2.0)
   - MJRefresh (3.1.15.3)
-  - Moya/Core (10.0.1):
+  - Moya/Core (11.0.2):
     - Alamofire (~> 4.1)
     - Result (~> 3.0)
-  - Moya/RxSwift (10.0.1):
+  - Moya/RxSwift (11.0.2):
     - Moya/Core
     - RxSwift (~> 4.0)
   - ObjcExceptionBridging (1.0.1):
     - ObjcExceptionBridging/ObjcExceptionBridging (= 1.0.1)
   - ObjcExceptionBridging/ObjcExceptionBridging (1.0.1)
-  - ObjectMapper (3.1.0)
+  - ObjectMapper (3.2.0)
   - Result (3.2.4)
-  - RxCocoa (4.1.1):
+  - RxCocoa (4.1.2):
     - RxSwift (~> 4.0)
-  - RxSwift (4.1.1)
+  - RxDataSources (3.0.2):
+    - Differentiator (~> 3.0)
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
+  - RxSwift (4.1.2)
   - SnapKit (4.0.0)
-  - SVProgressHUD (2.2.2)
-  - SwiftyJSON (4.0.0)
+  - SVProgressHUD (2.2.5)
+  - SwiftyJSON (4.1.0)
   - XCGLogger (6.0.2):
     - XCGLogger/Core (= 6.0.2)
   - XCGLogger/Core (6.0.2):
@@ -37,6 +42,7 @@ DEPENDENCIES:
   - Moya/RxSwift
   - ObjectMapper
   - RxCocoa
+  - RxDataSources
   - RxSwift
   - SnapKit
   - SVProgressHUD
@@ -47,6 +53,7 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - BaiduMobStat
+    - Differentiator
     - IQKeyboardManagerSwift
     - JCore
     - JPush
@@ -56,6 +63,7 @@ SPEC REPOS:
     - ObjectMapper
     - Result
     - RxCocoa
+    - RxDataSources
     - RxSwift
     - SnapKit
     - SVProgressHUD
@@ -63,23 +71,25 @@ SPEC REPOS:
     - XCGLogger
 
 SPEC CHECKSUMS:
-  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
-  BaiduMobStat: 41c1a17c89397d80e96eff37da5dab9e600fc7a2
-  IQKeyboardManagerSwift: 30fb3a61de1af53a95e02b80fb54ed0a19d5ede5
-  JCore: f7459c81c135281a874a6beafdd321666adcc834
-  JPush: 9574d072cc37e93fa293ba69b43ce763c440943a
+  Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
+  BaiduMobStat: e84187c7057f87daac852e05692fd94c8d656bd3
+  Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
+  IQKeyboardManagerSwift: 04e8679f85e496bb2c474eeb9284052f1b3c391c
+  JCore: b52e3dd73625eec70afd1244bb9c41038aa06087
+  JPush: 48041e8c5ad2ef9b48709eb0888af9640b36e9b0
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
-  Moya: 9e621707ff754eeb51ff3ec51a3d54e517c0733a
+  Moya: a725035953bc1c0eb1be505ab903984501d82440
   ObjcExceptionBridging: c30e00eb3700467e695faeea30e26e18bd445001
-  ObjectMapper: 20505058f54e5c3ca69e1d6de9897d152a5369a6
+  ObjectMapper: 5cccd2de6f253eda859df8116a5a554d9769e859
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
-  RxCocoa: fd0862fd2df95fa55562ad28ffd2522c25eb4a85
-  RxSwift: c6e3b1c7b325c7d121cd4327e9d98b7ed746b570
+  RxCocoa: d88ba0f1f6abf040011a9eb4b539324fc426843a
+  RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
+  RxSwift: e49536837d9901277638493ea537394d4b55f570
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
-  SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
-  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
+  SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
+  SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   XCGLogger: c9601cae9a8912de34a58666ba931ed3d624dd31
 
-PODFILE CHECKSUM: 39392749cae72c628242605a6d877040c592b41b
+PODFILE CHECKSUM: 1076cea4216d1cbb89ed9411758d222260111a4f
 
 COCOAPODS: 1.5.0
