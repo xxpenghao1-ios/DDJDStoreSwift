@@ -9,13 +9,29 @@
 import Foundation
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 ///登录页面
 class LoginController:BaseViewController{
-
+    private let viewModel = LoginViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="登录"
         loadViewlayout()
+        bindViewModel()
+
+    }
+    ///绑定VM
+    private func bindViewModel() {
+        let input = LoginViewModel.Input(userName:txtMemberName.rx.text.orEmpty.asObservable(), pw: txtPW.rx.text.orEmpty.asObservable(), validate:btnLogin.rx.tap.asObservable())
+        let outputs = viewModel.transform(input:input)
+        outputs.result.drive(onNext: { (b) in
+            if b{
+                print("跳转页面")
+            }else{
+                print("不跳转页面")
+            }
+        }, onCompleted:nil,onDisposed:nil) .disposed(by:rx_disposeBag)
     }
     ///包含登录页面所有控件view
     lazy var loginView:UIView={
@@ -91,11 +107,11 @@ class LoginController:BaseViewController{
         return leftView
     }
     @objc private func login(){
-        PHRequest.shared.requestDataWithTargetJSON(target:LoginAndRegisterAPI.login(memberName: "17607319949", password:"123456" , deviceToken:"penghao", deviceName:"ios", flag: 1), successClosure: { (r) in
-            print(r.description)
-        }) { (error) in
-            print(error)
-        }
+//        PHRequest.shared.requestDataWithTargetJSON(target:LoginAndRegisterAPI.login(memberName: "17607319949", password:"123456" , deviceToken:"penghao", deviceName:"ios", flag: 1), successClosure: { (r) in
+//            print(r.description)
+//        }) { (error) in
+//            print(error)
+//        }
     }
 }
 ///页面布局

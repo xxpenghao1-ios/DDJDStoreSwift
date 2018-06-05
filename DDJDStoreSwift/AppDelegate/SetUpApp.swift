@@ -35,6 +35,6 @@ extension AppDelegate{
 extension AppDelegate{
     internal func setThirdPartyFramework(){
         //开启键盘框架
-        IQKeyboardManager.sharedManager().enable = true
+        IQKeyboardManager.shared.enable = true
     }
 }
