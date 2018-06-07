@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		630A010D20C90C5D00DE104D /* RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630A010C20C90C5D00DE104D /* RxSwift.swift */; };
 		6333E7442092C02B00CEC3B7 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333E7432092C02B00CEC3B7 /* Color.swift */; };
 		6333E7462092C18E00CEC3B7 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333E7452092C18E00CEC3B7 /* String.swift */; };
 		6333E7492092C5EF00CEC3B7 /* SetUpApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333E7482092C5EF00CEC3B7 /* SetUpApp.swift */; };
@@ -56,6 +57,7 @@
 /* Begin PBXFileReference section */
 		06D06206B3D20328945610B0 /* Pods-DDJDStoreSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDJDStoreSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDJDStoreSwift/Pods-DDJDStoreSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		0864E71D7B92CB100FA623EE /* Pods-DDJDStoreSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDJDStoreSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDJDStoreSwift/Pods-DDJDStoreSwift.release.xcconfig"; sourceTree = "<group>"; };
+		630A010C20C90C5D00DE104D /* RxSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwift.swift; sourceTree = "<group>"; };
 		6333E7432092C02B00CEC3B7 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		6333E7452092C18E00CEC3B7 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		6333E7482092C5EF00CEC3B7 /* SetUpApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUpApp.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				6333E75020930C3300CEC3B7 /* UILabel.swift */,
 				6341DB3720944E8A00AC267D /* UIView.swift */,
 				63388BFB20C6392A006713AA /* NSObject.swift */,
+				630A010C20C90C5D00DE104D /* RxSwift.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -544,6 +547,7 @@
 				6341DB3B20945FAD00AC267D /* ViewModelType.swift in Sources */,
 				6333E74F2093010C00CEC3B7 /* UIFont.swift in Sources */,
 				63FBEE782091AB5A00BE6B81 /* BaseViewController.swift in Sources */,
+				630A010D20C90C5D00DE104D /* RxSwift.swift in Sources */,
 				63388BFF20C666B7006713AA /* LoginServer.swift in Sources */,
 				6341DB3620941FB400AC267D /* LoginAndRegister.swift in Sources */,
 				63FBEE6E209178CC00BE6B81 /* PHRequest.swift in Sources */,

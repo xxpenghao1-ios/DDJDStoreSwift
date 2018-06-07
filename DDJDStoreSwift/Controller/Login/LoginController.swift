@@ -87,7 +87,7 @@ class LoginController:BaseViewController{
     ///登录按钮
     lazy var btnLogin:UIButton={
         let btn=UIButton.buildBtn(text:"登录", textColor: UIColor.white, font:18, backgroundColor: UIColor.RGBFromHexColor(hexString:"ff1261"), cornerRadius:10)
-        btn.addTarget(self, action:#selector(login), for: UIControlEvents.touchUpInside)
+//        btn.addTarget(self, action:#selector(login), for: UIControlEvents.touchUpInside)
         return btn
     }()
     ///注册按钮
@@ -106,13 +106,13 @@ class LoginController:BaseViewController{
         leftView.addSubview(img)
         return leftView
     }
-    @objc private func login(){
-//        PHRequest.shared.requestDataWithTargetJSON(target:LoginAndRegisterAPI.login(memberName: "17607319949", password:"123456" , deviceToken:"penghao", deviceName:"ios", flag: 1), successClosure: { (r) in
-//            print(r.description)
-//        }) { (error) in
-//            print(error)
-//        }
-    }
+//    @objc private func login(){
+////        PHRequest.shared.requestDataWithTargetJSON(target:LoginAndRegisterAPI.login(memberName: "17607319949", password:"123456" , deviceToken:"penghao", deviceName:"ios", flag: 1), successClosure: { (r) in
+////            print(r.description)
+////        }) { (error) in
+////            print(error)
+////        }
+//    }
 }
 ///页面布局
 extension LoginController{

@@ -35,42 +35,41 @@ extension LoginViewModel:ViewModelType{
         ///合并成1个Observable
         let nameAndPw=Observable.combineLatest(input.userName,input.pw) { ($0, $1) }
         ///发送网络请求返回状态
-        let result=input.validate.withLatestFrom(nameAndPw).flatMapLatest { [weak self] in
-                let b=self?.validateInputInfo(name:res.0,pw:res.1)
-                if b == false{//如果验证不通过直接返回false不发送网络请求
-                    
-                }else{//发送网络请求
-                    return PHRequest.shared.requestJSONData(target:LoginAndRegisterAPI.login(memberName:$0.0, password:$0.1, deviceToken:"", deviceName:"", flag:1), hudInfo:self?.hudInfo)
-                }
+        let result=input.validate.withLatestFrom(nameAndPw).flatMapLatest { [weak self] (res)-> Observable<ResponseResult> in
+            print(res.0)
+            print(res.1)
+            return PHRequest.shared.requestJSONData(target:.login(memberName:res.0, password: res.1, deviceToken:"penghao", deviceName:"ios", flag:1))
             }.map { (responseResult) -> Bool in
                 switch responseResult{
                 case let .success(json):
+                    print(json)
                     return true
                 case let .faild(message):
+                    print(message)
                     return false
                 }
 
-        }
+        }.asDriver(onErrorJustReturn:false)
         return Output(result:result)
     }
     ///验证用户输入信息
-    private func validateInputInfo(name:String,pw:String) -> Bool{
+    private func validateInputInfo(name:String,pw:String){
         if name.isNil(){
             PHProgressHUD.showInfo("账号不能为空")
-            return false
+            return
         }
         if !name.validateStrCount(count:11){
             PHProgressHUD.showInfo("请输入正确的手机号码")
-            return false
+            return
         }
         if pw.isNil(){
             PHProgressHUD.showInfo("密码不能为空")
-            return false
+            return
         }
         if pw.count < 6{
             PHProgressHUD.showInfo("亲,密码最少也有6位")
-            return false
+            return
         }
-        return true
+
     }
 }

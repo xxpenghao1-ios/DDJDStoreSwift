@@ -21,22 +21,18 @@ typealias SuccessArrClosure = ([Mappable]?) -> Void
 typealias FailClosure = (String?) -> Void
 
 /// 网络请求
-public class PHRequest:NSObject{
-    static let shared = PHRequest()
-    private override init(){}
+final public class PHRequest<T:TargetType>:NSObject{
     private let failInfo="网络或数据解析错误!"
-    /// 请求JSON数据  数据结果自行处理  返回被观察对象
-    func requestJSONData<T:TargetType>(target:T,hudInfo:HUDInfo?=nil) -> Observable<ResponseResult> {
-        let requestProvider = MoyaProvider<T>(requestClosure:requestTimeoutClosure(target: target),plugins:[RequestLoadingPlugin(hudInfo:hudInfo)])
-        return Observable<ResponseResult>.create({ observer -> Disposable in
-            requestProvider.rx.request(target).mapJSON().subscribe(onSuccess: { (json) in
-                observer.onNext(.success(json:JSON(json)))
-            }, onError: { (error) in
-                observer.onNext(.faild(message:error.localizedDescription))
-            }).disposed(by:DisposeBag())
-            return Disposables.create()
-        })
+    private let requestProvider=MoyaProvider<T>(requestClosure:PHRequest.requestTimeoutClosure(),plugins:[RequestLoadingPlugin()])
+    func requestJSONModel<M:BaseMappable>(model:M,target:T)-> Observable<ResponseResult>{
+        requestProvider.rx.request(target).asObservable().mapObjectModel(M.self)
     }
+
+//    /// 请求JSON数据  数据结果自行处理  返回被观察对象
+//    func requestJSONData(target:LoginAndRegisterAPI,hudInfo:HUDInfo?=nil) -> Observable<ResponseResult> {
+//
+//
+//    }
     ///请求JSON数据 成功返回数组
     func requestJSONModelArr<T:TargetType,M:Mappable>(target:T,model:M,hudInfo:HUDInfo?=nil, successClosure:@escaping SuccessArrClosure,failClosure:@escaping FailClosure){
         let requestProvider = MoyaProvider<T>(requestClosure:requestTimeoutClosure(target: target),plugins:[RequestLoadingPlugin(hudInfo:hudInfo)])
@@ -58,7 +54,7 @@ public class PHRequest:NSObject{
     }
 
     //设置请求超时时间
-    private func requestTimeoutClosure<T:TargetType>(target:T) -> MoyaProvider<T>.RequestClosure{
+    private final class func requestTimeoutClosure() -> MoyaProvider<T>.RequestClosure{
         let requestTimeoutClosure = { (endpoint:Endpoint, closure: @escaping MoyaProvider<T>.RequestResultClosure) in
             do {
                 var urlRequest = try endpoint.urlRequest()
@@ -113,28 +109,15 @@ struct HUDInfo{
 }
 ///插件
 fileprivate final class RequestLoadingPlugin:PluginType{
-    ///加载相关
-    private var hudInfo:HUDInfo?
-    ///是否显示加载框
-    private var isShow:Bool!
-    init(hudInfo:HUDInfo?) {
-        self.hudInfo=hudInfo
-        if self.hudInfo == nil{
-            self.hudInfo=HUDInfo(hudType:HUDType.progress)
-        }
-    }
+    ///不做处理
     public func willSend(_ request: RequestType, target: TargetType) {
-        self.showHUD()
+
     }
     public func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
-        if(hudInfo!.isShow){//如果显示隐藏加载框
-            self.dismissHUD();
-        }
-    }
-    //MARK:-是否显示请求加载框
-    private func showHUD(){
-        if(hudInfo!.isShow){
-            PHProgressHUD.showProgressHUD(type:hudInfo!.hudType,status:"正在加载")
+        switch result {
+        case let .failure(error):
+            PHProgressHUD.showError(error.localizedDescription)
+        default:self.dismissHUD()
         }
     }
     //MARK:-隐藏请求加载框
