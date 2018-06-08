@@ -32,6 +32,8 @@ struct StoreModel:Mappable{
     var subStationPhoneNumber:String?
     /// 店铺二维码图片路径
     var qrcode:String?
+    /// 请求状态
+    var success:String?
     
     init?(map: Map) {
 
@@ -48,5 +50,6 @@ struct StoreModel:Mappable{
         substationId <- map["substationId"]
         subStationPhoneNumber <- map["subStationPhoneNumber"]
         qrcode <- map["qrcode"]
+        success <- map["success"]
     }
 }

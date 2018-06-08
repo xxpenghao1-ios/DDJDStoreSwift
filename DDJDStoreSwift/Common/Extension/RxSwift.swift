@@ -13,7 +13,7 @@ import SwiftyJSON
 import RxSwift
 extension Response {
     // 这一个主要是将JSON解析为单个的Model
-    public func mapObject<T: BaseMappable>(_ type: T.Type) throws -> T {
+    public func mapObject<T:Mappable>(_ type: T.Type) throws -> T {
         guard let object = Mapper<T>().map(JSONObject: try mapJSON()) else {
             throw MoyaError.jsonMapping(self)
         }
@@ -36,15 +36,42 @@ extension Response {
 }
 
 extension ObservableType where E == Response {
-    //Observable<ResponseResult>
+    //返回一个Observable<ResponseResult>
     public func mapObject() -> Observable<ResponseResult> {
         return flatMap { response -> Observable<ResponseResult> in
-            switch response{
-
+            print(response)
+            do{
+                let json=try response.mapJSON()
+                print(json)
+                return Observable<ResponseResult>.just(.success(json:JSON(json)))
+            }catch{
+                return Observable<ResponseResult>.just(.faild(message:"数据解析错误"))
             }
-            return Observable.just(try response.mapObject(T.self))
+
         }
     }
 
 }
+extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response{
+//    //返回一个Observable<ResponseResult>
+//    public func mapObject() -> Observable<ResponseResult> {
+//        return flatMap { response -> Observable<ResponseResult> in
+//            print(response)
+//            do{
+//                let json=try response.mapJSON()
+//                print(json)
+//                return Observable<ResponseResult>.just(.success(json:JSON(json)))
+//            }catch{
+//                return Observable<ResponseResult>.just(.faild(message:"数据解析错误"))
+//            }
+//
+//        }
+//    }
 
+}
+extension JSON{
+//    ///返回model
+//    public static func mapModel<M:Mappable>(model:M) -> M{
+//        return Mapper<M>().map(JSONObject:)
+//    }
+}

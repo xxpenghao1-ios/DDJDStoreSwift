@@ -21,40 +21,80 @@ typealias SuccessArrClosure = ([Mappable]?) -> Void
 typealias FailClosure = (String?) -> Void
 
 /// 网络请求
-final public class PHRequest<T:TargetType>:NSObject{
-    private let failInfo="网络或数据解析错误!"
-    private let requestProvider=MoyaProvider<T>(requestClosure:PHRequest.requestTimeoutClosure(),plugins:[RequestLoadingPlugin()])
-    func requestJSONModel<M:BaseMappable>(model:M,target:T)-> Observable<ResponseResult>{
-        requestProvider.rx.request(target).asObservable().mapObjectModel(M.self)
+final public class PHRequest:NSObject{
+    /// 共享实例
+    static let shared=PHRequest()
+    private override init(){}
+    private let failInfo="数据解析错误!"
+    ///获取json数据
+    func requestJSONObject<T:TargetType>(target:T) -> Observable<ResponseResult>{
+        let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
+        return Observable<ResponseResult>.create { (observable) -> Disposable in
+            provider.request(target){ (result) -> () in
+                switch result{
+                case let .success(response):
+                    do {
+                        let json = try response.mapJSON()
+                        observable.onNext(ResponseResult.success(json:JSON(json)))
+                    } catch {
+                        observable.onNext(ResponseResult.faild(message:self.failInfo))
+                    }
+                case let .failure(error):
+                    observable.onNext(ResponseResult.faild(message:error.localizedDescription))
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    ///获取json数据
+    func requestJSONModel<T:TargetType,M:Mappable>(target:T,model:M.Type) -> Observable<M>{
+        let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
+        return Observable<M>.create { (observable) -> Disposable in
+            provider.request(target){ (result) -> () in
+                switch result{
+                case let .success(response):
+                    do {
+                        let model = try response.mapObject(model)
+                        observable.onNext(model)
+                    } catch{
+                        observable.onError(MoyaError.jsonMapping(response))
+                    }
+                case let .failure(error):
+                    observable.onError(error)
+                }
+            }
+            return Disposables.create()
+        }
     }
 
-//    /// 请求JSON数据  数据结果自行处理  返回被观察对象
-//    func requestJSONData(target:LoginAndRegisterAPI,hudInfo:HUDInfo?=nil) -> Observable<ResponseResult> {
-//
-//
+
+////    /// 请求JSON数据  数据结果自行处理  返回被观察对象
+////    func requestJSONData(target:LoginAndRegisterAPI,hudInfo:HUDInfo?=nil) -> Observable<ResponseResult> {
+////
+////
+////    }
+//    ///请求JSON数据 成功返回数组
+//    func requestJSONModelArr<T:TargetType,M:Mappable>(target:T,model:M,hudInfo:HUDInfo?=nil, successClosure:@escaping SuccessArrClosure,failClosure:@escaping FailClosure){
+//        let requestProvider = MoyaProvider<T>(requestClosure:requestTimeoutClosure(target: target),plugins:[RequestLoadingPlugin(hudInfo:hudInfo)])
+//        requestProvider.rx.request(target).mapJSON().subscribe(onSuccess: { (any) in
+//            let modelArr=Mapper<M>().mapArray(JSONObject:any)
+//            successClosure(modelArr)
+//        }, onError: { (error) in
+//            failClosure(error.localizedDescription)
+//        }).disposed(by:rx_disposeBag)
 //    }
-    ///请求JSON数据 成功返回数组
-    func requestJSONModelArr<T:TargetType,M:Mappable>(target:T,model:M,hudInfo:HUDInfo?=nil, successClosure:@escaping SuccessArrClosure,failClosure:@escaping FailClosure){
-        let requestProvider = MoyaProvider<T>(requestClosure:requestTimeoutClosure(target: target),plugins:[RequestLoadingPlugin(hudInfo:hudInfo)])
-        requestProvider.rx.request(target).mapJSON().subscribe(onSuccess: { (any) in
-            let modelArr=Mapper<M>().mapArray(JSONObject:any)
-            successClosure(modelArr)
-        }, onError: { (error) in
-            failClosure(error.localizedDescription)
-        }).disposed(by:rx_disposeBag)
-    }
-    ///请求String数据
-        func requestStringData<T:TargetType>(target:T,hudInfo:HUDInfo?=nil,successClosure:@escaping (_ str:String) -> Void,failClosure: @escaping FailClosure) {
-        let requestProvider = MoyaProvider<T>(requestClosure:requestTimeoutClosure(target: target),plugins:[RequestLoadingPlugin(hudInfo:hudInfo)])
-        requestProvider.rx.request(target).mapString().subscribe(onSuccess: { (str) in
-            successClosure(str)
-        }, onError: { (error) in
-            failClosure(error.localizedDescription)
-        }).disposed(by:rx_disposeBag)
-    }
+//    ///请求String数据
+//        func requestStringData<T:TargetType>(target:T,hudInfo:HUDInfo?=nil,successClosure:@escaping (_ str:String) -> Void,failClosure: @escaping FailClosure) {
+//        let requestProvider = MoyaProvider<T>(requestClosure:requestTimeoutClosure(target: target),plugins:[RequestLoadingPlugin(hudInfo:hudInfo)])
+//        requestProvider.rx.request(target).mapString().subscribe(onSuccess: { (str) in
+//            successClosure(str)
+//        }, onError: { (error) in
+//            failClosure(error.localizedDescription)
+//        }).disposed(by:rx_disposeBag)
+//    }
 
     //设置请求超时时间
-    private final class func requestTimeoutClosure() -> MoyaProvider<T>.RequestClosure{
+    private func requestTimeoutClosure<T:TargetType>(target:T) -> MoyaProvider<T>.RequestClosure{
         let requestTimeoutClosure = { (endpoint:Endpoint, closure: @escaping MoyaProvider<T>.RequestResultClosure) in
             do {
                 var urlRequest = try endpoint.urlRequest()
@@ -85,8 +125,10 @@ extension TargetType{
 }
 ///返回结果
 public enum ResponseResult {
+    ///成功保存json数据
     case success(json:JSON)
-    case faild(message:String)
+    ///保存错误信息 基本用不到  RequestLoadingPlugin插件会把错误提示出来
+    case faild(message:String?)
     var json:JSON? {
         switch self {
         case let .success(json):

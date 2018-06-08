@@ -36,4 +36,17 @@ let GOOD_DEFAULT_IMG="good_defualt"
 /// 幻灯片默认图片
 let SLIDE_DEFAULT="good_defualt"
 
+
 let APP=UIApplication.shared.delegate as! AppDelegate
+
+// 自定义打印方法
+func phLog<T>(_ message : T, file : String = #file, funcName : String = #function, lineNum : Int = #line) {
+
+    #if DEBUG
+
+    let fileName = (file as NSString).lastPathComponent
+
+    print("\(fileName):(row\(lineNum))-\(message)")
+
+    #endif
+}
