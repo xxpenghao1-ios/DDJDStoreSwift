@@ -46,26 +46,11 @@ final public class PHRequest:NSObject{
             return Disposables.create()
         }
     }
-    ///获取json数据
-    func requestJSONModel<T:TargetType,M:Mappable>(target:T,model:M.Type) -> Observable<M>{
-        let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
-        return Observable<M>.create { (observable) -> Disposable in
-            provider.request(target){ (result) -> () in
-                switch result{
-                case let .success(response):
-                    do {
-                        let model = try response.mapObject(model)
-                        observable.onNext(model)
-                    } catch{
-                        observable.onError(MoyaError.jsonMapping(response))
-                    }
-                case let .failure(error):
-                    observable.onError(error)
-                }
-            }
-            return Disposables.create()
-        }
-    }
+//    ///获取json数据
+//    func requestJSONModel<T:TargetType,M:Mappable>(target:T,model:M.Type){
+//        let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
+//        provider.rx.request(target).asObservable().mapObject(model.self)
+//    }
 
 
 ////    /// 请求JSON数据  数据结果自行处理  返回被观察对象

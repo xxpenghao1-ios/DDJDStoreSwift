@@ -18,12 +18,12 @@ class LoginController:BaseViewController{
         self.title="登录"
         loadViewlayout()
         bindViewModel()
-
     }
     ///绑定VM
     private func bindViewModel(){
         let input = LoginViewModel.Input(userName:txtMemberName.rx.text.orEmpty.asObservable(), pw: txtPW.rx.text.orEmpty.asObservable(), loginValidate:btnLogin.rx.tap.asObservable())
         let outputs = viewModel.transform(input:input)
+        outputs.loginBtnIsDisable.drive(btnLogin.rx.isDisable).disposed(by: rx_disposeBag)
         outputs.result.drive(onNext: { (b) in
             phLog(b)
         }).disposed(by: rx_disposeBag)
@@ -82,7 +82,8 @@ class LoginController:BaseViewController{
     ///登录按钮
     lazy var btnLogin:UIButton={
         let btn=UIButton.buildBtn(text:"登录", textColor: UIColor.white, font:18, backgroundColor: UIColor.RGBFromHexColor(hexString:"ff1261"), cornerRadius:10)
-//        btn.addTarget(self, action:#selector(login), for: UIControlEvents.touchUpInside)
+        ///默认登录按钮不能点击
+        btn.disable()
         return btn
     }()
     ///注册按钮

@@ -28,27 +28,36 @@ extension LoginViewModel:ViewModelType{
     struct Output {
         ///true登录成功跳转页面  false登录失败
         let result:Driver<Bool>
-        init(result:Driver<Bool>) {
+        ///登录按钮是否禁用  false禁用 true不禁用
+        let loginBtnIsDisable:Driver<Bool>
+        init(result:Driver<Bool>,loginBtnIsDisable:Driver<Bool>) {
             self.result=result
+            self.loginBtnIsDisable=loginBtnIsDisable
         }
     }
     func transform(input: Input) -> Output {
+        ///验证登录按钮是否点击
+        let loginBtnIsDisable=input.pw.map { (pw) -> Bool in
+            return pw.count >= 1 ? true : false
+        }.asDriver(onErrorJustReturn:false)
         ///合并成1个Observable
         let nameAndPw=Observable.combineLatest(input.userName,input.pw) { ($0, $1) }
         ///登录发送网络请求返回状态
-        let result=input.loginValidate.withLatestFrom(nameAndPw).flatMapLatest { [weak self] (res)-> Observable<StoreModel> in
-                ///验证输入信息是否符合要求
-                let bool=self!.validateInputInfo(name:res.0, pw:res.1)
-                if bool == true{///如果符合要求 发送网络请求
-                    return PHRequest.shared.requestJSONModel(target:LoginAndRegisterAPI.login(memberName:res.0, password:res.1, deviceToken:"penghao", deviceName:"ios", flag:2), model:StoreModel.self)
-                }else{///返回失败
-                    return Observable<StoreModel>.empty()
+        let result=input.loginValidate.withLatestFrom(nameAndPw)
+            .filter{//验证输入是否正确
+                return self.validateInputInfo(name:$0, pw:$1)
+            }.flatMapLatest { (res)-> Observable<ResponseResult> in
+
+                    ///发送网络请求返回结果
+                    return PHRequest.shared.requestJSONObject(target: LoginAndRegisterAPI.login(memberName:res.0, password:res.1, deviceToken:"penghao", deviceName:"ios", flag:2))
+            }.map({ (result) -> Bool in
+                switch result{
+                case let .success(json):
+                    return self.validateLoginIsSuccess(model: StoreModel(JSONString:json.description))
+                default:return false
                 }
-            }.map({ (model) -> Bool in
-//                if clss model
-//                return false
             }).asDriver(onErrorJustReturn:false)
-        return Output(result:result)
+        return Output(result:result,loginBtnIsDisable:loginBtnIsDisable)
     }
 
 }
@@ -75,8 +84,8 @@ extension LoginViewModel{
         return true
     }
     ///验证登录是否成功
-    private func validateLoginIsSuccess(model:StoreModel) -> Bool{
-        guard let success=model.success else {
+    private func validateLoginIsSuccess(model:StoreModel?) -> Bool{
+        guard let model = model,let success=model.success else {
             PHProgressHUD.showError("获取登录信息失败")
             return false
         }
