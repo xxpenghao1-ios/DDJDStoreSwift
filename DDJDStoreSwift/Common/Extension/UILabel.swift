@@ -11,7 +11,7 @@ import UIKit
 /// 文本
 extension UILabel{
     //创建文本
-    class func buildLabel(text:String,textColor:UIColor,font:CGFloat,textAlignment:NSTextAlignment) -> UILabel{
+    class func buildLabel(text:String?=nil,textColor:UIColor,font:CGFloat,textAlignment:NSTextAlignment = .left) -> UILabel{
         let lbl=UILabel()
         lbl.text=text
         lbl.textColor=textColor

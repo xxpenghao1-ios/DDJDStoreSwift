@@ -47,7 +47,7 @@ class PHProgressHUD: NSObject {
 }
 
 extension PHProgressHUD {
-    class func showProgressHUD(type: HUDType,status:String, progress: CGFloat = 0) {
+    fileprivate class func showProgressHUD(type: HUDType,status:String, progress: CGFloat = 0) {
         switch type {
         case .success:
             SVProgressHUD.showSuccess(withStatus: status)

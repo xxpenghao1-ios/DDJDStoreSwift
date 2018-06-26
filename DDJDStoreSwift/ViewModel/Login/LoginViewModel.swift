@@ -47,9 +47,9 @@ extension LoginViewModel:ViewModelType{
             .filter{//验证输入是否正确
                 return self.validateInputInfo(name:$0, pw:$1)
             }.flatMapLatest { (res)-> Observable<ResponseResult> in
-
+                    PHProgressHUD.showLoading("正在登录...")
                     ///发送网络请求返回结果
-                    return PHRequest.shared.requestJSONObject(target: LoginAndRegisterAPI.login(memberName:res.0, password:res.1, deviceToken:"penghao", deviceName:"ios", flag:2))
+                    return PHRequest.shared.requestJSONObject(target: LoginAndRegisterAPI.login(memberName:res.0, password:res.1, deviceToken:"penghao",deviceName:"ios",flag:2))
             }.map({ (result) -> Bool in
                 switch result{
                 case let .success(json):
@@ -85,6 +85,7 @@ extension LoginViewModel{
     }
     ///验证登录是否成功
     private func validateLoginIsSuccess(model:StoreModel?) -> Bool{
+
         guard let model = model,let success=model.success else {
             PHProgressHUD.showError("获取登录信息失败")
             return false
@@ -109,7 +110,9 @@ extension LoginViewModel{
     }
     ///保存店铺信息
     private func saveStoreInfo(model:StoreModel){
-        USER_DEFAULTS.set(model.storeId, forKey:"storeId")
+        phLog(model)
+        USER_DEFAULTS.set(model.storeId,forKey:"storeId")
+        USER_DEFAULTS.set(model.countyId,forKey:"countyId")
         USER_DEFAULTS.synchronize()
     }
 }

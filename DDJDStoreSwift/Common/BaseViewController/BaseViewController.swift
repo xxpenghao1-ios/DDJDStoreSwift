@@ -8,12 +8,18 @@
 
 import Foundation
 import UIKit
-import RxSwift
+import Kingfisher
 ///父类
 class BaseViewController:UIViewController {
-    public let disposeBag = DisposeBag()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor=UIColor.viewBgdColor()
+    }
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        phLog("内存报警了")
+        ///清除缓存
+        KingfisherManager.shared.cache.clearMemoryCache()
+        KingfisherManager.shared.cache.clearDiskCache()
     }
 }

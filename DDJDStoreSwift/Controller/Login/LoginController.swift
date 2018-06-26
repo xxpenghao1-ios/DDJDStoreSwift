@@ -25,11 +25,13 @@ class LoginController:BaseViewController{
         let outputs = viewModel.transform(input:input)
         outputs.loginBtnIsDisable.drive(btnLogin.rx.isDisable).disposed(by: rx_disposeBag)
         outputs.result.drive(onNext: { (b) in
-            phLog(b)
+            if b{
+                APP.window?.rootViewController=TabBarViewController()
+            }
         }).disposed(by: rx_disposeBag)
     }
     ///包含登录页面所有控件view
-    lazy var loginView:UIView={
+    private lazy var loginView:UIView={
         let view=UIView()
         view.addSubview(topImg)
         view.addSubview(txtMemberName)
@@ -42,26 +44,26 @@ class LoginController:BaseViewController{
         return view
     }()
     ///默认图像img
-    lazy var topImg:UIImageView={
+    private lazy var topImg:UIImageView={
         let img=UIImageView()
         img.image=UIImage.init(named:"login_top_img")
         return img
     }()
     ///用户名输入框
-    lazy var txtMemberName:UITextField={
+    private lazy var txtMemberName:UITextField={
         let txt=UITextField.buildTxt(font:18, placeholder:"请输入手机号码", tintColor: UIColor.black, keyboardType: UIKeyboardType.namePhonePad)
         txt.leftView=setLeftView(str:"memberName")
         txt.leftViewMode=UITextFieldViewMode.always;
         return txt
     }()
     ///分割线
-    lazy var txtMemberNameDividingLine:UIView={
+    private lazy var txtMemberNameDividingLine:UIView={
         let view=UIView()
         view.backgroundColor=UIColor.RGBFromHexColor(hexString:"ebebeb")
         return view
     }()
     ///密码输入框
-    lazy var txtPW:UITextField={
+    private lazy var txtPW:UITextField={
         let txt=UITextField.buildTxt(font:18, placeholder:"请输入密码", tintColor: UIColor.black,keyboardType:UIKeyboardType.default)
         txt.isSecureTextEntry=true
         txt.leftView=setLeftView(str:"pw")
@@ -69,25 +71,25 @@ class LoginController:BaseViewController{
         return txt
     }()
     ///分割线
-    lazy var txtPwDividingLine:UIView={
+    private lazy var txtPwDividingLine:UIView={
         let view=UIView()
         view.backgroundColor=UIColor.RGBFromHexColor(hexString:"ebebeb")
         return view
     }()
     ///忘记密码
-    lazy var lblForgetassword:UILabel={
+    private lazy var lblForgetassword:UILabel={
         let lbl=UILabel.buildLabel(text:"忘记密码?",textColor:UIColor.color666(), font:27/2, textAlignment: NSTextAlignment.right)
         return lbl
     }()
     ///登录按钮
-    lazy var btnLogin:UIButton={
+    private lazy var btnLogin:UIButton={
         let btn=UIButton.buildBtn(text:"登录", textColor: UIColor.white, font:18, backgroundColor: UIColor.RGBFromHexColor(hexString:"ff1261"), cornerRadius:10)
         ///默认登录按钮不能点击
         btn.disable()
         return btn
     }()
     ///注册按钮
-    lazy var btnRegister:UIButton={
+    private lazy var btnRegister:UIButton={
         let btn=UIButton.buildBtn(text:"注册", textColor:UIColor.color666(),font:18, backgroundColor: UIColor.clear, cornerRadius:10)
         btn.layer.borderWidth=1
         btn.layer.borderColor=UIColor.RGBFromHexColor(hexString:"d2d2d2").cgColor

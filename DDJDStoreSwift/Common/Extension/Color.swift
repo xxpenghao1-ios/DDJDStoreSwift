@@ -1,3 +1,4 @@
+
 //
 //  Color.swift
 //  DDJDStoreSwift
@@ -16,6 +17,10 @@ extension UIColor{
     //商品详情边框颜色
     class func goodDetailBorderColor() ->UIColor {
         return UIColor(red:236/255, green:236/255, blue:236/255, alpha: 1)
+    }
+    ///价钱颜色
+    class func priceColor() -> UIColor{
+        return UIColor.RGBFromHexColor(hexString:"ff1261")
     }
     //页面背景颜色
     class func viewBgdColor() ->UIColor{
@@ -54,6 +59,30 @@ extension UIColor{
         return UIColor.RGBFromHexColor(hexString:"333333")
     }
 }
+//extension UIColor {
+//    public class func RGBFromHexColor(hexString: String, alpha: CGFloat? = 1.0) -> UIColor {
+//
+//        var cString = hexString.trimmingCharacters(in:.whitespacesAndNewlines).uppercased()
+//        if (cString.hasPrefix("#")) {
+//            cString = String(cString[cString.index(after: cString.startIndex)..<cString.endIndex])
+//
+//        }
+//        if (cString.count != 6) {
+//            return UIColor.clear
+//        }
+//        let rString = cString[..<cString.index(cString.startIndex, offsetBy: 2)]
+//        let gString = cString[cString.index(cString.startIndex, offsetBy: 2)..<cString.index(cString.startIndex, offsetBy: 4)]
+//        let bString = cString[cString.index(cString.endIndex, offsetBy: -2)..<cString.endIndex]
+//
+//        var r:CUnsignedInt = 0, g:CUnsignedInt = 0, b:CUnsignedInt = 0;
+//        Scanner(string: String(rString)).scanHexInt32(&r)
+//        Scanner(string: String(gString)).scanHexInt32(&g)
+//        Scanner(string: String(bString)).scanHexInt32(&b)
+//        return UIColor(red: CGFloat(r) / 255.0, green: CGFloat(g) / 255.0, blue: CGFloat(b) / 255.0, alpha: alpha!)
+//    }
+//
+//}
+
 extension UIColor{
     class func RGBFromHexColor(hexString: String) -> UIColor{
 

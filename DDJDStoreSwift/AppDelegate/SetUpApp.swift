@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import SVProgressHUD
 import IQKeyboardManagerSwift
 ///设置app
 extension AppDelegate{

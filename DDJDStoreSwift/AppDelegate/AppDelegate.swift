@@ -14,9 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        
         setApp()
-        window?.rootViewController=UINavigationController(rootViewController:LoginController())
+        window?.rootViewController=LoginController()
         return true
     }
 

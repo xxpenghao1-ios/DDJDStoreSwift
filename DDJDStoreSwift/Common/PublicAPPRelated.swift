@@ -7,10 +7,10 @@
 //
 import UIKit
 ///图片请求路径
-let URL_IMG="http://www.hnddjd.com";
+let HTTP_URL_IMG="http://www.hnddjd.com";
 ///c.hnddjd.com
 ///数据请求路径
-let URL="http://www.hnddjd.com/front/";
+let HTTP_URL="http://www.hnddjd.com/front/";
 
 /// 屏幕宽
 let SCREEN_WIDTH=UIScreen.main.bounds.width
@@ -34,11 +34,23 @@ let USER_DEFAULTS=UserDefaults.standard
 let GOOD_DEFAULT_IMG="good_defualt"
 
 /// 幻灯片默认图片
-let SLIDE_DEFAULT="good_defualt"
+let SLIDE_DEFAULT="slide_defualt"
 
 
 let APP=UIApplication.shared.delegate as! AppDelegate
 
+///获取县区id
+var COUNTY_ID:String?{
+    get{
+        return USER_DEFAULTS.object(forKey:"countyId") as? String
+    }
+}
+///店铺id
+var STOREID:String?{
+    get{
+        return USER_DEFAULTS.object(forKey:"storeId") as? String
+    }
+}
 // 自定义打印方法
 func phLog<T>(_ message : T, file : String = #file, funcName : String = #function, lineNum : Int = #line) {
 
@@ -46,7 +58,7 @@ func phLog<T>(_ message : T, file : String = #file, funcName : String = #functio
 
     let fileName = (file as NSString).lastPathComponent
 
-    print("\(fileName):(row\(lineNum))-\(message)")
+    print("\(fileName):\(funcName):(\(lineNum)line)-\(message)")
 
     #endif
 }

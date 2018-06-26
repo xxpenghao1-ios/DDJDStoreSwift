@@ -12,6 +12,7 @@ target ‘DDJDStoreSwift’ do
     pod 'XCGLogger' #日志管理类库
     pod 'BaiduMobStat'#百度统计
     pod 'SwiftyJSON' #json
+    pod 'Kingfisher' #图片加载
     pod 'MJRefresh' #下拉刷新
     pod 'JPush' #极光推送
     #rx

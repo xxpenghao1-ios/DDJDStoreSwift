@@ -46,11 +46,45 @@ final public class PHRequest:NSObject{
             return Disposables.create()
         }
     }
-//    ///获取json数据
-//    func requestJSONModel<T:TargetType,M:Mappable>(target:T,model:M.Type){
-//        let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
-//        provider.rx.request(target).asObservable().mapObject(model.self)
-//    }
+    ///获取ModelArr数据
+    func requestJSONArrModel<T:TargetType,M:Mappable>(target:T,model:M.Type) ->Observable<[M]>{
+        let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
+        return Observable<[M]>.create { (observable) -> Disposable in
+            provider.request(target){ (result) -> () in
+                switch result{
+                case let .success(response):
+                    do {
+                        print(JSON(try response.mapJSON()))
+                        observable.onNext(try response.mapArray(M.self))
+                    } catch {
+                        observable.onError(MoyaError.jsonMapping(response))
+                    }
+                case let .failure(error):
+                    observable.onError(MoyaError.requestMapping(error.localizedDescription))
+                }
+            }
+            return Disposables.create()
+        }
+    }
+    ///获取Model数据
+    func requestJSONModel<T:TargetType,M:Mappable>(target:T,model:M.Type) ->Observable<M>{
+        let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
+        return Observable<M>.create { (observable) -> Disposable in
+            provider.request(target){ (result) -> () in
+                switch result{
+                case let .success(response):
+                    do {
+                        observable.onNext(try response.mapObjectModel(M.self))
+                    } catch {
+                        observable.onError(MoyaError.jsonMapping(response))
+                    }
+                case let .failure(error):
+                    observable.onError(MoyaError.requestMapping(error.localizedDescription))
+                }
+            }
+            return Disposables.create()
+        }
+    }
 
 
 ////    /// 请求JSON数据  数据结果自行处理  返回被观察对象
@@ -101,7 +135,7 @@ final public class PHRequest:NSObject{
 extension TargetType{
     //请求URL
     public var baseURL:URL{
-        return Foundation.URL(string:URL)!
+        return Foundation.URL(string:HTTP_URL)!
     }
     //请求类型
     public var headers: [String : String]? {
