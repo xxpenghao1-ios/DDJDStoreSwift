@@ -15,6 +15,7 @@ target ‘DDJDStoreSwift’ do
     pod 'Kingfisher' #图片加载
     pod 'MJRefresh' #下拉刷新
     pod 'JPush' #极光推送
+    pod 'iCarousel'
     #rx
     pod 'RxSwift'
     pod 'RxCocoa'

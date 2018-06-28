@@ -24,7 +24,7 @@ extension UIColor{
     }
     //页面背景颜色
     class func viewBgdColor() ->UIColor{
-        return UIColor(red: 246/255, green:246/255, blue:246/255, alpha: 1.0)
+        return UIColor.RGBFromHexColor(hexString:"f6f6f6")
     }
     //文字颜色
     class func textColor() ->UIColor {

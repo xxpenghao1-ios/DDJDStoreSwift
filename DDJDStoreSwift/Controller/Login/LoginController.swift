@@ -24,7 +24,8 @@ class LoginController:BaseViewController{
         let input = LoginViewModel.Input(userName:txtMemberName.rx.text.orEmpty.asObservable(), pw: txtPW.rx.text.orEmpty.asObservable(), loginValidate:btnLogin.rx.tap.asObservable())
         let outputs = viewModel.transform(input:input)
         outputs.loginBtnIsDisable.drive(btnLogin.rx.isDisable).disposed(by: rx_disposeBag)
-        outputs.result.drive(onNext: { (b) in
+        ///登录结果
+        outputs.result.drive(onNext: { (b) in //true成功false失败
             if b{
                 APP.window?.rootViewController=TabBarViewController()
             }
@@ -51,7 +52,7 @@ class LoginController:BaseViewController{
     }()
     ///用户名输入框
     private lazy var txtMemberName:UITextField={
-        let txt=UITextField.buildTxt(font:18, placeholder:"请输入手机号码", tintColor: UIColor.black, keyboardType: UIKeyboardType.namePhonePad)
+        let txt=UITextField.buildTxt(font:18, placeholder:"请输入手机号码", tintColor: UIColor.black, keyboardType: UIKeyboardType.phonePad)
         txt.leftView=setLeftView(str:"memberName")
         txt.leftViewMode=UITextFieldViewMode.always;
         return txt

@@ -2,6 +2,7 @@ PODS:
   - Alamofire (4.7.2)
   - BaiduMobStat (4.8.1)
   - Differentiator (3.0.2)
+  - iCarousel (1.8.3)
   - IQKeyboardManagerSwift (6.0.4)
   - JCore (1.2.0)
   - JPush (3.0.9):
@@ -37,6 +38,7 @@ PODS:
 DEPENDENCIES:
   - Alamofire
   - BaiduMobStat
+  - iCarousel
   - IQKeyboardManagerSwift
   - JPush
   - Kingfisher
@@ -56,6 +58,7 @@ SPEC REPOS:
     - Alamofire
     - BaiduMobStat
     - Differentiator
+    - iCarousel
     - IQKeyboardManagerSwift
     - JCore
     - JPush
@@ -77,6 +80,7 @@ SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
   BaiduMobStat: 4104ba9d7ce7308dbed3c78fe6131eea1ec232c5
   Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
+  iCarousel: d782f635afac190c49bb8ee455882284cff8b85f
   IQKeyboardManagerSwift: 36dbe324b4f9793f5f41ba5227f3e7c76dfefd50
   JCore: b52e3dd73625eec70afd1244bb9c41038aa06087
   JPush: 48041e8c5ad2ef9b48709eb0888af9640b36e9b0
@@ -94,6 +98,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   XCGLogger: 4fc1bc0bdd5828cb8dc8da7a843536cda1bea8f3
 
-PODFILE CHECKSUM: b7d039c2ce0ae49e3f6813e825973c854fc7dc7a
+PODFILE CHECKSUM: 0f445d9226a6c3ef6d5a7713c8b38353e5e52b63
 
 COCOAPODS: 1.5.0

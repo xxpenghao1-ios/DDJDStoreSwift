@@ -9,12 +9,11 @@
 import Foundation
 
 extension String {
-    ///截取字符串 重第几位开始
+    ///截取字符串 从第几位开始 取到最后一位
     public func substring(from index: Int) -> String {
         if self.count > index {
             let startIndex = self.index(self.startIndex, offsetBy: index)
             let subString = self[startIndex..<self.endIndex]
-
             return String(subString)
         } else {
             return self

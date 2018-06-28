@@ -31,7 +31,7 @@ class IndexClassifyCollectionViewCell:UICollectionViewCell{
     //传入数据
     func updateCell(model:GoodsCategoryModel){
         name.text=model.goodsCategoryName
-        imgView.kf.setImage(with:URL(string:HTTP_URL_IMG+(model.goodsCategoryIco ?? "")), placeholder:UIImage(named:GOOD_DEFAULT_IMG), options:[.transition(.fade(1))])
+        imgView.ph_setImage(withUrlString:HTTP_URL_IMG+(model.goodsCategoryIco ?? ""), placeholderImgName:"fl_defualt")
 
     }
     required init?(coder aDecoder: NSCoder) {

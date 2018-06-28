@@ -40,30 +40,10 @@ extension ObservableType where E == Response{
     //返回一个Observable<ResponseResult>
     public func mapObject<T:Mappable>(_ type: T.Type) -> Observable<T> {
         return flatMap { response -> Observable<T> in
-            print(try response.mapObjectModel(type.self))
             return Observable<T>.just(try response.mapObjectModel(type.self))
         }
     }
 
 }
-//extension ObservableType where E == Mappable{
-//    //返回一个Observable<ResponseResult>
-//    public func mapObject<T:Mappable>(_ type: T.Type) -> [SectionModel<String,M>] {
-//        return flatMap { response -> Observable<T> in
-//            print(try response.mapObjectModel(type.self))
-//            return Observable<T>.just(try response.mapObjectModel(type.self))
-//        }
-//    }
-//
-//}
-//extension PrimitiveSequence where TraitType == SingleTrait, ElementType == Response {
-//    public func mapArrModel<T:Mappable>(_ type: T.Type) -> Observable<[T]>{
-//        flatMap{ response -> Observable<[T]> in
-////            return Observable<[T]>.just(response)
-//            return Observable<[T]>.just(response)
-////            return Observable.just()
-//        }
-//    }
-//}
 
 

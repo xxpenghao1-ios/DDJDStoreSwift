@@ -11,13 +11,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
-
 ///首页
-class IndexViewController:BaseViewController{
-    ///分类标识
-    private let indexClassifyCellId="indexClassifyId"
-    ///热门商品标识
-    private let indexHotGoodCellId="indexHotGoodCellId"
+class IndexViewController:BaseViewController,Refreshable{
 
     private let viewModel=IndexViewModel()
 
@@ -25,8 +20,6 @@ class IndexViewController:BaseViewController{
         super.viewDidLoad()
         self.view.addSubview(scrollView)
         bindViewModel()
-        viewModel.requestNewDataCommond.onNext(true)
-
     }
     ///可滑动容器
     private lazy var scrollView:UIScrollView={
@@ -42,12 +35,11 @@ class IndexViewController:BaseViewController{
     }()
     ///幻灯片
     private lazy var cycleScrollView:WRCycleScrollView={
-        let cycleScrollView=WRCycleScrollView(frame: CGRect.init(x:0, y:0, width:SCREEN_WIDTH,height:SCREEN_WIDTH*0.38))
+        let cycleScrollView=WRCycleScrollView(frame:CGRect.init(x:0, y:0, width:SCREEN_WIDTH,height:SCREEN_WIDTH*0.38), type: ImgType.LOCAL, imgs:[SLIDE_DEFAULT])
         cycleScrollView.backgroundColor=UIColor.white
         cycleScrollView.pageControlAliment = .CenterBottom
         cycleScrollView.currentDotColor = .white
-        cycleScrollView.autoScrollInterval=4
-        cycleScrollView.localImgArray=[SLIDE_DEFAULT]
+        cycleScrollView.autoScrollInterval=5
         return cycleScrollView
     }()
     ///分类间隔view
@@ -59,32 +51,33 @@ class IndexViewController:BaseViewController{
     ///分类
     private lazy var classifyCollectionView:UICollectionView={
         let flowLayout = UICollectionViewFlowLayout()
-        let widthH=(SCREEN_WIDTH-45)/4
+        flowLayout.sectionInset=UIEdgeInsets.init(top:0, left:15, bottom:0, right:15)
+        let widthH=(SCREEN_WIDTH-75)/4
         flowLayout.itemSize = CGSize(width: widthH,height: widthH)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.vertical//设置垂直显
         flowLayout.minimumLineSpacing = 10;//每个相邻layout的上下
-        flowLayout.minimumInteritemSpacing = 10;//每个相邻layout的左右
+        flowLayout.minimumInteritemSpacing = 15;//每个相邻layout的左右
         flowLayout.headerReferenceSize = CGSize(width:0, height: 0);
-        let collectionView=UICollectionView(frame:CGRect.init(x:0, y:classifyCollectionIntervalView.frame.maxY,width:SCREEN_WIDTH,height:SCREEN_WIDTH/4*2), collectionViewLayout: flowLayout)
+        let collectionView=UICollectionView(frame:CGRect.init(x:0, y:classifyCollectionIntervalView.frame.maxY,width:SCREEN_WIDTH,height:widthH*2+25), collectionViewLayout: flowLayout)
         collectionView.backgroundColor=UIColor.white
-        collectionView.register(IndexClassifyCollectionViewCell.self, forCellWithReuseIdentifier:indexClassifyCellId)
+        collectionView.register(IndexClassifyCollectionViewCell.self, forCellWithReuseIdentifier:"indexClassifyId")
         return collectionView
     }()
     ///特价促销区 ***************
     private lazy var specialsAndPromotionsView:UIView={
 
-        let view=UIView(frame: CGRect.init(x:0, y: classifyCollectionView.frame.maxY+10, width:SCREEN_WIDTH,height:235))
+        let view=UIView(frame: CGRect.init(x:0, y: classifyCollectionView.frame.maxY+10, width:SCREEN_WIDTH,height:220))
         view.backgroundColor=UIColor.white
         ///特价标题
-        let title=UILabel.buildLabel(text:"特价促销", textColor: UIColor.color333(), font:17, textAlignment:.left)
-        title.frame=CGRect.init(x:15,y:10, width:SCREEN_WIDTH-30,height:30)
+        let title=UILabel.buildLabel(text:"特价促销", textColor: UIColor.color333(),font:16, textAlignment:.left)
+        title.frame=CGRect.init(x:15,y:0,width:SCREEN_WIDTH-30,height:35)
         view.addSubview(title)
         view.addSubview(specialsAndPromotionsImgView)
         return view
     }()
     ///特价促销图片view
     private lazy var specialsAndPromotionsImgView:UIView={
-        let view=UIView(frame: CGRect.init(x:15,y:50, width:SCREEN_WIDTH-30, height:175))
+        let view=UIView(frame: CGRect.init(x:15,y:35, width:SCREEN_WIDTH-30, height:175))
         view.backgroundColor=UIColor.white
         ///加上阴影效果
         view.layer.shadowOpacity = 0.8
@@ -109,9 +102,25 @@ class IndexViewController:BaseViewController{
     }()
     /******************/
 
+    ///新品推荐view
+    private lazy var newGoodView:UIView={
+        let _view=UIView(frame: CGRect.init(x:0, y:specialsAndPromotionsView.frame.maxY+10, width:SCREEN_WIDTH, height:35+170+7))
+        _view.backgroundColor=UIColor.white
+        ///新品标题
+        let _title=UILabel.buildLabel(text:"新品推荐", textColor: UIColor.color333(),font:16, textAlignment:.left)
+        _title.frame=CGRect.init(x:15,y:0,width:SCREEN_WIDTH-30,height:35)
+
+        _view.addSubview(_title)
+        return _view
+    }()
+//    ///旋转木马控件
+//    private lazy var carousel:iCarousel={
+//        let _carousel=iCarousel.init(CGRect.init(x:0,y:35, width:SCREEN_WIDTH,height:170))
+//        return _carousel
+//    }()
     ///热门商品头部view
     private lazy var hotTopView:UIView={
-        let view=UIView(frame:CGRect.init(x:0,y:specialsAndPromotionsView.frame.maxY, width:SCREEN_WIDTH, height: 52))
+        let view=UIView(frame:CGRect.init(x:0,y:newGoodView.frame.maxY, width:SCREEN_WIDTH, height: 52))
         ///提示按钮
         let btnTitle=UIButton.buildBtn(text:"热门商品", textColor:UIColor.white, font:16, backgroundColor:UIColor.RGBFromHexColor(hexString:"ff1261"), cornerRadius:15)
         btnTitle.frame=CGRect.init(x:(SCREEN_WIDTH-90)/2,y:11, width:90, height:30)
@@ -133,10 +142,10 @@ class IndexViewController:BaseViewController{
         flowLayout.scrollDirection = UICollectionViewScrollDirection.vertical//设置垂直显
         flowLayout.minimumLineSpacing=7
         flowLayout.minimumInteritemSpacing=7
-        let hotCollectionView=UICollectionView(frame:CGRect(x:0,y:hotTopView.frame.maxY,width:SCREEN_WIDTH,height:100),collectionViewLayout:flowLayout)
+        let hotCollectionView=UICollectionView(frame:CGRect(x:0,y:hotTopView.frame.maxY,width:SCREEN_WIDTH,height:0),collectionViewLayout:flowLayout)
         hotCollectionView.backgroundColor=UIColor.viewBgdColor()
         hotCollectionView.isScrollEnabled=false
-        hotCollectionView.register(IndexHotGoodCollectionViewCell.self, forCellWithReuseIdentifier:indexHotGoodCellId);
+        hotCollectionView.register(IndexHotGoodCollectionViewCell.self, forCellWithReuseIdentifier:"indexHotGoodCellId");
         return hotCollectionView
     }()
 }
@@ -146,15 +155,15 @@ extension IndexViewController{
     private func bindViewModel(){
 
         ///绑定幻灯片数据
-        viewModel.imgUrlArrBR.asObservable().subscribe(onNext: { (imgArr) in
-            self.cycleScrollView.serverImgArray=imgArr
+        viewModel.imgUrlArrBR.asObservable().subscribe(onNext: { [weak self]  (imgArr) in
+            self?.cycleScrollView.serverImgArray=imgArr
         }).disposed(by:rx_disposeBag)
 
         //创建分类数据源
         let categoryDataSource = RxCollectionViewSectionedReloadDataSource
             <SectionModel<String,GoodsCategoryModel>>(
                 configureCell: { (dataSource, collectionView, indexPath, element)  in
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier:self.indexClassifyCellId,for:indexPath) as! IndexClassifyCollectionViewCell
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"indexClassifyId",for:indexPath) as! IndexClassifyCollectionViewCell
                     cell.updateCell(model:element)
                     return cell
             })
@@ -168,31 +177,49 @@ extension IndexViewController{
         let hotGoodDataSource = RxCollectionViewSectionedReloadDataSource
             <SectionModel<String,HotGoodModel>>(
                 configureCell: { (dataSource, collectionView, indexPath, element)  in
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier:self.indexHotGoodCellId,for:indexPath) as! IndexHotGoodCollectionViewCell
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"indexHotGoodCellId",for:indexPath) as! IndexHotGoodCollectionViewCell
                     cell.updateCell(model:element)
                     return cell
             })
 
         //绑定热门商品数据
-        viewModel.hotGoodArrModelBR.asObservable().map({ (arr) -> [SectionModel<String,HotGoodModel>] in
+        viewModel.hotGoodArrModelBR.asObservable().map({ [weak self] (arr) -> [SectionModel<String,HotGoodModel>] in
             ///根据数据设置热门商品控件高度
             if let modelArr=arr.first?.items{
                 ///每个cell高度
                 let height = (SCREEN_WIDTH - 21)/2+72+7
                 ///计算热门商品控件高度
                 let hotGoodCollectionViewHeight=modelArr.count%2==0 ? CGFloat(modelArr.count/2) * height: CGFloat((modelArr.count+1)/2) * height
-                ///重新设置热门商品高度
-                self.hotGoodCollectionView.frame=CGRect(x:0,y:self.hotTopView.frame.maxY,width:SCREEN_WIDTH,height:hotGoodCollectionViewHeight+7)
-                ///重新设置可滑动范围
-                self.scrollView.contentSize=CGSize(width:SCREEN_WIDTH, height:self.hotGoodCollectionView.frame.maxY)
+                ///更新热门商品高度
+                self?.updateHotGoodViewHeight(hotGoodCollectionViewHeight:hotGoodCollectionViewHeight)
+
             }
             return arr
-        })
-            .bind(to:self.hotGoodCollectionView.rx.items(dataSource: hotGoodDataSource))
+        }).bind(to:self.hotGoodCollectionView.rx.items(dataSource: hotGoodDataSource))
             .disposed(by:rx_disposeBag)
+        ///刷新
+        let refreshHeader=initRefreshHeader(scrollView) { [weak self] in
+            self?.viewModel.requestNewDataCommond.onNext(true)
+        }
+        ///加载更多
+        let refreshFooter=initRefreshFooter(scrollView) { [weak self] in
+            self?.viewModel.requestNewDataCommond.onNext(false)
+        }
+        ///自动匹配当前刷新状态
+        viewModel.autoSetRefreshHeaderStatus(header:refreshHeader, footer: refreshFooter).disposed(by:rx_disposeBag)
     }
 }
-
+/////实现旋转木马
+//extension IndexViewController:iCarouselDataSource,iCarouselDelegate{
+//
+//}
+///更新布局
 extension IndexViewController{
-
+    ///更新热门商品高度
+    private func updateHotGoodViewHeight(hotGoodCollectionViewHeight:CGFloat){
+        ///重新设置热门商品高度
+        self.hotGoodCollectionView.frame=CGRect(x:0,y:self.hotTopView.frame.maxY,width:SCREEN_WIDTH,height:hotGoodCollectionViewHeight+7)
+        ///重新设置可滑动范围
+        self.scrollView.contentSize=CGSize(width:SCREEN_WIDTH, height:self.hotGoodCollectionView.frame.maxY)
+    }
 }

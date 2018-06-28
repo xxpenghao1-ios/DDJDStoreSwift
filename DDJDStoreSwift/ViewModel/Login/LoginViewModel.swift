@@ -44,13 +44,13 @@ extension LoginViewModel:ViewModelType{
         let nameAndPw=Observable.combineLatest(input.userName,input.pw) { ($0, $1) }
         ///登录发送网络请求返回状态
         let result=input.loginValidate.withLatestFrom(nameAndPw)
-            .filter{//验证输入是否正确
+            .filter{ [unowned self] in  //验证输入是否正确
                 return self.validateInputInfo(name:$0, pw:$1)
             }.flatMapLatest { (res)-> Observable<ResponseResult> in
                     PHProgressHUD.showLoading("正在登录...")
                     ///发送网络请求返回结果
                     return PHRequest.shared.requestJSONObject(target: LoginAndRegisterAPI.login(memberName:res.0, password:res.1, deviceToken:"penghao",deviceName:"ios",flag:2))
-            }.map({ (result) -> Bool in
+            }.map({ [unowned self] (result) -> Bool in
                 switch result{
                 case let .success(json):
                     return self.validateLoginIsSuccess(model: StoreModel(JSONString:json.description))

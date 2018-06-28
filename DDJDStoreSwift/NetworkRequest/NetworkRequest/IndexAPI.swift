@@ -17,7 +17,7 @@ public enum IndexAPI{
     ///首页查询分类
     case queryOneCategory()
     ///热门商品请求
-    case queryGoodsForAndroidIndexForStore(countyId:String,isDisplayFlag:Int,storeId:String)
+    case queryGoodsForAndroidIndexForStore(countyId:String,isDisplayFlag:Int,storeId:String,currentPage:Int,pageSize:Int)
     ///发送公告栏请求
     case queryAdMessgInfo(substationId:String)
 }
@@ -30,7 +30,7 @@ extension IndexAPI:TargetType{
             return "mobileAdvertisingPromotionAndPreferential.xhtml"
         case .queryOneCategory():
             return "queryOneCategory.xhtml"
-        case .queryGoodsForAndroidIndexForStore(_,_,_):
+        case .queryGoodsForAndroidIndexForStore(_,_,_,_,_):
             return "queryGoodsForAndroidIndexForStore.xhtml"
         case .queryAdMessgInfo(_):
             return "queryAdMessgInfo.xhtml"
@@ -39,7 +39,7 @@ extension IndexAPI:TargetType{
     }
     public var method: Moya.Method {
         switch self {
-        case .mobileAdvertising(_),.mobileAdvertisingPromotionAndPreferential(),.queryOneCategory(),.queryGoodsForAndroidIndexForStore(_,_,_),.queryAdMessgInfo(_):
+        case .mobileAdvertising(_),.mobileAdvertisingPromotionAndPreferential(),.queryOneCategory(),.queryGoodsForAndroidIndexForStore(_,_,_,_,_),.queryAdMessgInfo(_):
             return .get
         }
     }
@@ -55,8 +55,8 @@ extension IndexAPI:TargetType{
             return .requestPlain
         case .queryOneCategory():
             return .requestParameters(parameters:["isDisplayFlag":2], encoding: URLEncoding.default)
-        case let .queryGoodsForAndroidIndexForStore(countyId, isDisplayFlag, storeId):
-            return .requestParameters(parameters:["countyId":countyId,"isDisplayFlag":isDisplayFlag,"storeId":storeId], encoding: URLEncoding.default)
+        case let .queryGoodsForAndroidIndexForStore(countyId, isDisplayFlag, storeId,currentPage,pageSize):
+            return .requestParameters(parameters:["countyId":countyId,"isDisplayFlag":isDisplayFlag,"storeId":storeId,"currentPage":currentPage,"pageSize":pageSize], encoding: URLEncoding.default)
         case let .queryAdMessgInfo(substationId):
             return .requestParameters(parameters:["substationId":substationId], encoding: URLEncoding.default)
         }

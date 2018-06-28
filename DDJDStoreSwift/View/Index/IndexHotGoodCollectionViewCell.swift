@@ -44,8 +44,8 @@ class IndexHotGoodCollectionViewCell:UICollectionViewCell{
     ///更新cell
     func updateCell(model:HotGoodModel){
 
-        imgView.kf.setImage(with:URL(string:HTTP_URL_IMG+(model.goodPic ?? "")), placeholder:UIImage(named:GOOD_DEFAULT_IMG), options:[.transition(.fade(1))])
-
+        imgView.ph_setImage(withUrlString:HTTP_URL_IMG+(model.goodPic ?? ""), placeholderImgName:GOOD_DEFAULT_IMG)
+        
         lblGoodName.text=model.goodInfoName
 
         lblGoodPrice.text="￥"+(model.uprice ?? "0")
@@ -55,10 +55,10 @@ extension IndexHotGoodCollectionViewCell{
 
     private func setUI(){
 
-        imgView.frame=CGRect.init(x:0, y:0, width:self.frame.width, height: self.frame.width)
+        imgView.frame=CGRect.init(x:10, y:10, width:self.frame.width-20, height:self.frame.width-20)
         self.contentView.addSubview(imgView)
 
-        lblGoodName.frame=CGRect.init(x:5, y:imgView.frame.maxY, width:imgView.frame.width-10, height:40)
+        lblGoodName.frame=CGRect.init(x:5, y:imgView.frame.maxY+10, width:imgView.frame.width-10, height:40)
         self.contentView.addSubview(lblGoodName)
 
         lblGoodPrice.frame=CGRect.init(x:5, y:lblGoodName.frame.maxY, width:(self.frame.width-10)/2,height:25)
