@@ -20,6 +20,8 @@ public enum IndexAPI{
     case queryGoodsForAndroidIndexForStore(countyId:String,isDisplayFlag:Int,storeId:String,currentPage:Int,pageSize:Int)
     ///发送公告栏请求
     case queryAdMessgInfo(substationId:String)
+    ///新品推荐
+    case queryGoodsForAndroidIndexForStoreNew(countyId:String,storeId:String,isDisplayFlag:Int,currentPage:Int,pageSize:Int,order:String)
 }
 extension IndexAPI:TargetType{
     public var path: String {
@@ -34,12 +36,14 @@ extension IndexAPI:TargetType{
             return "queryGoodsForAndroidIndexForStore.xhtml"
         case .queryAdMessgInfo(_):
             return "queryAdMessgInfo.xhtml"
+        case .queryGoodsForAndroidIndexForStoreNew(_,_,_,_,_,_):
+            return "queryGoodsForAndroidIndexForStoreNew.xhtml"
 
         }
     }
     public var method: Moya.Method {
         switch self {
-        case .mobileAdvertising(_),.mobileAdvertisingPromotionAndPreferential(),.queryOneCategory(),.queryGoodsForAndroidIndexForStore(_,_,_,_,_),.queryAdMessgInfo(_):
+        case .mobileAdvertising(_),.mobileAdvertisingPromotionAndPreferential(),.queryOneCategory(),.queryGoodsForAndroidIndexForStore(_,_,_,_,_),.queryAdMessgInfo(_),.queryGoodsForAndroidIndexForStoreNew(_,_,_,_,_,_):
             return .get
         }
     }
@@ -59,6 +63,8 @@ extension IndexAPI:TargetType{
             return .requestParameters(parameters:["countyId":countyId,"isDisplayFlag":isDisplayFlag,"storeId":storeId,"currentPage":currentPage,"pageSize":pageSize], encoding: URLEncoding.default)
         case let .queryAdMessgInfo(substationId):
             return .requestParameters(parameters:["substationId":substationId], encoding: URLEncoding.default)
+        case let .queryGoodsForAndroidIndexForStoreNew(countyId, storeId, isDisplayFlag, currentPage, pageSize, order):
+            return .requestParameters(parameters:["countyId":countyId,"storeId":storeId,"isDisplayFlag":isDisplayFlag,"currentPage":currentPage,"pageSize":pageSize,"order":order], encoding: URLEncoding.default)
         }
     }
 }

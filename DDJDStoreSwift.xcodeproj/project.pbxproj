@@ -16,6 +16,9 @@
 		6333E74F2093010C00CEC3B7 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333E74E2093010C00CEC3B7 /* UIFont.swift */; };
 		6333E75120930C3300CEC3B7 /* UILabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6333E75020930C3300CEC3B7 /* UILabel.swift */; };
 		63388BFC20C6392A006713AA /* NSObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63388BFB20C6392A006713AA /* NSObject.swift */; };
+		633B855C20E6050500F714D7 /* NewGoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633B855B20E6050500F714D7 /* NewGoodModel.swift */; };
+		633B855E20E60D6D00F714D7 /* IndexNewGoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633B855D20E60D6D00F714D7 /* IndexNewGoodView.swift */; };
+		633B856020E618C500F714D7 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633B855F20E618C500F714D7 /* Array.swift */; };
 		633D0AB220DDE3F70022A4D9 /* SpecialAndPromotionsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633D0AB120DDE3F70022A4D9 /* SpecialAndPromotionsModel.swift */; };
 		633D0AB520DDFA0F0022A4D9 /* HotGoodModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633D0AB420DDFA0F0022A4D9 /* HotGoodModel.swift */; };
 		633D0AB820DE265A0022A4D9 /* WaterCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 633D0AB720DE265A0022A4D9 /* WaterCollectionViewLayout.swift */; };
@@ -84,6 +87,9 @@
 		6333E74E2093010C00CEC3B7 /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		6333E75020930C3300CEC3B7 /* UILabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabel.swift; sourceTree = "<group>"; };
 		63388BFB20C6392A006713AA /* NSObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSObject.swift; sourceTree = "<group>"; };
+		633B855B20E6050500F714D7 /* NewGoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGoodModel.swift; sourceTree = "<group>"; };
+		633B855D20E60D6D00F714D7 /* IndexNewGoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexNewGoodView.swift; sourceTree = "<group>"; };
+		633B855F20E618C500F714D7 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		633D0AB120DDE3F70022A4D9 /* SpecialAndPromotionsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialAndPromotionsModel.swift; sourceTree = "<group>"; };
 		633D0AB420DDFA0F0022A4D9 /* HotGoodModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotGoodModel.swift; sourceTree = "<group>"; };
 		633D0AB720DE265A0022A4D9 /* WaterCollectionViewLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaterCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -184,6 +190,7 @@
 				6341DB3720944E8A00AC267D /* UIView.swift */,
 				6350F8B420E3359B00176219 /* UIImageView.swift */,
 				6350F8B920E3761700176219 /* MJRefresh.swift */,
+				633B855F20E618C500F714D7 /* Array.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -204,6 +211,7 @@
 				633D0AB120DDE3F70022A4D9 /* SpecialAndPromotionsModel.swift */,
 				633F8CD920CFB29500D227AF /* AdvertisingModel.swift */,
 				633D0AB420DDFA0F0022A4D9 /* HotGoodModel.swift */,
+				633B855B20E6050500F714D7 /* NewGoodModel.swift */,
 			);
 			path = Index;
 			sourceTree = "<group>";
@@ -339,6 +347,7 @@
 			children = (
 				6366E05420D0CB0A00CB634B /* IndexClassifyCollectionViewCell.swift */,
 				633D0AB920DE278E0022A4D9 /* IndexHotGoodCollectionViewCell.swift */,
+				633B855D20E60D6D00F714D7 /* IndexNewGoodView.swift */,
 			);
 			path = Index;
 			sourceTree = "<group>";
@@ -652,12 +661,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				6366E05220D0C28F00CB634B /* GoodsCategoryModel.swift in Sources */,
+				633B855E20E60D6D00F714D7 /* IndexNewGoodView.swift in Sources */,
+				633B855C20E6050500F714D7 /* NewGoodModel.swift in Sources */,
 				633D0AB220DDE3F70022A4D9 /* SpecialAndPromotionsModel.swift in Sources */,
 				633D0ABA20DE278E0022A4D9 /* IndexHotGoodCollectionViewCell.swift in Sources */,
 				633F8CD820CFAA2200D227AF /* IndexViewModel.swift in Sources */,
 				6350F8B820E3759900176219 /* MJRefresh+Rx.swift in Sources */,
 				6341DB3820944E8A00AC267D /* UIView.swift in Sources */,
 				63FBEE412091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld in Sources */,
+				633B856020E618C500F714D7 /* Array.swift in Sources */,
 				633F8CD520CFA69F00D227AF /* IndexAPI.swift in Sources */,
 				633F8CC620CF59BC00D227AF /* ForgotPasswordViewController.swift in Sources */,
 				633F8CC920CF5A5B00D227AF /* IndexViewController.swift in Sources */,
@@ -878,7 +890,7 @@
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nmore.phddjdStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/Resource/DDJDStoreSwift-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "DDJDStoreSwift/Resource/DDJDStoreSwift-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
@@ -903,7 +915,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nmore.phddjdStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/Resource/DDJDStoreSwift-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "DDJDStoreSwift/Resource/DDJDStoreSwift-Bridging-Header.h";
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "$(SWIFT_MODULE_NAME)-Swift.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;

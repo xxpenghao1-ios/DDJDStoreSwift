@@ -25,6 +25,9 @@ class IndexViewModel:NSObject,OutputRefreshProtocol{
     ///特价与促销图片数组
     var specialsAndPromotionsArrModelBR=BehaviorRelay<[SpecialAndPromotionsModel]>(value:[])
 
+    ///新品推荐数组
+    var newGoodArrModelBR=BehaviorRelay<[NewGoodModel]>(value:[])
+
     ///热门商品数组
     var hotGoodArrModelBR=BehaviorRelay<[SectionModel<String,HotGoodModel>]>(value:[])
 
@@ -52,6 +55,7 @@ class IndexViewModel:NSObject,OutputRefreshProtocol{
                 self?.currentPage=1
                 self?.getMobileAdvertising()
                 self?.getOneCategory()
+                self?.getNewGood()
                 self?.getSpecialsAndPromotions()
                 self?.getHotGood(b:event.element)
             }else{///加载热门商品下一页
@@ -99,6 +103,16 @@ extension IndexViewModel{
             self?.specialsAndPromotionsArrModelBR.accept(arrModel)
         }, onError: { (error) in
             phLog("获取特价与促销数据出错:\(error.localizedDescription)")
+        }).disposed(by:rx_disposeBag)
+    }
+    ///获取新品推荐
+    private func getNewGood(){
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStoreNew(countyId:COUNTY_ID!, storeId:STOREID!, isDisplayFlag:2, currentPage:1,pageSize:30, order:""), model:NewGoodModel.self).subscribe(onNext: {
+            [weak self] (arrModel) in
+
+                self?.newGoodArrModelBR.accept(arrModel)
+            }, onError: { (error) in
+                phLog("获取新品推荐出错:\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }
     ///获取热门商品  b是是否刷新数据 true是  false加载下一页数据

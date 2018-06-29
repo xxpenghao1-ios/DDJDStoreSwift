@@ -25,6 +25,7 @@ extension Response {
     public func mapArray<T:Mappable>(_ type: T.Type) throws -> [T] {
         do{
             let json=JSON(try self.mapJSON())
+            
             guard let objects = Mapper<T>().mapArray(JSONObject:json.object) else {
                     throw MoyaError.jsonMapping(self)
             }

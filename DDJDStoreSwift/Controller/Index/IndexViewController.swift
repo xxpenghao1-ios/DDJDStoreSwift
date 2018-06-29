@@ -15,7 +15,10 @@ import RxDataSources
 class IndexViewController:BaseViewController,Refreshable{
 
     private let viewModel=IndexViewModel()
-
+    ///新品推荐数组
+    private var newGoodArr=[NewGoodModel]()
+    ///旋转木马高度
+    private var carouselHeight=(SCREEN_WIDTH-68)/3+35+30+14
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(scrollView)
@@ -28,6 +31,7 @@ class IndexViewController:BaseViewController,Refreshable{
         scrollView.addSubview(classifyCollectionIntervalView)
         scrollView.addSubview(classifyCollectionView)
         scrollView.addSubview(specialsAndPromotionsView)
+        scrollView.addSubview(newGoodView)
         scrollView.addSubview(hotTopView)
         scrollView.addSubview(hotGoodCollectionView)
         scrollView.contentSize=CGSize(width:SCREEN_WIDTH, height:hotGoodCollectionView.frame.maxY+15)
@@ -104,20 +108,23 @@ class IndexViewController:BaseViewController,Refreshable{
 
     ///新品推荐view
     private lazy var newGoodView:UIView={
-        let _view=UIView(frame: CGRect.init(x:0, y:specialsAndPromotionsView.frame.maxY+10, width:SCREEN_WIDTH, height:35+170+7))
+        let _view=UIView(frame: CGRect.init(x:0, y:specialsAndPromotionsView.frame.maxY+10, width:SCREEN_WIDTH, height:35+carouselHeight+7))
         _view.backgroundColor=UIColor.white
         ///新品标题
         let _title=UILabel.buildLabel(text:"新品推荐", textColor: UIColor.color333(),font:16, textAlignment:.left)
         _title.frame=CGRect.init(x:15,y:0,width:SCREEN_WIDTH-30,height:35)
-
         _view.addSubview(_title)
+        _view.addSubview(carousel)
         return _view
     }()
-//    ///旋转木马控件
-//    private lazy var carousel:iCarousel={
-//        let _carousel=iCarousel.init(CGRect.init(x:0,y:35, width:SCREEN_WIDTH,height:170))
-//        return _carousel
-//    }()
+    ///旋转木马控件
+    private lazy var carousel:iCarousel={
+        let _carousel=iCarousel(frame:CGRect.init(x:0,y:35, width:SCREEN_WIDTH,height:carouselHeight))
+        _carousel.type = .rotary
+        _carousel.dataSource=self
+        _carousel.delegate=self
+        return _carousel
+    }()
     ///热门商品头部view
     private lazy var hotTopView:UIView={
         let view=UIView(frame:CGRect.init(x:0,y:newGoodView.frame.maxY, width:SCREEN_WIDTH, height: 52))
@@ -173,6 +180,12 @@ extension IndexViewController{
             .bind(to:self.classifyCollectionView.rx.items(dataSource:categoryDataSource))
             .disposed(by:rx_disposeBag)
 
+        ///获取新品推荐数据
+        viewModel.newGoodArrModelBR.asObservable().subscribe(onNext: { [weak self] (arr) in
+            self?.newGoodArr=arr
+            self?.carousel.reloadData()
+        }).disposed(by: rx_disposeBag)
+
         ///创建热门商品数据源
         let hotGoodDataSource = RxCollectionViewSectionedReloadDataSource
             <SectionModel<String,HotGoodModel>>(
@@ -186,13 +199,8 @@ extension IndexViewController{
         viewModel.hotGoodArrModelBR.asObservable().map({ [weak self] (arr) -> [SectionModel<String,HotGoodModel>] in
             ///根据数据设置热门商品控件高度
             if let modelArr=arr.first?.items{
-                ///每个cell高度
-                let height = (SCREEN_WIDTH - 21)/2+72+7
-                ///计算热门商品控件高度
-                let hotGoodCollectionViewHeight=modelArr.count%2==0 ? CGFloat(modelArr.count/2) * height: CGFloat((modelArr.count+1)/2) * height
                 ///更新热门商品高度
-                self?.updateHotGoodViewHeight(hotGoodCollectionViewHeight:hotGoodCollectionViewHeight)
-
+                self?.updateHotGoodViewHeight(count:modelArr.count)
             }
             return arr
         }).bind(to:self.hotGoodCollectionView.rx.items(dataSource: hotGoodDataSource))
@@ -209,14 +217,39 @@ extension IndexViewController{
         viewModel.autoSetRefreshHeaderStatus(header:refreshHeader, footer: refreshFooter).disposed(by:rx_disposeBag)
     }
 }
-/////实现旋转木马
-//extension IndexViewController:iCarouselDataSource,iCarouselDelegate{
-//
-//}
+///实现旋转木马
+extension IndexViewController:iCarouselDataSource,iCarouselDelegate{
+    ///返回数量
+    func numberOfItems(in carousel: iCarousel) -> Int {
+        return newGoodArr.count
+    }
+    ///返回视图
+    func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
+        let itemView:IndexNewGoodViews
+        if view == nil{
+            itemView=IndexNewGoodViews(frame:CGRect.init(x:20, y:0, width:SCREEN_WIDTH-40,height:carouselHeight),modelArr:newGoodArr)
+        }else{
+            itemView=view as! IndexNewGoodViews
+        }
+        return itemView
+    }
+    func carousel(_ carousel: iCarousel,valueFor option:iCarouselOption, withDefault value: CGFloat) -> CGFloat {
+        if (option == .spacing) {
+            return value * 1.1
+        }
+        return value
+    }
+
+
+}
 ///更新布局
 extension IndexViewController{
-    ///更新热门商品高度
-    private func updateHotGoodViewHeight(hotGoodCollectionViewHeight:CGFloat){
+    ///更新热门商品高度  传入热门商品数量
+    private func updateHotGoodViewHeight(count:Int){
+        ///每个cell高度
+        let height = (SCREEN_WIDTH - 21)/2+72+7
+        ///计算热门商品控件高度
+        let hotGoodCollectionViewHeight=count%2==0 ? CGFloat(count/2) * height: CGFloat((count+1)/2) * height
         ///重新设置热门商品高度
         self.hotGoodCollectionView.frame=CGRect(x:0,y:self.hotTopView.frame.maxY,width:SCREEN_WIDTH,height:hotGoodCollectionViewHeight+7)
         ///重新设置可滑动范围
