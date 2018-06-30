@@ -15,12 +15,13 @@ import RxDataSources
 class IndexViewController:BaseViewController,Refreshable{
 
     private let viewModel=IndexViewModel()
-    ///新品推荐数组
-    private var newGoodArr=[NewGoodModel]()
+    ///新品推荐数组 旋转木马用
+    private var newGoodArrSectionModel=[SectionModel<String,NewGoodModel>]()
     ///旋转木马高度
     private var carouselHeight=(SCREEN_WIDTH-68)/3+35+30+14
     override func viewDidLoad() {
         super.viewDidLoad()
+        setNav()
         self.view.addSubview(scrollView)
         bindViewModel()
     }
@@ -115,6 +116,7 @@ class IndexViewController:BaseViewController,Refreshable{
         _title.frame=CGRect.init(x:15,y:0,width:SCREEN_WIDTH-30,height:35)
         _view.addSubview(_title)
         _view.addSubview(carousel)
+        _view.addSubview(newGoodNilLab)
         return _view
     }()
     ///旋转木马控件
@@ -124,6 +126,13 @@ class IndexViewController:BaseViewController,Refreshable{
         _carousel.dataSource=self
         _carousel.delegate=self
         return _carousel
+    }()
+    ///新品推荐空提示
+    private lazy var newGoodNilLab:UILabel={
+        let _lab=UILabel.buildLabel(text:"暂无新品", textColor: UIColor.color666(), font:15, textAlignment: .center)
+        _lab.frame=CGRect.init(x:0,y:(carouselHeight+7-20)/2, width:SCREEN_WIDTH, height:20)
+        _lab.isHidden=true
+        return _lab
     }()
     ///热门商品头部view
     private lazy var hotTopView:UIView={
@@ -156,10 +165,62 @@ class IndexViewController:BaseViewController,Refreshable{
         return hotCollectionView
     }()
 }
+///设置导航栏
+extension IndexViewController{
+    ///设置导航栏
+    private func setNav(){
+
+        let county=USER_DEFAULTS.object(forKey:"county") as? String
+        ///店铺所属县区
+        let countyTitleItem=UIBarButtonItem.init(title:county, style: UIBarButtonItemStyle.done,target:nil,action:nil)
+        countyTitleItem.tintColor=UIColor.color666()
+        self.navigationItem.leftBarButtonItem=countyTitleItem
+
+        ///公告按钮
+        let announcementItem=UIBarButtonItem.init(image:UIImage.init(named:"index_announcement")?.reSizeImage(reSize: CGSize.init(width:25, height: 25)), style: UIBarButtonItemStyle.done, target:self,action:#selector(showAnnouncementAction))
+
+        //直接创建一个文本框
+        let txtSearch=UITextField.buildTxt(font:14, placeholder:"请输入您要搜索的商品/分类", tintColor:UIColor.clear, keyboardType: UIKeyboardType.default)
+        txtSearch.frame=CGRect.init(x:0,y:0, width:SCREEN_WIDTH-135, height:30)
+        txtSearch.layer.cornerRadius=15
+        txtSearch.backgroundColor=UIColor.RGBFromHexColor(hexString:"f0f0f0")
+        txtSearch.rx.controlEvent(.editingDidBegin).asObservable().subscribe(onNext: {  (_) in
+            txtSearch.resignFirstResponder()
+
+        }).disposed(by:rx_disposeBag)
+        //左边搜索图片
+        let leftView=UIView(frame:CGRect(x:0,y:0, width:30, height:30))
+        let leftImageView=UIImageView(frame:CGRect(x:10,y:8.5,width:13.5,height:13))
+        leftImageView.image=UIImage(named:"search")
+        leftView.addSubview(leftImageView)
+        txtSearch.leftView=leftView
+        txtSearch.leftViewMode=UITextFieldViewMode.always
+
+        let searchTxtItem=UIBarButtonItem(customView:txtSearch)
+        self.navigationItem.rightBarButtonItems=[announcementItem,searchTxtItem]
+    }
+
+    @objc private func showAnnouncementAction(){
+        showAnnouncement(model:viewModel.adMessgInfoBR.value)
+    }
+    ///弹出公告内容
+    private func showAnnouncement(model:AdMessgInfoModel?){
+        let message:String?="暂无公告信息"
+        let title:String?="点单即到"
+        UIAlertController.showAlertYes(self,title:model?.messTitle ?? title, message:model?.messContent ?? message, okButtonTitle:"知道了")
+    }
+}
 ///绑定VM
 extension IndexViewController{
     ///绑定VM
     private func bindViewModel(){
+
+        ///弹出公告栏
+        viewModel.adMessgInfoBR.asObservable().subscribe(onNext: { [weak self] (model) in
+            if model != nil{
+                self?.showAnnouncement(model:model)
+            }
+        }).disposed(by:rx_disposeBag)
 
         ///绑定幻灯片数据
         viewModel.imgUrlArrBR.asObservable().subscribe(onNext: { [weak self]  (imgArr) in
@@ -180,9 +241,22 @@ extension IndexViewController{
             .bind(to:self.classifyCollectionView.rx.items(dataSource:categoryDataSource))
             .disposed(by:rx_disposeBag)
 
+        ///点击分类
+        self.classifyCollectionView.rx.modelSelected(GoodsCategoryModel.self).subscribe(onNext: { [weak self] (model) in
+            let vc=ClassifyPageViewController()
+            vc.model=model
+            vc.hidesBottomBarWhenPushed=true
+            self?.navigationController?.pushViewController(vc, animated:true)
+        }).disposed(by:rx_disposeBag)
+
         ///获取新品推荐数据
         viewModel.newGoodArrModelBR.asObservable().subscribe(onNext: { [weak self] (arr) in
-            self?.newGoodArr=arr
+            self?.newGoodArrSectionModel=arr
+            if arr.count == 0{
+                self?.newGoodNilLab.isHidden=false
+            }else{
+                self?.newGoodNilLab.isHidden=true
+            }
             self?.carousel.reloadData()
         }).disposed(by: rx_disposeBag)
 
@@ -221,13 +295,13 @@ extension IndexViewController{
 extension IndexViewController:iCarouselDataSource,iCarouselDelegate{
     ///返回数量
     func numberOfItems(in carousel: iCarousel) -> Int {
-        return newGoodArr.count
+        return newGoodArrSectionModel.count
     }
     ///返回视图
     func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
         let itemView:IndexNewGoodViews
         if view == nil{
-            itemView=IndexNewGoodViews(frame:CGRect.init(x:20, y:0, width:SCREEN_WIDTH-40,height:carouselHeight),modelArr:newGoodArr)
+            itemView=IndexNewGoodViews(frame:CGRect.init(x:20, y:0, width:SCREEN_WIDTH-40,height:carouselHeight),modelArr:newGoodArrSectionModel[index].items)
         }else{
             itemView=view as! IndexNewGoodViews
         }

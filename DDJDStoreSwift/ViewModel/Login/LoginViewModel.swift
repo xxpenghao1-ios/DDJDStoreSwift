@@ -113,6 +113,8 @@ extension LoginViewModel{
         phLog(model)
         USER_DEFAULTS.set(model.storeId,forKey:"storeId")
         USER_DEFAULTS.set(model.countyId,forKey:"countyId")
+        USER_DEFAULTS.set(model.county, forKey:"county")
+        USER_DEFAULTS.set(model.substationId, forKey:"substationId")
         USER_DEFAULTS.synchronize()
     }
 }

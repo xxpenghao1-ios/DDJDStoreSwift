@@ -15,7 +15,8 @@ target ‘DDJDStoreSwift’ do
     pod 'Kingfisher' #图片加载
     pod 'MJRefresh' #下拉刷新
     pod 'JPush' #极光推送
-    pod 'iCarousel'
+    pod 'iCarousel' #旋转木马效果
+    pod 'WMPageController' #分页效果
     #rx
     pod 'RxSwift'
     pod 'RxCocoa'

@@ -13,6 +13,11 @@ import IQKeyboardManagerSwift
 extension AppDelegate{
     ///设置app
     internal func setApp(){
+        if STOREID == nil{
+            self.jumpToLoginVC()
+        }else{
+            self.jumpToIndexVC()
+        }
         setNav()
         setThirdPartyFramework()
         ///初始化
@@ -22,12 +27,12 @@ extension AppDelegate{
     private func setNav(){
         //导航栏背景色
         UINavigationBar.appearance().barTintColor=UIColor.white
-//        //导航栏文字颜色
-//        UINavigationBar.appearance().titleTextAttributes=NSDictionary(object:UIColor.black, forKey:NSAttributedStringKey.foregroundColor as NSCopying) as? [NSAttributedStringKey : Any]
+        //导航栏文字颜色
+        UINavigationBar.appearance().titleTextAttributes=NSDictionary(object:UIColor.black, forKey:NSAttributedStringKey.foregroundColor as NSCopying) as? [NSAttributedStringKey : Any]
 //        //设置导航栏不透明
 //        //UINavigationBar.appearance().isTranslucent=false
 //
-//        UINavigationBar.appearance().tintColor=UIColor.
+        UINavigationBar.appearance().tintColor=UIColor.applicationMainColor()
     }
 }
 ///设置第三方框架
@@ -37,3 +42,24 @@ extension AppDelegate{
         IQKeyboardManager.shared.enable = true
     }
 }
+///页面切换
+extension AppDelegate{
+    //跳转到首页
+    func jumpToIndexVC(){
+        let tab=TabBarViewController()
+        self.window?.rootViewController=tab
+    }
+    //跳转到登录页面(切换根视图)
+    func jumpToLoginVC(){
+        let login=LoginController()
+        self.window?.rootViewController=login
+    }
+//    ///返回登录页面
+//    func returnLoginVC() -> LoginViewController{
+//        let vc=storyboardViewController(type:.loginWithRegistr,withIdentifier:"LoginVC") as! LoginViewController
+//        vc.flag=1
+//        vc.hidesBottomBarWhenPushed=true
+//        return vc
+//    }
+}
+

@@ -36,6 +36,8 @@ class IndexHotGoodCollectionViewCell:UICollectionViewCell{
     override init(frame: CGRect) {
         super.init(frame:frame)
         self.contentView.backgroundColor=UIColor.white
+        self.layer.borderWidth=0.5
+        self.layer.borderColor=UIColor.RGBFromHexColor(hexString:"f2f2f2").cgColor
         setUI()
     }
     required init?(coder aDecoder: NSCoder) {

@@ -19,14 +19,17 @@ class IndexViewModel:NSObject,OutputRefreshProtocol{
     ///幻灯片路径数组
     var imgUrlArrBR=BehaviorRelay<[String]>(value:[])
 
+    ///公告栏信息
+    var adMessgInfoBR=BehaviorRelay<AdMessgInfoModel?>(value:nil)
+
     ///商品分类model数组
     var categorySectionBR=BehaviorRelay<[SectionModel<String,GoodsCategoryModel>]>(value:[])
 
     ///特价与促销图片数组
     var specialsAndPromotionsArrModelBR=BehaviorRelay<[SpecialAndPromotionsModel]>(value:[])
 
-    ///新品推荐数组
-    var newGoodArrModelBR=BehaviorRelay<[NewGoodModel]>(value:[])
+    ///新品推荐数组  每组3个 最后一组数量不确定
+    var newGoodArrModelBR=BehaviorRelay<[SectionModel<String,NewGoodModel>]>(value:[])
 
     ///热门商品数组
     var hotGoodArrModelBR=BehaviorRelay<[SectionModel<String,HotGoodModel>]>(value:[])
@@ -48,6 +51,8 @@ class IndexViewModel:NSObject,OutputRefreshProtocol{
 
     override init() {
         super.init()
+        ///初始化就加载公告栏信息
+        getAdMessgInfo()
         requestNewDataCommond
             .startWith(true)//默认刷新数据加载
             .subscribe { [weak self] (event) in
@@ -72,7 +77,7 @@ extension IndexViewModel{
     ///获取幻灯片数据
     private func getMobileAdvertising(){
         ///发送网络请求获取
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertising(countyId:COUNTY_ID!),model:AdvertisingModel.self).subscribe(onNext: { [weak self] (arrModel) in
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertising(countyId:COUNTY_ID!),model:AdvertisingModel.self).retry(1).subscribe(onNext: { [weak self] (arrModel) in
             self?.advertisingArrModelBR.accept(arrModel)
             },onError: { (error) in
                 phLog("获取幻灯片数据出错:\(error.localizedDescription)")
@@ -86,10 +91,9 @@ extension IndexViewModel{
                 self?.imgUrlArrBR.accept(imgUrlArr)
             }).disposed(by:rx_disposeBag)
     }
-
     ///获取分类数据
     private func getOneCategory(){
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryOneCategory(), model:GoodsCategoryModel.self).subscribe(onNext: { [weak self] (arrModel) in
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryOneCategory(), model:GoodsCategoryModel.self).retry(1).subscribe(onNext: { [weak self] (arrModel) in
             self?.categorySectionBR.accept([SectionModel.init(model:"", items:arrModel)])
             }, onError: { (error) in
                 phLog("获取分类数据出错:\(error.localizedDescription)")
@@ -98,7 +102,7 @@ extension IndexViewModel{
     }
     ///获取特价促销图片
     private func getSpecialsAndPromotions(){
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertisingPromotionAndPreferential(), model:SpecialAndPromotionsModel.self).subscribe(onNext: {
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertisingPromotionAndPreferential(), model:SpecialAndPromotionsModel.self).retry(1).subscribe(onNext: {
              [weak self] (arrModel) in
             self?.specialsAndPromotionsArrModelBR.accept(arrModel)
         }, onError: { (error) in
@@ -107,10 +111,21 @@ extension IndexViewModel{
     }
     ///获取新品推荐
     private func getNewGood(){
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStoreNew(countyId:COUNTY_ID!, storeId:STOREID!, isDisplayFlag:2, currentPage:1,pageSize:30, order:""), model:NewGoodModel.self).subscribe(onNext: {
-            [weak self] (arrModel) in
-
-                self?.newGoodArrModelBR.accept(arrModel)
+        weak var weakSelf=self
+        if weakSelf == nil{
+            return
+        }
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStoreNew(countyId:COUNTY_ID!, storeId:STOREID!, isDisplayFlag:2,currentPage:1,pageSize:30, order:""), model:NewGoodModel.self).retry(1)
+            .subscribe(onNext: { (arrModel) in
+                var valueArr=[NewGoodModel]()
+                let _=arrModel.map({ (model) in //循环打印
+                    valueArr.append(model)
+                    //每次加3个 加满重新赋值  最后1组不确定 满足旋转木马效果
+                    if valueArr.count == 3{
+                        weakSelf!.newGoodArrModelBR.accept(weakSelf!.newGoodArrModelBR.value+[SectionModel.init(model:"",items:valueArr)])
+                        valueArr.removeAll()
+                    }
+                })
             }, onError: { (error) in
                 phLog("获取新品推荐出错:\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
@@ -122,8 +137,7 @@ extension IndexViewModel{
             return
         }
         ///发送网络请求
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:COUNTY_ID!, isDisplayFlag:2,storeId:STOREID!,currentPage:currentPage,pageSize:pageSize),model:HotGoodModel.self).subscribe(onNext: { (arrModel) in
-
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:COUNTY_ID!, isDisplayFlag:2,storeId:STOREID!,currentPage:currentPage,pageSize:pageSize),model:HotGoodModel.self).retry(1).subscribe(onNext: { (arrModel) in
 
             if b == true{///刷新
                 ///每次获取最新的数据
@@ -148,5 +162,15 @@ extension IndexViewModel{
                 weakSelf!.refreshStatus.accept(.endFooterRefresh)
         }).disposed(by:rx_disposeBag)
     }
-
+    ///获取公告栏信息
+    private func getAdMessgInfo(){
+        ///获取分站id
+        let substationId=USER_DEFAULTS.object(forKey:"substationId") as? String
+        PHRequest.shared.requestJSONModel(target:IndexAPI.queryAdMessgInfo(substationId:substationId ?? ""),model:AdMessgInfoModel.self).retry(1).subscribe(onNext: { [weak self] (model) in
+            
+            self?.adMessgInfoBR.accept(model)
+        }, onError: { (error) in
+            phLog("获取公告栏数据出错:\(error.localizedDescription)")
+        }).disposed(by: rx_disposeBag)
+    }
 }

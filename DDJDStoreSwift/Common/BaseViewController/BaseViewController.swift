@@ -14,6 +14,7 @@ class BaseViewController:UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor=UIColor.viewBgdColor()
+        isLogin()
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -21,5 +22,16 @@ class BaseViewController:UIViewController {
         ///清除缓存
         KingfisherManager.shared.cache.clearMemoryCache()
         KingfisherManager.shared.cache.clearDiskCache()
+    }
+}
+///验证登录缓存信息
+extension BaseViewController{
+    ///是否登录
+    private func isLogin(){
+        if STOREID == nil || COUNTY_ID == nil{
+            UIAlertController.showAlertYes(self,title:"提示", message:"您的登录信息已过期,请重新登录", okButtonTitle:"确定") { (action) in
+                APP.jumpToLoginVC()
+            }
+        }
     }
 }
