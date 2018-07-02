@@ -12,11 +12,11 @@ import WMPageController
 class ClassifyPageViewController:WMPageController{
     ///接收1级分类
     var model:GoodsCategoryModel?
-    private let titleArr=["分类","品牌"]
+    private let titleArr=["按品项","按品牌"]
     override func viewDidLoad() {
         setUpMenuView()
         super.viewDidLoad()
-        self.title=model?.goodsCategoryName ?? "分类"
+        self.title=model?.goodsCategoryName ?? "按品项"
         self.view.backgroundColor=UIColor.viewBgdColor()
     }
     //设置显示几个页面
@@ -34,6 +34,7 @@ class ClassifyPageViewController:WMPageController{
     //显示对应的页面
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {
         let vc=UIStoryboard(name:"Classify", bundle:nil).instantiateViewController(withIdentifier:"ClassifyVC") as! ClassifyViewController
+        vc.goodsCategoryId=model?.goodsCategoryId
         return vc
     }
     //设置menuView frame
