@@ -40,8 +40,32 @@ extension ClassifyViewController{
     ///绑定VM
     private func bindViewModel(){
 
-        vm.requestNewDataCommond.onNext(true)
+        if goodsCategoryId == nil{//如果为空 查询所有的23级分类
+            vm.requestNewDataCommond.onNext(false)
+            setAllGoodsCategory()
+        }else{//查询1分类对应的23级分类
+            vm.requestNewDataCommond.onNext(true)
+            setLevel1GoodsCategory()
+        }
+        ///绑定table Delegate
+        table.rx.setDelegate(self).disposed(by: rx_disposeBag)
 
+
+        ///3级分类数据源
+        let collectionDataSource=RxCollectionViewSectionedReloadDataSource<SectionModel<String,GoodsCategoryModel>>(configureCell: { (_, collection, indexPath,element)  in
+            let cell=collection.dequeueReusableCell(withReuseIdentifier:"ClassifyCollectionViewCellId", for: indexPath) as! ClassifyCollectionViewCell
+            cell.updateCell(model:element)
+            return cell
+        })
+
+        ///绑定3级分类
+        vm.goodsCategory3ArrBR.asObservable()
+            .bind(to:self.collection.rx.items(dataSource:collectionDataSource))
+            .disposed(by: rx_disposeBag)
+
+    }
+    ///根据1级分类设置
+    private func setLevel1GoodsCategory(){
         ///2级分类数据源
         let tableDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String,String>>(configureCell: { (_, table, indexPath,element)  in
             var cell=table.dequeueReusableCell(withIdentifier:"tableCellId") as? GoodClassifyTableViewCell
@@ -53,10 +77,9 @@ extension ClassifyViewController{
         })
 
         ///绑定2级分类
-        vm.goodsCategory2ArrBR.asObservable().bind(to:self.table.rx.items(dataSource:tableDataSource)).disposed(by:rx_disposeBag)
-
-        ///绑定table Delegate
-        table.rx.setDelegate(self).disposed(by: rx_disposeBag)
+        vm.goodsCategory2ArrBR.asObservable()
+            .bind(to:self.table.rx.items(dataSource:tableDataSource))
+            .disposed(by:rx_disposeBag)
 
 
         ///table选中事件
@@ -73,17 +96,37 @@ extension ClassifyViewController{
             ///更新3级分类数据
             weakSelf!.vm.goodsCategory3ArrBR.accept([sectionModel])
         }).disposed(by:rx_disposeBag)
-
-        ///3级分类数据源
-        let collectionDataSource=RxCollectionViewSectionedReloadDataSource<SectionModel<String,GoodsCategoryModel>>(configureCell: { (_, collection, indexPath,element)  in
-            let cell=collection.dequeueReusableCell(withReuseIdentifier:"ClassifyCollectionViewCellId", for: indexPath) as! ClassifyCollectionViewCell
-            cell.updateCell(model:element)
-            return cell
+    }
+    ///从底部点击进来
+    private func setAllGoodsCategory(){
+        ///2级分类数据源
+        let tableDataSource = RxTableViewSectionedReloadDataSource<SectionModel<String,GoodsCategoryModel>>(configureCell: { (_, table, indexPath,element)  in
+            var cell=table.dequeueReusableCell(withIdentifier:"tableCellId") as? GoodClassifyTableViewCell
+            if cell == nil{
+                cell=GoodClassifyTableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier:"tableCellId")
+            }
+            cell!.updateCell(name:element.goodsCategoryName ?? "")
+            return cell!
         })
 
-        ///绑定3级分类
-        vm.goodsCategory3ArrBR.asObservable().bind(to:self.collection.rx.items(dataSource:collectionDataSource)).disposed(by: rx_disposeBag)
+        ///绑定2级分类
+        vm.goodsCategoryAll2ArrBR.asObservable()
+            .bind(to:self.table.rx.items(dataSource:tableDataSource))
+            .disposed(by:rx_disposeBag)
 
+        ///table选中事件
+        table.rx.itemSelected.asObservable().subscribe(onNext: { (indexPath) in
+            weak var weakSelf=self
+            if weakSelf == nil{
+                return
+            }
+            weakSelf!.table.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated:true)
+            ///获取2级分类model
+            let model=tableDataSource[indexPath]
+
+            ///更新3级分类数据
+            weakSelf!.vm.requestGoodsCategory3Commond.onNext(model.goodsCategoryId ?? 0)
+        }).disposed(by:rx_disposeBag)
     }
 }
 ///设置页面
@@ -109,7 +152,12 @@ extension ClassifyViewController:UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
-    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == 0{
+            DispatchQueue.main.async {
+                tableView.selectRow(at:indexPath, animated:true, scrollPosition: UITableViewScrollPosition.none)
+            }
+        }
     }
 }

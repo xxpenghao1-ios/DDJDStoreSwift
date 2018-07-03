@@ -12,7 +12,7 @@ class GoodClassifyTableViewCell: UITableViewCell{
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style:style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
-        self.textLabel?.font=UIFont.systemFont(ofSize:14)
+        self.textLabel?.font=UIFont.systemFont(ofSize:13.5)
         self.textLabel?.frame=CGRect.init(x:0, y:0, width:SCREEN_WIDTH, height:50)
         self.textLabel?.textAlignment = .center
     }

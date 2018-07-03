@@ -28,7 +28,7 @@ class BaseViewController:UIViewController {
 extension BaseViewController{
     ///是否登录
     private func isLogin(){
-        if STOREID == nil || COUNTY_ID == nil{
+        if storeId == nil || storeId == nil || substationId == nil{
             UIAlertController.showAlertYes(self,title:"提示", message:"您的登录信息已过期,请重新登录", okButtonTitle:"确定") { (action) in
                 APP.jumpToLoginVC()
             }

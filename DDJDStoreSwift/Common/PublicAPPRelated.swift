@@ -40,15 +40,21 @@ let SLIDE_DEFAULT="slide_defualt"
 let APP=UIApplication.shared.delegate as! AppDelegate
 
 ///获取县区id
-var COUNTY_ID:String?{
+var countyId:String?{
     get{
         return USER_DEFAULTS.object(forKey:"countyId") as? String
     }
 }
 ///店铺id
-var STOREID:String?{
+var storeId:String?{
     get{
         return USER_DEFAULTS.object(forKey:"storeId") as? String
+    }
+}
+///分站id
+var substationId:String?{
+    get{
+        return USER_DEFAULTS.object(forKey:"substationId") as? String
     }
 }
 // 自定义打印方法

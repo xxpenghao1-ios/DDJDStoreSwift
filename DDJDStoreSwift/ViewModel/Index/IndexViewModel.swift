@@ -77,7 +77,7 @@ extension IndexViewModel{
     ///获取幻灯片数据
     private func getMobileAdvertising(){
         ///发送网络请求获取
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertising(countyId:COUNTY_ID!),model:AdvertisingModel.self).retry(1).subscribe(onNext: { [weak self] (arrModel) in
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertising(countyId:countyId!),model:AdvertisingModel.self).retry(1).subscribe(onNext: { [weak self] (arrModel) in
             self?.advertisingArrModelBR.accept(arrModel)
             },onError: { (error) in
                 phLog("获取幻灯片数据出错:\(error.localizedDescription)")
@@ -115,7 +115,7 @@ extension IndexViewModel{
         if weakSelf == nil{
             return
         }
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStoreNew(countyId:COUNTY_ID!, storeId:STOREID!, isDisplayFlag:2,currentPage:1,pageSize:30, order:""), model:NewGoodModel.self).retry(1)
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStoreNew(countyId:countyId!, storeId:storeId!, isDisplayFlag:2,currentPage:1,pageSize:30, order:""), model:NewGoodModel.self).retry(1)
             .subscribe(onNext: { (arrModel) in
                 var valueArr=[NewGoodModel]()
                 let _=arrModel.map({ (model) in //循环打印
@@ -137,7 +137,7 @@ extension IndexViewModel{
             return
         }
         ///发送网络请求
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:COUNTY_ID!, isDisplayFlag:2,storeId:STOREID!,currentPage:currentPage,pageSize:pageSize),model:HotGoodModel.self).retry(1).subscribe(onNext: { (arrModel) in
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:countyId!, isDisplayFlag:2,storeId:storeId!,currentPage:currentPage,pageSize:pageSize),model:HotGoodModel.self).retry(1).subscribe(onNext: { (arrModel) in
 
             if b == true{///刷新
                 ///每次获取最新的数据
@@ -164,9 +164,7 @@ extension IndexViewModel{
     }
     ///获取公告栏信息
     private func getAdMessgInfo(){
-        ///获取分站id
-        let substationId=USER_DEFAULTS.object(forKey:"substationId") as? String
-        PHRequest.shared.requestJSONModel(target:IndexAPI.queryAdMessgInfo(substationId:substationId ?? ""),model:AdMessgInfoModel.self).retry(1).subscribe(onNext: { [weak self] (model) in
+        PHRequest.shared.requestJSONModel(target:IndexAPI.queryAdMessgInfo(substationId:substationId!),model:AdMessgInfoModel.self).retry(1).subscribe(onNext: { [weak self] (model) in
             
             self?.adMessgInfoBR.accept(model)
         }, onError: { (error) in

@@ -115,6 +115,7 @@ extension LoginViewModel{
         USER_DEFAULTS.set(model.countyId,forKey:"countyId")
         USER_DEFAULTS.set(model.county, forKey:"county")
         USER_DEFAULTS.set(model.substationId, forKey:"substationId")
+        USER_DEFAULTS.set(model.storeName, forKey:"storeName")
         USER_DEFAULTS.synchronize()
     }
 }

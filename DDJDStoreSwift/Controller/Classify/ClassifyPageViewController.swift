@@ -16,7 +16,7 @@ class ClassifyPageViewController:WMPageController{
     override func viewDidLoad() {
         setUpMenuView()
         super.viewDidLoad()
-        self.title=model?.goodsCategoryName ?? "按品项"
+        self.title=model?.goodsCategoryName ?? "分类"
         self.view.backgroundColor=UIColor.viewBgdColor()
     }
     //设置显示几个页面

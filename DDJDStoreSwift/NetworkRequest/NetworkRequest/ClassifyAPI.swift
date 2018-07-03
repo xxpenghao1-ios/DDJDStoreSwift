@@ -10,8 +10,12 @@ import Foundation
 import Moya
 ///分类API
 public enum ClassifyAPI{
-    //查询所有的2,3级分类
+    ///查询1级分类所有的2,3级分类
     case queryTwoCategoryForMob(goodsCategoryId:Int,substationId:String)
+    ///查询所有2级分类
+    case queryCategory4AndroidAll()
+    ///查询2级分类下面3级分类
+    case queryCategory4Android(goodsCategoryId:Int)
 }
 
 extension ClassifyAPI:TargetType{
@@ -19,13 +23,17 @@ extension ClassifyAPI:TargetType{
         switch self {
         case .queryTwoCategoryForMob(_,_):
             return "queryTwoCategoryForMob.xhtml"
+        case .queryCategory4AndroidAll():
+            return "queryCategory4AndroidAll.xhtml"
+        case .queryCategory4Android(_):
+            return "queryCategory4Android.xhtml"
         }
 
     }
 
     public var method: Moya.Method {
         switch self {
-        case .queryTwoCategoryForMob(_,_):
+        case .queryTwoCategoryForMob(_,_),.queryCategory4AndroidAll(_),.queryCategory4Android(_):
             return .get
         }
     }
@@ -39,6 +47,10 @@ extension ClassifyAPI:TargetType{
         switch self {
         case let .queryTwoCategoryForMob(goodsCategoryId, substationId):
             return .requestParameters(parameters:["goodsCategoryId":goodsCategoryId,"substationId":substationId], encoding: URLEncoding.default)
+        case .queryCategory4AndroidAll():
+            return .requestPlain
+        case let .queryCategory4Android(goodsCategoryId):
+            return .requestParameters(parameters:["goodsCategoryId":goodsCategoryId], encoding: URLEncoding.default)
         }
     }
 

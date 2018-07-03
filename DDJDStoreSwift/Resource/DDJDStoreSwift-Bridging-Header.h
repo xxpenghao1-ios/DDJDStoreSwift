@@ -8,3 +8,6 @@
 
 ///旋转木马效果
 #import "iCarousel.h"
+
+///导航栏颜色控制
+#import "UINavigationBar+Awesome.h"
