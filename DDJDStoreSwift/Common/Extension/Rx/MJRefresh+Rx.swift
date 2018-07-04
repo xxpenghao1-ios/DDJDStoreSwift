@@ -29,19 +29,22 @@ protocol OutputRefreshProtocol {
 }
 extension OutputRefreshProtocol {
     func autoSetRefreshHeaderStatus(header:MJRefreshHeader?, footer:MJRefreshFooter?) -> Disposable {
+
         return refreshStatus.asObservable().subscribe(onNext: { (status) in
             switch status {
             case .beingHeaderRefresh:
                 header?.beginRefreshing()
             case .endHeaderRefresh:
                 header?.endRefreshing()
+                footer?.isHidden=false
             case .beingFooterRefresh:
                 footer?.beginRefreshing()
             case .endFooterRefresh:
                 footer?.endRefreshing()
             case .noMoreData:
                 footer?.endRefreshingWithNoMoreData()
-            default:
+                footer?.isHidden=true
+            default:footer?.isHidden=true
                 break
             }
         })

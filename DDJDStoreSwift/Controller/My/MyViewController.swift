@@ -15,31 +15,10 @@ class MyViewController:BaseViewController{
 
     private let vm=MyViewModel()
 
-    override func viewWillAppear(_ animated: Bool){
-        super.viewWillAppear(animated);
-
-        ///去掉底部黑线
-        self.navigationController?.navigationBar.shadowImage=UIImage()
-
-        self.navigationController?.navigationBar.lt_setBackgroundColor(UIColor.RGBFromHexColor(hexString:"ff1261"))
-
-        ///修改导航栏 文字颜色为白色
-        self.navigationController?.navigationBar.titleTextAttributes=NSDictionary(object:UIColor.white, forKey:NSAttributedStringKey.foregroundColor as NSCopying) as? [NSAttributedStringKey : Any]
-
-    }
-    //页面退出
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        ///还原文字颜色
-        self.navigationController?.navigationBar.titleTextAttributes=NSDictionary(object:UIColor.black, forKey:NSAttributedStringKey.foregroundColor as NSCopying) as? [NSAttributedStringKey : Any]
-        self.navigationController?.navigationBar.lt_reset()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title="个人中心"
-//        self.automaticallyAdjustsScrollViewInsets = false
         self.view.addSubview(scrollView)
+        setNav()
         bindViewModel()
     }
 
@@ -120,13 +99,15 @@ class MyViewController:BaseViewController{
     ///菜单
     private lazy var menuCollectionView:UICollectionView={
         let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.sectionInset=UIEdgeInsets.init(top:10, left:0, bottom:0, right:0)
         //计算每列的宽度，需要在布局之前算好
         let columnWidth = (SCREEN_WIDTH - 20)/4
         flowLayout.itemSize = CGSize(width:columnWidth,height:columnWidth)
         flowLayout.minimumLineSpacing=0
         flowLayout.minimumInteritemSpacing=0
-        let _collectionView=UICollectionView.init(frame: CGRect.init(x:10,y:orderCollectionView.frame.maxY+12.5, width:SCREEN_WIDTH-20, height:columnWidth*2), collectionViewLayout:flowLayout)
+        let _collectionView=UICollectionView.init(frame: CGRect.init(x:10,y:orderCollectionView.frame.maxY+12.5, width:SCREEN_WIDTH-20, height:columnWidth*2+10), collectionViewLayout:flowLayout)
         _collectionView.backgroundColor = UIColor.white
+        _collectionView.register(MyMenuCollectionViewCell.self, forCellWithReuseIdentifier:"MyMenuCollectionViewCellId")
         return _collectionView
     }()
 
@@ -164,7 +145,7 @@ extension MyViewController{
 
         //创建订单数据源
         let orderDataSource = RxCollectionViewSectionedReloadDataSource
-            <SectionModel<String,MyOrderViewModel>>(
+            <SectionModel<String,MyModel>>(
                 configureCell: { (dataSource, collectionView, indexPath, element)  in
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"MyOrderCollectionViewCellId",for:indexPath) as! MyOrderCollectionViewCell
                     cell.updateCell(name:element.name, imgStr:element.imgStr)
@@ -173,5 +154,59 @@ extension MyViewController{
 
         ///绑定订单数据
         vm.orderBR.asObservable().bind(to:orderCollectionView.rx.items(dataSource:orderDataSource)).disposed(by: rx_disposeBag)
+
+        ///创建菜单数据源
+        let menuDataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String,MyModel>>(
+            configureCell: { (dataSource, collectionView, indexPath, element)  in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"MyMenuCollectionViewCellId",for:indexPath) as! MyMenuCollectionViewCell
+            cell.updateCell(name:element.name, imgStr:element.imgStr)
+            return cell
+        })
+
+        ///绑定菜单数据
+        vm.menuBR.asObservable().bind(to:menuCollectionView.rx.items(dataSource:menuDataSource)).disposed(by:rx_disposeBag)
+
+        ///点击菜单跳转页面
+        menuCollectionView.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] (indexPath) in
+            let vc=MessageViewController()
+            vc.hidesBottomBarWhenPushed=true
+            self?.navigationController?.pushViewController(vc, animated:true)
+        }).disposed(by:rx_disposeBag)
+
+        ///退出登录
+        btnReturnLogin.rx.controlEvent(UIControlEvents.touchUpInside).subscribe(onNext: { [weak self] (_) in
+            if self == nil{
+                return
+            }
+            self!.returnLogin()
+        }).disposed(by: rx_disposeBag)
+    }
+}
+
+extension MyViewController{
+    ///设置导航栏
+    private func setNav(){
+        let lblTitle=UILabel()
+        lblTitle.textColor=UIColor.white
+        lblTitle.font=UIFont.boldSystemFont(ofSize:17)
+        lblTitle.text="个人中心"
+        self.navigationItem.titleView=lblTitle
+
+        let item=UIBarButtonItem.init(image:UIImage.init(named:"my_more")?.reSizeImage(reSize: CGSize.init(width:25, height: 25)), style: UIBarButtonItemStyle.done, target:self, action:#selector(pushOther))
+        item.tintColor=UIColor.white
+        self.navigationItem.rightBarButtonItem=item
+    }
+    ///跳转到其他页面
+    @objc private func pushOther(){
+        let vc=OtherViewController()
+        vc.hidesBottomBarWhenPushed=true
+        self.navigationController?.pushViewController(vc, animated:true)
+    }
+    ///退出登录
+    private func returnLogin(){
+        UIAlertController.showAlertYesNo(self, title:"提示", message:"您确认要退出登录吗?", cancelButtonTitle:"取消", okButtonTitle:"确定", okHandler: { (action) in
+            APP.jumpToLoginVC()
+            self.clearUserDefault()
+        })
     }
 }
