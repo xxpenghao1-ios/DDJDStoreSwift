@@ -40,19 +40,19 @@ let SLIDE_DEFAULT="slide_defualt"
 let APP=UIApplication.shared.delegate as! AppDelegate
 
 ///获取县区id
-var countyId:String?{
+var county_Id:String?{
     get{
         return USER_DEFAULTS.object(forKey:"countyId") as? String
     }
 }
 ///店铺id
-var storeId:String?{
+var store_Id:String?{
     get{
         return USER_DEFAULTS.object(forKey:"storeId") as? String
     }
 }
 ///分站id
-var substationId:String?{
+var substation_Id:String?{
     get{
         return USER_DEFAULTS.object(forKey:"substationId") as? String
     }

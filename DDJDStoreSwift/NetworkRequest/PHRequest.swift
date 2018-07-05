@@ -46,7 +46,7 @@ final public class PHRequest:NSObject{
             return Disposables.create()
         }
     }
-    ///获取ModelArr数据
+    ///获取Arr数据
     func requestJSONArrModel<T:TargetType,M:Mappable>(target:T,model:M.Type) ->Observable<[M]>{
         let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
         return Observable<[M]>.create { (observable) -> Disposable in

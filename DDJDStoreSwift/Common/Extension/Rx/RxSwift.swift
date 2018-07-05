@@ -15,17 +15,23 @@ import RxDataSources
 extension Response {
     // 这一个主要是将JSON解析为单个的Model
     public func mapObjectModel<T:Mappable>(_ type: T.Type) throws -> T {
-        guard let object = Mapper<T>().map(JSONObject: try mapJSON()) else {
+        do{
+            let json=JSON(try self.mapJSON())
+            print(json)
+            guard let object = Mapper<T>().map(JSONObject: try mapJSON()) else {
+                throw MoyaError.jsonMapping(self)
+            }
+            return object
+        }catch{
             throw MoyaError.jsonMapping(self)
         }
-        return object
     }
 
     // 这个主要是将JSON解析成多个Model并返回一个数组
     public func mapArray<T:Mappable>(_ type: T.Type) throws -> [T] {
         do{
             let json=JSON(try self.mapJSON())
-            
+            print(json)
             guard let objects = Mapper<T>().mapArray(JSONObject:json.object) else {
                     throw MoyaError.jsonMapping(self)
             }

@@ -13,7 +13,7 @@ import IQKeyboardManagerSwift
 extension AppDelegate{
     ///设置app
     internal func setApp(){
-        if storeId == nil{
+        if store_Id == nil{
             self.jumpToLoginVC()
         }else{
             self.jumpToIndexVC()

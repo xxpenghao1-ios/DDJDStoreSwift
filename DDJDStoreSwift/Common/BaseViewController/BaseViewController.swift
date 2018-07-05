@@ -9,10 +9,13 @@
 import Foundation
 import UIKit
 import Kingfisher
+import RxCocoa
+import RxSwift
 ///图片缓存信息
 let cache=KingfisherManager.shared.cache
 ///父类
 class BaseViewController:UIViewController {
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setMyVCNav()
@@ -39,7 +42,7 @@ class BaseViewController:UIViewController {
 extension BaseViewController{
     ///是否登录
     private func isLogin(){
-        if storeId == nil || countyId == nil || substationId == nil{
+        if store_Id == nil || county_Id == nil || substation_Id == nil{
             UIAlertController.showAlertYes(self,title:"提示", message:"您的登录信息已过期,请重新登录", okButtonTitle:"确定") { (action) in
                 APP.jumpToLoginVC()
             }

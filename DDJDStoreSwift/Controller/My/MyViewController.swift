@@ -119,29 +119,10 @@ class MyViewController:BaseViewController{
     }()
 
 }
-
+///VM
 extension MyViewController{
 
     private func bindViewModel(){
-
-        ///下拉背景图片拉伸
-        scrollView.rx.didScroll.asObservable().subscribe { (_) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
-            //获取偏移量
-            let offsetY = weakSelf!.scrollView.contentOffset.y+NAV_HEIGHT;
-
-            //判断是否改变
-            if ( offsetY < 0) {
-                var rect = weakSelf!.topBacImgView.frame;
-                //我们只需要改变view的y值和高度即可
-                rect.origin.y = offsetY
-                rect.size.height = 235/2 - offsetY
-                weakSelf!.topBacImgView.frame = rect;
-            }
-        }.disposed(by:rx_disposeBag)
 
         //创建订单数据源
         let orderDataSource = RxCollectionViewSectionedReloadDataSource
@@ -166,11 +147,57 @@ extension MyViewController{
         ///绑定菜单数据
         vm.menuBR.asObservable().bind(to:menuCollectionView.rx.items(dataSource:menuDataSource)).disposed(by:rx_disposeBag)
 
+        ///VC操作
+        vmOperation()
+
+    }
+
+    ///VM操作
+    private func vmOperation(){
+        ///下拉背景图片拉伸
+        scrollView.rx.didScroll.asObservable().subscribe { (_) in
+            weak var weakSelf=self
+            if weakSelf == nil{
+                return
+            }
+            //获取偏移量
+            let offsetY = weakSelf!.scrollView.contentOffset.y+NAV_HEIGHT;
+
+            //判断是否改变
+            if ( offsetY < 0) {
+                var rect = weakSelf!.topBacImgView.frame;
+                //我们只需要改变view的y值和高度即可
+                rect.origin.y = offsetY
+                rect.size.height = 235/2 - offsetY
+                weakSelf!.topBacImgView.frame = rect;
+            }
+        }.disposed(by:rx_disposeBag)
+
+        ///订单点击事件
+        orderCollectionView.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] (indexPath) in
+            ///跳转到对应订单页面
+            let vc=OrderPageViewController()
+            vc.hidesBottomBarWhenPushed=true
+            var orderStatus=1
+            switch indexPath.row{
+            case 0:
+                orderStatus=1
+                break
+            case 1:
+                orderStatus=2
+                break
+            case 2:
+                orderStatus=3
+                break
+            default:break
+            }
+            vc.orderStatus=orderStatus
+            self?.navigationController?.pushViewController(vc,animated:true)
+        }).disposed(by:rx_disposeBag)
+
         ///点击菜单跳转页面
         menuCollectionView.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] (indexPath) in
-            let vc=MessageViewController()
-            vc.hidesBottomBarWhenPushed=true
-            self?.navigationController?.pushViewController(vc, animated:true)
+            self?.menuPushVC(index:indexPath.row)
         }).disposed(by:rx_disposeBag)
 
         ///退出登录
@@ -199,6 +226,12 @@ extension MyViewController{
     ///跳转到其他页面
     @objc private func pushOther(){
         let vc=OtherViewController()
+        vc.hidesBottomBarWhenPushed=true
+        self.navigationController?.pushViewController(vc, animated:true)
+    }
+    ///菜单跳转页面
+    private func menuPushVC(index:Int){
+        let vc=MessageViewController()
         vc.hidesBottomBarWhenPushed=true
         self.navigationController?.pushViewController(vc, animated:true)
     }

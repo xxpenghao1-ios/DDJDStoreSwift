@@ -59,7 +59,7 @@ class ClassifyViewModel:NSObject{
 extension ClassifyViewModel{
     ///获取1级分类下面23级分类
     private func getTwoCategoryForMob(){
-        PHRequest.shared.requestJSONObject(target:ClassifyAPI.queryTwoCategoryForMob(goodsCategoryId:goodsCategoryId ?? 0,substationId:substationId!))
+        PHRequest.shared.requestJSONObject(target:ClassifyAPI.queryTwoCategoryForMob(goodsCategoryId:goodsCategoryId ?? 0,substationId:substation_Id!))
             .subscribe(onNext: { [weak self] (result) in
             switch result{
              case let .success(json:json):
