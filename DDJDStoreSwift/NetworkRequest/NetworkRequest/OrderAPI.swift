@@ -14,6 +14,8 @@ public enum OrderAPI{
     case queryOrderInfo4AndroidStoreByOrderStatus(orderStatus:Int,storeId:String,pageSize:Int,currentPage:Int)
     //查询订单详情
     case queryOrderInfo4AndroidByorderId(orderinfoId:Int)
+    //取消订单
+    case storeCancelOrder(orderId:Int)
 }
 extension OrderAPI:TargetType{
     public var path: String {
@@ -22,12 +24,14 @@ extension OrderAPI:TargetType{
             return "queryOrderInfo4AndroidStoreByOrderStatus.xhtml"
         case .queryOrderInfo4AndroidByorderId(_):
             return "queryOrderInfo4AndroidByorderId.xhtml"
+        case .storeCancelOrder(_):
+            return "storeCancelOrder.xhtml"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .queryOrderInfo4AndroidStoreByOrderStatus(_,_,_,_),.queryOrderInfo4AndroidByorderId(_):
+        case .queryOrderInfo4AndroidStoreByOrderStatus(_,_,_,_),.queryOrderInfo4AndroidByorderId(_),.storeCancelOrder(_):
             return .get
         }
     }
@@ -42,6 +46,8 @@ extension OrderAPI:TargetType{
             return .requestParameters(parameters:["orderStatus":orderStatus,"storeId":storeId,"pageSize":pageSize,"currentPage":currentPage], encoding: URLEncoding.default)
         case let .queryOrderInfo4AndroidByorderId(orderinfoId):
             return .requestParameters(parameters:["orderinfoId":orderinfoId], encoding: URLEncoding.default)
+        case let .storeCancelOrder(orderId):
+            return .requestParameters(parameters:["orderId":orderId], encoding: URLEncoding.default)
         }
     }
     

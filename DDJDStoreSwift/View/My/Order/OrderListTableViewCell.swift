@@ -26,12 +26,15 @@ class OrderListTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        hiddenImgView()
+    }
+    private func hiddenImgView(){
         imgView1.isHidden=true
         imgView2.isHidden=true
         imgView3.isHidden=true
     }
-
     func updateCell(model:OrderModel){
+        hiddenImgView()
         lblSupplierName.text=model.supplierName
         lblOrderPrice.text="￥\(model.orderPrice ?? "0")"
         lblOrderSN.text="订单号:\(model.orderSN ?? "")"

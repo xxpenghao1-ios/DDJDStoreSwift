@@ -50,9 +50,15 @@ extension OrderViewController:Refreshable{
         table.rx.setDelegate(self).disposed(by:rx_disposeBag)
 
         ///点击cell查看详情
-        table.rx.modelSelected(OrderModel.self).subscribe(onNext: { [weak self] (model) in
+        table.rx.itemSelected.subscribe(onNext: { [weak self] (indexPath) in
+            let model=dataSources[indexPath]
             let vc=UIStoryboard(name:"OrderDetail", bundle:nil).instantiateViewController(withIdentifier:"OrderDetailVC") as! OrderDetailViewController
             vc.orderinfoId=model.orderinfoId
+            vc.cancelOrderClosure = { //取消订单后删除对应数据
+                var modelArr=self?.vm.orderArrModelBR.value[0].items
+                modelArr?.remove(at:indexPath.row)
+                self?.vm.orderArrModelBR.accept([SectionModel.init(model:"", items:modelArr!)])
+            }
             self?.navigationController?.pushViewController(vc, animated:true)
         }).disposed(by:rx_disposeBag)
         ///刷新

@@ -47,12 +47,14 @@ struct OrderModel:Mappable{
     var storeName:String?;
     /** 商品数量 **/
     var goods_amount:String?;
-    /**支付消息 **/
+    /**买家留言**/
     var pay_message:String?;
     /**用户加价价钱*/
     var additionalMoney:String?;
     /**供应商名称*/
     var supplierName:String?;
+    ///发货时间
+    var ship_time:String?
     /**完成时间*/
     var finished_time:String?;
     /**卖家附言*/
@@ -89,6 +91,7 @@ struct OrderModel:Mappable{
         pay_message <- map["pay_message"]
         additionalMoney <- map["additionalMoney"]
         supplierName <- map["supplierName"]
+        ship_time <- map["ship_time"]
         finished_time <- map["finished_time"]
         postscript <- map["postscript"]
         returnGoodsFlag <- map["returnGoodsFlag"]

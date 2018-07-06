@@ -73,6 +73,9 @@
 		638A26AB20EC998400170762 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A26AA20EC998400170762 /* MessageModel.swift */; };
 		638A26AF20ECA33000170762 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A26AD20ECA33000170762 /* MessageTableViewCell.swift */; };
 		638A26B020ECA33000170762 /* MessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638A26AE20ECA33000170762 /* MessageTableViewCell.xib */; };
+		63A989F520EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A989F320EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift */; };
+		63A989F620EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63A989F420EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib */; };
+		63A989F820EF1F6C005AD5BB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A989F720EF1F6C005AD5BB /* Date.swift */; };
 		63BD7E4320EB17BB00C01219 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BD7E4220EB17BB00C01219 /* MyViewController.swift */; };
 		63BD7E4620EB4CB000C01219 /* MyOrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BD7E4520EB4CB000C01219 /* MyOrderCollectionViewCell.swift */; };
 		63BD7E4920EB508300C01219 /* MyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BD7E4820EB508300C01219 /* MyViewModel.swift */; };
@@ -178,6 +181,9 @@
 		638A26AA20EC998400170762 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		638A26AD20ECA33000170762 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		638A26AE20ECA33000170762 /* MessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageTableViewCell.xib; sourceTree = "<group>"; };
+		63A989F320EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailGoodTableViewCell.swift; sourceTree = "<group>"; };
+		63A989F420EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderDetailGoodTableViewCell.xib; sourceTree = "<group>"; };
+		63A989F720EF1F6C005AD5BB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		63BD7E4220EB17BB00C01219 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
 		63BD7E4520EB4CB000C01219 /* MyOrderCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyOrderCollectionViewCell.swift; sourceTree = "<group>"; };
 		63BD7E4820EB508300C01219 /* MyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewModel.swift; sourceTree = "<group>"; };
@@ -263,6 +269,7 @@
 				634DB1C920E723A500D5016A /* UIAlertController.swift */,
 				634DB1CB20E72CC600D5016A /* UIImage.swift */,
 				634DB1CF20E7326500D5016A /* Runtime+Extension.swift */,
+				63A989F720EF1F6C005AD5BB /* Date.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -486,6 +493,8 @@
 			children = (
 				637FAEEC20EDB1F600299D29 /* OrderListTableViewCell.swift */,
 				637FAEED20EDB1F600299D29 /* OrderListTableViewCell.xib */,
+				63A989F320EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift */,
+				63A989F420EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib */,
 			);
 			path = Order;
 			sourceTree = "<group>";
@@ -786,6 +795,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63A989F620EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib in Resources */,
 				63FBEE462091746F00BE6B81 /* LaunchScreen.storyboard in Resources */,
 				637FAEF520EE003600299D29 /* OrderDetail.storyboard in Resources */,
 				63FBEE432091746F00BE6B81 /* Assets.xcassets in Resources */,
@@ -942,6 +952,7 @@
 				634DB1CA20E723A500D5016A /* UIAlertController.swift in Sources */,
 				633F8CCC20CF5CD600D227AF /* TabBarViewController.swift in Sources */,
 				6350F8B520E3359B00176219 /* UIImageView.swift in Sources */,
+				63A989F520EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift in Sources */,
 				638A269D20EC598900170762 /* OtherViewController.swift in Sources */,
 				633D0AB520DDFA0F0022A4D9 /* HotGoodModel.swift in Sources */,
 				63BD7E5020EB5A0400C01219 /* UINavigationBar+Awesome.m in Sources */,
@@ -952,6 +963,7 @@
 				633F8CD120CF66CF00D227AF /* WRProxy.swift in Sources */,
 				634DB1D520E7636C00D5016A /* ClassifyPageViewController.swift in Sources */,
 				63FBEE6E209178CC00BE6B81 /* PHRequest.swift in Sources */,
+				63A989F820EF1F6C005AD5BB /* Date.swift in Sources */,
 				63388BFC20C6392A006713AA /* NSObject.swift in Sources */,
 				6366E05520D0CB0A00CB634B /* IndexClassifyCollectionViewCell.swift in Sources */,
 				638A269A20EC4D9700170762 /* MyMenuCollectionViewCell.swift in Sources */,

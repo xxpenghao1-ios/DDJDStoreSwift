@@ -18,6 +18,8 @@ struct OrderGoodModel:Mappable{
     var goodsSumCount:Int?
     ///商品价格
     var goodsUprice:Double?
+    ///商品单位
+    var goodUnit:String?
     ///商品是否可以退换
     var returnGoodsFlag:Int?
     init?(map: Map) {
@@ -28,6 +30,7 @@ struct OrderGoodModel:Mappable{
         goodPic <- map["goodPic"]
         goodsSumCount <- map["goodsSumCount"]
         goodsUprice <- map["goodsUprice"]
+        goodUnit <- map["goodUnit"]
         returnGoodsFlag <- map["returnGoodsFlag"]
     }
 }
