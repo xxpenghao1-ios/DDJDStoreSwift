@@ -30,7 +30,9 @@ class IndexClassifyCollectionViewCell:UICollectionViewCell{
     }
     //传入数据
     func updateCell(model:GoodsCategoryModel){
+
         name.text=model.goodsCategoryName
+
         imgView.ph_setImage(withUrlString:HTTP_URL_IMG+(model.goodsCategoryIco ?? ""), placeholderImgName:"fl_defualt")
 
     }

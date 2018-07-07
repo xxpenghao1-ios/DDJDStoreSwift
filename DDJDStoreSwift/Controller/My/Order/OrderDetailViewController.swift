@@ -14,8 +14,11 @@ import RxDataSources
 ///订单详情
 class OrderDetailViewController:BaseViewController{
 
-    ///声明闭包 发送取消订单告诉订单列表
+    ///声明闭包 取消订单成功告诉订单列表
     var cancelOrderClosure:(() -> Void)?
+
+    ///声明闭包 确认收货成功告诉订单列表
+    var confirmTheGoodsClosure:(() -> Void)?
 
     ///接收订单Id
     var orderinfoId:Int?
@@ -80,6 +83,7 @@ extension OrderDetailViewController{
             }else if model.orderStatus == 2{
                 self?.lblOrderStatus.text="已发货"
                 self?.btn.setTitle("确认收货", for: UIControlState.normal)
+                self?.confirmTheGoods()
             }else if model.orderStatus == 3{
                 self?.lblOrderStatus.text="已完成"
                 self?.btn.isHidden=true
@@ -93,8 +97,16 @@ extension OrderDetailViewController{
 
         ///取消订单结果
         vm.cancelOrderResult?.subscribe(onNext: { [weak self] (result) in
-            if result{//取消订单成功 跳转页面
-                self?.cancelOrderClosure?()
+            if result{//取消订单成功 返回订单列表
+                self?.cancelOrderClosure?() ///订单列表刷新数据
+                self?.navigationController?.popViewController(animated:true)
+            }
+        }).disposed(by:rx_disposeBag)
+
+        ///确认收货
+        vm.confirmTheGoodsResult?.subscribe(onNext: { [weak self] (result) in
+            if result{//确认收货成功 返回订单列表
+                self?.confirmTheGoodsClosure?() ///订单列表刷新数据
                 self?.navigationController?.popViewController(animated:true)
             }
         }).disposed(by:rx_disposeBag)
@@ -102,8 +114,22 @@ extension OrderDetailViewController{
     ///取消订单
     private func cancelOrder(){
         ///调用取消订单
+        btn.rx.tap.asObservable().subscribe(onNext: { (_) in
+            weak var weakSelf=self
+            if weakSelf == nil{
+                return
+            }
+            UIAlertController.showAlertYesNo(weakSelf!, title:"提示", message:"您确定要取消订单吗?", cancelButtonTitle:"取消", okButtonTitle:"确定", okHandler: { (action) in
+                weakSelf!.vm.cancelOrderPS.onNext(true)
+            })
+
+        }).disposed(by:rx_disposeBag)
+    }
+    ///确认收货
+    private func confirmTheGoods(){
+        ///调用确认收货
         btn.rx.tap.asObservable().subscribe(onNext: { [weak self] (_) in
-            self?.vm.cancelOrderPS.onNext(true)
+            self?.vm.confirmTheGoodsPS.onNext(true)
         }).disposed(by:rx_disposeBag)
     }
 }

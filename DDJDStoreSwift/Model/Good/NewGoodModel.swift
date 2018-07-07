@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 ///新品推荐商品
-struct NewGoodModel:Mappable {
+class NewGoodModel:Mappable {
     var carNumber:Int?
     ///供应商id
     var supplierId:Int?
@@ -31,10 +31,20 @@ struct NewGoodModel:Mappable {
     var uprice:String?
     /// 该商品是否被重新分配给了分销商或物流配送商1-未分配  2-分配了
     var isDistribution:Int?
-    init?(map: Map) {
+    /// 最低起送量
+    var miniCount:Int?
+    /// 加减基数，就是在购物车添加商品的时候每次添加都会按这个goodsBaseCount得数量添加
+    var goodsBaseCount:Int?
+    /// 商品库存  -1 库存充足
+    var goodsStock:Int?
+    /// 单位
+    var goodUnit:String?
+    /// 建议零售价
+    var uitemPrice:String?
+    required init?(map: Map) {
 
     }
-    mutating func mapping(map: Map) {
+    func mapping(map: Map) {
         carNumber <- map["carNumber"]
         supplierId <- map["supplierId"]
         goodsbasicinfoId <- map["goodsbasicinfoId"]
@@ -46,6 +56,11 @@ struct NewGoodModel:Mappable {
         ucode <- map["ucode"]
         uprice <- map["uprice"]
         isDistribution <- map["isDistribution"]
+        miniCount <- map["miniCount"]
+        goodsBaseCount <- map["goodsBaseCount"]
+        goodsStock <- map["goodsStock"]
+        goodUnit <- map["goodUnit"]
+        uitemPrice <- map["uitemPrice"]
     }
 
 }

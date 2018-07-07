@@ -18,6 +18,7 @@ target ‘DDJDStoreSwift’ do
     pod 'iCarousel' #旋转木马效果
     pod 'WMPageController' #分页效果
     pod 'KMNavigationBarTransition'#一个用来统一管理导航栏转场以及当 push 或者 pop 的时候使动画效果更加顺滑的通用库，并且同时支持竖屏和横屏。你不用为这个库写一行代码，所有的改变都悄然发生。
+    pod 'DZNEmptyDataSet'  #空视图提示
     #rx
     pod 'RxSwift'
     pod 'RxCocoa'

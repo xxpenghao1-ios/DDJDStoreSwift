@@ -307,6 +307,12 @@ extension IndexViewController:iCarouselDataSource,iCarouselDelegate{
         }
         return itemView
     }
+    ///点击事件
+    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
+        let vc=NewGoodViewController() 
+        vc.hidesBottomBarWhenPushed=true
+        self.navigationController?.pushViewController(vc, animated:true)
+    }
     func carousel(_ carousel: iCarousel,valueFor option:iCarouselOption, withDefault value: CGFloat) -> CGFloat {
         if (option == .spacing) {
             return value * 1.1

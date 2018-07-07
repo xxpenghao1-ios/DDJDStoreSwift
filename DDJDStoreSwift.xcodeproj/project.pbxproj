@@ -65,6 +65,13 @@
 		637FAEF320EDFB1F00299D29 /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637FAEF220EDFB1F00299D29 /* OrderDetailViewController.swift */; };
 		637FAEF520EE003600299D29 /* OrderDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 637FAEF420EE003600299D29 /* OrderDetail.storyboard */; };
 		637FAEF720EE0F0800299D29 /* OrderDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637FAEF620EE0F0800299D29 /* OrderDetailViewModel.swift */; };
+		6380069020F0548B00D39044 /* EmptyData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6380068F20F0548B00D39044 /* EmptyData+Extension.swift */; };
+		6380069420F05A4C00D39044 /* NewGoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6380069320F05A4C00D39044 /* NewGoodViewController.swift */; };
+		6380069620F05CC600D39044 /* GoodAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6380069520F05CC600D39044 /* GoodAPI.swift */; };
+		6380069A20F0656E00D39044 /* NewGoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6380069920F0656E00D39044 /* NewGoodViewModel.swift */; };
+		638006A220F06BC500D39044 /* NewGoodListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638006A020F06BC500D39044 /* NewGoodListTableViewCell.swift */; };
+		638006A320F06BC500D39044 /* NewGoodListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638006A120F06BC500D39044 /* NewGoodListTableViewCell.xib */; };
+		638006A620F097EA00D39044 /* GMStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638006A520F097EA00D39044 /* GMStepper.swift */; };
 		638A269A20EC4D9700170762 /* MyMenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A269920EC4D9700170762 /* MyMenuCollectionViewCell.swift */; };
 		638A269D20EC598900170762 /* OtherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A269C20EC598900170762 /* OtherViewController.swift */; };
 		638A26A220EC7BD500170762 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A26A120EC7BD500170762 /* MessageViewController.swift */; };
@@ -173,6 +180,13 @@
 		637FAEF220EDFB1F00299D29 /* OrderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
 		637FAEF420EE003600299D29 /* OrderDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OrderDetail.storyboard; sourceTree = "<group>"; };
 		637FAEF620EE0F0800299D29 /* OrderDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewModel.swift; sourceTree = "<group>"; };
+		6380068F20F0548B00D39044 /* EmptyData+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmptyData+Extension.swift"; sourceTree = "<group>"; };
+		6380069320F05A4C00D39044 /* NewGoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGoodViewController.swift; sourceTree = "<group>"; };
+		6380069520F05CC600D39044 /* GoodAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodAPI.swift; sourceTree = "<group>"; };
+		6380069920F0656E00D39044 /* NewGoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGoodViewModel.swift; sourceTree = "<group>"; };
+		638006A020F06BC500D39044 /* NewGoodListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGoodListTableViewCell.swift; sourceTree = "<group>"; };
+		638006A120F06BC500D39044 /* NewGoodListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewGoodListTableViewCell.xib; sourceTree = "<group>"; };
+		638006A520F097EA00D39044 /* GMStepper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMStepper.swift; sourceTree = "<group>"; };
 		638A269920EC4D9700170762 /* MyMenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		638A269C20EC598900170762 /* OtherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherViewController.swift; sourceTree = "<group>"; };
 		638A26A120EC7BD500170762 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
@@ -289,8 +303,6 @@
 			children = (
 				633D0AB120DDE3F70022A4D9 /* SpecialAndPromotionsModel.swift */,
 				633F8CD920CFB29500D227AF /* AdvertisingModel.swift */,
-				633D0AB420DDFA0F0022A4D9 /* HotGoodModel.swift */,
-				633B855B20E6050500F714D7 /* NewGoodModel.swift */,
 				634DB1D120E7557C00D5016A /* AdMessgInfoModel.swift */,
 			);
 			path = Index;
@@ -353,6 +365,7 @@
 		6341DB2F2094125D00AC267D /* Vender */ = {
 			isa = PBXGroup;
 			children = (
+				638006A420F097EA00D39044 /* GMStepper */,
 				63BD7E4B20EB5A0400C01219 /* LTNavigationBar */,
 				633F8CCD20CF66CF00D227AF /* WRCycleScrollView */,
 			);
@@ -362,6 +375,7 @@
 		6341DB302094127300AC267D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6380069C20F06B6500D39044 /* Good */,
 				63BD7E4420EB4C7500C01219 /* My */,
 				634DB1DF20E7758300D5016A /* Classify */,
 				633D0AB620DE26290022A4D9 /* Public */,
@@ -373,6 +387,7 @@
 		6341DB312094129F00AC267D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				6380069B20F0662E00D39044 /* Good */,
 				638A26A820EC996A00170762 /* My */,
 				633D0AB320DDF9DA0022A4D9 /* Index */,
 				6341DB322094183500AC267D /* StoreModel.swift */,
@@ -389,6 +404,7 @@
 				634DB1D620E7685200D5016A /* ClassifyAPI.swift */,
 				638A26A320EC7C9700170762 /* MyAPI.swift */,
 				637FAEDD20EDA32500299D29 /* OrderAPI.swift */,
+				6380069520F05CC600D39044 /* GoodAPI.swift */,
 			);
 			path = NetworkRequest;
 			sourceTree = "<group>";
@@ -396,6 +412,7 @@
 		6341DB3920945F8F00AC267D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				6380069720F0655800D39044 /* Good */,
 				63BD7E4720EB507400C01219 /* My */,
 				634DB1D820E76A5100D5016A /* Classify */,
 				633F8CD620CFAA0D00D227AF /* Index */,
@@ -497,6 +514,72 @@
 				63A989F420EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib */,
 			);
 			path = Order;
+			sourceTree = "<group>";
+		};
+		6380069120F05A2B00D39044 /* Good */ = {
+			isa = PBXGroup;
+			children = (
+				6380069220F05A3200D39044 /* NewGood */,
+			);
+			path = Good;
+			sourceTree = "<group>";
+		};
+		6380069220F05A3200D39044 /* NewGood */ = {
+			isa = PBXGroup;
+			children = (
+				6380069320F05A4C00D39044 /* NewGoodViewController.swift */,
+			);
+			path = NewGood;
+			sourceTree = "<group>";
+		};
+		6380069720F0655800D39044 /* Good */ = {
+			isa = PBXGroup;
+			children = (
+				6380069820F0655E00D39044 /* NewGood */,
+			);
+			path = Good;
+			sourceTree = "<group>";
+		};
+		6380069820F0655E00D39044 /* NewGood */ = {
+			isa = PBXGroup;
+			children = (
+				6380069920F0656E00D39044 /* NewGoodViewModel.swift */,
+			);
+			path = NewGood;
+			sourceTree = "<group>";
+		};
+		6380069B20F0662E00D39044 /* Good */ = {
+			isa = PBXGroup;
+			children = (
+				633B855B20E6050500F714D7 /* NewGoodModel.swift */,
+				633D0AB420DDFA0F0022A4D9 /* HotGoodModel.swift */,
+			);
+			path = Good;
+			sourceTree = "<group>";
+		};
+		6380069C20F06B6500D39044 /* Good */ = {
+			isa = PBXGroup;
+			children = (
+				6380069D20F06B7600D39044 /* NewGood */,
+			);
+			path = Good;
+			sourceTree = "<group>";
+		};
+		6380069D20F06B7600D39044 /* NewGood */ = {
+			isa = PBXGroup;
+			children = (
+				638006A020F06BC500D39044 /* NewGoodListTableViewCell.swift */,
+				638006A120F06BC500D39044 /* NewGoodListTableViewCell.xib */,
+			);
+			path = NewGood;
+			sourceTree = "<group>";
+		};
+		638006A420F097EA00D39044 /* GMStepper */ = {
+			isa = PBXGroup;
+			children = (
+				638006A520F097EA00D39044 /* GMStepper.swift */,
+			);
+			path = GMStepper;
 			sourceTree = "<group>";
 		};
 		638A269B20EC596F00170762 /* Other */ = {
@@ -662,6 +745,7 @@
 		63FBEE722091AABA00BE6B81 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6380069120F05A2B00D39044 /* Good */,
 				63BD7E4120EB179700C01219 /* My */,
 				634DB1D320E7632C00D5016A /* Classify */,
 				633F8CCA20CF5CB300D227AF /* TabBar */,
@@ -684,6 +768,7 @@
 			isa = PBXGroup;
 			children = (
 				63FBEE772091AB5A00BE6B81 /* BaseViewController.swift */,
+				6380068F20F0548B00D39044 /* EmptyData+Extension.swift */,
 			);
 			path = BaseViewController;
 			sourceTree = "<group>";
@@ -798,6 +883,7 @@
 				63A989F620EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib in Resources */,
 				63FBEE462091746F00BE6B81 /* LaunchScreen.storyboard in Resources */,
 				637FAEF520EE003600299D29 /* OrderDetail.storyboard in Resources */,
+				638006A320F06BC500D39044 /* NewGoodListTableViewCell.xib in Resources */,
 				63FBEE432091746F00BE6B81 /* Assets.xcassets in Resources */,
 				638A26B020ECA33000170762 /* MessageTableViewCell.xib in Resources */,
 				63FBEE3E2091746C00BE6B81 /* Main.storyboard in Resources */,
@@ -849,6 +935,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-DDJDStoreSwift/Pods-DDJDStoreSwift-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
 				"${BUILT_PRODUCTS_DIR}/Differentiator/Differentiator.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/KMNavigationBarTransition/KMNavigationBarTransition.framework",
@@ -871,6 +958,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Differentiator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMNavigationBarTransition.framework",
@@ -903,6 +991,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6366E05220D0C28F00CB634B /* GoodsCategoryModel.swift in Sources */,
+				638006A620F097EA00D39044 /* GMStepper.swift in Sources */,
 				634DB1CC20E72CC600D5016A /* UIImage.swift in Sources */,
 				633B855E20E60D6D00F714D7 /* IndexNewGoodView.swift in Sources */,
 				633B855C20E6050500F714D7 /* NewGoodModel.swift in Sources */,
@@ -922,10 +1011,12 @@
 				638A26AB20EC998400170762 /* MessageModel.swift in Sources */,
 				633F8CC920CF5A5B00D227AF /* IndexViewController.swift in Sources */,
 				633F8CD320CF66CF00D227AF /* WRCycleCell.swift in Sources */,
+				6380069420F05A4C00D39044 /* NewGoodViewController.swift in Sources */,
 				63FBEE752091AAFA00BE6B81 /* LoginController.swift in Sources */,
 				6333E75120930C3300CEC3B7 /* UILabel.swift in Sources */,
 				6350F8BA20E3761700176219 /* MJRefresh.swift in Sources */,
 				634DB1D020E7326500D5016A /* Runtime+Extension.swift in Sources */,
+				638006A220F06BC500D39044 /* NewGoodListTableViewCell.swift in Sources */,
 				63FBEE712091A35900BE6B81 /* PublicAPPRelated.swift in Sources */,
 				63BD7E4320EB17BB00C01219 /* MyViewController.swift in Sources */,
 				6333E74B2092D23200CEC3B7 /* UITextField.swift in Sources */,
@@ -941,6 +1032,7 @@
 				637FAEE820EDABE200299D29 /* OrderPageViewController.swift in Sources */,
 				6341DB3E2094602300AC267D /* LoginViewModel.swift in Sources */,
 				638A26A220EC7BD500170762 /* MessageViewController.swift in Sources */,
+				6380069A20F0656E00D39044 /* NewGoodViewModel.swift in Sources */,
 				634DB1E120E7762F00D5016A /* ClassifyCollectionViewCell.swift in Sources */,
 				637FAEF720EE0F0800299D29 /* OrderDetailViewModel.swift in Sources */,
 				63FBEE392091746B00BE6B81 /* AppDelegate.swift in Sources */,
@@ -958,6 +1050,7 @@
 				63BD7E5020EB5A0400C01219 /* UINavigationBar+Awesome.m in Sources */,
 				637FAEF320EDFB1F00299D29 /* OrderDetailViewController.swift in Sources */,
 				63FBEE782091AB5A00BE6B81 /* BaseViewController.swift in Sources */,
+				6380069020F0548B00D39044 /* EmptyData+Extension.swift in Sources */,
 				630A010D20C90C5D00DE104D /* RxSwift.swift in Sources */,
 				6341DB3620941FB400AC267D /* LoginAndRegisterAPI.swift in Sources */,
 				633F8CD120CF66CF00D227AF /* WRProxy.swift in Sources */,
@@ -967,6 +1060,7 @@
 				63388BFC20C6392A006713AA /* NSObject.swift in Sources */,
 				6366E05520D0CB0A00CB634B /* IndexClassifyCollectionViewCell.swift in Sources */,
 				638A269A20EC4D9700170762 /* MyMenuCollectionViewCell.swift in Sources */,
+				6380069620F05CC600D39044 /* GoodAPI.swift in Sources */,
 				637FAEEA20EDADAD00299D29 /* OrderViewController.swift in Sources */,
 				634DB1E320E7798F00D5016A /* GoodClassifyTableViewCell.swift in Sources */,
 				6333E74D2092EB1300CEC3B7 /* UIButton.swift in Sources */,

@@ -28,16 +28,43 @@ class OrderDetailViewModel:NSObject{
     ///取消订单结果
     var cancelOrderResult:Observable<Bool>?
 
+    ///确认收货 随便传入一个值反正不用
+    var confirmTheGoodsPS=PublishSubject<Bool>()
+
+    ///确认收货结果
+    var confirmTheGoodsResult:Observable<Bool>?
+
     init(orderinfoId:Int?) {
         super.init()
         ///获取订单详情
         setOrderInfo4AndroidByorderId(orderinfoId:orderinfoId)
         ///取消订单
         cancelOrder(orderinfoId:orderinfoId)
+        ///确认收货
+        confirmTheGoods(orderinfoId:orderinfoId)
+    }
+    ///确认收货
+    private func confirmTheGoods(orderinfoId:Int?){
+        confirmTheGoodsResult=confirmTheGoodsPS.flatMapLatest({ (_) -> Observable<ResponseResult> in
+            return PHRequest.shared.requestJSONObject(target:OrderAPI.updataOrderStatus4Store(orderinfoId:orderinfoId ?? 0))
+        }).map({ (result) -> Bool in
+            switch result{
+            case let .success(json:json):
+                let success=json["success"].stringValue
+                if success == "success"{
+                    PHProgressHUD.showSuccess("收货成功")
+                    return true
+                }else{
+                    PHProgressHUD.showError("收货失败")
+                    return false
+                }
+            default:return false
+            }
+        })
     }
     ///取消订单
     private func cancelOrder(orderinfoId:Int?){
-        cancelOrderResult=cancelOrderPS.flatMapFirst { (_) -> Observable<ResponseResult> in
+        cancelOrderResult=cancelOrderPS.flatMapLatest { (_) -> Observable<ResponseResult> in
             PHProgressHUD.showLoading("正在取消订单...")
             return PHRequest.shared.requestJSONObject(target:OrderAPI.storeCancelOrder(orderId:orderinfoId ?? 0))
 

@@ -1,8 +1,8 @@
 //
-//  OrderViewModel.swift
+//  NewGoodViewModel.swift
 //  DDJDStoreSwift
 //
-//  Created by hao peng on 2018/7/5.
+//  Created by hao peng on 2018/7/7.
 //  Copyright © 2018年 zldd. All rights reserved.
 //
 
@@ -10,14 +10,13 @@ import Foundation
 import RxCocoa
 import RxSwift
 import RxDataSources
-///订单vm
-class OrderViewModel:NSObject,OutputRefreshProtocol{
+///新品推荐
+class NewGoodViewModel:NSObject,OutputRefreshProtocol{
+    ///新品数据
+    var newGoodArrModelBR=BehaviorRelay<[SectionModel<String,NewGoodModel>]>(value:[])
 
-    ///订单数据
-    var orderArrModelBR=BehaviorRelay<[SectionModel<String,OrderModel>]>(value:[])
-
-    ///保存订单数据
-    var orderArrModel=[OrderModel]()
+    ///保存新品数据
+    var newGoodArrModel=[NewGoodModel]()
 
     ///发送网络请求(true)刷新数据 false加载下一页
     var requestNewDataCommond = PublishSubject<Bool>()
@@ -30,41 +29,37 @@ class OrderViewModel:NSObject,OutputRefreshProtocol{
 
     ///刷新状态
     var refreshStatus = BehaviorRelay<PHRefreshStatus>(value:.none)
-
-    ///传入订单状态
-    init(orderStatus:Int?) {
+    override init() {
         super.init()
         requestNewDataCommond
+            .startWith(true)//默认刷新数据加载
             .subscribe(onNext: { [weak self] (b) in
                 if b {//重新加载数据
                     self?.currentPage=1
-                    self?.getOrderInfo4AndroidStoreByOrderStatus(b:b, orderStatus: orderStatus)
+                    self?.getNewGood(b:b)
                 }else{///加载下一页
                     self?.currentPage+=1
-                    self?.getOrderInfo4AndroidStoreByOrderStatus(b:b, orderStatus: orderStatus)
+                    self?.getNewGood(b:b)
                 }
             }).disposed(by:rx_disposeBag)
     }
-}
-
-extension OrderViewModel{
-    ///查询消息
-    private func getOrderInfo4AndroidStoreByOrderStatus(b:Bool,orderStatus:Int?){
+    ///获取新品推荐商品
+    private func getNewGood(b:Bool){
         weak var weakSelf=self
         if weakSelf == nil{
             return
         }
-        PHRequest.shared.requestJSONArrModel(target:OrderAPI.queryOrderInfo4AndroidStoreByOrderStatus(orderStatus:orderStatus ?? 0, storeId:store_Id!, pageSize: pageSize, currentPage:currentPage), model:OrderModel.self).subscribe(onNext: { (arr) in
+        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryGoodsForAndroidIndexForStoreNew(storeId:store_Id!, pageSize:pageSize, currentPage:currentPage), model:NewGoodModel.self).subscribe(onNext: {  (arr) in
             if b == true{///刷新
                 ///每次获取最新的数据
-                weakSelf!.orderArrModel=arr
-                weakSelf!.orderArrModelBR.accept([SectionModel.init(model:"",items:weakSelf!.orderArrModel)])
+                weakSelf!.newGoodArrModel=arr
+                weakSelf!.newGoodArrModelBR.accept([SectionModel.init(model:"",items:weakSelf!.newGoodArrModel)])
 
 
             }else{//加载更多
                 ///追加数据
-                weakSelf!.orderArrModel+=arr
-                weakSelf!.orderArrModelBR.accept([SectionModel.init(model:"",items:weakSelf!.orderArrModel)])
+                weakSelf!.newGoodArrModel+=arr
+                weakSelf!.newGoodArrModelBR.accept([SectionModel.init(model:"",items:weakSelf!.newGoodArrModel)])
             }
             weakSelf!.refreshStatus.accept(.endHeaderRefresh)
             weakSelf!.refreshStatus.accept(.endFooterRefresh)
@@ -76,9 +71,9 @@ extension OrderViewModel{
             if weakSelf!.currentPage > 1{
                 weakSelf!.currentPage-=1
             }
-            phLog("获取消息信息发送错误:\(error.localizedDescription)")
             weakSelf!.refreshStatus.accept(.endHeaderRefresh)
             weakSelf!.refreshStatus.accept(.endFooterRefresh)
+            phLog("获取新品推荐列表数据出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }
 }

@@ -55,9 +55,10 @@ extension OrderViewController:Refreshable{
             let vc=UIStoryboard(name:"OrderDetail", bundle:nil).instantiateViewController(withIdentifier:"OrderDetailVC") as! OrderDetailViewController
             vc.orderinfoId=model.orderinfoId
             vc.cancelOrderClosure = { //取消订单后删除对应数据
-                var modelArr=self?.vm.orderArrModelBR.value[0].items
-                modelArr?.remove(at:indexPath.row)
-                self?.vm.orderArrModelBR.accept([SectionModel.init(model:"", items:modelArr!)])
+                self?.removeModelArr(index:indexPath.row)
+            }
+            vc.confirmTheGoodsClosure = { //确认收货后删除对应数据
+                self?.removeModelArr(index:indexPath.row)
             }
             self?.navigationController?.pushViewController(vc, animated:true)
         }).disposed(by:rx_disposeBag)
@@ -72,6 +73,12 @@ extension OrderViewController:Refreshable{
         ///自动匹配当前刷新状态
         vm.autoSetRefreshHeaderStatus(header:refreshHeader, footer: refreshFooter).disposed(by:rx_disposeBag)
 
+    }
+    ///删除对应model
+    private func removeModelArr(index:Int){
+        var modelArr=self.vm.orderArrModelBR.value[0].items
+        modelArr.remove(at:index)
+        self.vm.orderArrModelBR.accept([SectionModel.init(model:"", items:modelArr)])
     }
 }
 extension OrderViewController:UITableViewDelegate{
