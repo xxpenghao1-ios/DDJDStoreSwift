@@ -13,10 +13,10 @@ import RxDataSources
 ///新品推荐
 class NewGoodViewModel:NSObject,OutputRefreshProtocol{
     ///新品数据
-    var newGoodArrModelBR=BehaviorRelay<[SectionModel<String,NewGoodModel>]>(value:[])
+    var newGoodArrModelBR=BehaviorRelay<[SectionModel<String,GoodDetailModel>]>(value:[])
 
     ///保存新品数据
-    var newGoodArrModel=[NewGoodModel]()
+    var newGoodArrModel=[GoodDetailModel]()
 
     ///发送网络请求(true)刷新数据 false加载下一页
     var requestNewDataCommond = PublishSubject<Bool>()
@@ -49,7 +49,7 @@ class NewGoodViewModel:NSObject,OutputRefreshProtocol{
         if weakSelf == nil{
             return
         }
-        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryGoodsForAndroidIndexForStoreNew(storeId:store_Id!, pageSize:pageSize, currentPage:currentPage), model:NewGoodModel.self).subscribe(onNext: {  (arr) in
+        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryGoodsForAndroidIndexForStoreNew(storeId:store_Id!, pageSize:pageSize, currentPage:currentPage), model:GoodDetailModel.self).subscribe(onNext: {  (arr) in
             if b == true{///刷新
                 ///每次获取最新的数据
                 weakSelf!.newGoodArrModel=arr

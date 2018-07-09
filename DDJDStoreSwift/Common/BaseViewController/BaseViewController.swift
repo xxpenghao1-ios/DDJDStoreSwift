@@ -42,7 +42,7 @@ class BaseViewController:UIViewController {
 extension BaseViewController{
     ///是否登录
     private func isLogin(){
-        if store_Id == nil || county_Id == nil || substation_Id == nil{
+        if store_Id == nil || county_Id == nil || substation_Id == nil || member_Id == nil{
             UIAlertController.showAlertYes(self,title:"提示", message:"您的登录信息已过期,请重新登录", okButtonTitle:"确定") { (action) in
                 APP.jumpToLoginVC()
             }
@@ -55,6 +55,7 @@ extension BaseViewController{
         USER_DEFAULTS.removeObject(forKey:"county")
         USER_DEFAULTS.removeObject(forKey:"substationId")
         USER_DEFAULTS.removeObject(forKey:"storeName")
+        USER_DEFAULTS.removeObject(forKey:"memberId")
         USER_DEFAULTS.synchronize()
     }
 }

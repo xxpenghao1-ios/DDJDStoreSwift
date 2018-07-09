@@ -7,10 +7,10 @@
 //
 import UIKit
 ///图片请求路径
-let HTTP_URL_IMG="http://192.168.199.215"; //http://www.hnddjd.com/front/
+let HTTP_URL_IMG="http://192.168.199.216"; //http://www.hnddjd.com/front/
 ///c.hnddjd.com
 ///数据请求路径
-let HTTP_URL="http://192.168.199.215/front/";
+let HTTP_URL="http://192.168.199.216/front/";
 
 /// 屏幕宽
 let SCREEN_WIDTH=UIScreen.main.bounds.width
@@ -49,6 +49,12 @@ var county_Id:String?{
 var store_Id:String?{
     get{
         return USER_DEFAULTS.object(forKey:"storeId") as? String
+    }
+}
+///会员id
+var member_Id:String?{
+    get{
+        return USER_DEFAULTS.object(forKey:"memberId") as? String
     }
 }
 ///分站id

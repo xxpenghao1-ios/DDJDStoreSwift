@@ -1,21 +1,25 @@
 //
-//  NewGoodModel.swift
+//  GoodDetailModel.swift
 //  DDJDStoreSwift
 //
-//  Created by hao peng on 2018/6/29.
+//  Created by hao peng on 2018/7/9.
 //  Copyright © 2018年 zldd. All rights reserved.
 //
 
 import Foundation
 import ObjectMapper
-///新品推荐商品
-class NewGoodModel:Mappable {
+///商品详情
+struct GoodDetailModel:Mappable{
     ///供应商id
     var supplierId:Int?
-    ///商品id
+    ///商品名称
     var goodsbasicinfoId:Int?
     ///商品名称
     var goodInfoName:String?
+    ///描述
+    var remark:String?
+    ///时间
+    var ctime:String?
     ///配送商id
     var subSupplier:Int?
     ///商品图片路径
@@ -24,6 +28,8 @@ class NewGoodModel:Mappable {
     var ucode:String?
     ///商品价格
     var uprice:String?
+    /// 该商品是否被重新分配给了分销商或物流配送商1-未分配  2-分配了
+    var isDistribution:Int?
     /// 最低起送量
     var miniCount:Int?
     /// 加减基数，就是在购物车添加商品的时候每次添加都会按这个goodsBaseCount得数量添加
@@ -34,22 +40,46 @@ class NewGoodModel:Mappable {
     var goodUnit:String?
     /// 建议零售价
     var uitemPrice:String?
-    required init?(map: Map) {
+    /// 销量
+    var salesCount:Int?
+    /// 特价价格
+    var prefertialPrice:String?
+    /// 配送商名称
+    var supplierName:String?
+    /// 条码
+    var goodInfoCode:String?
+    /// 保质期
+    var goodLife:String?
+    /// 是否是促销商品 1是
+    var isPromotionFlag:Int?
+    /// 促销期号
+    var promotionNumber:Int?
+    init(){}
+    init?(map: Map) {
 
     }
-    func mapping(map: Map) {
+    mutating func mapping(map: Map) {
         supplierId <- map["supplierId"]
         goodsbasicinfoId <- map["goodsbasicinfoId"]
         goodInfoName <- map["goodInfoName"]
+        remark <- map["remark"]
+        ctime <- map["ctime"]
         subSupplier <- map["subSupplier"]
         goodPic <- map["goodPic"]
         ucode <- map["ucode"]
         uprice <- map["uprice"]
+        isDistribution <- map["isDistribution"]
         miniCount <- map["miniCount"]
         goodsBaseCount <- map["goodsBaseCount"]
         goodsStock <- map["goodsStock"]
         goodUnit <- map["goodUnit"]
         uitemPrice <- map["uitemPrice"]
+        salesCount <- map["salesCount"]
+        prefertialPrice <- map["prefertialPrice"]
+        supplierName <- map["supplierName"]
+        goodInfoCode <- map["goodInfoCode"]
+        goodLife <- map["goodLife"]
+        isPromotionFlag <- map["isPromotionFlag"]
+        promotionNumber <- map["promotionNumber"]
     }
-
 }

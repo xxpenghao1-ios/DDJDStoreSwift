@@ -38,12 +38,15 @@ extension NewGoodViewController:Refreshable{
     private func bindViewModel(){
 
         ///创建数据源
-        let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,NewGoodModel>>(configureCell:{ (_,table,indexPath,model) in
+        let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"newGoodListId") as? NewGoodListTableViewCell ?? NewGoodListTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"newGoodListId")
             if indexPath.row % 2 == 0{
                 cell.contentView.backgroundColor=UIColor.white
             }else{
                 cell.contentView.backgroundColor=UIColor.viewBgdColor()
+            }
+            cell.pushGoodDetailClosure={ model in
+                self?.pushGoodDetail(model:model, imgView:cell.imgView)
             }
             cell.updateCell(model:model)
             return cell
@@ -64,6 +67,12 @@ extension NewGoodViewController:Refreshable{
         }
         ///自动匹配当前刷新状态
         vm.autoSetRefreshHeaderStatus(header:refreshHeader, footer: refreshFooter).disposed(by:rx_disposeBag)
+    }
+    ///跳转到商品详情
+    private func pushGoodDetail(model:GoodDetailModel,imgView:UIImageView){
+        let vc=UIStoryboard(name:"GoodDetail", bundle:nil).instantiateViewController(withIdentifier:"GoodDetailVC") as! GoodDetailViewController
+        vc.model=model
+        self.navigationController?.pushViewController(vc, animated:true)
     }
 }
 extension NewGoodViewController:UITableViewDelegate{

@@ -9,6 +9,8 @@
 import UIKit
 ///新品推荐Cell
 class NewGoodListTableViewCell: UITableViewCell {
+    ///跳转到商品详情
+    var pushGoodDetailClosure:((_ model:GoodDetailModel) -> Void)?
     ///商品图片
     @IBOutlet weak var imgView:UIImageView!
     ///商品名称
@@ -29,7 +31,8 @@ class NewGoodListTableViewCell: UITableViewCell {
     @IBOutlet weak var stepper: GMStepper!
     ///已售罄
     @IBOutlet weak var to_sell_out_ImgView:UIImageView!
-    
+    ///保存新品model
+    private var model:GoodDetailModel?
     override func awakeFromNib() {
         super.awakeFromNib()
         self.selectionStyle = .none
@@ -39,10 +42,12 @@ class NewGoodListTableViewCell: UITableViewCell {
         stepper.labelFont=UIFont.systemFont(ofSize:16)
         ///设置圆角
         btnAddCar.layer.cornerRadius=15
+        ///点击图片跳转页面
+        imgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodDetail)))
     }
     ///更新cell
-    func updateCell(model:NewGoodModel){
-        model.goodsStock=nil
+    func updateCell(model:GoodDetailModel){
+        self.model=model
         ///每次更新数据先隐藏已售罄图片
         hideTo_sell_out_ImgView()
 
@@ -84,14 +89,22 @@ class NewGoodListTableViewCell: UITableViewCell {
     }
     ///显示已售罄图片
     private func showTo_sell_out_ImgView(){
+        imgView.isUserInteractionEnabled=false
         to_sell_out_ImgView.isHidden=false
         btnAddCar.isHidden=true
     }
     ///隐藏已售罄图片
     private func hideTo_sell_out_ImgView(){
+        imgView.isUserInteractionEnabled=true
         to_sell_out_ImgView.isHidden=true
         btnAddCar.isHidden=false
 
+    }
+    ///跳转到商品详情
+    @objc private func pushGoodDetail(){
+        if model != nil{
+            self.pushGoodDetailClosure?(model!)
+        }
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

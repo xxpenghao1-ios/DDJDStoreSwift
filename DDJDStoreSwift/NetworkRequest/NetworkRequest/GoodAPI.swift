@@ -23,6 +23,8 @@ public enum GoodAPI{
     /// order = seachLetter 根据字母搜索时，必须传 搜索的字母；
     /// seachLetterValue  搜索的字母
     case queryGoodsInfoByCategoryForAndroidForStore(goodsCategoryId:Int,storeId:String,priceScreen:Int?,order:String,tag:Int,seachLetterValue:String?)
+    ///商品详情请求
+    case queryGoodsDetailsForAndroid(goodsbasicinfoId:Int,supplierId:Int,flag:Int?,storeId:String,aaaa:Int,subSupplier:Int,memberId:String,promotionFlag:Int?)
 }
 extension GoodAPI:TargetType{
     public var path: String {
@@ -35,12 +37,14 @@ extension GoodAPI:TargetType{
             return "queryStorePromotionGoodsList.xhtml"
         case .queryGoodsInfoByCategoryForAndroidForStore(_,_,_,_,_,_):
             return "queryGoodsInfoByCategoryForAndroidForStore.xhtml"
+        case .queryGoodsDetailsForAndroid(_,_,_,_,_,_,_,_):
+            return "queryGoodsDetailsForAndroid.xhtml"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .queryGoodsForAndroidIndexForStoreNew(_,_,_),.queryPreferentialAndGoods4Store(_,_,_,_),.queryStorePromotionGoodsList(_,_,_,_),.queryGoodsInfoByCategoryForAndroidForStore(_,_,_,_,_,_):
+        case .queryGoodsForAndroidIndexForStoreNew(_,_,_),.queryPreferentialAndGoods4Store(_,_,_,_),.queryStorePromotionGoodsList(_,_,_,_),.queryGoodsInfoByCategoryForAndroidForStore(_,_,_,_,_,_),.queryGoodsDetailsForAndroid(_,_,_,_,_,_,_,_):
             return .get
         }
     }
@@ -62,6 +66,16 @@ extension GoodAPI:TargetType{
                 return .requestParameters(parameters:["goodsCategoryId":goodsCategoryId,"storeId":storeId,"priceScreen":priceScreen!,"order":order,"tag":tag,"seachLetterValue":seachLetterValue ?? ""], encoding: URLEncoding.default)
             }else{
                 return .requestParameters(parameters:["goodsCategoryId":goodsCategoryId,"storeId":storeId,"order":order,"tag":tag,"seachLetterValue":seachLetterValue ?? ""], encoding: URLEncoding.default)
+            }
+        case let .queryGoodsDetailsForAndroid(goodsbasicinfoId, supplierId, flag, storeId, aaaa, subSupplier, memberId, promotionFlag):
+            if flag != nil{//查询特价商品详情
+                return .requestParameters(parameters:["goodsbasicinfoId":goodsbasicinfoId,"supplierId":supplierId,"flag":flag!,"storeId":storeId,"aaaa":aaaa,"subSupplier":subSupplier,"memberId":memberId], encoding:  URLEncoding.default)
+            }else if promotionFlag != nil{
+                return .requestParameters(parameters:["goodsbasicinfoId":goodsbasicinfoId,"supplierId":supplierId,"storeId":storeId,"aaaa":aaaa,"subSupplier":subSupplier,"memberId":memberId,"promotionFlag":promotionFlag!], encoding:  URLEncoding.default)
+            }else if promotionFlag == nil && flag == nil{
+                return .requestParameters(parameters:["goodsbasicinfoId":goodsbasicinfoId,"supplierId":supplierId,"storeId":storeId,"aaaa":aaaa,"subSupplier":subSupplier,"memberId":memberId], encoding:  URLEncoding.default)
+            }else{
+                return .requestPlain
             }
         }
 
