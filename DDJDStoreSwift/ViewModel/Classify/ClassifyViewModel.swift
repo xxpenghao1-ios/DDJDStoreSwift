@@ -65,9 +65,7 @@ extension ClassifyViewModel{
              case let .success(json:json):
                 self?.parsingJSON(json:json)
                 break
-            case let .faild(message:error):
-                phLog("获取1级分类下面23级分类出错\(error ?? "")")
-                break
+            default:break
             }
         }).disposed(by: rx_disposeBag)
     }
@@ -76,6 +74,7 @@ extension ClassifyViewModel{
         PHRequest.shared.requestJSONArrModel(target:ClassifyAPI.queryCategory4AndroidAll(), model:GoodsCategoryModel.self).subscribe(onNext: { [weak self] (modelArr) in
             self?.goodsCategoryAll2ArrBR.accept([SectionModel.init(model:"", items: modelArr)])
         }, onError: { (error) in
+
             phLog("获取全部23级分类出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }

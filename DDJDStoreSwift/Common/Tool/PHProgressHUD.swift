@@ -15,6 +15,7 @@ public enum HUDType {
     case loading
     case info
     case progress
+    case show
 }
 
 class PHProgressHUD: NSObject {
@@ -25,7 +26,9 @@ class PHProgressHUD: NSObject {
         SVProgressHUD.setDefaultMaskType(.none)
         SVProgressHUD.setMinimumDismissTimeInterval(2)
     }
-
+    class func show(_ status: String){
+        self.showProgressHUD(type: .show, status: status)
+    }
     class func showSuccess(_ status: String) {
         self.showProgressHUD(type: .success, status: status)
     }
@@ -39,7 +42,7 @@ class PHProgressHUD: NSObject {
         self.showProgressHUD(type: .info, status: status)
     }
     class func showProgress(_ status: String, _ progress: CGFloat) {
-        self.showProgressHUD(type: .success, status: status, progress: progress)
+        self.showProgressHUD(type: .progress, status: status, progress: progress)
     }
     class func dismissHUD(_ delay: TimeInterval = 0) {
         SVProgressHUD.dismiss(withDelay: delay)
@@ -60,6 +63,8 @@ extension PHProgressHUD {
             SVProgressHUD.showInfo(withStatus: status)
         case .progress:
             SVProgressHUD.showProgress(Float(progress), status: status)
+        case .show:
+            SVProgressHUD.show(withStatus:status)
         }
     }
 }

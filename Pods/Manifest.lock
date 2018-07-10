@@ -33,6 +33,7 @@ PODS:
   - SVProgressHUD (2.2.5)
   - SwiftyJSON (4.1.0)
   - WMPageController (2.5.2)
+  - WZLBadge (1.2.6)
   - XCGLogger (6.0.4):
     - XCGLogger/Core (= 6.0.4)
   - XCGLogger/Core (6.0.4):
@@ -57,6 +58,7 @@ DEPENDENCIES:
   - SVProgressHUD
   - SwiftyJSON
   - WMPageController
+  - WZLBadge
   - XCGLogger
 
 SPEC REPOS:
@@ -83,6 +85,7 @@ SPEC REPOS:
     - SVProgressHUD
     - SwiftyJSON
     - WMPageController
+    - WZLBadge
     - XCGLogger
 
 SPEC CHECKSUMS:
@@ -108,8 +111,9 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   WMPageController: 0c7624d2b48e4f1ab92371688cf6744ed701575d
+  WZLBadge: 9ec779dcfd94c825518b395e8315fccaabff1bfa
   XCGLogger: 4fc1bc0bdd5828cb8dc8da7a843536cda1bea8f3
 
-PODFILE CHECKSUM: 7319cf1dca51a25b8fd9891d37334a42283dd3fa
+PODFILE CHECKSUM: 820de8c027b5e5f91688ab6ec0facd4e41269852
 
 COCOAPODS: 1.5.0

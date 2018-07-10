@@ -218,7 +218,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="1lu-4B-40Y"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                 <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -234,12 +234,12 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pvq-DG-l3v" customClass="GMStepper" customModule="DDJDStoreSwift" customModuleProvider="target">
-                                        <rect key="frame" x="70" y="10" width="100" height="30"/>
+                                        <rect key="frame" x="70" y="7.5" width="100" height="35"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="100" id="RPf-DL-60a"/>
-                                            <constraint firstAttribute="height" constant="30" id="ddq-EU-eXl"/>
+                                            <constraint firstAttribute="height" constant="35" id="ddq-EU-eXl"/>
                                         </constraints>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="value">
@@ -280,6 +280,13 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MiX-7m-7s0">
+                                        <rect key="frame" x="102" y="10" width="37" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="HT4-F6-tgK"/>
+                                            <constraint firstAttribute="width" constant="37" id="xuf-FS-SL2"/>
+                                        </constraints>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
@@ -288,7 +295,10 @@
                                     <constraint firstItem="Pvq-DG-l3v" firstAttribute="leading" secondItem="EYo-Wt-3LR" secondAttribute="trailing" id="FMx-N6-R6f"/>
                                     <constraint firstAttribute="trailing" secondItem="oKr-rg-uJa" secondAttribute="trailing" constant="15" id="FQk-hZ-bVU"/>
                                     <constraint firstAttribute="bottom" secondItem="EYo-Wt-3LR" secondAttribute="bottom" id="L1h-mT-3lB"/>
+                                    <constraint firstItem="MiX-7m-7s0" firstAttribute="leading" secondItem="EYo-Wt-3LR" secondAttribute="trailing" constant="32" id="RCv-cu-iGV"/>
+                                    <constraint firstItem="MiX-7m-7s0" firstAttribute="top" secondItem="zHn-dB-Uej" secondAttribute="bottom" constant="9" id="VSN-zQ-RXd"/>
                                     <constraint firstAttribute="trailing" secondItem="zHn-dB-Uej" secondAttribute="trailing" id="XYa-Kr-GDe"/>
+                                    <constraint firstAttribute="bottom" secondItem="MiX-7m-7s0" secondAttribute="bottom" constant="10" id="cRJ-Ie-a1Q"/>
                                     <constraint firstItem="EYo-Wt-3LR" firstAttribute="top" secondItem="Y7z-TN-gjB" secondAttribute="top" constant="1" id="hn0-97-rfx"/>
                                     <constraint firstAttribute="height" constant="50" id="i5R-Am-yA5"/>
                                     <constraint firstItem="zHn-dB-Uej" firstAttribute="leading" secondItem="Y7z-TN-gjB" secondAttribute="leading" id="mWT-4U-Uqu"/>
@@ -310,6 +320,7 @@
                     </view>
                     <connections>
                         <outlet property="btnAddCar" destination="oKr-rg-uJa" id="C3q-ev-mLG"/>
+                        <outlet property="btnSelectedGoodCount" destination="MiX-7m-7s0" id="T0v-tj-h4g"/>
                         <outlet property="collectionImgView" destination="9XK-qI-tUy" id="PJF-ej-6Fm"/>
                         <outlet property="goodImgView" destination="sEi-G1-unk" id="Ybi-3t-HFf"/>
                         <outlet property="lblCollection" destination="oW1-JC-bAk" id="zVk-GM-bFn"/>

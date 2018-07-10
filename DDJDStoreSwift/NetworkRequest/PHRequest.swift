@@ -37,10 +37,10 @@ final public class PHRequest:NSObject{
                         let json = try response.mapJSON()
                         observable.onNext(ResponseResult.success(json:JSON(json)))
                     } catch {
-                        observable.onNext(ResponseResult.faild(message:self.failInfo))
+                        observable.onNext(ResponseResult.faild(error:MoyaError.jsonMapping(response)))
                     }
                 case let .failure(error):
-                    observable.onNext(ResponseResult.faild(message:error.localizedDescription))
+                    observable.onNext(ResponseResult.faild(error:error))
                 }
             }
             return Disposables.create()
@@ -59,7 +59,7 @@ final public class PHRequest:NSObject{
                         observable.onError(MoyaError.jsonMapping(response))
                     }
                 case let .failure(error):
-                    observable.onError(MoyaError.requestMapping(error.localizedDescription))
+                    observable.onError(error)
                 }
             }
             return Disposables.create()
@@ -78,7 +78,8 @@ final public class PHRequest:NSObject{
                         observable.onError(MoyaError.jsonMapping(response))
                     }
                 case let .failure(error):
-                    observable.onError(MoyaError.requestMapping(error.localizedDescription))
+
+                    observable.onError(error)
                 }
             }
             return Disposables.create()
@@ -145,8 +146,8 @@ extension TargetType{
 public enum ResponseResult {
     ///成功保存json数据
     case success(json:JSON)
-    ///保存错误信息 基本用不到  RequestLoadingPlugin插件会把错误提示出来
-    case faild(message:String?)
+    ///保存错误信息
+    case faild(error:Error?)
     var json:JSON? {
         switch self {
         case let .success(json):

@@ -69,7 +69,7 @@ class NewGoodListTableViewCell: UITableViewCell {
         }else{
             lblStock.text="库存:\(model.goodsStock ?? 0)"
             ///最大值 库存数
-            stepper.maximumValue=Double(model.goodsStock ?? 0)
+            stepper.maximumValue=Double(model.goodsStock ?? 1)
 
             ///如果库存等于0或者空
             if model.goodsStock == nil || model.goodsStock == 0{

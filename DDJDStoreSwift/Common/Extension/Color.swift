@@ -58,6 +58,9 @@ extension UIColor{
     class func color333() -> UIColor{
         return UIColor.RGBFromHexColor(hexString:"333333")
     }
+    class func colorItem() -> UIColor{
+        return UIColor.RGBFromHexColor(hexString:"9d9d9d")
+    }
 }
 //extension UIColor {
 //    public class func RGBFromHexColor(hexString: String, alpha: CGFloat? = 1.0) -> UIColor {

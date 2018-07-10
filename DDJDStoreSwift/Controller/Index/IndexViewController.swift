@@ -94,15 +94,19 @@ class IndexViewController:BaseViewController,Refreshable{
     }()
 
     ///特价图片
-    private lazy var specialsImgView:UIImageView={
+    private lazy var specialsImgView:UIImageView={ 
         let imageView=UIImageView(frame: CGRect.init(x:175*0.8, y:0, width:SCREEN_WIDTH-30-175*0.8,height:175))
         imageView.image=UIImage.init(named:"index_special")
+        imageView.isUserInteractionEnabled=true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushSpecialVC)))
         return imageView
     }()
     ///促销图片
     private lazy var promotionsImgView:UIImageView={
         let imageView=UIImageView(frame: CGRect.init(x:0,y:0,width:175*0.8,height:175))
         imageView.image=UIImage.init(named:"index_promotion")
+//        imageView.isUserInteractionEnabled=true
+//        imageView.addGestureRecognizer(UITapGestureRecognizer(target:self?, action:#selector(pushSpecialVC)))
         return imageView
     }()
     /******************/
@@ -199,7 +203,7 @@ extension IndexViewController{
         let searchTxtItem=UIBarButtonItem(customView:txtSearch)
         self.navigationItem.rightBarButtonItems=[announcementItem,searchTxtItem]
     }
-
+    ///弹出公告内容
     @objc private func showAnnouncementAction(){
         showAnnouncement(model:viewModel.adMessgInfoBR.value)
     }
@@ -209,6 +213,17 @@ extension IndexViewController{
         let title:String?="点单即到"
         UIAlertController.showAlertYes(self,title:model?.messTitle ?? title, message:model?.messContent ?? message, okButtonTitle:"知道了")
     }
+}
+///跳转页面
+extension IndexViewController{
+    
+    ///跳转到特价页面
+    @objc private func pushSpecialVC(){
+        let vc=SpecialPageViewController()
+        vc.hidesBottomBarWhenPushed=true
+        self.navigationController?.pushViewController(vc, animated:true)
+    }
+
 }
 ///绑定VM
 extension IndexViewController{

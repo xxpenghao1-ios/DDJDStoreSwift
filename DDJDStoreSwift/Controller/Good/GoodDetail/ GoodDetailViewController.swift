@@ -9,7 +9,7 @@
 import Foundation
 ///商品详情
 class GoodDetailViewController:BaseViewController{
-    ///接收商品状态   1特价，2普通,3促销
+    ///接收商品状态   1特价，2普通,3促销  默认普通商品
     var flag:Int=2
 
     ///接收商品model
@@ -48,7 +48,13 @@ class GoodDetailViewController:BaseViewController{
     ///商品销量
     @IBOutlet weak var lblSales:UILabel!
 
+    ///选择商品数量
+    @IBOutlet weak var btnSelectedGoodCount:UIButton!
+
     @IBOutlet weak var table:UITableView!
+
+    ///跳转到购物车按钮
+    private var btnPushCar:UIButton!
 
     private var vm:GoodDetailViewModel!
     override func viewDidLoad() {
@@ -66,6 +72,21 @@ class GoodDetailViewController:BaseViewController{
         table.dataSource=self
         table.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0)
         table.backgroundColor=UIColor.clear
+        ///加入收藏
+        collectionImgView.isUserInteractionEnabled=true
+        collectionImgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(addCollection)))
+
+        ///跳转到购物车按钮
+        btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
+        btnPushCar.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
+        btnPushCar.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
+        let pushCarItem=UIBarButtonItem(customView:btnPushCar)
+        pushCarItem.tintColor=UIColor.colorItem()
+        self.navigationItem.rightBarButtonItem=pushCarItem
+    }
+    ///跳转到购物车
+    @objc private func pushCar(){
+
     }
 }
 ///绑定vm
@@ -81,6 +102,13 @@ extension GoodDetailViewController{
         ///获取订单详情数据
         vm.goodDetailBR.asObservable().subscribe(onNext: { [weak self] (model) in
             self?.goodImgView.ph_setImage(withUrlString:HTTP_URL_IMG+(model.goodPic ?? ""), placeholderImgName:GOOD_DEFAULT_IMG)
+            if model.goodsCollectionStatu == 1{
+                self?.collectionImgView.image=UIImage(named:"has_collection")
+                self?.lblCollection.text="已收藏"
+            }else{
+                self?.collectionImgView.image=UIImage(named:"not_collection")
+                self?.lblCollection.text="收藏"
+            }
             self?.lblGoodName.text=model.goodInfoName
             self?.lblSales.text=model.salesCount?.description
             self?.lblUcode.text="规格:\(model.ucode ?? "")"
@@ -89,13 +117,88 @@ extension GoodDetailViewController{
             self?.lblUitemPrice.text=model.uitemPrice
             self?.title=model.goodInfoName
             self?.stepper.minimumValue=Double(model.miniCount ?? 1)
-            self?.stepper.maximumValue=999
+            ///库存等于-1的时候最多999  否则最大是库存数
+            self?.stepper.maximumValue=model.goodsStock == -1 ? 999 : Double(model.goodsStock ?? 1)
             self?.stepper.stepValue=Double(model.goodsBaseCount ?? 1)
             self?.table.reloadData()
-        }, onError: { (error) in
-
         }).disposed(by:rx_disposeBag)
 
+        ///加入购物车
+        btnAddCar.rx.tap.asObservable().subscribe({ (_) in
+            weak var weakSelf=self
+            if weakSelf == nil{
+                return
+            }
+            weakSelf!.vm.addCarPS.onNext(Int(weakSelf!.stepper.value))
+        }).disposed(by:rx_disposeBag)
+
+        ///更新购物车item按钮数量
+        vm.updateCarItemCountBR.asObservable().subscribe(onNext: { [weak self] (count) in
+            self?.btnPushCar.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
+        }).disposed(by:rx_disposeBag)
+
+        ///选择商品数量
+        btnSelectedGoodCount.rx.tap.asObservable().subscribe(onNext: { (_) in
+            weak var weakSelf=self
+            if weakSelf == nil{
+                return
+            }
+            weakSelf!.selectedGoodCount(model:weakSelf!.vm.goodDetailBR.value)
+        }).disposed(by:rx_disposeBag)
+    }
+    ///加入收藏
+    @objc private func addCollection(){
+        if vm.goodDetailBR.value.goodsCollectionStatu == 1{
+            PHProgressHUD.showInfo("该商品已经收藏了")
+        }else{
+           ///发送加入收藏请求
+           vm.addCollectionPS.onNext(true)
+        }
+    }
+    /**
+     弹出数量选择
+
+     - parameter sender:UIButton
+     */
+    func selectedGoodCount(model:GoodDetailModel){
+        let alertController = UIAlertController(title:nil, message:"输入您要购买的数量", preferredStyle: UIAlertControllerStyle.alert);
+        alertController.addTextField {
+            (textField: UITextField!) -> Void in
+            textField.keyboardType=UIKeyboardType.numberPad
+            if model.goodsStock == -1{//判断库存 等于-1 表示库存充足 由于UI大小最多显示3位数
+                textField.placeholder = "请输入\(model.miniCount ?? 1)~999之间\(model.goodsBaseCount ?? 1)的倍数"
+                textField.tag=999
+            }else{
+                textField.placeholder = "请输入\(model.miniCount ?? 1)~\(model.goodsStock ?? 1)之间\(model.goodsBaseCount ?? 1)的倍数"
+                textField.tag=model.goodsStock ?? 1
+            }
+            NotificationCenter.default.addObserver(self, selector: #selector(self.alertTextFieldDidChange), name: NSNotification.Name.UITextFieldTextDidChange, object: textField)
+        }
+        //确定
+        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ [weak self] Void in
+            let text=(alertController.textFields?.first)! as UITextField
+            self?.stepper.value=Double(text.text!)!
+        })
+        //取消
+        let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.cancel, handler: nil)
+        alertController.addAction(cancelAction)
+        alertController.addAction(okAction)
+        okAction.isEnabled = false
+        self.present(alertController, animated: true, completion: nil)
+    }
+    //检测输入框的字符是否大于库存数量 是解锁确定按钮
+    @objc func alertTextFieldDidChange(_ notification: Notification){
+        let alertController = self.presentedViewController as! UIAlertController?
+        if (alertController != nil) {
+            let text = (alertController!.textFields?.first)! as UITextField
+            let okAction = alertController!.actions.last! as UIAlertAction
+            if text.text?.count > 0{
+                ///当输入数量 是goodsBaseCount的倍数  并且小于等于库存数  大于等于最低起送数量才可以点击确定按钮
+                okAction.isEnabled = Int(text.text!)! % (self.vm.goodDetailBR.value.goodsBaseCount ?? 1) == 0 && Int(text.text!)! <= text.tag && Int(text.text!)! >= (self.vm.goodDetailBR.value.miniCount ?? 1)
+            }else{
+                okAction.isEnabled=false
+            }
+        }
     }
 }
 extension GoodDetailViewController:UITableViewDelegate,UITableViewDataSource{
@@ -112,7 +215,7 @@ extension GoodDetailViewController:UITableViewDelegate,UITableViewDataSource{
         cell.textLabel?.textColor=UIColor.color333()
         cell.detailTextLabel?.font=UIFont.systemFont(ofSize:14)
         cell.detailTextLabel?.textColor=UIColor.textColor()
-        if indexPath.row == 0 || indexPath.row == 1 || indexPath.row == 5{
+        if indexPath.row == 3{
             cell.accessoryType = .disclosureIndicator
         }else{
             cell.accessoryType = .none

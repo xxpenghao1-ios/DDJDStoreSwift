@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 ///商品详情
-struct GoodDetailModel:Mappable{
+class GoodDetailModel:Mappable{
     ///供应商id
     var supplierId:Int?
     ///商品名称
@@ -28,6 +28,8 @@ struct GoodDetailModel:Mappable{
     var ucode:String?
     ///商品价格
     var uprice:String?
+    ///商品原价
+    var oldPrice:String?
     /// 该商品是否被重新分配给了分销商或物流配送商1-未分配  2-分配了
     var isDistribution:Int?
     /// 最低起送量
@@ -43,7 +45,7 @@ struct GoodDetailModel:Mappable{
     /// 销量
     var salesCount:Int?
     /// 特价价格
-    var prefertialPrice:String?
+    var preferentialPrice:String?
     /// 配送商名称
     var supplierName:String?
     /// 条码
@@ -54,11 +56,15 @@ struct GoodDetailModel:Mappable{
     var isPromotionFlag:Int?
     /// 促销期号
     var promotionNumber:Int?
+    ///默认为null；如果=1，此商品被用户收藏
+    var goodsCollectionStatu:Int?
+    ///商品限购数
+    var eachCount:Int?
     init(){}
-    init?(map: Map) {
+    required init?(map: Map) {
 
     }
-    mutating func mapping(map: Map) {
+    func mapping(map: Map) {
         supplierId <- map["supplierId"]
         goodsbasicinfoId <- map["goodsbasicinfoId"]
         goodInfoName <- map["goodInfoName"]
@@ -68,6 +74,7 @@ struct GoodDetailModel:Mappable{
         goodPic <- map["goodPic"]
         ucode <- map["ucode"]
         uprice <- map["uprice"]
+        oldPrice <- map["oldPrice"]
         isDistribution <- map["isDistribution"]
         miniCount <- map["miniCount"]
         goodsBaseCount <- map["goodsBaseCount"]
@@ -75,11 +82,13 @@ struct GoodDetailModel:Mappable{
         goodUnit <- map["goodUnit"]
         uitemPrice <- map["uitemPrice"]
         salesCount <- map["salesCount"]
-        prefertialPrice <- map["prefertialPrice"]
+        preferentialPrice <- map["preferentialPrice"]
         supplierName <- map["supplierName"]
         goodInfoCode <- map["goodInfoCode"]
         goodLife <- map["goodLife"]
         isPromotionFlag <- map["isPromotionFlag"]
         promotionNumber <- map["promotionNumber"]
+        goodsCollectionStatu <- map["goodsCollectionStatu"]
+        eachCount <- map["eachCount"]
     }
 }

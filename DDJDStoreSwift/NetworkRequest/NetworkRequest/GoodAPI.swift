@@ -25,6 +25,8 @@ public enum GoodAPI{
     case queryGoodsInfoByCategoryForAndroidForStore(goodsCategoryId:Int,storeId:String,priceScreen:Int?,order:String,tag:Int,seachLetterValue:String?)
     ///商品详情请求
     case queryGoodsDetailsForAndroid(goodsbasicinfoId:Int,supplierId:Int,flag:Int?,storeId:String,aaaa:Int,subSupplier:Int,memberId:String,promotionFlag:Int?)
+    //加入收藏
+    case goodsAddCollection(goodId:Int,supplierId:Int,subSupplierId:Int,memberId:String)
 }
 extension GoodAPI:TargetType{
     public var path: String {
@@ -39,12 +41,14 @@ extension GoodAPI:TargetType{
             return "queryGoodsInfoByCategoryForAndroidForStore.xhtml"
         case .queryGoodsDetailsForAndroid(_,_,_,_,_,_,_,_):
             return "queryGoodsDetailsForAndroid.xhtml"
+        case .goodsAddCollection(_,_,_,_):
+            return "goodsAddCollection.sc"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .queryGoodsForAndroidIndexForStoreNew(_,_,_),.queryPreferentialAndGoods4Store(_,_,_,_),.queryStorePromotionGoodsList(_,_,_,_),.queryGoodsInfoByCategoryForAndroidForStore(_,_,_,_,_,_),.queryGoodsDetailsForAndroid(_,_,_,_,_,_,_,_):
+        case .queryGoodsForAndroidIndexForStoreNew(_,_,_),.queryPreferentialAndGoods4Store(_,_,_,_),.queryStorePromotionGoodsList(_,_,_,_),.queryGoodsInfoByCategoryForAndroidForStore(_,_,_,_,_,_),.queryGoodsDetailsForAndroid(_,_,_,_,_,_,_,_),.goodsAddCollection(_,_,_,_):
             return .get
         }
     }
@@ -77,6 +81,8 @@ extension GoodAPI:TargetType{
             }else{
                 return .requestPlain
             }
+        case let .goodsAddCollection(goodId, supplierId, subSupplierId, memberId):
+            return .requestParameters(parameters:["goodId":goodId,"supplierId":supplierId,"subSupplierId":subSupplierId,"memberId":memberId], encoding:  URLEncoding.default)
         }
 
     }

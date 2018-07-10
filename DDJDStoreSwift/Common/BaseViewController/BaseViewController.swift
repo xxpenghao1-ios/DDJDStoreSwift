@@ -14,7 +14,16 @@ import RxSwift
 ///图片缓存信息
 let cache=KingfisherManager.shared.cache
 ///父类
-class BaseViewController:UIViewController {
+class BaseViewController:UIViewController{
+
+    /*****默认加载页参数*****/
+
+    //空视图提示信息 默认为空
+    var emptyDataSetTextInfo=""
+    ///空视图 默认加载状态
+    var emptyDataType:EmptyDataType = .loading
+
+    /******************************/
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -79,4 +88,76 @@ extension BaseViewController{
     }
 
 }
-
+///空视图展示 对应视图
+public enum EmptyDataType{
+    case loading  //加载状态
+    case noNewWork //无网络
+    case noData ///没有数据
+    case dataError ///数据出错了
+}
+///空视图提示
+extension BaseViewController:DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
+    ///图片
+    func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
+        switch emptyDataType {
+        case .loading:
+            return UIImage(named:"loading")?.reSizeImage(reSize:CGSize(width:45,height:45))
+        case .noNewWork:
+            return UIImage(named:"network_error")
+        case .noData:
+            return UIImage(named:"data_nil")
+        case .dataError:
+            return UIImage(named:"data_error")
+        }
+    }
+    //设置图片动画
+    func imageAnimation(forEmptyDataSet scrollView: UIScrollView) -> CAAnimation? {
+        let animation=CABasicAnimation(keyPath:"transform")
+        animation.fromValue = NSValue(caTransform3D:CATransform3DIdentity)
+        animation.toValue = NSValue(caTransform3D:CATransform3DMakeRotation(CGFloat.pi/2, 0, 0, 1.0))
+        animation.duration = 0.25;
+        animation.isCumulative=true
+        animation.repeatCount = MAXFLOAT;
+        return animation
+    }
+    //文字提示
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        var text=""
+        let attributes=[NSAttributedStringKey.font:UIFont.systemFont(ofSize: 14),NSAttributedStringKey.foregroundColor:UIColor.color666()] as [NSAttributedStringKey : Any]
+        switch emptyDataType {
+        case .loading:
+            text="正在努力的加载中..."
+        case .noNewWork:
+            text="世界上最远的距离是没有网络"
+        case .noData:
+            text=self.emptyDataSetTextInfo
+        case .dataError:
+            text="获取数据出错了"
+        }
+        return NSAttributedString(string:text, attributes:attributes)
+    }
+    //设置文字和图片间距
+    func spaceHeight(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+        return 0
+    }
+    //设置垂直偏移量
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+        return 0
+    }
+    //是否执行动画
+    func emptyDataSetShouldAnimateImageView(_ scrollView: UIScrollView) -> Bool {
+        if emptyDataType == .loading{
+            return true
+        }else{
+            return false
+        }
+    }
+    //设置是否可以滑动 默认不可以
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return false
+    }
+    ///是否显示
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+}
