@@ -58,8 +58,10 @@ class GoodDetailModel:Mappable{
     var promotionNumber:Int?
     ///默认为null；如果=1，此商品被用户收藏
     var goodsCollectionStatu:Int?
-    ///商品限购数
+    ///特价商品限购数
     var eachCount:Int?
+    ///特价结束时间
+    var endTime:String?
     init(){}
     required init?(map: Map) {
 
@@ -90,5 +92,6 @@ class GoodDetailModel:Mappable{
         promotionNumber <- map["promotionNumber"]
         goodsCollectionStatu <- map["goodsCollectionStatu"]
         eachCount <- map["eachCount"]
+        endTime <- map["endTime"]
     }
 }

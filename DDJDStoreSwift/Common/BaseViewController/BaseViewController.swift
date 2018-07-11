@@ -132,7 +132,7 @@ extension BaseViewController:DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
         case .noData:
             text=self.emptyDataSetTextInfo
         case .dataError:
-            text="获取数据出错了"
+            text="获取数据出错了,刷新试试"
         }
         return NSAttributedString(string:text, attributes:attributes)
     }
@@ -154,7 +154,11 @@ extension BaseViewController:DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
     }
     //设置是否可以滑动 默认不可以
     func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
-        return false
+        if emptyDataType == .loading{
+            return false
+        }else{
+            return true
+        }
     }
     ///是否显示
     func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {

@@ -23,8 +23,8 @@ class SpecialViewController:BaseViewController {
         _table.backgroundColor=UIColor.clear
         _table.separatorInset = UIEdgeInsetsMake(0,0,0,0)
         _table.register(UINib(nibName:"SpecialGoodTableViewCell", bundle:nil), forCellReuseIdentifier:"specialGoodId")
-//        _table.emptyDataSetDelegate=self
-//        _table.emptyDataSetSource=self
+        _table.emptyDataSetDelegate=self
+        _table.emptyDataSetSource=self
         return _table
     }()
     
@@ -35,7 +35,7 @@ class SpecialViewController:BaseViewController {
         self.view.addSubview(table)
 
         ///空视图提示文字
-//        self.emptyDataSetTextInfo="亲,暂时没有查询到特价活动"
+        self.emptyDataSetTextInfo="亲,暂时没有查询到特价活动"
 
         bindViewModel()
 
@@ -48,25 +48,51 @@ extension SpecialViewController:Refreshable{
 
         vm=SpecialGoodViewModel(order:order)
 
+        ///创建一个定时器 每一秒更新特价剩余时间
+        let timer=Observable<Int>.interval(1, scheduler: MainScheduler.instance)
+
         ///创建数据源
         let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"specialGoodId") as? SpecialGoodTableViewCell ?? SpecialGoodTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"specialGoodId")
-//            if indexPath.row % 2 == 0{
-//                cell.contentView.backgroundColor=UIColor.white
-//            }else{
-//                cell.contentView.backgroundColor=UIColor.viewBgdColor()
-//            }
-//            cell.pushGoodDetailClosure={ model in
-//                self?.pushGoodDetail(model:model, imgView:cell.imgView)
-//            }
+
             cell.updateCell(model:model)
+            if indexPath.row == 0{
+                model.endTime="10"
+            }else{
+                model.endTime="5"
+            }
+            let times=model.endTime?.components(separatedBy:".")
+            if times != nil && Int(times![0]) > 0{///特价时间不为空
+                ///获取剩余时间
+                var time=Int(times![0])
+                ///更新显示控件
+                timer.flatMapLatest{ _ -> Observable<String> in
+                    print(time)
+                    time!-=1
+                    model.endTime=time!.description
+                    if Int(time!) <= 0{///活动结束
+                        cell.showGoodStateImgView(name:"to_sell_end")
+                    }
+                    return Observable<String>.just(lessSecondToDay(time!))
+                }.bind(to:cell.lblEndTime.rx.text).disposed(by:self?.rx_disposeBag ?? DisposeBag())
+            }else{//活动结束
+                cell.lblEndTime.text="活动已结束"
+                cell.showGoodStateImgView(name:"to_sell_end")
+            }
             return cell
         })
 
+
         ///绑定数据源
-        vm.specialArrModelBR.asObservable().bind(to:table.rx.items(dataSource:dataSources)).disposed(by:rx_disposeBag)
+        vm.specialArrModelBR.asObservable()
+            .map({ [weak self] (dic) -> [SectionModel<String,GoodDetailModel>] in
+            let emptyDataType=dic.keys.first ?? .noData
+            self?.emptyDataType = emptyDataType
+            return dic[emptyDataType] ?? []
+        }).bind(to:table.rx.items(dataSource:dataSources)).disposed(by:rx_disposeBag)
 
         table.rx.setDelegate(self).disposed(by:rx_disposeBag)
+
 
         ///刷新
         let refreshHeader=initRefreshHeader(table) { [weak self] in

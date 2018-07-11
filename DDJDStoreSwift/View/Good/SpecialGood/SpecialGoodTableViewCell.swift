@@ -7,6 +7,39 @@
 //
 
 import UIKit
+/**
+ 计算剩余时间
+
+ - parameter seconds: 秒
+
+ - returns: 字符串
+ */
+func lessSecondToDay(_ seconds:Int) -> String{
+    let day=seconds/(24*3600)
+    let hour=(seconds%(24*3600))/3600
+    let min=(seconds%(3600))/60
+    let second=(seconds%60)
+    var time:NSString=""
+    if seconds >= 0{
+        if day == 0{//如果天数等于0
+            time=NSString(format:"剩余时间:%i小时%i分钟%i秒",hour,min,second)
+            if hour == 0{
+                time=NSString(format:"剩余时间:%i分钟%i秒",min,second)
+                if min == 0{
+                    time=NSString(format:"剩余时间:%i秒",second)
+                    if seconds == 0{
+                        return "活动已结束"
+                    }
+                }
+            }
+        }else{
+            time=NSString(format:"剩余时间:%i日%i小时%i分钟%i秒",day,hour,min,second)
+        }
+    }else{
+        return "活动已结束"
+    }
+    return time as String
+}
 ///特价cell
 class SpecialGoodTableViewCell: UITableViewCell {
     ///跳转到商品详情
@@ -29,9 +62,11 @@ class SpecialGoodTableViewCell: UITableViewCell {
     @IBOutlet weak var lblStock:UILabel!
     ///加入购物车
     @IBOutlet weak var btnAddCar:UIButton!
+    ///活动剩余时间
+    @IBOutlet weak var lblEndTime:UILabel!
     ///商品状态图片  已售罄/活动已结束
     @IBOutlet weak var goodStateImgView:UIImageView!
-    ///保存新品model
+    ///保存特价model
     private var model:GoodDetailModel?
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -59,7 +94,6 @@ class SpecialGoodTableViewCell: UITableViewCell {
             lblStock.text="库存充足"
         }else{
             lblStock.text="库存:\(model.goodsStock ?? 0)"
-
             ///如果库存等于0或者空
             if model.goodsStock == nil || model.goodsStock == 0{
                 showGoodStateImgView(name:"to_sell_out")
@@ -79,9 +113,16 @@ class SpecialGoodTableViewCell: UITableViewCell {
         let oldPrice=NSMutableAttributedString(string:"￥\(model.oldPrice ?? "0")")
         oldPrice.addAttribute(NSAttributedStringKey.strikethroughStyle, value:  NSNumber.init(value: Int8(NSUnderlineStyle.styleSingle.rawValue)), range: NSRange.init(location:0, length: oldPrice.length))
         lblOldPrice.attributedText=oldPrice
+
+        let times=model.endTime?.components(separatedBy:".")
+        if times != nil && Int(times![0]) > 0{///特价时间不为空
+            lblEndTime.text=lessSecondToDay(Int(times![0])!)
+        }else{
+            lblEndTime.text="活动已结束"
+        }
     }
     ///显示商品状态提示图片 禁止进入商品详情页面 购物车按钮隐藏
-    private func showGoodStateImgView(name:String){
+     func showGoodStateImgView(name:String){
         imgView.isUserInteractionEnabled=false
         goodStateImgView.image=UIImage(named:name)
         goodStateImgView.isHidden=false

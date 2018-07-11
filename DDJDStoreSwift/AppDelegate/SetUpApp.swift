@@ -29,7 +29,7 @@ extension AppDelegate{
         UINavigationBar.appearance().barTintColor=UIColor.white
         //导航栏文字颜色
         UINavigationBar.appearance().titleTextAttributes=NSDictionary(object:UIColor.black, forKey:NSAttributedStringKey.foregroundColor as NSCopying) as? [NSAttributedStringKey : Any]
-
+        
         UINavigationBar.appearance().tintColor=UIColor.applicationMainColor()
     }
 }

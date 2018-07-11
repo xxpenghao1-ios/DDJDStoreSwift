@@ -105,8 +105,8 @@
                         <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="剩余时间:2日9小时32分钟57秒" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amO-U0-F32">
-                        <rect key="frame" x="115" y="67" width="170.5" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="amO-U0-F32">
+                        <rect key="frame" x="115" y="67" width="42" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="SpT-ix-zYx"/>
                             <constraint firstAttribute="height" constant="20" id="WQd-uq-ZZs"/>
@@ -116,7 +116,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jBz-fm-jCg">
-                        <rect key="frame" x="285.5" y="67" width="42" height="20"/>
+                        <rect key="frame" x="157" y="67" width="42" height="20"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="20" id="XCw-1C-rKz"/>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="nvW-x9-Jye"/>
@@ -203,6 +203,7 @@
                 <outlet property="btnAddCar" destination="IjA-Zv-Ng7" id="3e6-bF-1pw"/>
                 <outlet property="goodStateImgView" destination="LaO-NX-vrR" id="VFI-XV-FaC"/>
                 <outlet property="imgView" destination="gTv-hK-bIg" id="uaj-Ek-7I5"/>
+                <outlet property="lblEndTime" destination="amO-U0-F32" id="8jK-Re-6KI"/>
                 <outlet property="lblGoodName" destination="UEa-k3-rzD" id="VEu-ie-epM"/>
                 <outlet property="lblGoodUnit" destination="SjB-pC-R1o" id="MV9-2g-qkE"/>
                 <outlet property="lblOldPrice" destination="cEA-hZ-1V2" id="Yhr-nO-s63"/>
