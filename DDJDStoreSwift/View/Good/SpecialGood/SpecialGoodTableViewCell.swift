@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import RxSwift
+
 /**
  计算剩余时间
 
@@ -68,15 +70,20 @@ class SpecialGoodTableViewCell: UITableViewCell {
     @IBOutlet weak var goodStateImgView:UIImageView!
     ///保存特价model
     private var model:GoodDetailModel?
+    ///行索引
+    var index:Int?
     override func awakeFromNib() {
         super.awakeFromNib()
         self.selectionStyle = .none
         ///默认隐藏
         goodStateImgView.isHidden=true
+        ///点击图片跳转页面
+        imgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodDetail)))
+        
     }
     
     func updateCell(model:GoodDetailModel){
-
+        self.model=model
         ///每次更新数据先隐藏
         hideGoodStateImgView()
         
@@ -133,6 +140,12 @@ class SpecialGoodTableViewCell: UITableViewCell {
         imgView.isUserInteractionEnabled=true
         goodStateImgView.isHidden=true
         btnAddCar.isHidden=false
+    }
+    ///跳转到商品详情
+    @objc private func pushGoodDetail(){
+        if model != nil{
+            self.pushGoodDetailClosure?(model!)
+        }
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

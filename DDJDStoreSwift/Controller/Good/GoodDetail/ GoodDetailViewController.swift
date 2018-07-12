@@ -42,6 +42,9 @@ class GoodDetailViewController:BaseViewController{
     ///商品批价
     @IBOutlet weak var lblGoodPrice:UILabel!
 
+    ///商品原价
+    @IBOutlet weak var lblOldPrice:UILabel!
+    
     ///建议零售价
     @IBOutlet weak var lblUitemPrice:UILabel!
 
@@ -57,6 +60,10 @@ class GoodDetailViewController:BaseViewController{
     private var btnPushCar:UIButton!
 
     private var vm:GoodDetailViewModel!
+
+    ///加入购物车vm
+    private var addCarVM:AddCarViewModel!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -98,29 +105,12 @@ extension GoodDetailViewController{
         }
         ///初始化vm
         vm=GoodDetailViewModel(model:model!,goodDetailflag:flag)
+        ///初始化加入购物车vm
+        addCarVM=AddCarViewModel(model:model!, flag:flag)
 
         ///获取订单详情数据
         vm.goodDetailBR.asObservable().subscribe(onNext: { [weak self] (model) in
-            self?.goodImgView.ph_setImage(withUrlString:HTTP_URL_IMG+(model.goodPic ?? ""), placeholderImgName:GOOD_DEFAULT_IMG)
-            if model.goodsCollectionStatu == 1{
-                self?.collectionImgView.image=UIImage(named:"has_collection")
-                self?.lblCollection.text="已收藏"
-            }else{
-                self?.collectionImgView.image=UIImage(named:"not_collection")
-                self?.lblCollection.text="收藏"
-            }
-            self?.lblGoodName.text=model.goodInfoName
-            self?.lblSales.text=model.salesCount?.description
-            self?.lblUcode.text="规格:\(model.ucode ?? "")"
-            self?.lblGoodUnit.text="单位:\(model.goodUnit ?? "")"
-            self?.lblGoodPrice.text="￥\(model.uprice ?? "0")"
-            self?.lblUitemPrice.text=model.uitemPrice
-            self?.title=model.goodInfoName
-            self?.stepper.minimumValue=Double(model.miniCount ?? 1)
-            ///库存等于-1的时候最多999  否则最大是库存数
-            self?.stepper.maximumValue=model.goodsStock == -1 ? 999 : Double(model.goodsStock ?? 1)
-            self?.stepper.stepValue=Double(model.goodsBaseCount ?? 1)
-            self?.table.reloadData()
+            self?.setData(model:model)
         }).disposed(by:rx_disposeBag)
 
         ///加入购物车
@@ -129,11 +119,11 @@ extension GoodDetailViewController{
             if weakSelf == nil{
                 return
             }
-            weakSelf!.vm.addCarPS.onNext(Int(weakSelf!.stepper.value))
+            weakSelf!.addCarVM.addCarPS.onNext(Int(weakSelf!.stepper.value))
         }).disposed(by:rx_disposeBag)
 
         ///更新购物车item按钮数量
-        vm.updateCarItemCountBR.asObservable().subscribe(onNext: { [weak self] (count) in
+        addCarVM.updateCarItemCountBR.asObservable().subscribe(onNext: { [weak self] (count) in
             self?.btnPushCar.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
         }).disposed(by:rx_disposeBag)
 
@@ -145,6 +135,45 @@ extension GoodDetailViewController{
             }
             weakSelf!.selectedGoodCount(model:weakSelf!.vm.goodDetailBR.value)
         }).disposed(by:rx_disposeBag)
+    }
+    ///set数据
+    private func setData(model:GoodDetailModel){
+        self.goodImgView.ph_setImage(withUrlString:HTTP_URL_IMG+(model.goodPic ?? ""), placeholderImgName:GOOD_DEFAULT_IMG)
+        if model.goodsCollectionStatu == 1{
+            self.collectionImgView.image=UIImage(named:"has_collection")
+            self.lblCollection.text="已收藏"
+        }else{
+            self.collectionImgView.image=UIImage(named:"not_collection")
+            self.lblCollection.text="收藏"
+        }
+        self.lblSales.text=model.salesCount?.description
+        self.lblUcode.text="规格:\(model.ucode ?? "")"
+        self.lblGoodUnit.text="单位:\(model.goodUnit ?? "")"
+        self.lblUitemPrice.text=model.uitemPrice
+        self.title=model.goodInfoName
+        self.stepper.minimumValue=Double(model.miniCount ?? 1)
+        ///库存等于-1的时候最多999  否则最大是库存数
+        self.stepper.maximumValue=model.goodsStock == -1 ? 999 : Double(model.goodsStock ?? 1)
+        self.stepper.stepValue=Double(model.goodsBaseCount ?? 1)
+        if self.flag == 1{//如果是特价
+            //商品名称
+            if model.eachCount == nil{
+                lblGoodName.text=model.goodInfoName
+            }else{
+                lblGoodName.text=(model.goodInfoName ?? "")+"(限购~~\(model.eachCount!)\(model.goodUnit ?? ""))"
+            }
+            ///红色价格展示特价
+            self.lblGoodPrice.text="￥\(model.prefertialPrice ?? "0")"
+            ///给原价加上 中滑线
+            let oldPrice=NSMutableAttributedString(string:"￥\(model.uprice ?? "0")")
+            oldPrice.addAttribute(NSAttributedStringKey.strikethroughStyle, value:  NSNumber.init(value: Int8(NSUnderlineStyle.styleSingle.rawValue)), range: NSRange.init(location:0, length: oldPrice.length))
+            self.lblOldPrice.attributedText=oldPrice
+        }else{//不是特价
+            ///红色价格展示 uprice
+            self.lblGoodPrice.text="￥\(model.uprice ?? "0")"
+            self.lblGoodName.text=model.goodInfoName
+        }
+        self.table.reloadData()
     }
     ///加入收藏
     @objc private func addCollection(){

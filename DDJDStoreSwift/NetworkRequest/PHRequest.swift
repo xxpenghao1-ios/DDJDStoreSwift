@@ -54,6 +54,7 @@ final public class PHRequest:NSObject{
                 switch result{
                 case let .success(response):
                     do {
+                        
                         observable.onNext(try response.mapArray(M.self))
                     } catch {
                         observable.onError(MoyaError.jsonMapping(response))

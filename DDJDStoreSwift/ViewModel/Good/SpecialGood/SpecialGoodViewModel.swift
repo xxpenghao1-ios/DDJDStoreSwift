@@ -79,7 +79,7 @@ class SpecialGoodViewModel:NSObject,OutputRefreshProtocol{
                 ///获取数据出错 空页面提示
                 weakSelf!.specialArrModelBR.accept([.dataError:[]])
             }
-            phLog("获取特价推荐列表数据出错\(error.localizedDescription)")
+            phLog("获取特价列表数据出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }
 }

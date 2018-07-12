@@ -46,7 +46,7 @@ extension NewGoodViewController:Refreshable{
                 cell.contentView.backgroundColor=UIColor.viewBgdColor()
             }
             cell.pushGoodDetailClosure={ model in
-                self?.pushGoodDetail(model:model, imgView:cell.imgView)
+                self?.pushGoodDetail(model:model)
             }
             cell.updateCell(model:model)
             return cell
@@ -69,9 +69,10 @@ extension NewGoodViewController:Refreshable{
         vm.autoSetRefreshHeaderStatus(header:refreshHeader, footer: refreshFooter).disposed(by:rx_disposeBag)
     }
     ///跳转到商品详情
-    private func pushGoodDetail(model:GoodDetailModel,imgView:UIImageView){
+    private func pushGoodDetail(model:GoodDetailModel){
         let vc=UIStoryboard(name:"GoodDetail", bundle:nil).instantiateViewController(withIdentifier:"GoodDetailVC") as! GoodDetailViewController
         vc.model=model
+        vc.flag=2
         self.navigationController?.pushViewController(vc, animated:true)
     }
 }

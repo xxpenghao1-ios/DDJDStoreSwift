@@ -59,6 +59,7 @@ struct OrderModel:Mappable{
     var finished_time:String?;
     /**卖家附言*/
     var postscript:String?;
+    ///商品是否可退；1可退；2不可退
     var returnGoodsFlag:Int?
     /**代金券金额*/
     var cashCouponAmountOfMoney:Double?

@@ -81,6 +81,7 @@
 		638006A220F06BC500D39044 /* NewGoodListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638006A020F06BC500D39044 /* NewGoodListTableViewCell.swift */; };
 		638006A320F06BC500D39044 /* NewGoodListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638006A120F06BC500D39044 /* NewGoodListTableViewCell.xib */; };
 		638006A620F097EA00D39044 /* GMStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638006A520F097EA00D39044 /* GMStepper.swift */; };
+		63813A0D20F72D8000FAF40E /* AddCarModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63813A0C20F72D8000FAF40E /* AddCarModelView.swift */; };
 		638A269A20EC4D9700170762 /* MyMenuCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A269920EC4D9700170762 /* MyMenuCollectionViewCell.swift */; };
 		638A269D20EC598900170762 /* OtherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A269C20EC598900170762 /* OtherViewController.swift */; };
 		638A26A220EC7BD500170762 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A26A120EC7BD500170762 /* MessageViewController.swift */; };
@@ -206,6 +207,7 @@
 		638006A020F06BC500D39044 /* NewGoodListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGoodListTableViewCell.swift; sourceTree = "<group>"; };
 		638006A120F06BC500D39044 /* NewGoodListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewGoodListTableViewCell.xib; sourceTree = "<group>"; };
 		638006A520F097EA00D39044 /* GMStepper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GMStepper.swift; sourceTree = "<group>"; };
+		63813A0C20F72D8000FAF40E /* AddCarModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCarModelView.swift; sourceTree = "<group>"; };
 		638A269920EC4D9700170762 /* MyMenuCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyMenuCollectionViewCell.swift; sourceTree = "<group>"; };
 		638A269C20EC598900170762 /* OtherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherViewController.swift; sourceTree = "<group>"; };
 		638A26A120EC7BD500170762 /* MessageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
@@ -604,6 +606,7 @@
 				6346E8BB20F4A49100E844F1 /* SpecialGood */,
 				630E2EA420F3019F00884E79 /* GoodDetail */,
 				6380069820F0655E00D39044 /* NewGood */,
+				63813A0C20F72D8000FAF40E /* AddCarModelView.swift */,
 			);
 			path = Good;
 			sourceTree = "<group>";
@@ -1117,6 +1120,7 @@
 				63FBEE392091746B00BE6B81 /* AppDelegate.swift in Sources */,
 				633F8CD220CF66CF00D227AF /* WRCycleScrollView.swift in Sources */,
 				6333E7442092C02B00CEC3B7 /* Color.swift in Sources */,
+				63813A0D20F72D8000FAF40E /* AddCarModelView.swift in Sources */,
 				6341DB3B20945FAD00AC267D /* ViewModelType.swift in Sources */,
 				638A26A720EC98F600170762 /* MessageViewModel.swift in Sources */,
 				6333E74F2093010C00CEC3B7 /* UIFont.swift in Sources */,
@@ -1332,7 +1336,10 @@
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = "$(SRCROOT)/DDJDStoreSwift/AppDelegate/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nmore.phddjdStore;
@@ -1356,7 +1363,10 @@
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = "$(SRCROOT)/DDJDStoreSwift/AppDelegate/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nmore.phddjdStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "DDJDStoreSwift/Resource/DDJDStoreSwift-Bridging-Header.h";
@@ -1375,7 +1385,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = DDJDStoreSwiftTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = penghao.DDJDStoreSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1392,7 +1406,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = DDJDStoreSwiftTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = penghao.DDJDStoreSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1408,7 +1426,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = DDJDStoreSwiftUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = penghao.DDJDStoreSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -1424,7 +1446,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = DDJDStoreSwiftUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = penghao.DDJDStoreSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

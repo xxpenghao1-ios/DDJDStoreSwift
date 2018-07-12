@@ -90,10 +90,14 @@ extension BaseViewController{
 }
 ///空视图展示 对应视图
 public enum EmptyDataType{
-    case loading  //加载状态
-    case noNewWork //无网络
-    case noData ///没有数据
-    case dataError ///数据出错了
+    ///加载状态
+    case loading
+    ///无网络
+    case noNewWork
+    ///没有数据
+    case noData
+    ///数据出错了
+    case dataError
 }
 ///空视图提示
 extension BaseViewController:DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{

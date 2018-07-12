@@ -12,8 +12,9 @@ import ObjectMapper
 class GoodDetailModel:Mappable{
     ///供应商id
     var supplierId:Int?
-    ///商品名称
+    ///商品id
     var goodsbasicinfoId:Int?
+    var goodsId:Int? //也是商品id
     ///商品名称
     var goodInfoName:String?
     ///描述
@@ -46,6 +47,8 @@ class GoodDetailModel:Mappable{
     var salesCount:Int?
     /// 特价价格
     var preferentialPrice:String?
+    /// 商品详情特价
+    var prefertialPrice:String?
     /// 配送商名称
     var supplierName:String?
     /// 条码
@@ -62,6 +65,8 @@ class GoodDetailModel:Mappable{
     var eachCount:Int?
     ///特价结束时间
     var endTime:String?
+    ///商品是否可退；1可退；2不可退
+    var returnGoodsFlag:Int?
     init(){}
     required init?(map: Map) {
 
@@ -69,6 +74,7 @@ class GoodDetailModel:Mappable{
     func mapping(map: Map) {
         supplierId <- map["supplierId"]
         goodsbasicinfoId <- map["goodsbasicinfoId"]
+        goodsId <- map["goodsId"]
         goodInfoName <- map["goodInfoName"]
         remark <- map["remark"]
         ctime <- map["ctime"]
@@ -85,6 +91,7 @@ class GoodDetailModel:Mappable{
         uitemPrice <- map["uitemPrice"]
         salesCount <- map["salesCount"]
         preferentialPrice <- map["preferentialPrice"]
+        prefertialPrice <- map["prefertialPrice"]
         supplierName <- map["supplierName"]
         goodInfoCode <- map["goodInfoCode"]
         goodLife <- map["goodLife"]
@@ -93,5 +100,6 @@ class GoodDetailModel:Mappable{
         goodsCollectionStatu <- map["goodsCollectionStatu"]
         eachCount <- map["eachCount"]
         endTime <- map["endTime"]
+        returnGoodsFlag <- map["returnGoodsFlag"]
     }
 }

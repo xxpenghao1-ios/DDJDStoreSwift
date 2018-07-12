@@ -13,11 +13,28 @@ class SpecialPageViewController:WMPageController{
     ///接收1级分类
     var model:GoodsCategoryModel?
     private let titleArr=["销量","价格"]
+    private var btnPushCar:UIButton!
     override func viewDidLoad() {
         setUpMenuView()
         super.viewDidLoad()
         self.title="特价商品"
         self.view.backgroundColor=UIColor.viewBgdColor()
+        ///去掉返回按钮文字
+        let bark=UIBarButtonItem()
+        bark.title=""
+        bark.tintColor=UIColor.color333()
+        self.navigationItem.backBarButtonItem=bark
+        ///跳转到购物车按钮
+        btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
+        btnPushCar.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
+//        btnPushCar.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
+        let pushCarItem=UIBarButtonItem(customView:btnPushCar)
+        pushCarItem.tintColor=UIColor.colorItem()
+        self.navigationItem.rightBarButtonItem=pushCarItem
+    }
+    ///跳转到购物车
+    @objc private func pushCar(){
+
     }
     //设置显示几个页面
     override func numbersOfChildControllers(in pageController: WMPageController) -> Int {
@@ -35,6 +52,9 @@ class SpecialPageViewController:WMPageController{
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {
         let vc=SpecialViewController()
         vc.order=index == 0 ? "count":"price"
+        vc.updateCarCountItemClosure={ (count) in
+            self.btnPushCar.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
+        }
         return vc
     }
     //设置menuView frame
