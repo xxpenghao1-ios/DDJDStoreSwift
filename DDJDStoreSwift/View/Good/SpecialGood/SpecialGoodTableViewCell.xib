@@ -115,16 +115,6 @@
                         <color key="textColor" red="0.89019607840000003" green="0.24313725489999999" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jBz-fm-jCg">
-                        <rect key="frame" x="157" y="67" width="42" height="20"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="20" id="XCw-1C-rKz"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="nvW-x9-Jye"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" red="0.89019607840000003" green="0.24313725489999999" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TYl-Zw-t4G">
                         <rect key="frame" x="115" y="90" width="33" height="20"/>
                         <constraints>
@@ -172,9 +162,7 @@
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="jBz-fm-jCg" firstAttribute="leading" secondItem="amO-U0-F32" secondAttribute="trailing" id="06T-hg-23b"/>
                     <constraint firstItem="ME0-Rj-yab" firstAttribute="leading" secondItem="cEA-hZ-1V2" secondAttribute="trailing" constant="8" id="15E-Hz-ytG"/>
-                    <constraint firstItem="jBz-fm-jCg" firstAttribute="top" secondItem="MuY-zq-Mti" secondAttribute="bottom" id="3Nf-Mc-a8f"/>
                     <constraint firstItem="TYl-Zw-t4G" firstAttribute="leading" secondItem="CxU-gD-fTC" secondAttribute="trailing" constant="5" id="48s-dG-x3r"/>
                     <constraint firstItem="LaO-NX-vrR" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="4CY-HU-Goq"/>
                     <constraint firstItem="iem-Ai-1P6" firstAttribute="leading" secondItem="CxU-gD-fTC" secondAttribute="trailing" constant="5" id="DID-lD-dIp"/>

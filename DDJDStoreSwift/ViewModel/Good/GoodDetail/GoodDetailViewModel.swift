@@ -57,6 +57,13 @@ extension GoodDetailViewModel{
         PHProgressHUD.showLoading("正在努力加载中")
         ///flag不为空查特价商品 promotionFlag不为空查促销商品  都为空查普通商品
         PHRequest.shared.requestJSONModel(target:GoodAPI.queryGoodsDetailsForAndroid(goodsbasicinfoId:model.goodsbasicinfoId ?? 0, supplierId: model.supplierId ?? 0,flag:flag, storeId:store_Id!, aaaa: 11, subSupplier:model.subSupplier ?? 0, memberId:member_Id!, promotionFlag:promotionFlag), model:GoodDetailModel.self).subscribe(onNext: { [weak self] (model) in
+            if goodDetailflag == 1{//特价
+                self?.goodDetailOtherTitleArr.insert("该商品正在打特价,不要错过哦", at:0)
+                self?.goodDetailOtherTitleArrValue.append(nil)
+            }else if goodDetailflag == 3{//促销
+                self?.goodDetailOtherTitleArr.insert("促销信息", at:0)
+                self?.goodDetailOtherTitleArrValue.append(model.goodsDes)
+            }
             if model.goodsStock == -1{
                 self?.goodDetailOtherTitleArrValue.append("库存充足")
             }else{

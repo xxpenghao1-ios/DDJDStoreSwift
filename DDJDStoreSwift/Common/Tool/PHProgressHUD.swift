@@ -54,17 +54,21 @@ extension PHProgressHUD {
         switch type {
         case .success:
             SVProgressHUD.showSuccess(withStatus: status)
+            SVProgressHUD.setDefaultMaskType(.none)
         case .error:
             SVProgressHUD.showError(withStatus: status)
+            SVProgressHUD.setDefaultMaskType(.none)
         case .loading:
             SVProgressHUD.show(withStatus:status)
             SVProgressHUD.setDefaultMaskType(.clear)
         case .info:
             SVProgressHUD.showInfo(withStatus: status)
+            SVProgressHUD.setDefaultMaskType(.none)
         case .progress:
             SVProgressHUD.showProgress(Float(progress), status: status)
         case .show:
             SVProgressHUD.show(withStatus:status)
+            SVProgressHUD.setDefaultMaskType(.none)
         }
     }
 }

@@ -11,6 +11,12 @@ import UIKit
 ///热门商品
 class IndexHotGoodCollectionViewCell:UICollectionViewCell{
 
+    ///跳转到商品详情
+    var pushGoodDetailClosure:((_ model:GoodDetailModel) -> Void)?
+
+    ///保存商品model信息
+    private var model:GoodDetailModel?
+
     ///商品图片
     private lazy var imgView:UIImageView={
         let _imgView=UIImageView()
@@ -38,19 +44,28 @@ class IndexHotGoodCollectionViewCell:UICollectionViewCell{
         self.contentView.backgroundColor=UIColor.white
         self.layer.borderWidth=0.5
         self.layer.borderColor=UIColor.RGBFromHexColor(hexString:"f2f2f2").cgColor
+        imgView.isUserInteractionEnabled=true
+        ///点击图片跳转页面
+        imgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodDetail)))
         setUI()
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     ///更新cell
-    func updateCell(model:HotGoodModel){
-
+    func updateCell(model:GoodDetailModel){
+        self.model=model
         imgView.ph_setImage(withUrlString:HTTP_URL_IMG+(model.goodPic ?? ""), placeholderImgName:GOOD_DEFAULT_IMG)
         
         lblGoodName.text=model.goodInfoName
 
         lblGoodPrice.text="￥"+(model.uprice ?? "0")
+    }
+    ///跳转到商品详情
+    @objc private func pushGoodDetail(){
+        if model != nil{
+            self.pushGoodDetailClosure?(model!)
+        }
     }
 }
 extension IndexHotGoodCollectionViewCell{

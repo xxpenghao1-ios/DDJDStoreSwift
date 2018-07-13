@@ -110,6 +110,8 @@ extension GoodDetailViewController{
 
         ///获取订单详情数据
         vm.goodDetailBR.asObservable().subscribe(onNext: { [weak self] (model) in
+            ///查询购物车商品数量
+            self?.addCarVM.queryCarSumCountPS.onNext(true)
             self?.setData(model:model)
         }).disposed(by:rx_disposeBag)
 
@@ -123,7 +125,7 @@ extension GoodDetailViewController{
         }).disposed(by:rx_disposeBag)
 
         ///更新购物车item按钮数量
-        addCarVM.updateCarItemCountBR.asObservable().subscribe(onNext: { [weak self] (count) in
+        addCarVM.queryCarSumCountBR.asObservable().subscribe(onNext: { [weak self] (count) in
             self?.btnPushCar.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
         }).disposed(by:rx_disposeBag)
 
@@ -171,7 +173,16 @@ extension GoodDetailViewController{
         }else{//不是特价
             ///红色价格展示 uprice
             self.lblGoodPrice.text="￥\(model.uprice ?? "0")"
-            self.lblGoodName.text=model.goodInfoName
+            if self.flag == 3{//如果是促销
+                //商品名称
+                if model.promotionStoreEachCount == nil{
+                    lblGoodName.text=model.goodInfoName
+                }else{
+                    lblGoodName.text=(model.goodInfoName ?? "")+"(限购~~\(model.promotionStoreEachCount!)\(model.goodUnit ?? ""))"
+                }
+            }else{
+                self.lblGoodName.text=model.goodInfoName
+            }
         }
         self.table.reloadData()
     }
@@ -244,10 +255,24 @@ extension GoodDetailViewController:UITableViewDelegate,UITableViewDataSource{
         cell.textLabel?.textColor=UIColor.color333()
         cell.detailTextLabel?.font=UIFont.systemFont(ofSize:14)
         cell.detailTextLabel?.textColor=UIColor.textColor()
-        if indexPath.row == 3{
-            cell.accessoryType = .disclosureIndicator
-        }else{
-            cell.accessoryType = .none
+        cell.accessoryType = .none
+        if flag == 1{//特价
+            if indexPath.row == 0{///第一行
+                cell.textLabel?.textColor=UIColor.applicationMainColor()
+            }else if indexPath.row == 4{
+                cell.accessoryType = .disclosureIndicator
+            }
+        }else if flag == 3{//促销
+            if indexPath.row == 0{///第一行
+                cell.detailTextLabel?.textColor=UIColor.applicationMainColor()
+                cell.accessoryType = .disclosureIndicator
+            }else if indexPath.row == 4{
+                cell.accessoryType = .disclosureIndicator
+            }
+        }else{//普通
+            if indexPath.row == 3{
+                cell.accessoryType = .disclosureIndicator
+            }
         }
         ///获取key
         cell.textLabel?.text=vm.goodDetailOtherTitleArr[indexPath.row]
@@ -259,5 +284,20 @@ extension GoodDetailViewController:UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at:indexPath, animated:true)
+        if flag == 1{//特价
+            if indexPath.row == 4{//跳转到配送商商城
+
+            }
+        }else if flag == 3{//促销
+            if indexPath.row == 0{///弹出促销信息
+                UIAlertController.showAlertYes(self, title:"促销信息", message:vm.goodDetailOtherTitleArrValue[0], okButtonTitle:"确定")
+            }else if indexPath.row == 4{//跳转到配送商商城
+
+            }
+        }else{//普通
+            if indexPath.row == 3{//跳转到配送商商城
+
+            }
+        }
     }
 }

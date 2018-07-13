@@ -1,61 +1,72 @@
 //
-//  NewGoodViewController.swift
+//  GoodListViewController.swift
 //  DDJDStoreSwift
 //
-//  Created by hao peng on 2018/7/7.
+//  Created by hao peng on 2018/7/13.
 //  Copyright © 2018年 zldd. All rights reserved.
 //
 
 import Foundation
+import RxDataSources
 import RxSwift
 import RxCocoa
-import RxDataSources
+///商品列表
+class GoodListViewController:BaseViewController{
 
-///新品推荐
-class NewGoodViewController:BaseViewController{
+    /// 接收传入的状态 1表示搜索 2表示查询3级分类商品列表  3查询1元区商品 4查询配送商商品列表
+    var flag:Int=0
+
+    private var vm:GoodListViewModel!
+
+    private var addCarVM=AddCarViewModel()
+
+    ///跳转到购物车按钮
+    private var btnPushCar:UIButton!
+
+    private lazy var menu:JNDropDownMenu={
+        let _menu = JNDropDownMenu(origin: CGPoint(x:0,y: 64),height:44,width:SCREEN_WIDTH)
+        return _menu
+    }()
 
     private lazy var table:UITableView={
         let _table=UITableView()
         _table.tableFooterView=UIView()
         _table.backgroundColor=UIColor.clear
         _table.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0)
-        _table.register(UINib(nibName:"NewGoodListTableViewCell", bundle:nil), forCellReuseIdentifier:"newGoodListId")
+        _table.register(UINib(nibName:"GoodListTableViewCell", bundle:nil), forCellReuseIdentifier:"goodListId")
         _table.emptyDataSetSource=self
         _table.emptyDataSetDelegate=self
         return _table
     }()
-
-    ///跳转购物车按钮
-    private var btnPushCar:UIButton!
-
-    private let vm=NewGoodViewModel()
-
-    private let addCarVM=AddCarViewModel()
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title="新品推荐区"
-        table.frame=self.view.bounds
+        setUI()
+
+    }
+    ///设置UI
+    private func setUI(){
+        self.view.addSubview(menu)
+        table.frame=CGRect.init(x:0,y:menu.frame.maxY,width:SCREEN_WIDTH, height:SCREEN_HEIGH-NAV_HEIGHT-44-BOTTOM_SAFETY_DISTANCE_HEIGHT)
         self.view.addSubview(table)
         //空视图提示文字
-        self.emptyDataSetTextInfo="亲,暂无新品"
+        self.emptyDataSetTextInfo="亲,暂时没有该类商品"
         ///跳转到购物车按钮
         btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
         btnPushCar.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
-//        btnPushCar.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
+        //        btnPushCar.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
         let pushCarItem=UIBarButtonItem(customView:btnPushCar)
         pushCarItem.tintColor=UIColor.colorItem()
         self.navigationItem.rightBarButtonItem=pushCarItem
-        bindViewModel()
     }
 }
-extension NewGoodViewController:Refreshable{
+extension GoodListViewController:Refreshable{
 
     private func bindViewModel(){
 
+        vm=GoodListViewModel(flag:flag)
         ///创建数据源
         let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
-            let cell=table.dequeueReusableCell(withIdentifier:"newGoodListId") as? NewGoodListTableViewCell ?? NewGoodListTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"newGoodListId")
+            let cell=table.dequeueReusableCell(withIdentifier:"goodListId") as? GoodListTableViewCell ?? GoodListTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"goodListId")
             if indexPath.row % 2 == 0{
                 cell.contentView.backgroundColor=UIColor.white
             }else{
@@ -81,7 +92,7 @@ extension NewGoodViewController:Refreshable{
         }).disposed(by:rx_disposeBag)
 
         ///绑定数据源
-        vm.newGoodArrModelBR.asObservable()
+        vm.goodArrModelBR.asObservable()
             .map({ [weak self] (dic) -> [SectionModel<String,GoodDetailModel>] in
                 let emptyDataType=dic.keys.first ?? .noData
                 self?.emptyDataType = emptyDataType
@@ -109,7 +120,7 @@ extension NewGoodViewController:Refreshable{
         self.navigationController?.pushViewController(vc, animated:true)
     }
 }
-extension NewGoodViewController:UITableViewDelegate{
+extension GoodListViewController:UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 120
     }

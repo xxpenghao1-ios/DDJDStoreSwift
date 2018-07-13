@@ -16,7 +16,7 @@ class SpecialGoodViewModel:NSObject,OutputRefreshProtocol{
     var specialArrModelBR=BehaviorRelay<[EmptyDataType:[SectionModel<String,GoodDetailModel>]]>(value:[.loading:[]])
 
     ///保存特价数据
-    var specialArrArrModel=[GoodDetailModel]()
+    var specialArrModel=[GoodDetailModel]()
 
     ///发送网络请求(true)刷新数据 false加载下一页
     var requestNewDataCommond = PublishSubject<Bool>()
@@ -54,14 +54,14 @@ class SpecialGoodViewModel:NSObject,OutputRefreshProtocol{
         PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryPreferentialAndGoods4Store(storeId:store_Id!, pageSize:pageSize, currentPage: currentPage,order: order), model:GoodDetailModel.self).subscribe(onNext: { (arr) in
             if b == true{///刷新
                 ///每次获取最新的数据
-                weakSelf!.specialArrArrModel=arr
-                weakSelf!.specialArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.specialArrArrModel)]])
+                weakSelf!.specialArrModel=arr
+                weakSelf!.specialArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.specialArrModel)]])
 
 
             }else{//加载更多
                 ///追加数据
-                weakSelf!.specialArrArrModel+=arr
-                weakSelf!.specialArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.specialArrArrModel)]])
+                weakSelf!.specialArrModel+=arr
+                weakSelf!.specialArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.specialArrModel)]])
             }
             weakSelf!.refreshStatus.accept(.endHeaderRefresh)
             weakSelf!.refreshStatus.accept(.endFooterRefresh)
@@ -76,8 +76,8 @@ class SpecialGoodViewModel:NSObject,OutputRefreshProtocol{
                 weakSelf!.currentPage-=1
             }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
                 weakSelf!.refreshStatus.accept(.noMoreData)
-                ///获取数据出错 空页面提示
-                weakSelf!.specialArrModelBR.accept([.dataError:[]])
+                ///获取数据出错
+                weakSelf!.specialArrModelBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.specialArrModel)]])
             }
             phLog("获取特价列表数据出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)

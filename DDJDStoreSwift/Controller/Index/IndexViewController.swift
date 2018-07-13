@@ -15,6 +15,9 @@ import RxDataSources
 class IndexViewController:BaseViewController,Refreshable{
 
     private let viewModel=IndexViewModel()
+
+    private let addCarVM=AddCarViewModel()
+
     ///新品推荐数组 旋转木马用
     private var newGoodArrSectionModel=[SectionModel<String,NewGoodModel>]()
     ///旋转木马高度
@@ -103,10 +106,10 @@ class IndexViewController:BaseViewController,Refreshable{
     }()
     ///促销图片
     private lazy var promotionsImgView:UIImageView={
-        let imageView=UIImageView(frame: CGRect.init(x:0,y:0,width:175*0.8,height:175))
+        let imageView=UIImageView(frame:CGRect.init(x:0,y:0,width:175*0.8,height:175))
         imageView.image=UIImage.init(named:"index_promotion")
-//        imageView.isUserInteractionEnabled=true
-//        imageView.addGestureRecognizer(UITapGestureRecognizer(target:self?, action:#selector(pushSpecialVC)))
+        imageView.isUserInteractionEnabled=true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushPromotionVC)))
         return imageView
     }()
     /******************/
@@ -223,6 +226,12 @@ extension IndexViewController{
         vc.hidesBottomBarWhenPushed=true
         self.navigationController?.pushViewController(vc, animated:true)
     }
+    ///跳转到促销页面
+    @objc private func pushPromotionVC(){
+        let vc=PromotionPageViewController()
+        vc.hidesBottomBarWhenPushed=true
+        self.navigationController?.pushViewController(vc, animated:true)
+    }
 
 }
 ///绑定VM
@@ -277,15 +286,22 @@ extension IndexViewController{
 
         ///创建热门商品数据源
         let hotGoodDataSource = RxCollectionViewSectionedReloadDataSource
-            <SectionModel<String,HotGoodModel>>(
-                configureCell: { (dataSource, collectionView, indexPath, element)  in
+            <SectionModel<String,GoodDetailModel>>(
+                configureCell: { [weak self] (dataSource, collectionView, indexPath, model)  in
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"indexHotGoodCellId",for:indexPath) as! IndexHotGoodCollectionViewCell
-                    cell.updateCell(model:element)
+                    cell.updateCell(model:model)
+                    ///点击加入购物车
+                    cell.btnAddCar.rx.tap.asObservable().subscribe({ (_) in
+                        self?.addCarVM.addCar(model:model,goodsCount:1, flag:2)
+                    }).disposed(by:self?.rx_disposeBag ?? DisposeBag())
+                    cell.pushGoodDetailClosure={ model in
+                        self?.pushGoodDetail(model:model)
+                    }
                     return cell
             })
 
         //绑定热门商品数据
-        viewModel.hotGoodArrModelBR.asObservable().map({ [weak self] (arr) -> [SectionModel<String,HotGoodModel>] in
+        viewModel.hotGoodArrModelBR.asObservable().map({ [weak self] (arr) -> [SectionModel<String,GoodDetailModel>] in
             ///根据数据设置热门商品控件高度
             if let modelArr=arr.first?.items{
                 ///更新热门商品高度
@@ -294,6 +310,7 @@ extension IndexViewController{
             return arr
         }).bind(to:self.hotGoodCollectionView.rx.items(dataSource: hotGoodDataSource))
             .disposed(by:rx_disposeBag)
+
         ///刷新
         let refreshHeader=initRefreshHeader(scrollView) { [weak self] in
             self?.viewModel.requestNewDataCommond.onNext(true)
@@ -304,6 +321,16 @@ extension IndexViewController{
         }
         ///自动匹配当前刷新状态
         viewModel.autoSetRefreshHeaderStatus(header:refreshHeader, footer: refreshFooter).disposed(by:rx_disposeBag)
+
+
+    }
+    ///跳转到商品详情
+    private func pushGoodDetail(model:GoodDetailModel){
+        let vc=UIStoryboard(name:"GoodDetail", bundle:nil).instantiateViewController(withIdentifier:"GoodDetailVC") as! GoodDetailViewController
+        vc.model=model
+        vc.flag=2
+        vc.hidesBottomBarWhenPushed=true
+        self.navigationController?.pushViewController(vc, animated:true)
     }
 }
 ///实现旋转木马

@@ -1,21 +1,21 @@
 //
-//  SpecialPageViewController.swift
+//  PromotionPageViewController.swift
 //  DDJDStoreSwift
 //
-//  Created by hao peng on 2018/7/10.
+//  Created by hao peng on 2018/7/13.
 //  Copyright © 2018年 zldd. All rights reserved.
 //
 
 import Foundation
 import WMPageController
-///特价区商品
-class SpecialPageViewController:WMPageController{
+///促销
+class PromotionPageViewController:WMPageController{
     private let titleArr=["销量","价格"]
     private var btnPushCar:UIButton?
     override func viewDidLoad() {
         setUpMenuView()
         super.viewDidLoad()
-        self.title="特价商品区"
+        self.title="促销商品区"
         self.view.backgroundColor=UIColor.viewBgdColor()
         ///去掉返回按钮文字
         let bark=UIBarButtonItem()
@@ -25,8 +25,9 @@ class SpecialPageViewController:WMPageController{
         ///跳转到购物车按钮
         btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
         btnPushCar?.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
-//        btnPushCar.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
+        //        btnPushCar.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
         let pushCarItem=UIBarButtonItem(customView:btnPushCar!)
+
         pushCarItem.tintColor=UIColor.colorItem()
         self.navigationItem.rightBarButtonItem=pushCarItem
     }
@@ -48,7 +49,7 @@ class SpecialPageViewController:WMPageController{
     }
     //显示对应的页面
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {
-        let vc=SpecialViewController()
+        let vc=PromotionViewController()
         vc.order=index == 0 ? "count":"price"
         vc.updateCarCountItemClosure={ (count) in
             self.btnPushCar?.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
@@ -66,7 +67,7 @@ class SpecialPageViewController:WMPageController{
     }
 }
 // MARK: - 设置页面
-extension SpecialPageViewController{
+extension PromotionPageViewController{
     //设置分页控件
     private  func setUpMenuView(){
         self.menuViewStyle = .line
@@ -79,3 +80,4 @@ extension SpecialPageViewController{
         self.titleColorNormal = UIColor.color333()
     }
 }
+

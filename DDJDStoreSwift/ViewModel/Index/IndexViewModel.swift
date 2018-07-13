@@ -32,7 +32,7 @@ class IndexViewModel:NSObject,OutputRefreshProtocol{
     var newGoodArrModelBR=BehaviorRelay<[SectionModel<String,NewGoodModel>]>(value:[])
 
     ///热门商品数组
-    var hotGoodArrModelBR=BehaviorRelay<[SectionModel<String,HotGoodModel>]>(value:[])
+    var hotGoodArrModelBR=BehaviorRelay<[SectionModel<String,GoodDetailModel>]>(value:[])
 
     ///刷新状态
     var refreshStatus = BehaviorRelay<PHRefreshStatus>(value:.none)
@@ -47,7 +47,7 @@ class IndexViewModel:NSObject,OutputRefreshProtocol{
     private var pageSize=10
 
     ///热门商品数组
-    private var hotGoodArr=[HotGoodModel]()
+    private var hotGoodArr=[GoodDetailModel]()
 
     override init() {
         super.init()
@@ -137,7 +137,7 @@ extension IndexViewModel{
             return
         }
         ///发送网络请求
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:county_Id!, isDisplayFlag:2,storeId:store_Id!,currentPage:currentPage,pageSize:pageSize),model:HotGoodModel.self).retry(1).subscribe(onNext: { (arrModel) in
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:county_Id!, isDisplayFlag:2,storeId:store_Id!,currentPage:currentPage,pageSize:pageSize),model:GoodDetailModel.self).retry(1).subscribe(onNext: { (arrModel) in
 
             if b == true{///刷新
                 ///每次获取最新的数据

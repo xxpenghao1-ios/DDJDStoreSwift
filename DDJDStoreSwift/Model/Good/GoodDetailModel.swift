@@ -59,6 +59,14 @@ class GoodDetailModel:Mappable{
     var isPromotionFlag:Int?
     /// 促销期号
     var promotionNumber:Int?
+    /// 促销限购数
+    var promotionEachCount:Int?
+    /// 促销店铺限购数
+    var promotionStoreEachCount:Int?
+    /// 促销信息
+    var goodsDes:String?
+    /// 促销结束时间
+    var promotionEndTime:String?
     ///默认为null；如果=1，此商品被用户收藏
     var goodsCollectionStatu:Int?
     ///特价商品限购数
@@ -97,6 +105,10 @@ class GoodDetailModel:Mappable{
         goodLife <- map["goodLife"]
         isPromotionFlag <- map["isPromotionFlag"]
         promotionNumber <- map["promotionNumber"]
+        promotionEachCount <- map["promotionEachCount"]
+        promotionStoreEachCount <- map["promotionStoreEachCount"]
+        goodsDes <- map["goodsDes"]
+        promotionEndTime <- map["promotionEndTime"]
         goodsCollectionStatu <- map["goodsCollectionStatu"]
         eachCount <- map["eachCount"]
         endTime <- map["endTime"]

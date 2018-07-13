@@ -1,24 +1,26 @@
 //
-//  SpecialViewController.swift
+//  PromotionViewController.swift
 //  DDJDStoreSwift
 //
-//  Created by hao peng on 2018/7/10.
+//  Created by hao peng on 2018/7/13.
 //  Copyright © 2018年 zldd. All rights reserved.
 //
 
 import Foundation
-import RxSwift
 import RxCocoa
+import RxSwift
 import RxDataSources
-///特价页面
-class SpecialViewController:BaseViewController {
+///促销商品区
+class PromotionViewController:BaseViewController{
+    
     ///接收查询状态  默认按销量
     var order="count"
 
     ///更新item购物车按钮数量
     var updateCarCountItemClosure:((_ count:Int) -> Void)?
 
-    private var vm:SpecialGoodViewModel!
+
+    private var vm:PromotionGoodViewModel!
 
     ///加入购物车vm
     private var addCarVM:AddCarViewModel?
@@ -36,9 +38,12 @@ class SpecialViewController:BaseViewController {
         _table.tableFooterView=UIView(frame: CGRect.zero)
         _table.backgroundColor=UIColor.clear
         _table.separatorInset = UIEdgeInsetsMake(0,0,0,0)
-        _table.register(UINib(nibName:"SpecialGoodTableViewCell", bundle:nil), forCellReuseIdentifier:"specialGoodId")
+        _table.register(UINib(nibName:"PromotionGoodTableViewCell", bundle:nil), forCellReuseIdentifier:"promotionGoodId")
         _table.emptyDataSetDelegate=self
         _table.emptyDataSetSource=self
+        _table.rowHeight = UITableViewAutomaticDimension;
+        // 设置tableView的估算高度
+        _table.estimatedRowHeight = 120;
         return _table
     }()
 
@@ -56,8 +61,8 @@ class SpecialViewController:BaseViewController {
         table.frame=CGRect.init(x:0,y:2, width:SCREEN_WIDTH, height:SCREEN_HEIGH-NAV_HEIGHT-44-BOTTOM_SAFETY_DISTANCE_HEIGHT-2)
         self.view.addSubview(table)
         //空视图提示文字
-        self.emptyDataSetTextInfo="亲,暂时没有查询到特价活动"
-        
+        self.emptyDataSetTextInfo="亲,暂时没有查询到促销活动"
+
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -73,22 +78,20 @@ class SpecialViewController:BaseViewController {
     }
 }
 ///绑定vm
-extension SpecialViewController:Refreshable{
+extension PromotionViewController:Refreshable{
 
     private func bindViewModel(){
 
-        vm=SpecialGoodViewModel(order:order)
+        vm=PromotionGoodViewModel(order:order)
         addCarVM=AddCarViewModel()
         ///创建数据源
         let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
-            let cell=table.dequeueReusableCell(withIdentifier:"specialGoodId") as? SpecialGoodTableViewCell ?? SpecialGoodTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"specialGoodId")
+            let cell=table.dequeueReusableCell(withIdentifier:"promotionGoodId") as? PromotionGoodTableViewCell ?? PromotionGoodTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"promotionGoodId")
             cell.index=indexPath.row
             cell.updateCell(model:model)
             ///点击加入购物车
             cell.btnAddCar.rx.tap.asObservable().subscribe({ (_) in
-                ///特价商品区id不一样 重新赋值
-                model.goodsbasicinfoId=model.goodsId
-                self?.addCarVM?.addCar(model:model, goodsCount:1, flag:1)
+                self?.addCarVM?.addCar(model:model,goodsCount:1, flag:3)
             }).disposed(by:self?.rx_disposeBag ?? DisposeBag())
             cell.pushGoodDetailClosure={ model in
                 self?.pushGoodDetail(model:model)
@@ -105,15 +108,13 @@ extension SpecialViewController:Refreshable{
         }).disposed(by:rx_disposeBag)
 
         ///绑定数据源
-        vm.specialArrModelBR.asObservable()
+        vm.promotionArrModelBR.asObservable()
             .map({ [weak self] (dic) -> [SectionModel<String,GoodDetailModel>] in
-            let emptyDataType=dic.keys.first ?? .noData
-            self?.emptyDataType = emptyDataType
-            self?.createTimer() ///加载定时器
-            return dic[emptyDataType] ?? []
-        }).bind(to:table.rx.items(dataSource:dataSources)).disposed(by:rx_disposeBag)
-
-        table.rx.setDelegate(self).disposed(by:rx_disposeBag)
+                let emptyDataType=dic.keys.first ?? .noData
+                self?.emptyDataType = emptyDataType
+                self?.createTimer() ///加载定时器
+                return dic[emptyDataType] ?? []
+            }).bind(to:table.rx.items(dataSource:dataSources)).disposed(by:rx_disposeBag)
 
         ///刷新
         let refreshHeader=initRefreshHeader(table) { [weak self] in
@@ -131,21 +132,18 @@ extension SpecialViewController:Refreshable{
 
 
 }
-extension SpecialViewController:UITableViewDelegate{
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 120
-    }
+extension PromotionViewController{
+
     ///跳转到商品详情
     private func pushGoodDetail(model:GoodDetailModel){
         let vc=UIStoryboard(name:"GoodDetail", bundle:nil).instantiateViewController(withIdentifier:"GoodDetailVC") as! GoodDetailViewController
-        model.goodsbasicinfoId=model.goodsId
         vc.model=model
-        vc.flag=1
+        vc.flag=3
         self.navigationController?.pushViewController(vc, animated:true)
     }
 }
 ///倒计时
-extension SpecialViewController{
+extension PromotionViewController{
     /**
      创建定时器
      */
@@ -160,24 +158,24 @@ extension SpecialViewController{
      定时器每次执行
      */
     @objc func timerEvent(){
-        for model in vm.specialArrModel{//所有数据源每一秒减一
-            let times=model.endTime?.components(separatedBy:".")
+        for model in vm.promotionArrModel{//所有数据源每一秒减一
+            let times=model.promotionEndTime?.components(separatedBy:".")
             if times != nil && Int(times![0]) > 0{///特价时间不为空 或者大于0
                 var time=Int(times![0])
                 time!-=1
-                model.endTime=time!.description
+                model.promotionEndTime=time!.description
             }else{
-                model.endTime="0"
+                model.promotionEndTime="0"
             }
 
         }
         //获取屏幕内可见的cell
         let cells=table.visibleCells
         for i in 0..<cells.count{
-            let cell=cells[i] as? SpecialGoodTableViewCell
+            let cell=cells[i] as? PromotionGoodTableViewCell
             if cell != nil{
-                let model=vm.specialArrModel[cell!.index!]
-                let time=Int(model.endTime!)
+                let model=vm.promotionArrModel[cell!.index!]
+                let time=Int(model.promotionEndTime!)
                 if time > 0 {///如果结束时间大于0 显示倒计时
                     cell!.lblEndTime.text=lessSecondToDay(time!)
                 }else{//活动结束
@@ -196,3 +194,4 @@ extension SpecialViewController{
         timer=nil
     }
 }
+
