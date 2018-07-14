@@ -89,11 +89,11 @@ extension PromotionViewController:Refreshable{
             let cell=table.dequeueReusableCell(withIdentifier:"promotionGoodId") as? PromotionGoodTableViewCell ?? PromotionGoodTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"promotionGoodId")
             cell.index=indexPath.row
             cell.updateCell(model:model)
-            ///点击加入购物车
-            cell.btnAddCar.rx.tap.asObservable().subscribe({ (_) in
+            ///加入购物车
+            cell.addCarClosure={
                 self?.addCarVM?.addCar(model:model,goodsCount:1, flag:3)
-            }).disposed(by:self?.rx_disposeBag ?? DisposeBag())
-            cell.pushGoodDetailClosure={ model in
+            }
+            cell.pushGoodDetailClosure={
                 self?.pushGoodDetail(model:model)
             }
             return cell

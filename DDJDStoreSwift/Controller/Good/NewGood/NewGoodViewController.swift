@@ -61,13 +61,13 @@ extension NewGoodViewController:Refreshable{
             }else{
                 cell.contentView.backgroundColor=UIColor.viewBgdColor()
             }
-            cell.pushGoodDetailClosure={ model in
+            cell.pushGoodDetailClosure={
                 self?.pushGoodDetail(model:model)
             }
-            ///点击加入购物车
-            cell.btnAddCar.rx.tap.asObservable().subscribe({ (_) in
+            ///加入购物车车
+            cell.addCarClosure={
                 self?.addCarVM.addCar(model:model, goodsCount:Int(cell.stepper.value),flag:2)
-            }).disposed(by:self?.rx_disposeBag ?? DisposeBag())
+            }
             cell.updateCell(model:model)
             return cell
         })

@@ -14,6 +14,7 @@ import SwiftyJSON
 import ObjectMapper
 ///分类VM
 class ClassifyViewModel:NSObject{
+    
     ///商品分类id
     var goodsCategoryId:Int?
 

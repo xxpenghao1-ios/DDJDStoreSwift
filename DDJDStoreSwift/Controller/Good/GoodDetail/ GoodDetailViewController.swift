@@ -286,18 +286,26 @@ extension GoodDetailViewController:UITableViewDelegate,UITableViewDataSource{
         tableView.deselectRow(at:indexPath, animated:true)
         if flag == 1{//特价
             if indexPath.row == 4{//跳转到配送商商城
-
+                pushGoodListVC()
             }
         }else if flag == 3{//促销
             if indexPath.row == 0{///弹出促销信息
                 UIAlertController.showAlertYes(self, title:"促销信息", message:vm.goodDetailOtherTitleArrValue[0], okButtonTitle:"确定")
             }else if indexPath.row == 4{//跳转到配送商商城
-
+                pushGoodListVC()
             }
         }else{//普通
             if indexPath.row == 3{//跳转到配送商商城
-
+                pushGoodListVC()
             }
         }
+    }
+    ///跳转到配送商商城
+    private func pushGoodListVC(){
+        let vc=GoodListViewController()
+        vc.flag=4
+        vc.titleStr=vm.goodDetailBR.value.supplierName
+        vc.subSupplierId=vm.goodDetailBR.value.subSupplier
+        self.navigationController?.pushViewController(vc, animated:true)
     }
 }

@@ -35,6 +35,7 @@ final public class PHRequest:NSObject{
                 case let .success(response):
                     do {
                         let json = try response.mapJSON()
+                        print(JSON(json))
                         observable.onNext(ResponseResult.success(json:JSON(json)))
                     } catch {
                         observable.onNext(ResponseResult.faild(error:MoyaError.jsonMapping(response)))

@@ -10,7 +10,9 @@ import UIKit
 ///新品推荐Cell
 class NewGoodListTableViewCell: UITableViewCell {
     ///跳转到商品详情
-    var pushGoodDetailClosure:((_ model:GoodDetailModel) -> Void)?
+    var pushGoodDetailClosure:(() -> Void)?
+    ///加入购物车
+    var addCarClosure:(() -> Void)?
     ///商品图片
     @IBOutlet weak var imgView:UIImageView!
     ///商品名称
@@ -31,8 +33,6 @@ class NewGoodListTableViewCell: UITableViewCell {
     @IBOutlet weak var stepper: GMStepper!
     ///已售罄
     @IBOutlet weak var to_sell_out_ImgView:UIImageView!
-    ///保存新品model
-    private var model:GoodDetailModel?
     override func awakeFromNib() {
         super.awakeFromNib()
         self.selectionStyle = .none
@@ -44,10 +44,11 @@ class NewGoodListTableViewCell: UITableViewCell {
         btnAddCar.layer.cornerRadius=15
         ///点击图片跳转页面
         imgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodDetail)))
+        ///加入购物车
+        btnAddCar.addTarget(self, action:#selector(addCar), for: UIControlEvents.touchUpInside)
     }
     ///更新cell
     func updateCell(model:GoodDetailModel){
-        self.model=model
         ///每次更新数据先隐藏已售罄图片
         hideTo_sell_out_ImgView()
 
@@ -102,9 +103,11 @@ class NewGoodListTableViewCell: UITableViewCell {
     }
     ///跳转到商品详情
     @objc private func pushGoodDetail(){
-        if model != nil{
-            self.pushGoodDetailClosure?(model!)
-        }
+        self.pushGoodDetailClosure?()
+    }
+    ///加入购物车
+    @objc private func addCar(){
+        self.addCarClosure?()
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

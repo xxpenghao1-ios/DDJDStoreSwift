@@ -58,6 +58,14 @@ extension ClassifyViewController{
             return cell
         })
 
+        ///选中3级分类事件
+        self.collection.rx.modelSelected(GoodsCategoryModel.self).asObservable().subscribe(onNext: { [weak self] (model) in
+            let vc=GoodListViewController()
+            vc.flag=2
+            vc.goodsCategoryId=model.goodsCategoryId
+            vc.titleStr=model.goodsCategoryName
+            self?.navigationController?.pushViewController(vc,animated:true)
+        }).disposed(by:rx_disposeBag)
         ///绑定3级分类
         vm.goodsCategory3ArrBR.asObservable()
             .bind(to:self.collection.rx.items(dataSource:collectionDataSource))
@@ -88,7 +96,6 @@ extension ClassifyViewController{
             if weakSelf == nil{
                 return
             }
-            weakSelf!.table.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated:true)
             ///获取2级分类名称
             let key=tableDataSource[indexPath]
             ///获取2级分类对应的3级分类数据
@@ -120,10 +127,8 @@ extension ClassifyViewController{
             if weakSelf == nil{
                 return
             }
-            weakSelf!.table.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated:true)
             ///获取2级分类model
             let model=tableDataSource[indexPath]
-
             ///更新3级分类数据
             weakSelf!.vm.requestGoodsCategory3Commond.onNext(model.goodsCategoryId ?? 0)
         }).disposed(by:rx_disposeBag)

@@ -84,13 +84,13 @@ extension SpecialViewController:Refreshable{
             let cell=table.dequeueReusableCell(withIdentifier:"specialGoodId") as? SpecialGoodTableViewCell ?? SpecialGoodTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"specialGoodId")
             cell.index=indexPath.row
             cell.updateCell(model:model)
-            ///点击加入购物车
-            cell.btnAddCar.rx.tap.asObservable().subscribe({ (_) in
+            ///加入购物车车
+            cell.addCarClosure={
                 ///特价商品区id不一样 重新赋值
                 model.goodsbasicinfoId=model.goodsId
                 self?.addCarVM?.addCar(model:model, goodsCount:1, flag:1)
-            }).disposed(by:self?.rx_disposeBag ?? DisposeBag())
-            cell.pushGoodDetailClosure={ model in
+            }
+            cell.pushGoodDetailClosure={
                 self?.pushGoodDetail(model:model)
             }
             return cell

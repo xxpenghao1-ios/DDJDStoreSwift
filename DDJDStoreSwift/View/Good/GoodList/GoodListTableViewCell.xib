@@ -241,6 +241,14 @@
                         <color key="textColor" red="0.40784313729999999" green="0.40784313729999999" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bW5-dd-YXT">
+                        <rect key="frame" x="145" y="80" width="44" height="30"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="OuX-Z6-YNu"/>
+                            <constraint firstAttribute="width" constant="44" id="i2P-NX-3fg"/>
+                        </constraints>
+                    </button>
                 </subviews>
                 <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <color key="tintColor" red="0.99990516900000004" green="1" blue="0.99987047910000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -268,9 +276,11 @@
                     <constraint firstItem="4Vg-nO-G9Y" firstAttribute="leading" secondItem="3hG-Zd-ZVc" secondAttribute="trailing" constant="15" id="SjX-GL-clq"/>
                     <constraint firstItem="PbC-zw-tLe" firstAttribute="top" secondItem="d2O-WS-0Zx" secondAttribute="bottom" constant="2" id="TQd-J0-U0d"/>
                     <constraint firstAttribute="trailingMargin" secondItem="8wZ-ff-KnT" secondAttribute="trailing" constant="5" id="Xgl-6S-a26"/>
+                    <constraint firstItem="bW5-dd-YXT" firstAttribute="leading" secondItem="ooo-KT-0q8" secondAttribute="trailing" constant="35" id="adL-ds-UY6"/>
                     <constraint firstItem="hs0-Iv-d6b" firstAttribute="trailing" secondItem="q8q-Yq-sGa" secondAttribute="trailingMargin" id="bbd-El-f6C"/>
                     <constraint firstItem="iLo-uU-HTL" firstAttribute="bottom" secondItem="ooo-KT-0q8" secondAttribute="bottom" id="dQ0-OQ-X61"/>
                     <constraint firstItem="PbC-zw-tLe" firstAttribute="top" secondItem="8wZ-ff-KnT" secondAttribute="bottom" constant="2" id="eyJ-by-UXu"/>
+                    <constraint firstItem="bW5-dd-YXT" firstAttribute="bottom" secondItem="ooo-KT-0q8" secondAttribute="bottom" id="lTp-Bf-yqB"/>
                     <constraint firstItem="hLA-p4-U4t" firstAttribute="centerY" secondItem="q8q-Yq-sGa" secondAttribute="centerY" id="mXA-FS-AKh"/>
                     <constraint firstItem="PbC-zw-tLe" firstAttribute="bottom" secondItem="ooo-KT-0q8" secondAttribute="bottom" id="yHF-87-3Rf"/>
                     <constraint firstItem="xoQ-u3-7P2" firstAttribute="bottom" secondItem="MR6-FN-7be" secondAttribute="bottom" id="zj8-L0-K81"/>
@@ -286,6 +296,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="btnAddCar" destination="PbC-zw-tLe" id="XfX-MP-oTR"/>
+                <outlet property="btnSelectedGoodCount" destination="bW5-dd-YXT" id="KBT-EP-rfT"/>
                 <outlet property="imgView" destination="KEa-GR-PqY" id="drl-CJ-lcK"/>
                 <outlet property="lblGoodName" destination="hs0-Iv-d6b" id="5iM-PL-e4m"/>
                 <outlet property="lblGoodUnit" destination="MR6-FN-7be" id="DZI-OU-QEr"/>
@@ -297,7 +308,7 @@
                 <outlet property="stepper" destination="iLo-uU-HTL" id="hac-3x-Pw1"/>
                 <outlet property="to_sell_out_ImgView" destination="hLA-p4-U4t" id="JOL-MN-rqf"/>
             </connections>
-            <point key="canvasLocation" x="-820" y="-224"/>
+            <point key="canvasLocation" x="-1087" y="-228"/>
         </tableViewCell>
     </objects>
     <resources>

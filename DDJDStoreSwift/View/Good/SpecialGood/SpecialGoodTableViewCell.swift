@@ -45,7 +45,9 @@ func lessSecondToDay(_ seconds:Int) -> String{
 ///特价cell
 class SpecialGoodTableViewCell: UITableViewCell {
     ///跳转到商品详情
-    var pushGoodDetailClosure:((_ model:GoodDetailModel) -> Void)?
+    var pushGoodDetailClosure:(() -> Void)?
+    ///加入购物车
+    var addCarClosure:(() -> Void)?
     ///商品图片
     @IBOutlet weak var imgView:UIImageView!
     ///商品名称
@@ -68,8 +70,6 @@ class SpecialGoodTableViewCell: UITableViewCell {
     @IBOutlet weak var lblEndTime:UILabel!
     ///商品状态图片  已售罄/活动已结束
     @IBOutlet weak var goodStateImgView:UIImageView!
-    ///保存特价model
-    private var model:GoodDetailModel?
     ///行索引
     var index:Int?
     override func awakeFromNib() {
@@ -79,11 +79,11 @@ class SpecialGoodTableViewCell: UITableViewCell {
         goodStateImgView.isHidden=true
         ///点击图片跳转页面
         imgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodDetail)))
-        
+        ///加入购物车
+        btnAddCar.addTarget(self, action:#selector(addCar), for: UIControlEvents.touchUpInside)
     }
     
     func updateCell(model:GoodDetailModel){
-        self.model=model
         ///每次更新数据先隐藏
         hideGoodStateImgView()
         
@@ -143,9 +143,11 @@ class SpecialGoodTableViewCell: UITableViewCell {
     }
     ///跳转到商品详情
     @objc private func pushGoodDetail(){
-        if model != nil{
-            self.pushGoodDetailClosure?(model!)
-        }
+        self.pushGoodDetailClosure?()
+    }
+    ///加入购物车
+    @objc private func addCar(){
+        self.addCarClosure?()
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
