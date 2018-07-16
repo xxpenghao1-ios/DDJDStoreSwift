@@ -22,19 +22,15 @@ struct GoodsCategoryModel:Mappable {
     var goodsCategoryIdRemark:String?
     ///分类类型
     var categoryType:Int?
-
     /// 分站品牌名字
-    var brandname:String?
-
+    var brandName:String?
     /// 分站品牌ID
     var brandId:String?
-
     /// 分站分类ID
     var goodscategoryId:Int?
-
     /// 分站ID
     var substationId:String?
-
+    init(){}
     init?(map: Map) {
     }
     mutating func mapping(map: Map) {
@@ -43,7 +39,7 @@ struct GoodsCategoryModel:Mappable {
         goodsCategoryPid <- map["goodsCategoryPid"]
         goodsCategoryIco <- map["goodsCategoryIco"]
         goodsCategoryIdRemark <- map["goodsCategoryIdRemark"]
-        brandname <- map["brandname"]
+        brandName <- map["brandName"]
         brandId <- map["brandId"]
         goodscategoryId <- map["goodscategoryId"]
         categoryType <- map["categoryType"]

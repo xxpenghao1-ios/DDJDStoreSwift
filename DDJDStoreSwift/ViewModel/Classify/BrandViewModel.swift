@@ -45,7 +45,10 @@ extension BrandViewModel{
                     let arr=Mapper<GoodsCategoryModel>().mapArray(JSONObject:json["全部"]["brand"].object)
                     self?.goodsBrandArrBR.accept([.noData:[SectionModel.init(model:"",items:arr ?? [])]])
                     break
-                default:break
+                default:
+                    ///获取数据出错 空页面提示
+                    self?.goodsBrandArrBR.accept([.dataError:[SectionModel.init(model:"",items:[])]])
+                    break
                 }
                 self?.refreshStatus.accept(.endHeaderRefresh)
             }, onError: { [weak self] (error) in

@@ -29,6 +29,9 @@ class ClassifyViewController:BaseViewController {
         super.viewDidLoad()
         self.title="按品项"
         self.view.backgroundColor=UIColor.viewBgdColor()
+        collection.emptyDataSetDelegate=self
+        collection.emptyDataSetSource=self
+        self.emptyDataSetTextInfo="暂时木有相关分类"
         vm.goodsCategoryId=goodsCategoryId
         setUI()
         bindViewModel()
@@ -36,7 +39,7 @@ class ClassifyViewController:BaseViewController {
     
 }
 
-extension ClassifyViewController{
+extension ClassifyViewController:Refreshable{
     ///绑定VM
     private func bindViewModel(){
 
@@ -64,13 +67,28 @@ extension ClassifyViewController{
             vc.flag=2
             vc.goodsCategoryId=model.goodsCategoryId
             vc.titleStr=model.goodsCategoryName
+            vc.hidesBottomBarWhenPushed=true
             self?.navigationController?.pushViewController(vc,animated:true)
         }).disposed(by:rx_disposeBag)
+
         ///绑定3级分类
-        vm.goodsCategory3ArrBR.asObservable()
-            .bind(to:self.collection.rx.items(dataSource:collectionDataSource))
+        vm.goodsCategory3ArrBR.asObservable().map({ [weak self] (dic) -> [SectionModel<String,GoodsCategoryModel>] in
+            let emptyDataType=dic.keys.first ?? .noData
+            self?.emptyDataType = emptyDataType
+            return dic[emptyDataType] ?? []
+        }).bind(to:self.collection.rx.items(dataSource:collectionDataSource))
             .disposed(by: rx_disposeBag)
 
+        ///刷新
+        let refreshHeader=initRefreshHeader(collection) { [weak self] in
+            if self?.goodsCategoryId == nil{//如果为空 查询所有的23级分类
+                self?.vm.requestNewDataCommond.onNext(false)
+            }else{//查询1分类对应的23级分类
+                self?.vm.requestNewDataCommond.onNext(true)
+            }
+        }
+        ///自动匹配当前刷新状态
+        vm.autoSetRefreshHeaderStatus(header:refreshHeader, footer:nil).disposed(by:rx_disposeBag)
     }
     ///根据1级分类设置
     private func setLevel1GoodsCategory(){
@@ -101,7 +119,10 @@ extension ClassifyViewController{
             ///获取2级分类对应的3级分类数据
             let sectionModel=SectionModel(model:"", items: weakSelf!.vm.goodsCategory23ArrBR.value[key] ?? [])
             ///更新3级分类数据
-            weakSelf!.vm.goodsCategory3ArrBR.accept([sectionModel])
+            weakSelf!.vm.goodsCategory3ArrBR.accept([.noData
+                :[sectionModel]])
+            ///记录每次选中的行索引
+            weakSelf!.vm.index=indexPath.row
         }).disposed(by:rx_disposeBag)
     }
     ///从底部点击进来
@@ -129,8 +150,19 @@ extension ClassifyViewController{
             }
             ///获取2级分类model
             let model=tableDataSource[indexPath]
-            ///更新3级分类数据
-            weakSelf!.vm.requestGoodsCategory3Commond.onNext(model.goodsCategoryId ?? 0)
+            if model.goodsCategoryName == "全部"{///直接获取所有的3级分类
+                weakSelf!.vm.goodsCategory3ArrBR.accept([.noData:weakSelf!.vm.goodsCategoryAll3ArrBR.value])
+            }else{
+                ///获取全部的3级分类
+                let allArrModel3=weakSelf!.vm.goodsCategoryAll3ArrBR.value[0].items
+                ///筛选父id是当前选中的2级分类id3级分类
+                let arrModel3=allArrModel3.filter({ (m) -> Bool in
+                    return m.goodsCategoryPid == model.goodsCategoryId
+                })
+                weakSelf!.vm.goodsCategory3ArrBR.accept([.noData:[SectionModel.init(model:"",items:arrModel3)]])
+            }
+            ///记录每次选中的行索引
+            weakSelf!.vm.index=indexPath.row
         }).disposed(by:rx_disposeBag)
     }
 }
@@ -159,10 +191,9 @@ extension ClassifyViewController:UITableViewDelegate{
     }
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == 0{
+        let index=IndexPath(row:self.vm.index, section:0)
             DispatchQueue.main.async {
-                tableView.selectRow(at:indexPath, animated:true, scrollPosition: UITableViewScrollPosition.none)
+                tableView.selectRow(at:index, animated:true, scrollPosition: UITableViewScrollPosition.none)
             }
-        }
     }
 }

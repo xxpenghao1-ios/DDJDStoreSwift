@@ -47,9 +47,9 @@ extension BrandViewController:Refreshable{
 
     private func bindViewModel(){
 
-        if goodsCategoryId != nil{
+        if goodsCategoryId != nil{///查询1级分类下面品牌
             vm.requestNewDataCommond.onNext(1)
-        }else{
+        }else{///查询所有品牌
             vm.requestNewDataCommond.onNext(2)
         }
 
@@ -65,7 +65,7 @@ extension BrandViewController:Refreshable{
                         cell.contentView.addSubview(lblName!)
                     }
                     lblName!.frame=cell.contentView.frame
-                    lblName!.text=model.brandname
+                    lblName!.text=model.brandName
                     cell.contentView.backgroundColor=UIColor.RGBFromHexColor(hexString:"ebebeb")
                     return cell
             })
@@ -76,6 +76,15 @@ extension BrandViewController:Refreshable{
             self?.emptyDataType = emptyDataType
             return dic[emptyDataType] ?? []
         }).bind(to:collection.rx.items(dataSource:brandDataSource)).disposed(by:rx_disposeBag)
+
+        ///选中3级分类事件
+        self.collection.rx.modelSelected(GoodsCategoryModel.self).asObservable().subscribe(onNext: { [weak self] (model) in
+            let vc=GoodListViewController()
+            vc.flag=1
+            vc.titleStr=model.brandName
+            vc.hidesBottomBarWhenPushed=true
+            self?.navigationController?.pushViewController(vc,animated:true)
+        }).disposed(by:rx_disposeBag)
 
         ///刷新
         let refreshHeader=initRefreshHeader(collection) { [weak self] in

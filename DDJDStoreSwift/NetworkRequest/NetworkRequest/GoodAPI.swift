@@ -30,6 +30,8 @@ public enum GoodAPI{
     case goodsAddCollection(goodId:Int,supplierId:Int,subSupplierId:Int,memberId:String)
     //购物车中查询配送商的更多商品（凑单）
     case queryShoppingCarMoreGoodsForSubSupplier(storeId:String,subSupplierId:Int,pageSize:Int,currentPage:Int,order:String,seachLetterValue:String?,tag:Int)
+    ///根据商品名称/品牌搜索商品
+    case searchGoodsInterfaceForStore(pageSize:Int,currentPage:Int,searchCondition:String,isDisplayFlag:Int,storeId:String,order:String,tag:Int)
 }
 extension GoodAPI:TargetType{
     public var path: String {
@@ -48,6 +50,8 @@ extension GoodAPI:TargetType{
             return "goodsAddCollection.sc"
         case .queryShoppingCarMoreGoodsForSubSupplier(_,_,_,_,_,_,_):
             return "queryShoppingCarMoreGoodsForSubSupplier.xhtml"
+        case .searchGoodsInterfaceForStore(_,_,_,_,_,_,_):
+            return "searchGoodsInterfaceForStore.xhtml"
         }
     }
 
@@ -55,6 +59,8 @@ extension GoodAPI:TargetType{
         switch self {
         case .queryGoodsForAndroidIndexForStoreNew(_,_,_),.queryPreferentialAndGoods4Store(_,_,_,_),.queryStorePromotionGoodsList(_,_,_,_),.queryGoodsInfoByCategoryForAndroidForStore(_,_,_,_,_,_,_,_),.queryGoodsDetailsForAndroid(_,_,_,_,_,_,_,_),.goodsAddCollection(_,_,_,_),.queryShoppingCarMoreGoodsForSubSupplier(_,_,_,_,_,_,_):
             return .get
+        case .searchGoodsInterfaceForStore(_,_,_,_,_,_,_):
+            return .post
         }
     }
 
@@ -98,6 +104,8 @@ extension GoodAPI:TargetType{
             }else{
                 return .requestPlain
             }
+        case let .searchGoodsInterfaceForStore(pageSize,currentPage,searchCondition, isDisplayFlag, storeId, order, tag):
+            return .requestParameters(parameters:["pageSize":pageSize,"currentPage":currentPage,"searchCondition":searchCondition,"isDisplayFlag":isDisplayFlag,"storeId":storeId,"order":order,"tag":tag], encoding: URLEncoding.default)
         }
 
     }

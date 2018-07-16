@@ -191,7 +191,10 @@ extension IndexViewController{
         txtSearch.frame=CGRect.init(x:0,y:0, width:SCREEN_WIDTH-135, height:30)
         txtSearch.layer.cornerRadius=15
         txtSearch.backgroundColor=UIColor.RGBFromHexColor(hexString:"f0f0f0")
-        txtSearch.rx.controlEvent(.editingDidBegin).asObservable().subscribe(onNext: {  (_) in
+        txtSearch.rx.controlEvent(.editingDidBegin).asObservable().subscribe(onNext: { [weak self] (_) in
+            let vc=SearchViewController()
+            vc.hidesBottomBarWhenPushed=true
+            self?.navigationController?.pushViewController(vc, animated:true)
             txtSearch.resignFirstResponder()
 
         }).disposed(by:rx_disposeBag)

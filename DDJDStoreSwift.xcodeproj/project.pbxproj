@@ -71,6 +71,9 @@
 		6350F8B520E3359B00176219 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350F8B420E3359B00176219 /* UIImageView.swift */; };
 		6350F8B820E3759900176219 /* MJRefresh+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350F8B720E3759900176219 /* MJRefresh+Rx.swift */; };
 		6350F8BA20E3761700176219 /* MJRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350F8B920E3761700176219 /* MJRefresh.swift */; };
+		6356EA4120FC42230021DF6F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6356EA4020FC42230021DF6F /* SearchViewController.swift */; };
+		6356EA4420FC45AC0021DF6F /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6356EA4320FC45AC0021DF6F /* SearchCollectionViewCell.swift */; };
+		6356EA4720FC47360021DF6F /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6356EA4620FC47360021DF6F /* SearchViewModel.swift */; };
 		6366E05220D0C28F00CB634B /* GoodsCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6366E05120D0C28F00CB634B /* GoodsCategoryModel.swift */; };
 		6366E05520D0CB0A00CB634B /* IndexClassifyCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6366E05420D0CB0A00CB634B /* IndexClassifyCollectionViewCell.swift */; };
 		637FAEDE20EDA32500299D29 /* OrderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637FAEDD20EDA32500299D29 /* OrderAPI.swift */; };
@@ -209,6 +212,9 @@
 		6350F8B420E3359B00176219 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		6350F8B720E3759900176219 /* MJRefresh+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MJRefresh+Rx.swift"; sourceTree = "<group>"; };
 		6350F8B920E3761700176219 /* MJRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MJRefresh.swift; sourceTree = "<group>"; };
+		6356EA4020FC42230021DF6F /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		6356EA4320FC45AC0021DF6F /* SearchCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewCell.swift; sourceTree = "<group>"; };
+		6356EA4620FC47360021DF6F /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		6366E05120D0C28F00CB634B /* GoodsCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodsCategoryModel.swift; sourceTree = "<group>"; };
 		6366E05420D0CB0A00CB634B /* IndexClassifyCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexClassifyCollectionViewCell.swift; sourceTree = "<group>"; };
 		637FAEDD20EDA32500299D29 /* OrderAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAPI.swift; sourceTree = "<group>"; };
@@ -439,6 +445,7 @@
 		6341DB302094127300AC267D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6356EA4220FC45830021DF6F /* Search */,
 				6380069C20F06B6500D39044 /* Good */,
 				63BD7E4420EB4C7500C01219 /* My */,
 				634DB1DF20E7758300D5016A /* Classify */,
@@ -477,6 +484,7 @@
 		6341DB3920945F8F00AC267D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				6356EA4520FC47200021DF6F /* Search */,
 				6380069720F0655800D39044 /* Good */,
 				63BD7E4720EB507400C01219 /* My */,
 				634DB1D820E76A5100D5016A /* Classify */,
@@ -625,6 +633,30 @@
 				6350F8B720E3759900176219 /* MJRefresh+Rx.swift */,
 			);
 			path = Rx;
+			sourceTree = "<group>";
+		};
+		6356EA3F20FC42050021DF6F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				6356EA4020FC42230021DF6F /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		6356EA4220FC45830021DF6F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				6356EA4320FC45AC0021DF6F /* SearchCollectionViewCell.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		6356EA4520FC47200021DF6F /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				6356EA4620FC47360021DF6F /* SearchViewModel.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		6366E05320D0CAC600CB634B /* Index */ = {
@@ -910,6 +942,7 @@
 		63FBEE722091AABA00BE6B81 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6356EA3F20FC42050021DF6F /* Search */,
 				6380069120F05A2B00D39044 /* Good */,
 				63BD7E4120EB179700C01219 /* My */,
 				634DB1D320E7632C00D5016A /* Classify */,
@@ -1175,6 +1208,7 @@
 				639B5A6720F35DFB005CA571 /* CarAPI.swift in Sources */,
 				633D0ABA20DE278E0022A4D9 /* IndexHotGoodCollectionViewCell.swift in Sources */,
 				630E2EA220F2E8AA00884E79 /*  GoodDetailViewController.swift in Sources */,
+				6356EA4420FC45AC0021DF6F /* SearchCollectionViewCell.swift in Sources */,
 				633F8CD820CFAA2200D227AF /* IndexViewModel.swift in Sources */,
 				6350F8B820E3759900176219 /* MJRefresh+Rx.swift in Sources */,
 				634DB1DA20E76A7000D5016A /* ClassifyViewModel.swift in Sources */,
@@ -1208,6 +1242,7 @@
 				633F8CDA20CFB29500D227AF /* AdvertisingModel.swift in Sources */,
 				6333E7492092C5EF00CEC3B7 /* SetUpApp.swift in Sources */,
 				6333E7462092C18E00CEC3B7 /* String.swift in Sources */,
+				6356EA4720FC47360021DF6F /* SearchViewModel.swift in Sources */,
 				633D0AB820DE265A0022A4D9 /* WaterCollectionViewLayout.swift in Sources */,
 				637FAEF120EDC95000299D29 /* OrderGoodModel.swift in Sources */,
 				637FAEEE20EDB1F600299D29 /* OrderListTableViewCell.swift in Sources */,
@@ -1251,6 +1286,7 @@
 				6380069620F05CC600D39044 /* GoodAPI.swift in Sources */,
 				637FAEEA20EDADAD00299D29 /* OrderViewController.swift in Sources */,
 				634DB1E320E7798F00D5016A /* GoodClassifyTableViewCell.swift in Sources */,
+				6356EA4120FC42230021DF6F /* SearchViewController.swift in Sources */,
 				6333E74D2092EB1300CEC3B7 /* UIButton.swift in Sources */,
 				63BD7E4920EB508300C01219 /* MyViewModel.swift in Sources */,
 				638A26AF20ECA33000170762 /* MessageTableViewCell.swift in Sources */,

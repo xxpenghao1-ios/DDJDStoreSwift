@@ -44,24 +44,24 @@ class GoodListViewModel:NSObject,OutputRefreshProtocol{
     private var pageSize=10
 
     /// 接收传入的状态 1表示搜索 2表示查询3级分类商品列表  3查询1元区商品 4查询配送商商品列表
-    init(flag:Int,goodsCategoryId:Int?,subSupplierId:Int?) {
+    init(flag:Int,goodsCategoryId:Int?,subSupplierId:Int?,searchCondition:String?) {
         super.init()
         requestNewDataCommond
             .startWith(true)//默认刷新数据加载
             .subscribe(onNext: { [weak self] (b) in
                 if b {//重新加载数据
                     self?.currentPage=1
-                    self?.request(b:b, flag:flag,goodsCategoryId:goodsCategoryId, subSupplierId: subSupplierId)
+                    self?.request(b:b, flag:flag,goodsCategoryId:goodsCategoryId, subSupplierId: subSupplierId, searchCondition: searchCondition)
                 }else{///加载下一页
                     self?.currentPage+=1
-                    self?.request(b:b,flag:flag,goodsCategoryId:goodsCategoryId, subSupplierId: subSupplierId)
+                    self?.request(b:b,flag:flag,goodsCategoryId:goodsCategoryId, subSupplierId: subSupplierId, searchCondition: searchCondition)
                 }
             }).disposed(by:rx_disposeBag)
     }
     ///网络请求
-    private func request(b:Bool,flag:Int,goodsCategoryId:Int?,subSupplierId:Int?){
-        if flag == 1{///
-
+    private func request(b:Bool,flag:Int,goodsCategoryId:Int?,subSupplierId:Int?,searchCondition:String?){
+        if flag == 1{///搜索商品
+            searchGoodsInterfaceForStore(b:b,searchCondition:searchCondition ?? "" , order:order, tag:tag)
         }else if flag == 2{//查询3级分类列表
             getGoodsInfoByCategoryForAndroidForStore(b:b, goodsCategoryId:goodsCategoryId ?? 0, seachLetterValue:seachLetter,order:order,tag:tag)
         }else if flag == 3{///查询休闲零食1元区
@@ -103,6 +103,19 @@ extension GoodListViewModel{
         }, onError: { (error) in
             weakSelf!.errorResult()
             phLog("查询配送商所属商品出错\(error.localizedDescription)")
+        }).disposed(by:rx_disposeBag)
+    }
+    ///根据商品名字或者品牌查询商品的详细信息接口
+    private func searchGoodsInterfaceForStore(b:Bool,searchCondition:String,order:String,tag:Int){
+        weak var weakSelf=self
+        if weakSelf == nil{
+            return
+        }
+        PHRequest.shared.requestJSONArrModel(target:GoodAPI.searchGoodsInterfaceForStore(pageSize:pageSize,currentPage:currentPage,searchCondition:searchCondition, isDisplayFlag: 2, storeId: store_Id!,order:order, tag:tag), model: GoodDetailModel.self).subscribe(onNext: { (arr) in
+            weakSelf!.subscribeResult(b:b, arr:arr)
+        }, onError: { (error) in
+            weakSelf!.errorResult()
+            phLog("搜索商品出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }
     ///请求结果处理

@@ -75,7 +75,7 @@ extension GoodListViewController:Refreshable{
 
     private func bindViewModel(){
 
-        vm=GoodListViewModel(flag:flag,goodsCategoryId:goodsCategoryId, subSupplierId:subSupplierId)
+        vm=GoodListViewModel(flag:flag,goodsCategoryId:goodsCategoryId, subSupplierId:subSupplierId, searchCondition:titleStr)
         ///创建数据源
         let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"goodListId") as? GoodListTableViewCell ?? GoodListTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"goodListId")
@@ -99,8 +99,12 @@ extension GoodListViewController:Refreshable{
             cell.updateCell(model:model)
             return cell
         },sectionIndexTitles:{ [weak self] _ in
-            if self?.vm.goodArrModel.count > 0{ ///如果有数据显示按字母搜索
-                return self?.vm.indexSet
+            if self?.flag == 1{//如果是搜索不显示字母
+                return nil
+            }else{
+                if self?.vm.goodArrModel.count > 0{ ///如果有数据显示按字母搜索
+                    return self?.vm.indexSet
+                }
             }
             return nil
         },sectionForSectionIndexTitle:{ [weak self] (_,title,index) in

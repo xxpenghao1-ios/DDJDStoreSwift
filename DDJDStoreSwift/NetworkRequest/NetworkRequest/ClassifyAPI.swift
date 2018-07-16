@@ -20,6 +20,8 @@ public enum ClassifyAPI{
     case queryTwoCategory4AndroidAll_v5()
     ///分站所有的品牌
     case queryAllBrandBySubstationId_v5(substationId:String)
+    ///搜索时显示的推荐品牌
+    case queryAllSystemBrand()
 }
 
 extension ClassifyAPI:TargetType{
@@ -35,13 +37,15 @@ extension ClassifyAPI:TargetType{
             return "queryTwoCategory4AndroidAll_v5.xhtml"
         case .queryAllBrandBySubstationId_v5(_):
             return "queryAllBrandBySubstationId_v5.xhtml"
+        case .queryAllSystemBrand():
+            return "queryAllSystemBrand"
         }
 
     }
 
     public var method: Moya.Method {
         switch self {
-        case .queryTwoCategoryForMob(_,_),.queryCategory4AndroidAll(_),.queryCategory4Android(_),.queryTwoCategory4AndroidAll_v5(),.queryAllBrandBySubstationId_v5(_):
+        case .queryTwoCategoryForMob(_,_),.queryCategory4AndroidAll(_),.queryCategory4Android(_),.queryTwoCategory4AndroidAll_v5(),.queryAllBrandBySubstationId_v5(_),.queryAllSystemBrand():
             return .get
         }
     }
@@ -63,6 +67,8 @@ extension ClassifyAPI:TargetType{
             return .requestPlain
         case let .queryAllBrandBySubstationId_v5(substationId):
             return .requestParameters(parameters:["substationId":substationId], encoding: URLEncoding.default)
+        case .queryAllSystemBrand():
+            return .requestPlain
         }
     }
 

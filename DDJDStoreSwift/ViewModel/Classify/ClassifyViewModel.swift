@@ -13,7 +13,7 @@ import RxDataSources
 import SwiftyJSON
 import ObjectMapper
 ///分类VM
-class ClassifyViewModel:NSObject{
+class ClassifyViewModel:NSObject,OutputRefreshProtocol{
     
     ///商品分类id
     var goodsCategoryId:Int?
@@ -28,33 +28,37 @@ class ClassifyViewModel:NSObject{
     ///商品1级分类对应2级分类集合
     var goodsCategory2ArrBR = BehaviorRelay<[SectionModel<String,String>]>(value:[])
 
-    ///商品1级分类对应-2级分类-3级分类
-    var goodsCategory3ArrBR = BehaviorRelay<[SectionModel<String,GoodsCategoryModel>]>(value:[])
+    ///3级分类集合
+    var goodsCategory3ArrBR = BehaviorRelay<[EmptyDataType: [SectionModel<String,GoodsCategoryModel>]]>(value:[.loading:[]])
     ///****************************
 
     ///从底部点击分类进入************
     ///所有2级分类集合
     var goodsCategoryAll2ArrBR = BehaviorRelay<[SectionModel<String,GoodsCategoryModel>]>(value:[])
 
-    ///查询3级分类
-    var requestGoodsCategory3Commond=PublishSubject<Int>()
+    ///底部所有的3级分类
+    var goodsCategoryAll3ArrBR=BehaviorRelay<[SectionModel<String,GoodsCategoryModel>]>(value:[])
+
     ///****************************
 
+    ///选中的行索引 默认0
+    var index=0
+
+    ///刷新状态
+    var refreshStatus = BehaviorRelay<PHRefreshStatus>(value:.none)
+    
      override init() {
         super.init()
 
         requestNewDataCommond.subscribe { [weak self] (event) in
             if event.element == true{
+                self?.index=0
                 self?.getTwoCategoryForMob()
             }else{
+                self?.index=0
                 self?.getCategory4AndroidAll()
             }
         }.disposed(by: rx_disposeBag)
-
-        ///查询3级分类
-        requestGoodsCategory3Commond.subscribe(onNext: { [weak self] (goodsCategoryId) in
-            self?.getCategory3(goodsCategoryId:goodsCategoryId)
-        }).disposed(by:rx_disposeBag)
     }
 }
 extension ClassifyViewModel{
@@ -66,26 +70,45 @@ extension ClassifyViewModel{
              case let .success(json:json):
                 self?.parsingJSON(json:json)
                 break
-            default:break
+            default:
+                self?.goodsCategory3ArrBR.accept([.dataError:[SectionModel.init(model:"",items:[])]])
+                break
             }
+            self?.refreshStatus.accept(.endHeaderRefresh)
+        }, onError: { [weak self] (error) in
+            self?.refreshStatus.accept(.endHeaderRefresh)
+            self?.goodsCategory3ArrBR.accept([.dataError:[SectionModel.init(model:"",items:[])]])
+            phLog("1分类获取全部23级分类出错\(error.localizedDescription)")
         }).disposed(by: rx_disposeBag)
     }
     ///从底部点击分类获取全部23级分类
     private func getCategory4AndroidAll(){
-        PHRequest.shared.requestJSONArrModel(target:ClassifyAPI.queryCategory4AndroidAll(), model:GoodsCategoryModel.self).subscribe(onNext: { [weak self] (modelArr) in
-            self?.goodsCategoryAll2ArrBR.accept([SectionModel.init(model:"", items: modelArr)])
-        }, onError: { (error) in
+        PHRequest.shared.requestJSONObject(target:ClassifyAPI.queryTwoCategory4AndroidAll_v5()).subscribe(onNext: { [weak self] (result) in
+            switch result{
+            case let .success(json:json):
+                ///获取所有的2级分类
+                var allTwo=Mapper<GoodsCategoryModel>().mapArray(JSONObject: json["allTwo"].object) ?? []
+                var allModel=GoodsCategoryModel()
+                allModel.goodsCategoryName="全部"
+                ///插入一个全部选项
+                allTwo.insert(allModel, at:0)
+                self?.goodsCategoryAll2ArrBR.accept([SectionModel.init(model:"",items:allTwo)])
+                ///获取所有的3级分类
+                let allThree=Mapper<GoodsCategoryModel>().mapArray(JSONObject: json["allThree"].object) ?? []
+                self?.goodsCategoryAll3ArrBR.accept([SectionModel.init(model:"",items:allThree)])
 
-            phLog("获取全部23级分类出错\(error.localizedDescription)")
-        }).disposed(by:rx_disposeBag)
-    }
-    ///获取2级分类对应的3级分类
-    private func getCategory3(goodsCategoryId:Int){
-        PHRequest.shared.requestJSONArrModel(target:ClassifyAPI.queryCategory4Android(goodsCategoryId:goodsCategoryId), model:GoodsCategoryModel.self)
-            .subscribe(onNext: { [weak self] (modelArr) in
-            self?.goodsCategory3ArrBR.accept([SectionModel.init(model:"",items:modelArr)])
-            }, onError: { (error) in
-                phLog("获取全部3级分类出错\(error.localizedDescription)")
+                ///默认展示显示全部3级分类
+                self?.goodsCategory3ArrBR.accept([.noData:[SectionModel.init(model:"",items:allThree)]])
+                break
+            default:
+                self?.goodsCategory3ArrBR.accept([.dataError:[SectionModel.init(model:"",items:[])]])
+                break
+            }
+            self?.refreshStatus.accept(.endHeaderRefresh)
+        }, onError: { [weak self] (error) in
+            self?.refreshStatus.accept(.endHeaderRefresh)
+            self?.goodsCategory3ArrBR.accept([.dataError:[SectionModel.init(model:"",items:[])]])
+            phLog("底部点击分类获取全部23级分类出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }
     ///解析从1级进入返回的json
@@ -108,6 +131,6 @@ extension ClassifyViewModel{
         self.goodsCategory2ArrBR.accept([SectionModel.init(model:"",items:keyArr)])
         ///获取全部的3级分类默认展示
         let items=self.goodsCategory23ArrBR.value["全部"] ?? []
-        self.goodsCategory3ArrBR.accept([SectionModel.init(model:"",items:items)])
+        self.goodsCategory3ArrBR.accept([.noData:[SectionModel.init(model:"",items:items)]])
     }
 }
