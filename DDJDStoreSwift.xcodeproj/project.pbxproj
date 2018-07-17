@@ -87,7 +87,6 @@
 		637FAEF320EDFB1F00299D29 /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637FAEF220EDFB1F00299D29 /* OrderDetailViewController.swift */; };
 		637FAEF520EE003600299D29 /* OrderDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 637FAEF420EE003600299D29 /* OrderDetail.storyboard */; };
 		637FAEF720EE0F0800299D29 /* OrderDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637FAEF620EE0F0800299D29 /* OrderDetailViewModel.swift */; };
-		6380069020F0548B00D39044 /* EmptyData+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6380068F20F0548B00D39044 /* EmptyData+Extension.swift */; };
 		6380069420F05A4C00D39044 /* NewGoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6380069320F05A4C00D39044 /* NewGoodViewController.swift */; };
 		6380069620F05CC600D39044 /* GoodAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6380069520F05CC600D39044 /* GoodAPI.swift */; };
 		6380069A20F0656E00D39044 /* NewGoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6380069920F0656E00D39044 /* NewGoodViewModel.swift */; };
@@ -103,6 +102,21 @@
 		638A26AB20EC998400170762 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A26AA20EC998400170762 /* MessageModel.swift */; };
 		638A26AF20ECA33000170762 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A26AD20ECA33000170762 /* MessageTableViewCell.swift */; };
 		638A26B020ECA33000170762 /* MessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 638A26AE20ECA33000170762 /* MessageTableViewCell.xib */; };
+		638F77D020FDCEC7007F3FCA /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 638F77C820FDCEC7007F3FCA /* CodeScan.bundle */; };
+		638F77D120FDCEC7007F3FCA /* LBXScanNetAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77C920FDCEC7007F3FCA /* LBXScanNetAnimation.swift */; };
+		638F77D220FDCEC7007F3FCA /* LBXScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77CA20FDCEC7007F3FCA /* LBXScanView.swift */; };
+		638F77D320FDCEC7007F3FCA /* LBXScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77CB20FDCEC7007F3FCA /* LBXScanViewController.swift */; };
+		638F77D420FDCEC7007F3FCA /* LBXScanLineAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77CC20FDCEC7007F3FCA /* LBXScanLineAnimation.swift */; };
+		638F77D520FDCEC7007F3FCA /* LBXScanViewStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77CD20FDCEC7007F3FCA /* LBXScanViewStyle.swift */; };
+		638F77D620FDCEC7007F3FCA /* LBXPermissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77CE20FDCEC7007F3FCA /* LBXPermissions.swift */; };
+		638F77D720FDCEC7007F3FCA /* LBXScanWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77CF20FDCEC7007F3FCA /* LBXScanWrapper.swift */; };
+		638F77D920FDCF3F007F3FCA /* ScanCodeGetBarcodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77D820FDCF3F007F3FCA /* ScanCodeGetBarcodeViewController.swift */; };
+		638F77E120FDD28A007F3FCA /* Proposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77DD20FDD289007F3FCA /* Proposer.swift */; };
+		638F77E220FDD28A007F3FCA /* UIViewController+Proposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77DE20FDD289007F3FCA /* UIViewController+Proposer.swift */; };
+		638F77E620FDDA31007F3FCA /* UIViewController+BackButtonHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 638F77E420FDDA31007F3FCA /* UIViewController+BackButtonHandler.m */; };
+		638F77E920FDDBFD007F3FCA /* CarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77E820FDDBFD007F3FCA /* CarViewController.swift */; };
+		638F77EC20FDE0DA007F3FCA /* CarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77EB20FDE0DA007F3FCA /* CarViewModel.swift */; };
+		638F77EE20FDE7C5007F3FCA /* CarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77ED20FDE7C5007F3FCA /* CarModel.swift */; };
 		639B5A6720F35DFB005CA571 /* CarAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639B5A6620F35DFB005CA571 /* CarAPI.swift */; };
 		63A989F520EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A989F320EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift */; };
 		63A989F620EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63A989F420EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib */; };
@@ -228,7 +242,6 @@
 		637FAEF220EDFB1F00299D29 /* OrderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewController.swift; sourceTree = "<group>"; };
 		637FAEF420EE003600299D29 /* OrderDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OrderDetail.storyboard; sourceTree = "<group>"; };
 		637FAEF620EE0F0800299D29 /* OrderDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailViewModel.swift; sourceTree = "<group>"; };
-		6380068F20F0548B00D39044 /* EmptyData+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmptyData+Extension.swift"; sourceTree = "<group>"; };
 		6380069320F05A4C00D39044 /* NewGoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGoodViewController.swift; sourceTree = "<group>"; };
 		6380069520F05CC600D39044 /* GoodAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodAPI.swift; sourceTree = "<group>"; };
 		6380069920F0656E00D39044 /* NewGoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGoodViewModel.swift; sourceTree = "<group>"; };
@@ -244,6 +257,22 @@
 		638A26AA20EC998400170762 /* MessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageModel.swift; sourceTree = "<group>"; };
 		638A26AD20ECA33000170762 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
 		638A26AE20ECA33000170762 /* MessageTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageTableViewCell.xib; sourceTree = "<group>"; };
+		638F77C820FDCEC7007F3FCA /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
+		638F77C920FDCEC7007F3FCA /* LBXScanNetAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanNetAnimation.swift; sourceTree = "<group>"; };
+		638F77CA20FDCEC7007F3FCA /* LBXScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanView.swift; sourceTree = "<group>"; };
+		638F77CB20FDCEC7007F3FCA /* LBXScanViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanViewController.swift; sourceTree = "<group>"; };
+		638F77CC20FDCEC7007F3FCA /* LBXScanLineAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanLineAnimation.swift; sourceTree = "<group>"; };
+		638F77CD20FDCEC7007F3FCA /* LBXScanViewStyle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanViewStyle.swift; sourceTree = "<group>"; };
+		638F77CE20FDCEC7007F3FCA /* LBXPermissions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXPermissions.swift; sourceTree = "<group>"; };
+		638F77CF20FDCEC7007F3FCA /* LBXScanWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LBXScanWrapper.swift; sourceTree = "<group>"; };
+		638F77D820FDCF3F007F3FCA /* ScanCodeGetBarcodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanCodeGetBarcodeViewController.swift; sourceTree = "<group>"; };
+		638F77DD20FDD289007F3FCA /* Proposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Proposer.swift; sourceTree = "<group>"; };
+		638F77DE20FDD289007F3FCA /* UIViewController+Proposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Proposer.swift"; sourceTree = "<group>"; };
+		638F77E420FDDA31007F3FCA /* UIViewController+BackButtonHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BackButtonHandler.m"; sourceTree = "<group>"; };
+		638F77E520FDDA31007F3FCA /* UIViewController+BackButtonHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BackButtonHandler.h"; sourceTree = "<group>"; };
+		638F77E820FDDBFD007F3FCA /* CarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarViewController.swift; sourceTree = "<group>"; };
+		638F77EB20FDE0DA007F3FCA /* CarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarViewModel.swift; sourceTree = "<group>"; };
+		638F77ED20FDE7C5007F3FCA /* CarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarModel.swift; sourceTree = "<group>"; };
 		639B5A6620F35DFB005CA571 /* CarAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarAPI.swift; sourceTree = "<group>"; };
 		63A989F320EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailGoodTableViewCell.swift; sourceTree = "<group>"; };
 		63A989F420EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderDetailGoodTableViewCell.xib; sourceTree = "<group>"; };
@@ -434,6 +463,9 @@
 		6341DB2F2094125D00AC267D /* Vender */ = {
 			isa = PBXGroup;
 			children = (
+				638F77E320FDDA31007F3FCA /* UIViewController-BackButtonHandler-master */,
+				638F77DA20FDD289007F3FCA /* Proposer */,
+				638F77C720FDCEC7007F3FCA /* Scan */,
 				634EF25C20F899B100A6FFCD /* JNDropDownMenu */,
 				638006A420F097EA00D39044 /* GMStepper */,
 				63BD7E4B20EB5A0400C01219 /* LTNavigationBar */,
@@ -484,6 +516,7 @@
 		6341DB3920945F8F00AC267D /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				638F77EA20FDE0CA007F3FCA /* Car */,
 				6356EA4520FC47200021DF6F /* Search */,
 				6380069720F0655800D39044 /* Good */,
 				63BD7E4720EB507400C01219 /* My */,
@@ -639,6 +672,7 @@
 			isa = PBXGroup;
 			children = (
 				6356EA4020FC42230021DF6F /* SearchViewController.swift */,
+				638F77D820FDCF3F007F3FCA /* ScanCodeGetBarcodeViewController.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -747,6 +781,7 @@
 				633B855B20E6050500F714D7 /* NewGoodModel.swift */,
 				633D0AB420DDFA0F0022A4D9 /* HotGoodModel.swift */,
 				630E2EA720F30A9D00884E79 /* GoodDetailModel.swift */,
+				638F77ED20FDE7C5007F3FCA /* CarModel.swift */,
 			);
 			path = Good;
 			sourceTree = "<group>";
@@ -820,6 +855,55 @@
 				638A26AE20ECA33000170762 /* MessageTableViewCell.xib */,
 			);
 			path = Message;
+			sourceTree = "<group>";
+		};
+		638F77C720FDCEC7007F3FCA /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				638F77C820FDCEC7007F3FCA /* CodeScan.bundle */,
+				638F77C920FDCEC7007F3FCA /* LBXScanNetAnimation.swift */,
+				638F77CA20FDCEC7007F3FCA /* LBXScanView.swift */,
+				638F77CB20FDCEC7007F3FCA /* LBXScanViewController.swift */,
+				638F77CC20FDCEC7007F3FCA /* LBXScanLineAnimation.swift */,
+				638F77CD20FDCEC7007F3FCA /* LBXScanViewStyle.swift */,
+				638F77CE20FDCEC7007F3FCA /* LBXPermissions.swift */,
+				638F77CF20FDCEC7007F3FCA /* LBXScanWrapper.swift */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
+		638F77DA20FDD289007F3FCA /* Proposer */ = {
+			isa = PBXGroup;
+			children = (
+				638F77DD20FDD289007F3FCA /* Proposer.swift */,
+				638F77DE20FDD289007F3FCA /* UIViewController+Proposer.swift */,
+			);
+			path = Proposer;
+			sourceTree = "<group>";
+		};
+		638F77E320FDDA31007F3FCA /* UIViewController-BackButtonHandler-master */ = {
+			isa = PBXGroup;
+			children = (
+				638F77E420FDDA31007F3FCA /* UIViewController+BackButtonHandler.m */,
+				638F77E520FDDA31007F3FCA /* UIViewController+BackButtonHandler.h */,
+			);
+			path = "UIViewController-BackButtonHandler-master";
+			sourceTree = "<group>";
+		};
+		638F77E720FDDBE5007F3FCA /* Car */ = {
+			isa = PBXGroup;
+			children = (
+				638F77E820FDDBFD007F3FCA /* CarViewController.swift */,
+			);
+			path = Car;
+			sourceTree = "<group>";
+		};
+		638F77EA20FDE0CA007F3FCA /* Car */ = {
+			isa = PBXGroup;
+			children = (
+				638F77EB20FDE0DA007F3FCA /* CarViewModel.swift */,
+			);
+			path = Car;
 			sourceTree = "<group>";
 		};
 		63BD7E4120EB179700C01219 /* My */ = {
@@ -942,6 +1026,7 @@
 		63FBEE722091AABA00BE6B81 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				638F77E720FDDBE5007F3FCA /* Car */,
 				6356EA3F20FC42050021DF6F /* Search */,
 				6380069120F05A2B00D39044 /* Good */,
 				63BD7E4120EB179700C01219 /* My */,
@@ -966,7 +1051,6 @@
 			isa = PBXGroup;
 			children = (
 				63FBEE772091AB5A00BE6B81 /* BaseViewController.swift */,
-				6380068F20F0548B00D39044 /* EmptyData+Extension.swift */,
 			);
 			path = BaseViewController;
 			sourceTree = "<group>";
@@ -1083,6 +1167,7 @@
 				637FAEF520EE003600299D29 /* OrderDetail.storyboard in Resources */,
 				638006A320F06BC500D39044 /* NewGoodListTableViewCell.xib in Resources */,
 				63FBEE432091746F00BE6B81 /* Assets.xcassets in Resources */,
+				638F77D020FDCEC7007F3FCA /* CodeScan.bundle in Resources */,
 				638A26B020ECA33000170762 /* MessageTableViewCell.xib in Resources */,
 				6346E8BA20F4942F00E844F1 /* SpecialGoodTableViewCell.xib in Resources */,
 				63FBEE3E2091746C00BE6B81 /* Main.storyboard in Resources */,
@@ -1200,10 +1285,13 @@
 				634DB1CC20E72CC600D5016A /* UIImage.swift in Sources */,
 				6346E8BD20F4A4B200E844F1 /* SpecialGoodViewModel.swift in Sources */,
 				633B855E20E60D6D00F714D7 /* IndexNewGoodView.swift in Sources */,
+				638F77D920FDCF3F007F3FCA /* ScanCodeGetBarcodeViewController.swift in Sources */,
+				638F77E920FDDBFD007F3FCA /* CarViewController.swift in Sources */,
 				634EF25020F8428100A6FFCD /* PromotionPageViewController.swift in Sources */,
 				634EF25220F8430A00A6FFCD /* PromotionViewController.swift in Sources */,
 				633B855C20E6050500F714D7 /* NewGoodModel.swift in Sources */,
 				633D0AB220DDE3F70022A4D9 /* SpecialAndPromotionsModel.swift in Sources */,
+				638F77D420FDCEC7007F3FCA /* LBXScanLineAnimation.swift in Sources */,
 				634DB1DC20E7707500D5016A /* ClassifyViewController.swift in Sources */,
 				639B5A6720F35DFB005CA571 /* CarAPI.swift in Sources */,
 				633D0ABA20DE278E0022A4D9 /* IndexHotGoodCollectionViewCell.swift in Sources */,
@@ -1214,6 +1302,8 @@
 				634DB1DA20E76A7000D5016A /* ClassifyViewModel.swift in Sources */,
 				6341DB3820944E8A00AC267D /* UIView.swift in Sources */,
 				63FBEE412091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld in Sources */,
+				638F77D320FDCEC7007F3FCA /* LBXScanViewController.swift in Sources */,
+				638F77E120FDD28A007F3FCA /* Proposer.swift in Sources */,
 				633B856020E618C500F714D7 /* Array.swift in Sources */,
 				633F8CD520CFA69F00D227AF /* IndexAPI.swift in Sources */,
 				63BD7E4620EB4CB000C01219 /* MyOrderCollectionViewCell.swift in Sources */,
@@ -1224,7 +1314,9 @@
 				633F8CD320CF66CF00D227AF /* WRCycleCell.swift in Sources */,
 				634EF26020F89AB700A6FFCD /* GoodListViewController.swift in Sources */,
 				6380069420F05A4C00D39044 /* NewGoodViewController.swift in Sources */,
+				638F77D120FDCEC7007F3FCA /* LBXScanNetAnimation.swift in Sources */,
 				63FBEE752091AAFA00BE6B81 /* LoginController.swift in Sources */,
+				638F77D520FDCEC7007F3FCA /* LBXScanViewStyle.swift in Sources */,
 				634EF25920F8500400A6FFCD /* PromotionGoodTableViewCell.swift in Sources */,
 				634EF26420F89C0000A6FFCD /* GoodListTableViewCell.swift in Sources */,
 				6333E75120930C3300CEC3B7 /* UILabel.swift in Sources */,
@@ -1238,11 +1330,14 @@
 				630E2EA820F30A9D00884E79 /* GoodDetailModel.swift in Sources */,
 				6333E74B2092D23200CEC3B7 /* UITextField.swift in Sources */,
 				634DB1D220E7557C00D5016A /* AdMessgInfoModel.swift in Sources */,
+				638F77EE20FDE7C5007F3FCA /* CarModel.swift in Sources */,
 				6341DB41209460E900AC267D /* PHProgressHUD.swift in Sources */,
 				633F8CDA20CFB29500D227AF /* AdvertisingModel.swift in Sources */,
+				638F77D720FDCEC7007F3FCA /* LBXScanWrapper.swift in Sources */,
 				6333E7492092C5EF00CEC3B7 /* SetUpApp.swift in Sources */,
 				6333E7462092C18E00CEC3B7 /* String.swift in Sources */,
 				6356EA4720FC47360021DF6F /* SearchViewModel.swift in Sources */,
+				638F77EC20FDE0DA007F3FCA /* CarViewModel.swift in Sources */,
 				633D0AB820DE265A0022A4D9 /* WaterCollectionViewLayout.swift in Sources */,
 				637FAEF120EDC95000299D29 /* OrderGoodModel.swift in Sources */,
 				637FAEEE20EDB1F600299D29 /* OrderListTableViewCell.swift in Sources */,
@@ -1263,6 +1358,7 @@
 				634DB1CA20E723A500D5016A /* UIAlertController.swift in Sources */,
 				633F8CCC20CF5CD600D227AF /* TabBarViewController.swift in Sources */,
 				6350F8B520E3359B00176219 /* UIImageView.swift in Sources */,
+				638F77D620FDCEC7007F3FCA /* LBXPermissions.swift in Sources */,
 				63A989F520EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift in Sources */,
 				638A269D20EC598900170762 /* OtherViewController.swift in Sources */,
 				633D0AB520DDFA0F0022A4D9 /* HotGoodModel.swift in Sources */,
@@ -1270,10 +1366,10 @@
 				63BD7E5020EB5A0400C01219 /* UINavigationBar+Awesome.m in Sources */,
 				637FAEF320EDFB1F00299D29 /* OrderDetailViewController.swift in Sources */,
 				63FBEE782091AB5A00BE6B81 /* BaseViewController.swift in Sources */,
-				6380069020F0548B00D39044 /* EmptyData+Extension.swift in Sources */,
 				630A010D20C90C5D00DE104D /* RxSwift.swift in Sources */,
 				6341DB3620941FB400AC267D /* LoginAndRegisterAPI.swift in Sources */,
 				633F8CD120CF66CF00D227AF /* WRProxy.swift in Sources */,
+				638F77E620FDDA31007F3FCA /* UIViewController+BackButtonHandler.m in Sources */,
 				6346E8B320F492B400E844F1 /* SpecialPageViewController.swift in Sources */,
 				634DB1D520E7636C00D5016A /* ClassifyPageViewController.swift in Sources */,
 				63FBEE6E209178CC00BE6B81 /* PHRequest.swift in Sources */,
@@ -1283,10 +1379,12 @@
 				6366E05520D0CB0A00CB634B /* IndexClassifyCollectionViewCell.swift in Sources */,
 				634EF26820F8A0AC00A6FFCD /* GoodListViewModel.swift in Sources */,
 				638A269A20EC4D9700170762 /* MyMenuCollectionViewCell.swift in Sources */,
+				638F77D220FDCEC7007F3FCA /* LBXScanView.swift in Sources */,
 				6380069620F05CC600D39044 /* GoodAPI.swift in Sources */,
 				637FAEEA20EDADAD00299D29 /* OrderViewController.swift in Sources */,
 				634DB1E320E7798F00D5016A /* GoodClassifyTableViewCell.swift in Sources */,
 				6356EA4120FC42230021DF6F /* SearchViewController.swift in Sources */,
+				638F77E220FDD28A007F3FCA /* UIViewController+Proposer.swift in Sources */,
 				6333E74D2092EB1300CEC3B7 /* UIButton.swift in Sources */,
 				63BD7E4920EB508300C01219 /* MyViewModel.swift in Sources */,
 				638A26AF20ECA33000170762 /* MessageTableViewCell.swift in Sources */,

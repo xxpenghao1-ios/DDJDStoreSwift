@@ -47,32 +47,33 @@ class SearchViewModel:NSObject{
             self?.setSearchStr(str:str)
         }).disposed(by:rx_disposeBag)
 
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
+
 
         ///订阅allSystemBrandBR
-        allSystemBrandBR.asObservable().subscribe(onNext: { (arr) in
+        allSystemBrandBR.asObservable().subscribe(onNext: { [weak self] (arr) in
             ///传入已经获取好的品牌数据
-            weakSelf!.updateAllBrandAndSearchStrBR(arr:arr)
+            self?.updateAllBrandAndSearchStrBR(arr:arr)
 
         }).disposed(by:rx_disposeBag)
 
         ///订阅 searchArrBR 每次添加新搜索记录都会执行
         searchArrBR.asObservable().subscribe({ (_) in
+            weak var weakSelf=self
+            if weakSelf == nil{
+                return
+            }
             ///传入已经获取好的品牌数据
             weakSelf!.updateAllBrandAndSearchStrBR(arr:weakSelf!.allSystemBrandBR.value)
         }).disposed(by:rx_disposeBag)
 
         ///删除所有搜索信息
-        deleteSearchStr.asObservable().subscribe(onNext: { (_) in
+        deleteSearchStr.asObservable().subscribe(onNext: { [weak self] (_) in
             //删除搜索记录
             USER_DEFAULTS.removeObject(forKey:"searchStrArr")
             //写入磁盘
             USER_DEFAULTS.synchronize();
             ///修改页面数据
-            weakSelf!.searchArrBR.accept([])
+            self?.searchArrBR.accept([])
         }).disposed(by:rx_disposeBag)
     }
     ///更新数据源
@@ -101,7 +102,14 @@ extension SearchViewModel{
             return
         }
         PHRequest.shared.requestJSONArrModel(target:ClassifyAPI.queryAllSystemBrand(), model:GoodsCategoryModel.self).subscribe(onNext: { (arr) in
-            weakSelf!.allSystemBrandBR.accept(arr)
+            var modelArr=arr
+            if  arr.count > 0{
+                var model=GoodsCategoryModel()
+                model.brandName="品牌推荐"
+                modelArr.insert(model,at:0)
+            }
+            print(modelArr)
+            weakSelf!.allSystemBrandBR.accept(modelArr)
         }, onError: { (error) in
             weakSelf!.allSystemBrandBR.accept([])
             phLog("获取推荐品牌失败\(error.localizedDescription)")
@@ -114,7 +122,12 @@ extension SearchViewModel{
         if searchArr.count == 0{
             return []
         }
+
         var arr=[GoodsCategoryModel]()
+        ///默认加一个搜索历史
+        var titleModel=GoodsCategoryModel()
+        titleModel.brandName="搜索历史"
+        arr.append(titleModel)
         for str in searchArr{///把缓存中每一条记录都修改为品牌名称
             var model=GoodsCategoryModel()
             model.brandName=str
@@ -143,7 +156,7 @@ extension SearchViewModel{
         ///添加信息的搜索记录
         searchArr.append(string!)
         //数组去重
-        let arr=Array(Set(searchArr))
+        let arr=searchArr.filterDuplicates({$0})
         //保存进缓存
         USER_DEFAULTS.set(arr,forKey:"searchStrArr")
         //写入磁盘

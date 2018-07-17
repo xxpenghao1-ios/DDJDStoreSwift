@@ -14,6 +14,8 @@ public enum CarAPI{
     case insertShoppingCar(memberId:String,goodId:Int,supplierId:Int,subSupplierId:Int,goodsCount:Int,flag:Int,goodsStock:Int,storeId:String,promotionNumber:Int?)
     ///查询购物车商品数量
     case memberShoppingCarCountForMobile(memberId:String)
+    ///查询购物车
+    case queryShoppingCarNew(memberId:String,storeId:String)
 }
 extension CarAPI:TargetType{
     public var path: String {
@@ -22,12 +24,14 @@ extension CarAPI:TargetType{
             return "insertShoppingCar.xhtml"
         case .memberShoppingCarCountForMobile(_):
             return "memberShoppingCarCountForMobile.xhtml"
+        case .queryShoppingCarNew(_,_):
+            return "queryShoppingCarNew.xhtml"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .insertShoppingCar(_,_,_,_,_,_,_,_,_),.memberShoppingCarCountForMobile(_):
+        case .insertShoppingCar(_,_,_,_,_,_,_,_,_),.memberShoppingCarCountForMobile(_),.queryShoppingCarNew(_,_):
             return .get
         }
     }
@@ -46,6 +50,8 @@ extension CarAPI:TargetType{
             }
         case let .memberShoppingCarCountForMobile(memberId):
             return .requestParameters(parameters:["memberId":memberId], encoding: URLEncoding.default)
+        case let .queryShoppingCarNew(memberId, storeId):
+            return .requestParameters(parameters:["memberId":memberId,"storeId":storeId], encoding: URLEncoding.default)
         }
 
     }

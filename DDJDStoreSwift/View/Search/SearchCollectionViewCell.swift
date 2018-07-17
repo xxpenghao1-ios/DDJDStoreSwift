@@ -8,11 +8,10 @@
 
 import Foundation
 
-class SearchSectionHeader: UICollectionReusableView {
+class SearchSectionHeader:UICollectionReusableView {
     var label:UILabel!
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         //背景设为黑色
         self.backgroundColor = UIColor.clear
         //创建文本标签
@@ -21,8 +20,11 @@ class SearchSectionHeader: UICollectionReusableView {
         label.font=UIFont.systemFont(ofSize:15)
         label.textAlignment = .left
         self.addSubview(label)
+        
     }
-
+    func updateCell(str:String){
+        label.text=str
+    }
     override func layoutSubviews() {
         super.layoutSubviews()
         label = UILabel(frame:CGRect(x:15, y:0,width:200, height:20))
@@ -56,11 +58,20 @@ class SearchCollectionViewCell:UICollectionViewCell{
      - parameter str:
      */
     func updateCell(str:String?){
-        self.contentView.backgroundColor=UIColor.white
-        lblName.textColor=UIColor.color333()
         if str == "清除"{
             self.contentView.backgroundColor=UIColor.applicationMainColor()
             lblName.textColor=UIColor.white
+            lblName.textAlignment = .center
+        } else if str == "搜索历史" || str == "品牌推荐"{
+            lblName.textColor = UIColor.black
+            lblName.font=UIFont.systemFont(ofSize:15)
+            lblName.textAlignment = .left
+            self.contentView.backgroundColor=UIColor.clear
+        }else{
+            lblName.textAlignment = .center
+            lblName.textColor=UIColor.color333()
+            lblName.font=UIFont.systemFont(ofSize:14)
+            self.contentView.backgroundColor=UIColor.white
         }
         lblName.text=str
     }
@@ -72,10 +83,16 @@ class SearchCollectionViewCell:UICollectionViewCell{
             frame.size.width=1
             attributes.frame=frame
         }else{
-            let size=str!.textSizeWithFont(font:lblName.font, constrainedToSize:CGSize(width:500, height:35))
-            frame.size.height=35
-            frame.size.width=size.width+40
-            attributes.frame=frame
+            if str == "搜索历史" || str == "品牌推荐"{
+                frame.size.height=35
+                frame.size.width=SCREEN_WIDTH-50
+                attributes.frame=frame
+            }else{
+                let size=str!.textSizeWithFont(font:lblName.font, constrainedToSize:CGSize(width:500, height:35))
+                frame.size.height=35
+                frame.size.width=size.width+40
+                attributes.frame=frame
+            }
         }
         return attributes
     }

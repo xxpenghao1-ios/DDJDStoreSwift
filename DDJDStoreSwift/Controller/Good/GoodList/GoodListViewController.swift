@@ -29,6 +29,18 @@ class GoodListViewController:BaseViewController{
 
     private var addCarVM=AddCarViewModel()
 
+    ///监听返回按钮
+    override func navigationShouldPopOnBackButton() -> Bool {
+        if flag == 1{///如果搜索页面进来  或者扫码页面进来 直接返回搜索页面 跳过扫码页面
+            for vc:UIViewController in (self.navigationController?.viewControllers)!{
+                if vc.isKind(of:SearchViewController.classForCoder()){
+                    self.navigationController?.popToViewController(vc, animated:true)
+                }
+            }
+        }
+        return false
+    }
+
     ///跳转到购物车按钮
     private var btnPushCar:UIButton!
 
