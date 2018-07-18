@@ -47,6 +47,10 @@
 		6346E8B920F4942F00E844F1 /* SpecialGoodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6346E8B720F4942F00E844F1 /* SpecialGoodTableViewCell.swift */; };
 		6346E8BA20F4942F00E844F1 /* SpecialGoodTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6346E8B820F4942F00E844F1 /* SpecialGoodTableViewCell.xib */; };
 		6346E8BD20F4A4B200E844F1 /* SpecialGoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6346E8BC20F4A4B200E844F1 /* SpecialGoodViewModel.swift */; };
+		6347166220FEC4EA009CFDDA /* Car.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6347166120FEC4EA009CFDDA /* Car.storyboard */; };
+		6347166620FEC76D009CFDDA /* CarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6347166420FEC76D009CFDDA /* CarTableViewCell.swift */; };
+		6347166720FEC76D009CFDDA /* CarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6347166520FEC76D009CFDDA /* CarTableViewCell.xib */; };
+		6347166920FF0E2A009CFDDA /* PriceComputationsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6347166820FF0E29009CFDDA /* PriceComputationsUtil.swift */; };
 		634DB1CA20E723A500D5016A /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634DB1C920E723A500D5016A /* UIAlertController.swift */; };
 		634DB1CC20E72CC600D5016A /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634DB1CB20E72CC600D5016A /* UIImage.swift */; };
 		634DB1D020E7326500D5016A /* Runtime+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634DB1CF20E7326500D5016A /* Runtime+Extension.swift */; };
@@ -202,6 +206,10 @@
 		6346E8B720F4942F00E844F1 /* SpecialGoodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialGoodTableViewCell.swift; sourceTree = "<group>"; };
 		6346E8B820F4942F00E844F1 /* SpecialGoodTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SpecialGoodTableViewCell.xib; sourceTree = "<group>"; };
 		6346E8BC20F4A4B200E844F1 /* SpecialGoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecialGoodViewModel.swift; sourceTree = "<group>"; };
+		6347166120FEC4EA009CFDDA /* Car.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Car.storyboard; sourceTree = "<group>"; };
+		6347166420FEC76D009CFDDA /* CarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarTableViewCell.swift; sourceTree = "<group>"; };
+		6347166520FEC76D009CFDDA /* CarTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CarTableViewCell.xib; sourceTree = "<group>"; };
+		6347166820FF0E29009CFDDA /* PriceComputationsUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceComputationsUtil.swift; sourceTree = "<group>"; };
 		634DB1C920E723A500D5016A /* UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
 		634DB1CB20E72CC600D5016A /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		634DB1CF20E7326500D5016A /* Runtime+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Runtime+Extension.swift"; sourceTree = "<group>"; };
@@ -477,6 +485,7 @@
 		6341DB302094127300AC267D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6347166320FEC757009CFDDA /* Car */,
 				6356EA4220FC45830021DF6F /* Search */,
 				6380069C20F06B6500D39044 /* Good */,
 				63BD7E4420EB4C7500C01219 /* My */,
@@ -539,6 +548,7 @@
 		6341DB3F209460D000AC267D /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				6347166820FF0E29009CFDDA /* PriceComputationsUtil.swift */,
 				6341DB40209460E900AC267D /* PHProgressHUD.swift */,
 			);
 			path = Tool;
@@ -568,6 +578,15 @@
 				6346E8BC20F4A4B200E844F1 /* SpecialGoodViewModel.swift */,
 			);
 			path = SpecialGood;
+			sourceTree = "<group>";
+		};
+		6347166320FEC757009CFDDA /* Car */ = {
+			isa = PBXGroup;
+			children = (
+				6347166420FEC76D009CFDDA /* CarTableViewCell.swift */,
+				6347166520FEC76D009CFDDA /* CarTableViewCell.xib */,
+			);
+			path = Car;
 			sourceTree = "<group>";
 		};
 		634DB1D320E7632C00D5016A /* Classify */ = {
@@ -894,6 +913,7 @@
 			isa = PBXGroup;
 			children = (
 				638F77E820FDDBFD007F3FCA /* CarViewController.swift */,
+				6347166120FEC4EA009CFDDA /* Car.storyboard */,
 			);
 			path = Car;
 			sourceTree = "<group>";
@@ -1174,7 +1194,9 @@
 				637FAEEF20EDB1F600299D29 /* OrderListTableViewCell.xib in Resources */,
 				630E2EC420F312C400884E79 /* GoodDetail.storyboard in Resources */,
 				634EF25A20F8500400A6FFCD /* PromotionGoodTableViewCell.xib in Resources */,
+				6347166220FEC4EA009CFDDA /* Car.storyboard in Resources */,
 				634DB1DE20E7721600D5016A /* Classify.storyboard in Resources */,
+				6347166720FEC76D009CFDDA /* CarTableViewCell.xib in Resources */,
 				634EF26520F89C0000A6FFCD /* GoodListTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1338,6 +1360,7 @@
 				6333E7462092C18E00CEC3B7 /* String.swift in Sources */,
 				6356EA4720FC47360021DF6F /* SearchViewModel.swift in Sources */,
 				638F77EC20FDE0DA007F3FCA /* CarViewModel.swift in Sources */,
+				6347166920FF0E2A009CFDDA /* PriceComputationsUtil.swift in Sources */,
 				633D0AB820DE265A0022A4D9 /* WaterCollectionViewLayout.swift in Sources */,
 				637FAEF120EDC95000299D29 /* OrderGoodModel.swift in Sources */,
 				637FAEEE20EDB1F600299D29 /* OrderListTableViewCell.swift in Sources */,
@@ -1345,6 +1368,7 @@
 				637FAEE820EDABE200299D29 /* OrderPageViewController.swift in Sources */,
 				6341DB3E2094602300AC267D /* LoginViewModel.swift in Sources */,
 				638A26A220EC7BD500170762 /* MessageViewController.swift in Sources */,
+				6347166620FEC76D009CFDDA /* CarTableViewCell.swift in Sources */,
 				6380069A20F0656E00D39044 /* NewGoodViewModel.swift in Sources */,
 				634DB1E120E7762F00D5016A /* ClassifyCollectionViewCell.swift in Sources */,
 				637FAEF720EE0F0800299D29 /* OrderDetailViewModel.swift in Sources */,

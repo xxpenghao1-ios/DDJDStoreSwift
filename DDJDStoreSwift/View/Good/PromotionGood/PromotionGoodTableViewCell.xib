@@ -25,9 +25,9 @@
                                 <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="promotion_good" translatesAutoresizingMaskIntoConstraints="NO" id="Edr-T8-vvn">
-                                <rect key="frame" x="56" y="0.0" width="44" height="46"/>
+                                <rect key="frame" x="56" y="0.0" width="44" height="44"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="46" id="128-Hb-wfx"/>
+                                    <constraint firstAttribute="height" constant="44" id="128-Hb-wfx"/>
                                     <constraint firstAttribute="width" constant="44" id="neL-hn-k2d"/>
                                 </constraints>
                             </imageView>

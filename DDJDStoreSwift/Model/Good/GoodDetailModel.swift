@@ -39,6 +39,8 @@ class GoodDetailModel:Mappable{
     var goodsBaseCount:Int?
     /// 商品库存  -1 库存充足
     var goodsStock:Int?
+    /// 特价库存
+    var goodsCount:Int?
     /// 单位
     var goodUnit:String?
     /// 建议零售价
@@ -59,7 +61,7 @@ class GoodDetailModel:Mappable{
     var isPromotionFlag:Int?
     /// 促销期号
     var promotionNumber:Int?
-    /// 促销限购数
+    /// 促销商品库存
     var promotionEachCount:Int?
     /// 促销店铺限购数
     var promotionStoreEachCount:Int?
@@ -75,6 +77,12 @@ class GoodDetailModel:Mappable{
     var endTime:String?
     ///商品是否可退；1可退；2不可退
     var returnGoodsFlag:Int?
+    ///商品的状态 ；  1特价，2普通,3促销
+    var flag:Int?
+    ///购物车是否选中 1选中 2未选中 默认选中
+    var isSelected:Int=1
+    ///购物车商品数量
+    var carNumber:Int?
     init(){}
     required init?(map: Map) {
 
@@ -95,6 +103,7 @@ class GoodDetailModel:Mappable{
         miniCount <- map["miniCount"]
         goodsBaseCount <- map["goodsBaseCount"]
         goodsStock <- map["goodsStock"]
+        goodsCount <- map["goodsCount"]
         goodUnit <- map["goodUnit"]
         uitemPrice <- map["uitemPrice"]
         salesCount <- map["salesCount"]
@@ -113,5 +122,7 @@ class GoodDetailModel:Mappable{
         eachCount <- map["eachCount"]
         endTime <- map["endTime"]
         returnGoodsFlag <- map["returnGoodsFlag"]
+        flag <- map["flag"]
+        carNumber <- map["carNumber"]
     }
 }

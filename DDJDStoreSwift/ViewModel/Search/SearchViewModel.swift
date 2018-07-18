@@ -84,7 +84,7 @@ class SearchViewModel:NSObject{
         }else{
             if searchArrStr.count == 0{//如果搜索记录为0 不显示搜索历史
                 allBrandAndSearchStrBR.accept([SectionModel.init(model:"品牌推荐",items:arr)])
-            }else if arr.count == 0{
+            }else if arr.count == 0{//如果品牌推荐数据为0 不显示品牌推荐
                 allBrandAndSearchStrBR.accept([SectionModel.init(model:"搜索历史",items:searchArrStr)])
 
             }else{
@@ -108,7 +108,6 @@ extension SearchViewModel{
                 model.brandName="品牌推荐"
                 modelArr.insert(model,at:0)
             }
-            print(modelArr)
             weakSelf!.allSystemBrandBR.accept(modelArr)
         }, onError: { (error) in
             weakSelf!.allSystemBrandBR.accept([])

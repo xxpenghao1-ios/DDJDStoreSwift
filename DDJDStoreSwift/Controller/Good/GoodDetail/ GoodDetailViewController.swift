@@ -9,11 +9,15 @@
 import Foundation
 ///商品详情
 class GoodDetailViewController:BaseViewController{
+
     ///接收商品状态   1特价，2普通,3促销  默认普通商品
     var flag:Int=2
 
     ///接收商品model
     var model:GoodDetailModel?
+
+    ///有值表示从购物车中跳转过来
+    var isCarFlag:Int?
 
     ///商品图片
     @IBOutlet weak var goodImgView:UIImageView!
@@ -57,7 +61,7 @@ class GoodDetailViewController:BaseViewController{
     @IBOutlet weak var table:UITableView!
 
     ///跳转到购物车按钮
-    private var btnPushCar:UIButton!
+    private var btnPushCar:UIButton?
 
     private var vm:GoodDetailViewModel!
 
@@ -83,13 +87,15 @@ class GoodDetailViewController:BaseViewController{
         collectionImgView.isUserInteractionEnabled=true
         collectionImgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(addCollection)))
 
-        ///跳转到购物车按钮
-        btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
-        btnPushCar.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
-        btnPushCar.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
-        let pushCarItem=UIBarButtonItem(customView:btnPushCar)
-        pushCarItem.tintColor=UIColor.colorItem()
-        self.navigationItem.rightBarButtonItem=pushCarItem
+        if isCarFlag == nil{///如果不是从购物车中跳转过来 添加跳转到购物车按钮
+            ///跳转到购物车按钮
+            btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
+            btnPushCar!.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
+            btnPushCar!.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
+            let pushCarItem=UIBarButtonItem(customView:btnPushCar!)
+            pushCarItem.tintColor=UIColor.colorItem()
+            self.navigationItem.rightBarButtonItem=pushCarItem
+        }
     }
     ///跳转到购物车
     @objc private func pushCar(){
@@ -126,7 +132,7 @@ extension GoodDetailViewController{
 
         ///更新购物车item按钮数量
         addCarVM.queryCarSumCountBR.asObservable().subscribe(onNext: { [weak self] (count) in
-            self?.btnPushCar.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
+            self?.btnPushCar?.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
         }).disposed(by:rx_disposeBag)
 
         ///选择商品数量

@@ -12,10 +12,14 @@ import ObjectMapper
 class CarModel:Mappable{
 
     var supplierId:Int?
+    ///最低起送价
     var lowestMoney:String?
     var supplierName:String?
     var listGoods:[GoodDetailModel]?
-    
+    ///当前组是否选中 1选中 2未选中 默认选中
+    var isSelected:Int=1
+    ///每组商品价格统计 默认0
+    var sumPrice:String?="0"
     required init?(map: Map) {
 
     }

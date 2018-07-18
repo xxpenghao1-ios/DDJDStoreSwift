@@ -22,6 +22,8 @@ class BaseViewController:UIViewController{
     var emptyDataSetTextInfo=""
     ///空视图 默认加载状态
     var emptyDataType:EmptyDataType = .loading
+    ///空视图是否显示 默认显示
+    var emptyDataIsHidden=true
 
     /******************************/
 
@@ -166,6 +168,6 @@ extension BaseViewController:DZNEmptyDataSetSource,DZNEmptyDataSetDelegate{
     }
     ///是否显示
     func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
-        return true
+        return emptyDataIsHidden
     }
 }

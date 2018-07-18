@@ -16,6 +16,10 @@ public enum CarAPI{
     case memberShoppingCarCountForMobile(memberId:String)
     ///查询购物车
     case queryShoppingCarNew(memberId:String,storeId:String)
+    ///删除购物车商品
+    case deleteShoppingCar(memberId:String,goodsList:String)
+    ///修改购物车商品数量
+    case updateCarAllGoodsNumForMember(memberId:String,goodsList:String)
 }
 extension CarAPI:TargetType{
     public var path: String {
@@ -26,6 +30,10 @@ extension CarAPI:TargetType{
             return "memberShoppingCarCountForMobile.xhtml"
         case .queryShoppingCarNew(_,_):
             return "queryShoppingCarNew.xhtml"
+        case .deleteShoppingCar(_,_):
+            return "deleteShoppingCar.xhtml"
+        case .updateCarAllGoodsNumForMember(_,_):
+            return "updateCarAllGoodsNumForMember.xhtml"
         }
     }
 
@@ -33,6 +41,8 @@ extension CarAPI:TargetType{
         switch self {
         case .insertShoppingCar(_,_,_,_,_,_,_,_,_),.memberShoppingCarCountForMobile(_),.queryShoppingCarNew(_,_):
             return .get
+        case .deleteShoppingCar(_,_),.updateCarAllGoodsNumForMember(_,_):
+            return .post
         }
     }
 
@@ -52,6 +62,10 @@ extension CarAPI:TargetType{
             return .requestParameters(parameters:["memberId":memberId], encoding: URLEncoding.default)
         case let .queryShoppingCarNew(memberId, storeId):
             return .requestParameters(parameters:["memberId":memberId,"storeId":storeId], encoding: URLEncoding.default)
+        case let .deleteShoppingCar(memberId, goodsList):
+            return .requestParameters(parameters:["memberId":memberId,"goodsList":goodsList], encoding: URLEncoding.default)
+        case let .updateCarAllGoodsNumForMember(memberId, goodsList):
+            return .requestParameters(parameters:["memberId":memberId,"goodsList":goodsList,"tag":2], encoding: URLEncoding.default)
         }
 
     }

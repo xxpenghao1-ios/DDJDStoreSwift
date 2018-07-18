@@ -38,7 +38,7 @@ class GoodListViewController:BaseViewController{
                 }
             }
         }
-        return false
+        return true
     }
 
     ///跳转到购物车按钮

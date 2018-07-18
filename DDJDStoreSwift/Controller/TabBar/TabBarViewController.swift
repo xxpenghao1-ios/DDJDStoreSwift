@@ -16,8 +16,10 @@ class TabBarViewController:UITabBarController{
         addChildViewController(IndexViewController(),title: "首页", imageName: "1")
         //分类
         addChildViewController(ClassifyPageViewController(), title:"分类", imageName:"2")
+
+        let carVC=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
         //购物车
-        addChildViewController(CarViewController(), title:"购物车", imageName:"3")
+        addChildViewController(carVC, title:"购物车", imageName:"3")
         ///个人中心
         addChildViewController(MyViewController(), title:"个人中心", imageName:"4")
         self.tabBar.tintColor=UIColor.applicationMainColor()

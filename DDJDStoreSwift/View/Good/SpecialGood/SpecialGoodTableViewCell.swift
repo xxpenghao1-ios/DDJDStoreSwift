@@ -95,17 +95,11 @@ class SpecialGoodTableViewCell: UITableViewCell {
         }else{
             lblGoodName.text=(model.goodInfoName ?? "")+"(限购~~\(model.eachCount!)\(model.goodUnit ?? ""))"
         }
-        
 
-        if model.goodsStock == -1{
-            lblStock.text="库存充足"
-        }else{
-            lblStock.text="库存:\(model.goodsStock ?? 0)"
-            ///如果库存等于0或者空
-            if model.goodsStock == nil || model.goodsStock == 0{
-                showGoodStateImgView(name:"to_sell_out")
-            }
-
+        lblStock.text="库存:\(model.goodsCount ?? 0)"
+        ///如果库存等于0或者空
+        if model.goodsCount == nil || model.goodsCount == 0{
+            showGoodStateImgView(name:"to_sell_out")
         }
 
         lblGoodUnit.text=model.goodUnit
