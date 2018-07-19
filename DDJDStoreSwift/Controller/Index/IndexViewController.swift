@@ -16,7 +16,7 @@ class IndexViewController:BaseViewController,Refreshable{
 
     private let viewModel=IndexViewModel()
 
-    private let addCarVM=AddCarViewModel()
+    private let addCarVM=AddCarGoodCountViewModel()
 
     ///新品推荐数组 旋转木马用
     private var newGoodArrSectionModel=[SectionModel<String,NewGoodModel>]()
@@ -294,9 +294,9 @@ extension IndexViewController{
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"indexHotGoodCellId",for:indexPath) as! IndexHotGoodCollectionViewCell
                     cell.updateCell(model:model)
                     ///点击加入购物车
-                    cell.btnAddCar.rx.tap.asObservable().subscribe({ (_) in
+                    cell.addCarClosure={
                         self?.addCarVM.addCar(model:model,goodsCount:1, flag:2)
-                    }).disposed(by:self?.rx_disposeBag ?? DisposeBag())
+                    }
                     cell.pushGoodDetailClosure={ model in
                         self?.pushGoodDetail(model:model)
                     }

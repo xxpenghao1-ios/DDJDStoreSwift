@@ -66,7 +66,7 @@ class GoodDetailViewController:BaseViewController{
     private var vm:GoodDetailViewModel!
 
     ///加入购物车vm
-    private var addCarVM:AddCarViewModel!
+    private var addCarVM:AddCarGoodCountViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,7 +99,8 @@ class GoodDetailViewController:BaseViewController{
     }
     ///跳转到购物车
     @objc private func pushCar(){
-
+        let vc=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 ///绑定vm
@@ -112,7 +113,7 @@ extension GoodDetailViewController{
         ///初始化vm
         vm=GoodDetailViewModel(model:model!,goodDetailflag:flag)
         ///初始化加入购物车vm
-        addCarVM=AddCarViewModel(model:model!, flag:flag)
+        addCarVM=AddCarGoodCountViewModel(model:model!, flag:flag)
 
         ///获取订单详情数据
         vm.goodDetailBR.asObservable().subscribe(onNext: { [weak self] (model) in

@@ -14,6 +14,9 @@ class IndexHotGoodCollectionViewCell:UICollectionViewCell{
     ///跳转到商品详情
     var pushGoodDetailClosure:((_ model:GoodDetailModel) -> Void)?
 
+    ///加入购物车
+    var addCarClosure:(() -> Void)?
+
     ///保存商品model信息
     private var model:GoodDetailModel?
 
@@ -37,6 +40,7 @@ class IndexHotGoodCollectionViewCell:UICollectionViewCell{
     ///加入购物车
     lazy var btnAddCar:UIButton={
         let _btn=UIButton.buildBtn(text:"加入购物车", textColor: UIColor.priceColor(), font:10, backgroundColor: UIColor.RGBFromHexColor(hexString:"ffe1e9"), cornerRadius:25/2)
+        _btn.addTarget(self, action:#selector(addCar),for: .touchUpInside)
         return _btn
     }()
     override init(frame: CGRect) {
@@ -47,6 +51,7 @@ class IndexHotGoodCollectionViewCell:UICollectionViewCell{
         imgView.isUserInteractionEnabled=true
         ///点击图片跳转页面
         imgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodDetail)))
+
         setUI()
     }
     required init?(coder aDecoder: NSCoder) {
@@ -66,6 +71,10 @@ class IndexHotGoodCollectionViewCell:UICollectionViewCell{
         if model != nil{
             self.pushGoodDetailClosure?(model!)
         }
+    }
+    ///加入购物车
+    @objc private func addCar(){
+        self.addCarClosure?()
     }
 }
 extension IndexHotGoodCollectionViewCell{

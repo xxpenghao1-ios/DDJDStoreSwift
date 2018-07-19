@@ -1,5 +1,5 @@
 //
-//  AddCarModelView.swift
+//  AddCarGoodCountViewModel.swift
 //  DDJDStoreSwift
 //
 //  Created by hao peng on 2018/7/12.
@@ -11,7 +11,7 @@ import RxCocoa
 import RxSwift
 import RxDataSources
 ///加入购物车vm
-class AddCarViewModel:NSObject {
+class AddCarGoodCountViewModel:NSObject {
 
     ///加入购物车
     var addCarPS=PublishSubject<Int>()
@@ -56,6 +56,8 @@ class AddCarViewModel:NSObject {
                     let count=json["shoppingCount"].intValue
                     ///查询购物车商品总数量
                     self?.queryCarSumCountBR.accept(count)
+                    ///更新购物车角标
+                    APP.tab?.updateCarBadgeValue.onNext(true)
                     PHProgressHUD.showSuccess("成功加入购物车")
                 }else if success == "tjxgbz"{
                     PHProgressHUD.showInfo("特价商品限购数量不足")
@@ -79,7 +81,8 @@ class AddCarViewModel:NSObject {
     }
     ///查询购物车商品总数量
     private func getCarSumCount(){
-        PHRequest.shared.requestJSONObject(target:CarAPI.memberShoppingCarCountForMobile(memberId:member_Id!)).subscribe(onNext: { [weak self] (result) in
+
+        PHRequest.shared.requestJSONObject(target:CarAPI.memberShoppingCarCountForMobile(memberId:member_Id ?? "")).subscribe(onNext: { [weak self] (result) in
             switch result{
             case let .success(json:json):
                 let count=json["shoppingCount"].intValue

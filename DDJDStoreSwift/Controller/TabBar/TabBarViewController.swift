@@ -8,16 +8,29 @@
 
 import Foundation
 import UIKit
+import RxSwift
 ///tabVC
 class TabBarViewController:UITabBarController{
+
+    ///更新购物车BadgeValue(加入购物车/删除购物车商品/进入购物车 执行)
+    var updateCarBadgeValue=PublishSubject<Bool>()
+
+    ///更新购物车BadgeValue(购物车加减执行 true加 false减)
+    var carAddSubtractUpdateCarBadgeValue=PublishSubject<[Bool:Int]>()
+    
+    ///监听购物车商品变化
+    private var addCarGoodCountVM=AddCarGoodCountViewModel()
+
+    let carVC=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        bindViewModel()
         //首页
         addChildViewController(IndexViewController(),title: "首页", imageName: "1")
         //分类
         addChildViewController(ClassifyPageViewController(), title:"分类", imageName:"2")
 
-        let carVC=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
         //购物车
         addChildViewController(carVC, title:"购物车", imageName:"3")
         ///个人中心
@@ -48,7 +61,44 @@ class TabBarViewController:UITabBarController{
         // 4.将子控制器添加到当前控制器上
         addChildViewController(nav)
     }
-    deinit{
-        NotificationCenter.default.removeObserver(self)
+}
+extension TabBarViewController{
+
+    private func bindViewModel(){
+
+        ///更新购物商品数量 默认加载一次
+        updateCarBadgeValue.startWith(true).delay(1, scheduler: MainScheduler.instance).subscribe(onNext: { [weak self] (b) in
+            if b{
+                ///查询购物车商品数量
+                self?.addCarGoodCountVM.queryCarSumCountPS.onNext(true)
+            }
+        }).disposed(by:rx_disposeBag)
+
+        ///购物车加减执行 dic key true加 false减
+        carAddSubtractUpdateCarBadgeValue.subscribe(onNext: { [weak self] (dic) in
+            weak var weakSelf=self
+            if weakSelf == nil{
+                return
+            }
+            let _=dic.map({ (b,count) in
+                if b {
+                    weakSelf!.addCarGoodCountVM.queryCarSumCountBR.accept(weakSelf!.addCarGoodCountVM.queryCarSumCountBR.value + count)
+
+                }else{
+                    weakSelf!.addCarGoodCountVM.queryCarSumCountBR.accept(weakSelf!.addCarGoodCountVM.queryCarSumCountBR.value - count)
+
+                }
+            })
+
+        }).disposed(by:rx_disposeBag)
+        ///查询购物车商品数量结果
+        addCarGoodCountVM.queryCarSumCountBR.subscribe(onNext: { [weak self] (count) in
+            if count > 0{
+                self?.carVC.tabBarItem.badgeValue=count.description
+            }else{
+                self?.carVC.tabBarItem.badgeValue=nil
+            }
+            
+        }).disposed(by:rx_disposeBag)
     }
 }

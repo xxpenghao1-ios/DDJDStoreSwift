@@ -14,7 +14,7 @@ import RxDataSources
 class MessageViewModel:NSObject,OutputRefreshProtocol{
 
     ///保存消息数据
-    var messageArrBR=BehaviorRelay<[SectionModel<String,MessageModel>]>(value:[])
+    var messageArrBR=BehaviorRelay<[EmptyDataType:[SectionModel<String,MessageModel>]]>(value:[.loading:[]])
 
     ///保存消息数据
     var messageArr=[MessageModel]()
@@ -57,12 +57,12 @@ class MessageViewModel:NSObject,OutputRefreshProtocol{
             if b == true{///刷新
                 ///每次获取最新的数据
                 weakSelf!.messageArr=arrModel
-                weakSelf!.messageArrBR.accept([SectionModel.init(model:"",items:weakSelf!.messageArr)])
+                weakSelf!.messageArrBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.messageArr)]])
 
             }else{//加载更多
                 ///追加数据
                 weakSelf!.messageArr+=arrModel
-                weakSelf!.messageArrBR.accept([SectionModel.init(model:"",items:weakSelf!.messageArr)])
+                weakSelf!.messageArrBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.messageArr)]])
             }
             weakSelf!.refreshStatus.accept(.endHeaderRefresh)
             weakSelf!.refreshStatus.accept(.endFooterRefresh)
@@ -73,10 +73,12 @@ class MessageViewModel:NSObject,OutputRefreshProtocol{
             ///把页索引-1
             if weakSelf!.currentPage > 1{
                 weakSelf!.currentPage-=1
+            }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
+                weakSelf!.refreshStatus.accept(.noMoreData)
+                ///获取数据出错 空页面提示
+                weakSelf!.messageArrBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.messageArr)]])
             }
             phLog("获取消息信息发送错误:\(error.localizedDescription)")
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
         }).disposed(by:rx_disposeBag)
     }
 }

@@ -30,7 +30,7 @@ class NewGoodViewController:BaseViewController{
 
     private let vm=NewGoodViewModel()
 
-    private let addCarVM=AddCarViewModel()
+    private let addCarVM=AddCarGoodCountViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +42,11 @@ class NewGoodViewController:BaseViewController{
         ///跳转到购物车按钮
         btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
         btnPushCar.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
-//        btnPushCar.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
+        ///跳转到购物车
+        btnPushCar.rx.controlEvent(UIControlEvents.touchUpInside).subscribe { [weak self] (_) in
+            let vc=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
+            self?.navigationController?.pushViewController(vc, animated: true)
+        }.disposed(by:rx_disposeBag)
         let pushCarItem=UIBarButtonItem(customView:btnPushCar)
         pushCarItem.tintColor=UIColor.colorItem()
         self.navigationItem.rightBarButtonItem=pushCarItem

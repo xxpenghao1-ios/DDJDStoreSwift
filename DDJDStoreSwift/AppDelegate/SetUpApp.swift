@@ -44,7 +44,7 @@ extension AppDelegate{
 extension AppDelegate{
     //跳转到首页
     func jumpToIndexVC(){
-        let tab=TabBarViewController()
+        tab=TabBarViewController()
         self.window?.rootViewController=tab
     }
     //跳转到登录页面(切换根视图)
@@ -52,12 +52,5 @@ extension AppDelegate{
         let login=LoginController()
         self.window?.rootViewController=login
     }
-//    ///返回登录页面
-//    func returnLoginVC() -> LoginViewController{
-//        let vc=storyboardViewController(type:.loginWithRegistr,withIdentifier:"LoginVC") as! LoginViewController
-//        vc.flag=1
-//        vc.hidesBottomBarWhenPushed=true
-//        return vc
-//    }
 }
 

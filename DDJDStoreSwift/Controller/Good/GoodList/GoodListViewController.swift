@@ -16,6 +16,9 @@ class GoodListViewController:BaseViewController{
     /// 接收传入的状态 1表示搜索 2表示查询3级分类商品列表  3查询1元区商品 4查询配送商商品列表
     var flag:Int=0
 
+    ///有值表示从购物车中跳转过来
+    var isCarFlag:Int?
+
     ///接收分类3级id
     var goodsCategoryId:Int?
 
@@ -27,7 +30,7 @@ class GoodListViewController:BaseViewController{
 
     private var vm:GoodListViewModel!
 
-    private var addCarVM=AddCarViewModel()
+    private var addCarVM=AddCarGoodCountViewModel()
 
     ///监听返回按钮
     override func navigationShouldPopOnBackButton() -> Bool {
@@ -42,7 +45,7 @@ class GoodListViewController:BaseViewController{
     }
 
     ///跳转到购物车按钮
-    private var btnPushCar:UIButton!
+    private var btnPushCar:UIButton?
 
     private lazy var menu:JNDropDownMenu={
         let _menu = JNDropDownMenu(origin: CGPoint(x:0,y:NAV_HEIGHT),height:44,width:SCREEN_WIDTH)
@@ -69,18 +72,28 @@ class GoodListViewController:BaseViewController{
     }
     ///设置UI
     private func setUI(){
+
         self.view.addSubview(menu)
+
         table.frame=CGRect.init(x:0,y:menu.frame.maxY,width:SCREEN_WIDTH, height:SCREEN_HEIGH-NAV_HEIGHT-44-BOTTOM_SAFETY_DISTANCE_HEIGHT)
         self.view.addSubview(table)
+
         //空视图提示文字
         self.emptyDataSetTextInfo="亲,暂时没有该类商品"
-        ///跳转到购物车按钮
-        btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
-        btnPushCar.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
-        //        btnPushCar.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
-        let pushCarItem=UIBarButtonItem(customView:btnPushCar)
-        pushCarItem.tintColor=UIColor.colorItem()
-        self.navigationItem.rightBarButtonItem=pushCarItem
+
+        if isCarFlag == nil{///不是购物车中跳转过来显示
+            ///跳转到购物车按钮
+            btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
+            btnPushCar!.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
+            ///点击跳转购物车
+            btnPushCar!.rx.controlEvent(UIControlEvents.touchUpInside).subscribe { [weak self] (_) in
+                let vc=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }.disposed(by:rx_disposeBag)
+            let pushCarItem=UIBarButtonItem(customView:btnPushCar!)
+            pushCarItem.tintColor=UIColor.colorItem()
+            self.navigationItem.rightBarButtonItem=pushCarItem
+        }
     }
 }
 extension GoodListViewController:Refreshable{
@@ -130,7 +143,7 @@ extension GoodListViewController:Refreshable{
 
         ///更新购物车item按钮数量
         addCarVM.queryCarSumCountBR.asObservable().subscribe(onNext: { [weak self] (count) in
-            self?.btnPushCar.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
+            self?.btnPushCar?.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
         }).disposed(by:rx_disposeBag)
 
         ///绑定数据源

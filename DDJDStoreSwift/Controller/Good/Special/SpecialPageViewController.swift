@@ -25,14 +25,15 @@ class SpecialPageViewController:WMPageController{
         ///跳转到购物车按钮
         btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
         btnPushCar?.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
-//        btnPushCar.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
+        btnPushCar?.addTarget(self,action:#selector(pushCar), for: UIControlEvents.touchUpInside)
         let pushCarItem=UIBarButtonItem(customView:btnPushCar!)
         pushCarItem.tintColor=UIColor.colorItem()
         self.navigationItem.rightBarButtonItem=pushCarItem
     }
     ///跳转到购物车
     @objc private func pushCar(){
-
+        let vc=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     //设置显示几个页面
     override func numbersOfChildControllers(in pageController: WMPageController) -> Int {

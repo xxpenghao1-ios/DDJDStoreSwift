@@ -15,6 +15,9 @@ class CarViewController:BaseViewController{
 
     private var vm=CarViewModel()
 
+    ///监听购物车商品变化
+    private var addCarGoodCountVM=AddCarGoodCountViewModel()
+
     @IBOutlet weak var table:UITableView!
     ///结算
     @IBOutlet weak var btnSettlement:UIButton!
@@ -32,6 +35,8 @@ class CarViewController:BaseViewController{
         super.viewWillAppear(animated)
         ///发送网络请求
         vm.requestNewDataCommond.onNext(true)
+        ///每次进入页面查询购物车商品数量
+        addCarGoodCountVM.queryCarSumCountPS.onNext(true)
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -123,6 +128,11 @@ extension CarViewController{
             }
             self?.vm.allSelected(isSelected:self?.btnCheckAll.isSelected)
         }).disposed(by:rx_disposeBag)
+
+        ///查询购物车商品数量设置角标
+        addCarGoodCountVM.queryCarSumCountBR.asObservable().subscribe(onNext: { (_) in
+            APP.tab?.updateCarBadgeValue.onNext(true)
+        }).disposed(by:rx_disposeBag)
     }
     ///跳转到商品详情
     private func pushGoodDetail(model:GoodDetailModel){
@@ -134,18 +144,7 @@ extension CarViewController{
         self.navigationController?.pushViewController(vc, animated:true)
     }
 }
-///购物车操作逻辑
-extension CarViewController{
-    ///单组是否选中
-    @objc private func selectImgSwitch(sender:UIButton){
-        if sender.isSelected{
-            sender.isSelected=false
-        }else{
-            sender.isSelected=true
-        }
-        self.vm.sectionIsSelected(section:sender.tag, isSelected: sender.isSelected)
-    }
-}
+
 extension CarViewController:UITableViewDelegate,UITableViewDataSource{
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -188,7 +187,7 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
         if vm.arr.count == 0{
             return nil
         }else{
-            var view=table.dequeueReusableHeaderFooterView(withIdentifier:"HeaderId")
+            var view=table.dequeueReusableHeaderFooterView(withIdentifier:"headerId")
             if view == nil{
                 view=UITableViewHeaderFooterView(reuseIdentifier:"headerId")
             }
@@ -200,7 +199,7 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
         if vm.arr.count == 0{
             return nil
         }else{
-            var view=table.dequeueReusableHeaderFooterView(withIdentifier:"Id")
+            var view=table.dequeueReusableHeaderFooterView(withIdentifier:"footerId")
             if view == nil{
                 view=UITableViewHeaderFooterView(reuseIdentifier:"footerId")
             }
@@ -234,7 +233,7 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
         view.contentView.backgroundColor=UIColor.white
 
         //给选择图片加上按钮实现点击切换
-        var btnSelectImg=view.contentView.viewWithTag(section) as? UIButton
+        var btnSelectImg=view.contentView.viewWithTag(11) as? UIButton
         if btnSelectImg == nil{
             btnSelectImg=UIButton(frame:CGRect(x:10,y:15,width:20,height: 20));
             //选择图片
@@ -242,8 +241,16 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
             let selectImgSelected=UIImage(named:"car_selected");
             btnSelectImg?.setImage(selectImg, for:UIControlState.normal)
             btnSelectImg?.setImage(selectImgSelected, for:.selected);
-            btnSelectImg?.addTarget(self, action:#selector(selectImgSwitch), for: UIControlEvents.touchUpInside);
-            btnSelectImg?.tag=section
+            ///选择分组
+            btnSelectImg!.rx.controlEvent(.touchUpInside).subscribe { [weak self] (_) in
+                if btnSelectImg!.isSelected{
+                    btnSelectImg!.isSelected=false
+                }else{
+                    btnSelectImg!.isSelected=true
+                }
+                self?.vm.sectionIsSelected(section:section, isSelected: btnSelectImg!.isSelected)
+            }.disposed(by:rx_disposeBag)
+            btnSelectImg?.tag=11
             view.contentView.addSubview(btnSelectImg!);
         }
         ///供应商名称
@@ -283,7 +290,7 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
         ///边线
         var broderView=view.contentView.viewWithTag(111)
         if broderView == nil{
-            broderView=UIView(frame: CGRect.init(x:0, y:44, width:SCREEN_WIDTH,height:6))
+            broderView=UIView(frame: CGRect.init(x:0, y:50, width:SCREEN_WIDTH,height:6))
             broderView!.tag=111
             broderView!.backgroundColor=UIColor.viewBgdColor()
             view.contentView.addSubview(broderView!)
@@ -293,9 +300,17 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
         var btn=view.contentView.viewWithTag(222) as? UIButton
         if btn == nil{
             btn=UIButton.buildBtn(text:"去凑单", textColor:UIColor.white, font:14, backgroundColor:UIColor.applicationMainColor(), cornerRadius:5)
-            btn!.tag=section
+            btn!.tag=222
             ///默认隐藏
             btn!.isHidden=true
+            ///跳转到配送商城
+            btn!.rx.controlEvent(.touchUpInside).subscribe { [weak self] (_) in
+                let vc=GoodListViewController()
+                vc.flag=4
+                vc.titleStr=carModel.supplierName
+                vc.subSupplierId=carModel.supplierId
+                self?.navigationController?.pushViewController(vc, animated:true)
+            }.disposed(by:rx_disposeBag)
             view.contentView.addSubview(btn!)
         }
 
@@ -325,11 +340,11 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
 
         let size=lblName!.text!.textSizeWithFont(font: UIFont.systemFont(ofSize: 14), constrainedToSize:CGSize(width: 300,height: 20))
 
-        lblName!.frame=CGRect(x: 15,y: 10,width: size.width,height: 20)
+        lblName!.frame=CGRect(x: 15,y:15,width: size.width,height: 20)
 
-        btn!.frame=CGRect(x:lblName!.frame.maxX+5,y: 5,width: 60,height: 30)
+        btn!.frame=CGRect(x:lblName!.frame.maxX+5,y:10,width: 60,height: 30)
 
-        lblTotal!.frame=CGRect(x:lblName!.frame.maxX+65,y: 5,width: SCREEN_WIDTH-lblName!.frame.maxX-10-65,height: 30)
+        lblTotal!.frame=CGRect(x:lblName!.frame.maxX+65,y:10,width: SCREEN_WIDTH-lblName!.frame.maxX-10-65,height: 30)
 
         lblTotal!.text="小计:\(carModel.sumPrice!)"
 

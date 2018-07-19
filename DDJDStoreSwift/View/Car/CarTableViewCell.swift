@@ -196,8 +196,13 @@ extension CarTableViewCell{
         }
 
         if goodModel!.carNumber!+goodsBaseCount <= maxCarNumberCount{ //如果当前商品加上每次加减数量后小于等于最大购买数量  更新商品数量
+
             goodModel!.carNumber!+=goodsBaseCount
+
             self.updateCarNumberClosure?(goodModel!.carNumber!)
+
+            ///更新购物车BadgeValue(购物车加减执行 true加 false减)
+            APP.tab?.carAddSubtractUpdateCarBadgeValue.onNext([true:goodsBaseCount])
         }
     }
     ///减少商品数量
@@ -206,8 +211,13 @@ extension CarTableViewCell{
             return
         }
         if goodModel!.carNumber! > minCarNumberCount{ //如果大于最最低起送量
+            
             goodModel!.carNumber!-=goodsBaseCount
+
             self.updateCarNumberClosure?(goodModel!.carNumber!)
+
+            ///更新购物车BadgeValue(购物车加减执行 true加 false减)
+            APP.tab?.carAddSubtractUpdateCarBadgeValue.onNext([false:goodsBaseCount])
         }
     }
 

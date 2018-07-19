@@ -11,6 +11,7 @@ import UIKit
 import Kingfisher
 import RxCocoa
 import RxSwift
+import SVProgressHUD
 ///图片缓存信息
 let cache=KingfisherManager.shared.cache
 ///父类
@@ -41,12 +42,21 @@ class BaseViewController:UIViewController{
         self.navigationItem.backBarButtonItem=bark
         isLogin()
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if SVProgressHUD.isVisible(){//退出页面如果还存在0.5后隐藏
+            SVProgressHUD.dismiss(withDelay:0.5)
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         phLog("内存报警了")
         ///清除缓存
         cache.clearMemoryCache()
         cache.clearDiskCache()
+    }
+    deinit{
+        NotificationCenter.default.removeObserver(self)
     }
 }
 ///验证登录缓存信息

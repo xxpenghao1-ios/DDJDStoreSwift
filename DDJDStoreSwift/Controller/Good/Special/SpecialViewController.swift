@@ -21,7 +21,7 @@ class SpecialViewController:BaseViewController {
     private var vm:SpecialGoodViewModel!
 
     ///加入购物车vm
-    private var addCarVM:AddCarViewModel?
+    private var addCarVM:AddCarGoodCountViewModel?
 
     ///倒计时
     private var timer:Timer?
@@ -78,7 +78,7 @@ extension SpecialViewController:Refreshable{
     private func bindViewModel(){
 
         vm=SpecialGoodViewModel(order:order)
-        addCarVM=AddCarViewModel()
+        addCarVM=AddCarGoodCountViewModel()
         ///创建数据源
         let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"specialGoodId") as? SpecialGoodTableViewCell ?? SpecialGoodTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"specialGoodId")

@@ -14,7 +14,7 @@ import RxDataSources
 class OrderViewModel:NSObject,OutputRefreshProtocol{
 
     ///订单数据
-    var orderArrModelBR=BehaviorRelay<[SectionModel<String,OrderModel>]>(value:[])
+    var orderArrModelBR=BehaviorRelay<[EmptyDataType:[SectionModel<String,OrderModel>]]>(value:[.loading:[]])
 
     ///保存订单数据
     var orderArrModel=[OrderModel]()
@@ -34,7 +34,7 @@ class OrderViewModel:NSObject,OutputRefreshProtocol{
     ///传入订单状态
     init(orderStatus:Int?) {
         super.init()
-        requestNewDataCommond
+        requestNewDataCommond.startWith(true)
             .subscribe(onNext: { [weak self] (b) in
                 if b {//重新加载数据
                     self?.currentPage=1
@@ -58,13 +58,13 @@ extension OrderViewModel{
             if b == true{///刷新
                 ///每次获取最新的数据
                 weakSelf!.orderArrModel=arr
-                weakSelf!.orderArrModelBR.accept([SectionModel.init(model:"",items:weakSelf!.orderArrModel)])
+                weakSelf!.orderArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.orderArrModel)]])
 
 
             }else{//加载更多
                 ///追加数据
                 weakSelf!.orderArrModel+=arr
-                weakSelf!.orderArrModelBR.accept([SectionModel.init(model:"",items:weakSelf!.orderArrModel)])
+                weakSelf!.orderArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.orderArrModel)]])
             }
             weakSelf!.refreshStatus.accept(.endHeaderRefresh)
             weakSelf!.refreshStatus.accept(.endFooterRefresh)
@@ -72,13 +72,16 @@ extension OrderViewModel{
                 weakSelf!.refreshStatus.accept(.noMoreData)
             }
         }, onError: { (error) in
+            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
+            weakSelf!.refreshStatus.accept(.endFooterRefresh)
             ///把页索引-1
             if weakSelf!.currentPage > 1{
                 weakSelf!.currentPage-=1
+            }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
+                weakSelf!.refreshStatus.accept(.noMoreData)
+                ///获取数据出错 空页面提示
+                weakSelf!.orderArrModelBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.orderArrModel)]])
             }
-            phLog("获取消息信息发送错误:\(error.localizedDescription)")
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
         }).disposed(by:rx_disposeBag)
     }
 }

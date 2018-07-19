@@ -19,6 +19,8 @@ class MessageViewController:BaseViewController{
         let _table=UITableView()
         _table.tableFooterView=UIView.init(frame: CGRect.zero)
         _table.backgroundColor=UIColor.clear
+        _table.emptyDataSetDelegate=self
+        _table.emptyDataSetSource=self
         _table.separatorStyle = .none
         _table.register(UINib(nibName:"MessageTableViewCell",bundle:nil), forCellReuseIdentifier:"messageId")
         return _table
@@ -27,6 +29,7 @@ class MessageViewController:BaseViewController{
         super.viewDidLoad()
         self.title="我的消息"
         table.frame=self.view.bounds
+        self.emptyDataSetTextInfo="暂无消息记录"
         self.view.addSubview(table)
         bindViewModel()
     }
@@ -43,7 +46,11 @@ extension MessageViewController:Refreshable{
         })
 
         ///绑定数据源
-        vm.messageArrBR.asObservable().bind(to:table.rx.items(dataSource:dataSources)).disposed(by:rx_disposeBag)
+        vm.messageArrBR.asObservable().map({ [weak self] (dic) -> [SectionModel<String,MessageModel>] in
+            let emptyDataType=dic.keys.first ?? .noData
+            self?.emptyDataType = emptyDataType
+            return dic[emptyDataType] ?? []
+        }).bind(to:table.rx.items(dataSource:dataSources)).disposed(by:rx_disposeBag)
 
         table.rx.setDelegate(self).disposed(by:rx_disposeBag)
 

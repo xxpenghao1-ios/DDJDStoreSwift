@@ -18,6 +18,11 @@ class OrderPageViewController:WMPageController{
         super.viewDidLoad()
         self.title="进货订单"
         self.view.backgroundColor=UIColor.viewBgdColor()
+        ///去掉返回按钮文字
+        let bark=UIBarButtonItem()
+        bark.title=""
+        bark.tintColor=UIColor.color333()
+        self.navigationItem.backBarButtonItem=bark
     }
     //设置显示几个页面
     override func numbersOfChildControllers(in pageController: WMPageController) -> Int {

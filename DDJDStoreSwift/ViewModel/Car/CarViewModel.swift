@@ -28,7 +28,7 @@ class CarViewModel:NSObject{
 
     override init() {
         super.init()
-        ///查询购物车商品数量
+        ///查询购物车商品
         requestNewDataCommond.subscribe(onNext: { [weak self] (_) in
             self?.getCarGoodList()
         }).disposed(by:rx_disposeBag)
@@ -111,7 +111,6 @@ extension CarViewModel{
             case let .success(json:json):
                 let success=json["success"].stringValue
                 if success == "success"{
-                    PHProgressHUD.showSuccess("删除成功")
                     if allDelete == true{///如果删除全部
                         self?.arr.removeAll()
                     }else{
@@ -124,6 +123,10 @@ extension CarViewModel{
                     }
                     ///更新购物车各种状态
                     self?.setSumPriceArrModel(arr:self?.arr ?? [])
+                    ///更新购物车数量
+                    APP.tab?.updateCarBadgeValue.onNext(true)
+                    
+                    PHProgressHUD.showSuccess("删除成功")
                 }else{
                     PHProgressHUD.showError("删除失败")
                 }

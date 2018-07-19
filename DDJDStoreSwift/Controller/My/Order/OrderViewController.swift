@@ -22,16 +22,18 @@ class OrderViewController:BaseViewController{
         _table.tableFooterView=UIView(frame: CGRect.zero)
         _table.backgroundColor=UIColor.clear
         _table.separatorInset = UIEdgeInsetsMake(0,0,0,0)
+        _table.emptyDataSetSource=self
+        _table.emptyDataSetDelegate=self
         _table.register(UINib(nibName:"OrderListTableViewCell", bundle:nil), forCellReuseIdentifier:"orderListId")
         return _table
     }()
     override func viewDidLoad() {
         super.viewDidLoad()
         table.frame=CGRect.init(x:0,y:0, width:SCREEN_WIDTH, height:SCREEN_HEIGH-NAV_HEIGHT-44-BOTTOM_SAFETY_DISTANCE_HEIGHT)
+        self.emptyDataSetTextInfo="亲,没有相关订单数据"
         self.view.addSubview(table)
         vm=OrderViewModel(orderStatus:orderStatus)
         bindViewModel()
-        self.table.mj_header.beginRefreshing()
     }
 }
 extension OrderViewController:Refreshable{
@@ -45,7 +47,11 @@ extension OrderViewController:Refreshable{
         })
 
         ///绑定数据源
-        vm.orderArrModelBR.asObservable().bind(to:table.rx.items(dataSource:dataSources)).disposed(by:rx_disposeBag)
+        vm.orderArrModelBR.map({ [weak self] (dic) -> [SectionModel<String,OrderModel>] in
+            let emptyDataType=dic.keys.first ?? .noData
+            self?.emptyDataType = emptyDataType
+            return dic[emptyDataType] ?? []
+        }).asObservable().bind(to:table.rx.items(dataSource:dataSources)).disposed(by:rx_disposeBag)
 
         table.rx.setDelegate(self).disposed(by:rx_disposeBag)
 
@@ -76,9 +82,8 @@ extension OrderViewController:Refreshable{
     }
     ///删除对应model
     private func removeModelArr(index:Int){
-        var modelArr=self.vm.orderArrModelBR.value[0].items
-        modelArr.remove(at:index)
-        self.vm.orderArrModelBR.accept([SectionModel.init(model:"", items:modelArr)])
+        self.vm.orderArrModel.remove(at:index)
+        self.vm.orderArrModelBR.accept([.noData:[SectionModel.init(model:"", items:self.vm.orderArrModel)]])
     }
 }
 extension OrderViewController:UITableViewDelegate{

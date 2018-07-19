@@ -23,7 +23,7 @@ class PromotionViewController:BaseViewController{
     private var vm:PromotionGoodViewModel!
 
     ///加入购物车vm
-    private var addCarVM:AddCarViewModel?
+    private var addCarVM:AddCarGoodCountViewModel?
 
     ///倒计时
     private var timer:Timer?
@@ -83,7 +83,7 @@ extension PromotionViewController:Refreshable{
     private func bindViewModel(){
 
         vm=PromotionGoodViewModel(order:order)
-        addCarVM=AddCarViewModel()
+        addCarVM=AddCarGoodCountViewModel()
         ///创建数据源
         let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"promotionGoodId") as? PromotionGoodTableViewCell ?? PromotionGoodTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"promotionGoodId")
