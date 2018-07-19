@@ -39,7 +39,7 @@ struct GoodsCategoryModel:Mappable {
         goodsCategoryPid <- map["goodsCategoryPid"]
         goodsCategoryIco <- map["goodsCategoryIco"]
         goodsCategoryIdRemark <- map["goodsCategoryIdRemark"]
-        brandName <- map["brandName"]
+        brandName <- map["brandname"]
         brandId <- map["brandId"]
         goodscategoryId <- map["goodscategoryId"]
         categoryType <- map["categoryType"]

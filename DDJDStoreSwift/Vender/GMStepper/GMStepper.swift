@@ -32,6 +32,7 @@ import UIKit
 
             if oldValue != value {
                 sendActions(for: .valueChanged)
+                sendActions(for:.touchUpInside)
             }
         }
     }

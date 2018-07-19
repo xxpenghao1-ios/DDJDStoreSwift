@@ -17,12 +17,12 @@ class CarViewModel:NSObject{
     var requestNewDataCommond = PublishSubject<Bool>()
     ///总价
     var sumPriceBR=BehaviorRelay<String>(value:"0")
+    ///更新全选按钮状态  true全选
+    var updateAllSelectedStatePS=PublishSubject<Bool>()
     ///刷新数据
     var arrPS=PublishSubject<Bool>()
     ///更新购物车商品数量(页面退出操作)
     var updateCarGoodListPS=PublishSubject<Bool>()
-    ///删除购物车商品
-    var deleteCarGoodListPS=PublishSubject<[GoodDetailModel]>()
     ///保存购物车数据
     var arr=[CarModel]()
 
@@ -33,10 +33,11 @@ class CarViewModel:NSObject{
             self?.getCarGoodList()
         }).disposed(by:rx_disposeBag)
 
-        ///更新购物车商品数量(页面退出操作)s
+        ///更新购物车商品数量(页面退出操作)
         updateCarGoodListPS.subscribe(onNext: { [weak self] (_) in
             self?.updateCarAllGoodsNumForMember()
         }).disposed(by:rx_disposeBag)
+
 
     }
 }
@@ -55,9 +56,22 @@ extension CarViewModel{
             let carArr=arr.filter({ (carModel) -> Bool in
                 return carModel.listGoods?.count > 0
             })
-            return carArr
+            ///统一库存  把特价 促销  普通库存统一到goodsStock
+            let mapArr=carArr.map({ (carModel) -> CarModel in
+                let goodList=carModel.listGoods!.map({ (goodModel) -> GoodDetailModel in
+                    if goodModel.flag == 1{
+                        goodModel.goodsStock=goodModel.goodsCount
+                    }else if goodModel.flag == 3{
+                        goodModel.goodsStock=goodModel.promotionEachCount
+                    }
+                    return goodModel
+                })
+                carModel.listGoods=goodList
+                return carModel
+            })
+            return mapArr
         }).subscribe(onNext: { (arr) in
-                weakSelf!.arr=weakSelf!.setSumPriceArrModel(arr:arr)
+                weakSelf!.setSumPriceArrModel(arr:arr)
                 weakSelf!.arrPS.onNext(true)
         }, onError: { (error) in
                 weakSelf!.arrPS.onNext(true)
@@ -79,14 +93,37 @@ extension CarViewModel{
     }
 
     ///删除购物车商品
-    private func deleteShoppingCar(arr:[GoodDetailModel]){
+    func deleteShoppingCar(index:IndexPath?=nil,allDelete:Bool?=false){
         PHProgressHUD.show("正在删除...")
-        PHRequest.shared.requestJSONObject(target:CarAPI.deleteShoppingCar(memberId:member_Id!, goodsList: arr.toJSONString() ?? "")).subscribe(onNext: { (result) in
+        var goodsList=[GoodDetailModel]()
+        if allDelete == true{///如果删除全部
+            for carModel in arr{
+                if carModel.listGoods?.count > 0{
+                    goodsList+=carModel.listGoods!
+                }
+            }
+        }else{///获取单个要删除的商品
+            goodsList.append(arr[index!.section].listGoods![index!.row])
+        }
+
+        PHRequest.shared.requestJSONObject(target:CarAPI.deleteShoppingCar(memberId:member_Id!, goodsList:goodsList.toJSONString() ?? "")).subscribe(onNext: { [weak self] (result) in
             switch result{
             case let .success(json:json):
-                let success=json["success"].string
+                let success=json["success"].stringValue
                 if success == "success"{
-
+                    PHProgressHUD.showSuccess("删除成功")
+                    if allDelete == true{///如果删除全部
+                        self?.arr.removeAll()
+                    }else{
+                        ///删除对应商品
+                        self?.arr[index!.section].listGoods?.remove(at:index!.row)
+                        if self?.arr[index!.section].listGoods?.count == 0{//如果删完了
+                            ///删除对应的组
+                            self?.arr.remove(at:index!.section)
+                        }
+                    }
+                    ///更新购物车各种状态
+                    self?.setSumPriceArrModel(arr:self?.arr ?? [])
                 }else{
                     PHProgressHUD.showError("删除失败")
                 }
@@ -102,14 +139,27 @@ extension CarViewModel{
 
 }
 extension CarViewModel{
+    ///每组是否选中 section组索引 isSelected=true选中  false未选中
+    func sectionIsSelected(section:Int,isSelected:Bool){
+        let listGood=arr[section].listGoods!
+        ///更新对应每组选中状态
+        arr[section].listGoods=listGood.map { (model) -> GoodDetailModel in
+            if model.goodsStock == -1 || model.goodsStock > 0{///只更新库存大于0的
+                model.isSelected=isSelected == true ? 1:2
+            }
+            return model
+        }
+        ///计算每组小计 商品总价  选中状态
+        setSumPriceArrModel(arr:arr)
+    }
+
     ///计算每组商品小计和总价
-    private func setSumPriceArrModel(arr:[CarModel]) -> [CarModel]{
+    func setSumPriceArrModel(arr:[CarModel]){
         ///所有选中商品总价
         var sumPrice="0"
         if arr.count == 0{
+            ///更新商品总价
             sumPriceBR.accept(sumPrice)
-            return []
-            
         }else{
             for carModel in arr{
                 //每组选中商品价格
@@ -119,10 +169,12 @@ extension CarViewModel{
                     ///每个商品总价格
                     var goodSumPrice="0"
                     if goodModel.isSelected == 1{//只统计选中的商品
-                        if goodModel.flag == 1{//如果是特价
-                            goodSumPrice=PriceComputationsUtil.decimalNumberWithString(multiplierValue: "\(goodModel.carNumber ?? 0)", multiplicandValue:goodModel.prefertialPrice ?? "0", type:.multiplication, position:2)
-                        }else{//普通价格
-                            goodSumPrice=PriceComputationsUtil.decimalNumberWithString(multiplierValue: "\(goodModel.carNumber ?? 0)", multiplicandValue:goodModel.uprice ?? "0", type:.multiplication, position:2)
+                        if goodModel.goodsStock == -1 || goodModel.goodsStock > 0{///只统计有库存的商品
+                            if goodModel.flag == 1{//如果是特价
+                                goodSumPrice=PriceComputationsUtil.decimalNumberWithString(multiplierValue: "\(goodModel.carNumber ?? 0)", multiplicandValue:goodModel.prefertialPrice ?? "0", type:.multiplication, position:2)
+                            }else{//普通价格
+                                goodSumPrice=PriceComputationsUtil.decimalNumberWithString(multiplierValue: "\(goodModel.carNumber ?? 0)", multiplicandValue:goodModel.uprice ?? "0", type:.multiplication, position:2)
+                            }
                         }
                     }
                     ///把每个商品相加
@@ -132,8 +184,47 @@ extension CarViewModel{
                 sumPrice=PriceComputationsUtil.decimalNumberWithString(multiplierValue:sumPrice,multiplicandValue:sumSectionPrice, type:.addition, position:2)
                 carModel.sumPrice=sumSectionPrice
             }
+            ///更新商品总价
             sumPriceBR.accept(sumPrice)
-            return arr
+            self.arr=arr
         }
+        setAllSelectedState()
+    }
+    ///计算页面所有的选中状态
+    private func setAllSelectedState(){
+        for carModel in arr{
+            ///返回未选中商品数组
+            let uncheckArr=carModel.listGoods!.filter { (model) -> Bool in
+                return model.isSelected == 2
+            }
+            ///未选中商品数组大于0 单组不选中
+            carModel.isSelected=uncheckArr.count > 0 ? 2:1
+        }
+        ///返回未选中组
+        let uncheckArr=arr.filter { (model) -> Bool in
+            return model.isSelected == 2
+        }
+        ///未选中组大于0 全选按钮 不选中 否则选中
+        updateAllSelectedStatePS.onNext(uncheckArr.count > 0 ? false:true)
+        ///刷新table
+        arrPS.onNext(true)
+    }
+
+    ///是否全选 
+    func allSelected(isSelected:Bool?){
+        let carArr=arr.map { (carModel) -> CarModel in
+            carModel.isSelected=isSelected == true ? 1:2
+            let goodList=carModel.listGoods?.map({ (goodModel) -> GoodDetailModel in
+                if goodModel.goodsStock == -1 || goodModel.goodsStock > 0{///只更新库存大于0的
+                    goodModel.isSelected=isSelected == true ? 1:2
+                }
+                return goodModel
+            })
+            carModel.listGoods=goodList
+            return carModel
+        }
+        self.arr=carArr
+        ///计算每组小计 商品总价  选中状态
+        setSumPriceArrModel(arr:arr)
     }
 }

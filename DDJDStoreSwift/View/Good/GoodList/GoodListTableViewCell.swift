@@ -55,6 +55,7 @@ class GoodListTableViewCell: UITableViewCell {
         btnAddCar.addTarget(self, action:#selector(addCar), for: UIControlEvents.touchUpInside)
         ///选择商品数量
         btnSelectedGoodCount.addTarget(self, action:#selector(selectedGoodCount), for: UIControlEvents.touchUpInside)
+        
     }
     ///更新cell
     func updateCell(model:GoodDetailModel){
@@ -124,6 +125,7 @@ class GoodListTableViewCell: UITableViewCell {
     @objc private func selectedGoodCount(){
         self.selectedGoodCountClosure?()
     }
+
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

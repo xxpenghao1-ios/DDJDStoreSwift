@@ -7,11 +7,14 @@
 //
 
 import UIKit
-
 ///购物车cell
 class CarTableViewCell: UITableViewCell {
     ///跳转到商品详情
     var pushGoodDetailClosure:(() -> Void)?
+    ///更新商品数量
+    var updateCarNumberClosure:((_ carNumber:Int) -> Void)?
+    ///更新购物车商品选中状态
+    var updateCarGoodSelectedStateClosure:((_ isSelected:Bool) -> Void)?
     ///购物车是否选中
     @IBOutlet weak var btnSelectedGood:UIButton!
     ///商品图片
@@ -27,16 +30,31 @@ class CarTableViewCell: UITableViewCell {
     ///商品库存
     @IBOutlet weak var lblStock:UILabel!
     ///商品加减数量
-    @IBOutlet weak var stepper: GMStepper!
+    @IBOutlet weak var stepper:UIView!
+    ///商品数量
+    @IBOutlet weak var lblCarNumber:UILabel!
+    ///添加商品数量
+    @IBOutlet weak var btnAddCount:UIButton!
+    ///减少商品数量
+    @IBOutlet weak var btnSubtractCount:UIButton!
     ///商品状态图片  已售罄
     @IBOutlet weak var goodStateImgView:UIImageView!
     ///flag 1特价图片 3促销图片
     @IBOutlet weak var goodFlagImgView:UIImageView!
 
+    ///最低起送量 默认1
+    private var minCarNumberCount:Int=1
+    ///最大商品数量 默认1
+    private var maxCarNumberCount:Int=0
+    ///每次加减数量 默认1
+    private var goodsBaseCount:Int=1
+    ///保存商品信息
+    private var goodModel:GoodDetailModel?
     override func awakeFromNib() {
         super.awakeFromNib()
-        ///设置文字大小
-        stepper.labelFont=UIFont.systemFont(ofSize:16)
+        ///设置圆角
+        stepper.layer.cornerRadius=5
+        stepper.layer.masksToBounds=true
         ///默认隐藏
         goodFlagImgView.isHidden=true
 
@@ -48,10 +66,23 @@ class CarTableViewCell: UITableViewCell {
 
         btnSelectedGood.setImage(UIImage.init(named:"car_uncheck"), for: UIControlState.normal)
 
+        ///商品选中
+        btnSelectedGood.addTarget(self, action:#selector(carGoodIsSelected), for: UIControlEvents.touchUpInside)
+
+        ///添加商品数量
+        btnAddCount.addTarget(self, action:#selector(addGoodCount),for:.touchUpInside)
+
+        ///减少商品数量
+        btnSubtractCount.addTarget(self, action:#selector(subtractGoodCount),for:.touchUpInside)
+
         ///点击图片跳转页面
         imgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodDetail)))
+
+
     }
     func updateCell(model:GoodDetailModel){
+
+        self.goodModel=model
 
         hideGoodStateImgView()
 
@@ -64,11 +95,12 @@ class CarTableViewCell: UITableViewCell {
         lblUcode.text="/\(model.ucode ?? "")"
 
         ///默认值
-        stepper.value=Double(model.carNumber ?? 1)
-        ///最小值 最低起送量
-        stepper.minimumValue=Double(model.miniCount ?? 1)
-        ///每次加减值
-        stepper.stepValue=Double(model.goodsBaseCount ?? 1)
+        lblCarNumber.text="\(model.carNumber ?? 1)"
+
+        ///最低起送量
+        minCarNumberCount=model.miniCount ?? 1
+        ///每次加减数量
+        goodsBaseCount=model.goodsBaseCount ?? 1
 
         if model.isSelected == 1{///选中
             btnSelectedGood.isSelected=true
@@ -78,28 +110,30 @@ class CarTableViewCell: UITableViewCell {
 
         if model.flag == 1{//如果是特价
             lblGoodName.text=(model.goodInfoName ?? "")+"(限购~~\(model.eachCount ?? 0)\(model.goodUnit ?? ""))"
-            setStock(stock:model.goodsCount)
+            setStock(stock: model.goodsStock)
             lblUpice.text="￥\(model.prefertialPrice ?? "0")"
             ///显示特价图标
             goodFlagImgView.image=UIImage(named:"special_good")
             goodFlagImgView.isHidden=false
-            ///最大值 限购数
-            stepper.maximumValue=Double(model.eachCount ?? 1)
+            ///最大购买数量
+            maxCarNumberCount=model.eachCount ?? 0
         }else if model.flag == 3{///如果是促销
             lblGoodName.text=(model.goodInfoName ?? "")+"(限购~~\(model.promotionStoreEachCount ?? 0)\(model.goodUnit ?? ""))"
-            setStock(stock:model.promotionEachCount)
+            setStock(stock: model.goodsStock)
             ///显示促销图标
             goodFlagImgView.image=UIImage(named:"promotion_good")
             goodFlagImgView.isHidden=false
-            ///最大值 限购数
-            stepper.maximumValue=Double(model.promotionStoreEachCount ?? 1)
+            ///最大购买数量
+            maxCarNumberCount=model.promotionStoreEachCount ?? 0
         }else{///普通价格
+            ///隐藏促销特价图片 防止重复显示
+            goodFlagImgView.isHidden=true
 
             setStock(stock: model.goodsStock)
-            ///最大值 999
-            stepper.maximumValue=Double(model.goodsStock == -1 ? 999 : (model.goodsStock ?? 1))
-            
+
             lblGoodName.text=model.goodInfoName
+            ///最大购买数量
+            maxCarNumberCount=model.goodsStock == -1 ? 999 : (model.goodsStock ?? 0)
         }
 
     }
@@ -122,6 +156,7 @@ class CarTableViewCell: UITableViewCell {
     private func setStock(stock:Int?){
         if stock == nil || stock! == 0{
             showGoodStateImgView(name:"to_sell_out")
+            lblStock.text="库存:0"
         }else{
             if stock == -1{
                 lblStock.text="库存充足"
@@ -130,14 +165,50 @@ class CarTableViewCell: UITableViewCell {
             }
         }
     }
-    ///跳转到商品详情
-    @objc private func pushGoodDetail(){
-        self.pushGoodDetailClosure?()
-    }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
     
+}
+///事件
+extension CarTableViewCell{
+    ///跳转到商品详情
+    @objc private func pushGoodDetail(){
+        self.pushGoodDetailClosure?()
+    }
+
+    ///购物车商品选中
+    @objc func carGoodIsSelected(sender:UIButton){
+        if sender.isSelected{
+            sender.isSelected=false
+            self.updateCarGoodSelectedStateClosure?(false)
+        }else{
+            sender.isSelected=true
+            self.updateCarGoodSelectedStateClosure?(true)
+        }
+    }
+    ///添加商品数量
+    @objc private func addGoodCount(){
+        if goodModel == nil{
+            return
+        }
+
+        if goodModel!.carNumber!+goodsBaseCount <= maxCarNumberCount{ //如果当前商品加上每次加减数量后小于等于最大购买数量  更新商品数量
+            goodModel!.carNumber!+=goodsBaseCount
+            self.updateCarNumberClosure?(goodModel!.carNumber!)
+        }
+    }
+    ///减少商品数量
+    @objc private func subtractGoodCount(){
+        if goodModel == nil{
+            return
+        }
+        if goodModel!.carNumber! > minCarNumberCount{ //如果大于最最低起送量
+            goodModel!.carNumber!-=goodsBaseCount
+            self.updateCarNumberClosure?(goodModel!.carNumber!)
+        }
+    }
+
 }
