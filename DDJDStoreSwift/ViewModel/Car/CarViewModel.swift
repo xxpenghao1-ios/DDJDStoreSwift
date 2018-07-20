@@ -71,9 +71,11 @@ extension CarViewModel{
             })
             return mapArr
         }).subscribe(onNext: { (arr) in
+                weakSelf!.arr=arr
                 weakSelf!.setSumPriceArrModel(arr:arr)
                 weakSelf!.arrPS.onNext(true)
         }, onError: { (error) in
+                weakSelf!.arr=[]
                 weakSelf!.arrPS.onNext(true)
                 phLog("获取购物车数据出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)

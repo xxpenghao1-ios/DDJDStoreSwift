@@ -10,7 +10,7 @@ import Foundation
 
 extension String {
     ///截取字符串 从第几位开始 取到最后一位
-    public func substring(from index: Int) -> String {
+    public func substring(from index:Int) -> String {
         if self.count > index {
             let startIndex = self.index(self.startIndex, offsetBy: index)
             let subString = self[startIndex..<self.endIndex]
@@ -19,6 +19,7 @@ extension String {
             return self
         }
     }
+
     ///验证字符串长度  true满足条件 false不满足
     public func validateStrCount(count:Int) -> Bool{
         if self.count == count{

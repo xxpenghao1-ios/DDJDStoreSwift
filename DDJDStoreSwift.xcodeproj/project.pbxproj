@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		630A010D20C90C5D00DE104D /* RxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630A010C20C90C5D00DE104D /* RxSwift.swift */; };
+		630BDCF421021A8800EF98A1 /* UpdateAddAddress.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630BDCF321021A8800EF98A1 /* UpdateAddAddress.storyboard */; };
+		630BDCF621021B0000EF98A1 /* UpdateAddAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630BDCF521021B0000EF98A1 /* UpdateAddAddressViewController.swift */; };
+		630BDCF8210220CF00EF98A1 /* UpdateAddAddressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630BDCF7210220CF00EF98A1 /* UpdateAddAddressViewModel.swift */; };
 		630E2EA220F2E8AA00884E79 /*  GoodDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630E2EA120F2E8AA00884E79 /*  GoodDetailViewController.swift */; };
 		630E2EA620F301BF00884E79 /* GoodDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630E2EA520F301BF00884E79 /* GoodDetailViewModel.swift */; };
 		630E2EA820F30A9D00884E79 /* GoodDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630E2EA720F30A9D00884E79 /* GoodDetailModel.swift */; };
@@ -177,6 +180,9 @@
 		06D06206B3D20328945610B0 /* Pods-DDJDStoreSwift.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDJDStoreSwift.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DDJDStoreSwift/Pods-DDJDStoreSwift.debug.xcconfig"; sourceTree = "<group>"; };
 		0864E71D7B92CB100FA623EE /* Pods-DDJDStoreSwift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DDJDStoreSwift.release.xcconfig"; path = "Pods/Target Support Files/Pods-DDJDStoreSwift/Pods-DDJDStoreSwift.release.xcconfig"; sourceTree = "<group>"; };
 		630A010C20C90C5D00DE104D /* RxSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwift.swift; sourceTree = "<group>"; };
+		630BDCF321021A8800EF98A1 /* UpdateAddAddress.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = UpdateAddAddress.storyboard; sourceTree = "<group>"; };
+		630BDCF521021B0000EF98A1 /* UpdateAddAddressViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAddAddressViewController.swift; sourceTree = "<group>"; };
+		630BDCF7210220CF00EF98A1 /* UpdateAddAddressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAddAddressViewModel.swift; sourceTree = "<group>"; };
 		630E2EA120F2E8AA00884E79 /*  GoodDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " GoodDetailViewController.swift"; sourceTree = "<group>"; };
 		630E2EA520F301BF00884E79 /* GoodDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodDetailViewModel.swift; sourceTree = "<group>"; };
 		630E2EA720F30A9D00884E79 /* GoodDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodDetailModel.swift; sourceTree = "<group>"; };
@@ -697,6 +703,7 @@
 			isa = PBXGroup;
 			children = (
 				634EF26720F8A0AC00A6FFCD /* GoodListViewModel.swift */,
+				630BDCF7210220CF00EF98A1 /* UpdateAddAddressViewModel.swift */,
 			);
 			path = GoodList;
 			sourceTree = "<group>";
@@ -705,6 +712,8 @@
 			isa = PBXGroup;
 			children = (
 				634F065C2101B21400F56684 /* AddressListViewController.swift */,
+				630BDCF321021A8800EF98A1 /* UpdateAddAddress.storyboard */,
+				630BDCF521021B0000EF98A1 /* UpdateAddAddressViewController.swift */,
 			);
 			path = Address;
 			sourceTree = "<group>";
@@ -1250,6 +1259,7 @@
 				6346E8BA20F4942F00E844F1 /* SpecialGoodTableViewCell.xib in Resources */,
 				63FBEE3E2091746C00BE6B81 /* Main.storyboard in Resources */,
 				637FAEEF20EDB1F600299D29 /* OrderListTableViewCell.xib in Resources */,
+				630BDCF421021A8800EF98A1 /* UpdateAddAddress.storyboard in Resources */,
 				630E2EC420F312C400884E79 /* GoodDetail.storyboard in Resources */,
 				634F06672101B52300F56684 /* AddressListTableViewCell.xib in Resources */,
 				634EF25A20F8500400A6FFCD /* PromotionGoodTableViewCell.xib in Resources */,
@@ -1369,6 +1379,7 @@
 				6346E8BD20F4A4B200E844F1 /* SpecialGoodViewModel.swift in Sources */,
 				633B855E20E60D6D00F714D7 /* IndexNewGoodView.swift in Sources */,
 				638F77D920FDCF3F007F3FCA /* ScanCodeGetBarcodeViewController.swift in Sources */,
+				630BDCF621021B0000EF98A1 /* UpdateAddAddressViewController.swift in Sources */,
 				638F77E920FDDBFD007F3FCA /* CarViewController.swift in Sources */,
 				634EF25020F8428100A6FFCD /* PromotionPageViewController.swift in Sources */,
 				634EF25220F8430A00A6FFCD /* PromotionViewController.swift in Sources */,
@@ -1454,6 +1465,7 @@
 				6346E8B520F4935E00E844F1 /* SpecialViewController.swift in Sources */,
 				63BD7E5020EB5A0400C01219 /* UINavigationBar+Awesome.m in Sources */,
 				637FAEF320EDFB1F00299D29 /* OrderDetailViewController.swift in Sources */,
+				630BDCF8210220CF00EF98A1 /* UpdateAddAddressViewModel.swift in Sources */,
 				63FBEE782091AB5A00BE6B81 /* BaseViewController.swift in Sources */,
 				630A010D20C90C5D00DE104D /* RxSwift.swift in Sources */,
 				6341DB3620941FB400AC267D /* LoginAndRegisterAPI.swift in Sources */,

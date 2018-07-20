@@ -231,7 +231,7 @@ extension MyViewController{
     }
     ///菜单跳转页面
     private func menuPushVC(index:Int){
-        let vc=MessageViewController()
+        let vc=AddressListViewController()
         vc.hidesBottomBarWhenPushed=true
         self.navigationController?.pushViewController(vc, animated:true)
     }

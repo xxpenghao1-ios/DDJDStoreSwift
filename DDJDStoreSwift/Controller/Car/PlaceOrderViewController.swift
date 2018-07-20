@@ -46,6 +46,12 @@ class PlaceOrderViewController:BaseViewController{
 
     private var vm=PlaceOrderViewModel()
 
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        ///获取收货地址信息 每次进入页面获取收货地址信息
+        addressVM.requestNewDataCommond.onNext(true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="确认订单"
@@ -77,9 +83,6 @@ class PlaceOrderViewController:BaseViewController{
 extension PlaceOrderViewController{
 
     private func bindViewModel(){
-
-        ///获取收货地址信息
-        addressVM.requestNewDataCommond.onNext(true)
 
         ///是否有收货地址信息
         addressVM.defaultAddressModelBR.subscribe(onNext: { [weak self] (model) in

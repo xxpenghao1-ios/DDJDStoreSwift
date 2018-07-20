@@ -64,12 +64,22 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Atl-j2-hvm">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.5"/>
+                                        <color key="backgroundColor" red="0.87058823529999996" green="0.87450980389999999" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="0.5" id="db0-ku-oEd"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Atl-j2-hvm" secondAttribute="trailing" id="2J7-YU-Wco"/>
                                     <constraint firstItem="dzf-Ic-TMq" firstAttribute="leading" secondItem="a51-fC-oBJ" secondAttribute="trailing" id="3FW-Ns-9V3"/>
+                                    <constraint firstItem="Atl-j2-hvm" firstAttribute="top" secondItem="DJ4-2g-MsK" secondAttribute="top" id="5kS-NQ-9MP"/>
                                     <constraint firstAttribute="bottom" secondItem="QBt-WD-rib" secondAttribute="bottom" id="7hA-hf-kH0"/>
                                     <constraint firstAttribute="bottom" secondItem="sTV-ob-21t" secondAttribute="bottom" constant="15" id="F5G-LC-DjO"/>
+                                    <constraint firstItem="Atl-j2-hvm" firstAttribute="leading" secondItem="DJ4-2g-MsK" secondAttribute="leading" id="Jik-BB-ZK5"/>
                                     <constraint firstItem="dzf-Ic-TMq" firstAttribute="centerY" secondItem="DJ4-2g-MsK" secondAttribute="centerY" id="RB9-On-RPd"/>
                                     <constraint firstItem="QBt-WD-rib" firstAttribute="leading" secondItem="dzf-Ic-TMq" secondAttribute="trailing" constant="10" id="aYf-aK-8gb"/>
                                     <constraint firstAttribute="height" constant="50" id="bUQ-NN-PFD"/>
@@ -118,8 +128,8 @@
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="收货地址:无" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d90-aO-37O">
-                                            <rect key="frame" x="20" y="52" width="305" height="16"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="无" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d90-aO-37O">
+                                            <rect key="frame" x="77" y="52" width="248" height="16"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" relation="lessThanOrEqual" constant="60" id="nex-or-wVX"/>
                                             </constraints>
@@ -156,6 +166,16 @@
                                             <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="收货地址:" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oAY-Km-GdS">
+                                            <rect key="frame" x="20" y="52" width="57" height="16"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" relation="lessThanOrEqual" constant="20" id="1L2-5x-Cz2"/>
+                                                <constraint firstAttribute="width" constant="57" id="qga-H2-Wry"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" red="0.94117647059999998" green="0.94901960780000005" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
@@ -164,18 +184,20 @@
                                         <constraint firstAttribute="bottom" secondItem="37c-Kz-X6D" secondAttribute="bottom" constant="10" id="FNt-oq-tTi"/>
                                         <constraint firstItem="TOX-ve-Ck9" firstAttribute="top" secondItem="7ob-ai-q0j" secondAttribute="top" constant="20" id="IKR-oH-dtw"/>
                                         <constraint firstItem="OHK-Ie-SKA" firstAttribute="centerY" secondItem="7ob-ai-q0j" secondAttribute="centerY" id="JHi-k8-74F"/>
+                                        <constraint firstItem="d90-aO-37O" firstAttribute="leading" secondItem="oAY-Km-GdS" secondAttribute="trailing" id="JVz-Uf-WMh"/>
                                         <constraint firstItem="V9S-hN-43I" firstAttribute="leading" secondItem="7ob-ai-q0j" secondAttribute="leading" constant="20" id="Jhd-cj-o94"/>
                                         <constraint firstItem="OHK-Ie-SKA" firstAttribute="leading" secondItem="d90-aO-37O" secondAttribute="trailing" id="KmJ-qc-8za"/>
                                         <constraint firstItem="37c-Kz-X6D" firstAttribute="top" secondItem="7ob-ai-q0j" secondAttribute="top" id="KvU-gl-DJ9"/>
                                         <constraint firstItem="cyb-YC-fdP" firstAttribute="top" secondItem="7ob-ai-q0j" secondAttribute="top" constant="20" id="Kyp-rQ-DtN"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="TOX-ve-Ck9" secondAttribute="trailing" constant="20" symbolic="YES" id="NlT-ma-17w"/>
+                                        <constraint firstItem="oAY-Km-GdS" firstAttribute="top" secondItem="V9S-hN-43I" secondAttribute="bottom" constant="15" id="OiH-Gy-CsE"/>
                                         <constraint firstItem="TOX-ve-Ck9" firstAttribute="leading" secondItem="V9S-hN-43I" secondAttribute="trailing" id="QuK-gR-Ph7"/>
                                         <constraint firstItem="d90-aO-37O" firstAttribute="top" secondItem="TOX-ve-Ck9" secondAttribute="bottom" constant="15" id="UDi-np-2ga"/>
                                         <constraint firstAttribute="trailing" secondItem="37c-Kz-X6D" secondAttribute="trailing" id="Xpw-vM-hjA"/>
                                         <constraint firstItem="utW-DI-Vqe" firstAttribute="top" secondItem="7ob-ai-q0j" secondAttribute="top" constant="20" id="Y1f-7y-ycb"/>
+                                        <constraint firstItem="oAY-Km-GdS" firstAttribute="leading" secondItem="7ob-ai-q0j" secondAttribute="leading" constant="20" id="f6M-wS-CKk"/>
                                         <constraint firstItem="cyb-YC-fdP" firstAttribute="leading" secondItem="TOX-ve-Ck9" secondAttribute="trailing" constant="20" id="foi-t7-dZb"/>
                                         <constraint firstItem="V9S-hN-43I" firstAttribute="top" secondItem="7ob-ai-q0j" secondAttribute="top" constant="20" id="pf7-Ph-8qt"/>
-                                        <constraint firstItem="d90-aO-37O" firstAttribute="leading" secondItem="7ob-ai-q0j" secondAttribute="leading" constant="20" id="uZ7-b0-Zjs"/>
                                         <constraint firstAttribute="trailing" secondItem="OHK-Ie-SKA" secondAttribute="trailing" id="zGe-RJ-gEt"/>
                                     </constraints>
                                 </view>
@@ -206,7 +228,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="P1z-79-OQf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1041" y="12"/>
+            <point key="canvasLocation" x="664.79999999999995" y="-114.69265367316342"/>
         </scene>
     </scenes>
     <resources>

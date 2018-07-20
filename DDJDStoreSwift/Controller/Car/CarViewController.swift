@@ -90,6 +90,16 @@ class CarViewController:BaseViewController{
             self?.vm.deleteShoppingCar(allDelete:true)
         }
     }
+    ///跳转到配送商城
+    private func pushSupplierGoodListVC(carModel:CarModel){
+        let vc=GoodListViewController()
+        vc.flag=4
+        vc.titleStr=carModel.supplierName
+        vc.subSupplierId=carModel.supplierId
+        vc.isCarFlag=1
+        vc.hidesBottomBarWhenPushed=true
+        self.navigationController?.pushViewController(vc, animated:true)
+    }
 }
 
 extension CarViewController{
@@ -157,11 +167,28 @@ extension CarViewController{
             PHProgressHUD.showInfo("请选择要下单的商品")
             return
         }else{
-            let vc=UIStoryboard.init(name:"PlaceOrder", bundle:nil).instantiateViewController(withIdentifier:"PlaceOrderVC") as! PlaceOrderViewController
-            vc.goodArr=goodArr
-            vc.sumPirce=vm.sumPriceBR.value
-            vc.hidesBottomBarWhenPushed=true
-            self.navigationController?.pushViewController(vc, animated: true)
+            ///获取每组小计小于最低起送价的 组信息
+            let noCarArr = vm.arr.filter({ (carModel)  in
+                let sumPrice=Double(carModel.sumPrice ?? "0")!
+                let lowestMoney=Double(carModel.lowestMoney ?? "0")!
+                return sumPrice < lowestMoney
+            })
+            if noCarArr.count == 0{///如果没有跳转到下单页面
+                let vc=UIStoryboard.init(name:"PlaceOrder", bundle:nil).instantiateViewController(withIdentifier:"PlaceOrderVC") as! PlaceOrderViewController
+                vc.goodArr=goodArr
+                vc.sumPirce=vm.sumPriceBR.value
+                vc.hidesBottomBarWhenPushed=true
+                self.navigationController?.pushViewController(vc, animated: true)
+            }else{
+                ///每次只拿第一个不满足条件的组
+                let carModel=noCarArr[0]
+                let sumPrice=Double(carModel.sumPrice ?? "0")!
+                let lowestMoney=Double(carModel.lowestMoney ?? "0")!
+                ///如果每组商品小计 小于最低起送价 不能下单 给出提示
+                UIAlertController.showAlertYesNo(self, title:"点单即到", message:"\(carModel.supplierName ?? "")配送最低起送额是\(lowestMoney)元,您还需要购买\(lowestMoney - sumPrice)元才能结算", cancelButtonTitle:"知道了", okButtonTitle:"去凑单", okHandler: { [weak self]  Void in
+                    self?.pushSupplierGoodListVC(carModel:carModel)
+                })
+            }
         }
     }
 }
@@ -326,11 +353,7 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
             btn!.isHidden=true
             ///跳转到配送商城
             btn!.rx.controlEvent(.touchUpInside).subscribe { [weak self] (_) in
-                let vc=GoodListViewController()
-                vc.flag=4
-                vc.titleStr=carModel.supplierName
-                vc.subSupplierId=carModel.supplierId
-                self?.navigationController?.pushViewController(vc, animated:true)
+                self?.pushSupplierGoodListVC(carModel:carModel)
             }.disposed(by:rx_disposeBag)
             view.contentView.addSubview(btn!)
         }
