@@ -83,6 +83,8 @@ class GoodDetailModel:Mappable{
     var isSelected:Int=1
     ///购物车商品数量
     var carNumber:Int?
+    ///购物车商品总价
+    var goodsSumMoney:String?
     init(){}
     required init?(map: Map) {
 
@@ -124,5 +126,6 @@ class GoodDetailModel:Mappable{
         returnGoodsFlag <- map["returnGoodsFlag"]
         flag <- map["flag"]
         carNumber <- map["carNumber"]
+        goodsSumMoney <- map["goodsSumMoney"]
     }
 }

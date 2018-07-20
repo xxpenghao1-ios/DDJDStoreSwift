@@ -49,6 +49,7 @@ class OrderDetailViewController:BaseViewController{
     private var vm:OrderDetailViewModel!
     ///保存商品数组
     private var arr=[OrderGoodModel]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="订单详情"

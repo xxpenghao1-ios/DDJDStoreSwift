@@ -142,6 +142,20 @@ extension CarViewModel{
 
 }
 extension CarViewModel{
+    ///要结算的商品集合
+    func settlementGoodArr() -> [GoodDetailModel]{
+        var goodArr=[GoodDetailModel]()
+        let _=arr.map { (carModel) in
+           let _=carModel.listGoods?.map({ (goodModel)in
+                if goodModel.isSelected == 1{///选中的
+                    if goodModel.goodsStock == -1 || goodModel.goodsStock > 0{///有库存的
+                        goodArr.append(goodModel)
+                    }
+                }
+            })
+        }
+        return goodArr
+    }
     ///每组是否选中 section组索引 isSelected=true选中  false未选中
     func sectionIsSelected(section:Int,isSelected:Bool){
         let listGood=arr[section].listGoods!
@@ -175,8 +189,10 @@ extension CarViewModel{
                         if goodModel.goodsStock == -1 || goodModel.goodsStock > 0{///只统计有库存的商品
                             if goodModel.flag == 1{//如果是特价
                                 goodSumPrice=PriceComputationsUtil.decimalNumberWithString(multiplierValue: "\(goodModel.carNumber ?? 0)", multiplicandValue:goodModel.prefertialPrice ?? "0", type:.multiplication, position:2)
+                                goodModel.goodsSumMoney=goodSumPrice
                             }else{//普通价格
                                 goodSumPrice=PriceComputationsUtil.decimalNumberWithString(multiplierValue: "\(goodModel.carNumber ?? 0)", multiplicandValue:goodModel.uprice ?? "0", type:.multiplication, position:2)
+                                goodModel.goodsSumMoney=goodSumPrice
                             }
                         }
                     }

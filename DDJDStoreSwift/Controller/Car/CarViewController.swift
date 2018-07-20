@@ -133,6 +133,11 @@ extension CarViewController{
         addCarGoodCountVM.queryCarSumCountBR.asObservable().subscribe(onNext: { (_) in
             APP.tab?.updateCarBadgeValue.onNext(true)
         }).disposed(by:rx_disposeBag)
+
+        ///去结算
+        btnSettlement.rx.controlEvent(UIControlEvents.touchUpInside).subscribe(onNext: { [weak self] (_) in
+            self?.pushPlaceOrder()
+        }).disposed(by:rx_disposeBag)
     }
     ///跳转到商品详情
     private func pushGoodDetail(model:GoodDetailModel){
@@ -142,6 +147,22 @@ extension CarViewController{
         vc.isCarFlag=1
         vc.hidesBottomBarWhenPushed=true
         self.navigationController?.pushViewController(vc, animated:true)
+    }
+    ///跳转到下单页面
+    private func pushPlaceOrder(){
+
+        let goodArr=self.vm.settlementGoodArr()
+
+        if goodArr.count == 0{
+            PHProgressHUD.showInfo("请选择要下单的商品")
+            return
+        }else{
+            let vc=UIStoryboard.init(name:"PlaceOrder", bundle:nil).instantiateViewController(withIdentifier:"PlaceOrderVC") as! PlaceOrderViewController
+            vc.goodArr=goodArr
+            vc.sumPirce=vm.sumPriceBR.value
+            vc.hidesBottomBarWhenPushed=true
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
 

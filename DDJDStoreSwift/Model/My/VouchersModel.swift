@@ -1,0 +1,28 @@
+//
+//  VouchersModel.swift
+//  DDJDStoreSwift
+//
+//  Created by hao peng on 2018/7/20.
+//  Copyright © 2018年 zldd. All rights reserved.
+//
+
+import Foundation
+import ObjectMapper
+///代金劵
+struct VouchersModel:Mappable{
+    ///金额
+    var cashCouponAmountOfMoney:Int?
+    var cashCouponExpirationDate:String?
+    var cashCouponExpirationDateInt:Int?
+    ///id
+    var cashCouponId:Int?
+    init?(map: Map) {
+    }
+    mutating func mapping(map: Map) {
+        cashCouponAmountOfMoney <- map["cashCouponAmountOfMoney"]
+        cashCouponExpirationDate <- map["cashCouponExpirationDate"]
+        cashCouponExpirationDateInt <- map["cashCouponExpirationDateInt"]
+        cashCouponId <- map["cashCouponId"]
+
+    }
+}

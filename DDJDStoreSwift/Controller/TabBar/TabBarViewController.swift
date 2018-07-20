@@ -12,7 +12,7 @@ import RxSwift
 ///tabVC
 class TabBarViewController:UITabBarController{
 
-    ///更新购物车BadgeValue(加入购物车/删除购物车商品/进入购物车 执行)
+    ///更新购物车BadgeValue
     var updateCarBadgeValue=PublishSubject<Bool>()
 
     ///更新购物车BadgeValue(购物车加减执行 true加 false减)
@@ -91,6 +91,7 @@ extension TabBarViewController{
             })
 
         }).disposed(by:rx_disposeBag)
+        
         ///查询购物车商品数量结果
         addCarGoodCountVM.queryCarSumCountBR.subscribe(onNext: { [weak self] (count) in
             if count > 0{

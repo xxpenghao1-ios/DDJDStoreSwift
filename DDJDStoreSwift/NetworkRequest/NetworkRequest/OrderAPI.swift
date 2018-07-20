@@ -18,6 +18,8 @@ public enum OrderAPI{
     case storeCancelOrder(orderId:Int)
     //确认收货
     case updataOrderStatus4Store(orderinfoId:Int)
+    //下单
+    case storeOrderForAndroid(goodsList:String,detailAddress:String,phoneNumber:String,shippName:String,storeId:String,pay_message:String,tag:Int,cashCouponId:Int?)
 }
 extension OrderAPI:TargetType{
     public var path: String {
@@ -30,6 +32,8 @@ extension OrderAPI:TargetType{
             return "storeCancelOrder.xhtml"
         case .updataOrderStatus4Store(_):
             return "updataOrderStatus4Store.xhtml"
+        case .storeOrderForAndroid(_,_,_,_,_,_,_,_):
+            return "storeOrderForAndroid.xhtml"
         }
     }
 
@@ -37,6 +41,8 @@ extension OrderAPI:TargetType{
         switch self {
         case .queryOrderInfo4AndroidStoreByOrderStatus(_,_,_,_),.queryOrderInfo4AndroidByorderId(_),.storeCancelOrder(_),.updataOrderStatus4Store(_):
             return .get
+        case .storeOrderForAndroid(_,_,_,_,_,_,_,_):
+            return .post
         }
     }
 
@@ -54,6 +60,12 @@ extension OrderAPI:TargetType{
             return .requestParameters(parameters:["orderId":orderId], encoding: URLEncoding.default)
         case let .updataOrderStatus4Store(orderinfoId):
             return .requestParameters(parameters:["orderinfoId":orderinfoId], encoding: URLEncoding.default)
+        case let .storeOrderForAndroid(goodsList, detailAddress, phoneNumber, shippName, storeId, pay_message, tag,cashCouponId):
+            if cashCouponId == nil{
+                return .requestParameters(parameters:["goodsList":goodsList,"detailAddress":detailAddress,"phoneNumber":phoneNumber,"shippName":shippName,"storeId":storeId,"pay_message":pay_message,"tag":tag], encoding:  URLEncoding.default)
+            }else{
+                return .requestParameters(parameters:["goodsList":goodsList,"detailAddress":detailAddress,"phoneNumber":phoneNumber,"shippName":shippName,"storeId":storeId,"pay_message":pay_message,"tag":tag,"cashCouponId":cashCouponId!], encoding:  URLEncoding.default)
+            }
         }
     }
     
