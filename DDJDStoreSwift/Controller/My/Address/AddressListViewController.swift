@@ -31,6 +31,11 @@ class AddressListViewController:BaseViewController{
         btn.frame=CGRect.init(x:0, y:table.frame.maxY, width:SCREEN_WIDTH, height:50)
         return btn
     }()
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        vm.requestNewDataCommond.onNext(true)
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="收货地址管理"
@@ -38,14 +43,12 @@ class AddressListViewController:BaseViewController{
         self.view.addSubview(btnAddAddress)
         self.emptyDataSetTextInfo="暂无收货地址"
         bindViewModel()
-
     }
 }
 extension AddressListViewController{
 
     private func bindViewModel(){
 
-        vm.requestNewDataCommond.onNext(true)
         ///数据源
         let dataSource=RxTableViewSectionedReloadDataSource<SectionModel<String,AddressModel>>(configureCell:{  (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"addressListId") as? AddressListTableViewCell ?? AddressListTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"addressListId")

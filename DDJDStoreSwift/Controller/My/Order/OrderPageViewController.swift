@@ -12,6 +12,8 @@ import WMPageController
 class OrderPageViewController:WMPageController{
     ///接收订单状态
     var orderStatus:Int?
+    ///是否是购物车跳转过来的
+    var carIsFlag:Int?
     private let titleArr=["未发货","已发货","已完成"]
     override func viewDidLoad() {
         setUpMenuView()
@@ -23,6 +25,13 @@ class OrderPageViewController:WMPageController{
         bark.title=""
         bark.tintColor=UIColor.color333()
         self.navigationItem.backBarButtonItem=bark
+    }
+    override func navigationShouldPopOnBackButton() -> Bool {
+        if carIsFlag != nil{//如果是购物车跳转过来  返回导航栏根视图
+            self.navigationController?.popToRootViewController(animated: true)
+            return false
+        }
+        return true
     }
     //设置显示几个页面
     override func numbersOfChildControllers(in pageController: WMPageController) -> Int {

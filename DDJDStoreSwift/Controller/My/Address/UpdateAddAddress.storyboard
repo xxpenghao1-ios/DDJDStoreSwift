@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -32,9 +31,6 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <connections>
-                                    <action selector="save:" destination="DNO-dD-Wsr" eventType="touchUpInside" id="n9c-VL-JD9"/>
-                                </connections>
                             </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ETr-tH-Zip">
                                 <rect key="frame" x="0.0" y="30" width="375" height="200"/>
@@ -70,7 +66,7 @@
                                         <rect key="frame" x="15" y="61" width="345" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请选择收货地址" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TZE-K3-Sls">
                                         <rect key="frame" x="15" y="117" width="322" height="20"/>
@@ -171,17 +167,17 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="btnSubmit" destination="Hd4-a6-eW1" id="vYl-3M-a44"/>
-                        <outlet property="isDefault" destination="3hV-h0-BF8" id="XIG-iZ-Nnp"/>
-                        <outlet property="lblAddress" destination="TZE-K3-Sls" id="JOr-AN-W3y"/>
-                        <outlet property="txtDetailsAddress" destination="c3V-hU-Y9S" id="ufe-tU-nuC"/>
-                        <outlet property="txtName" destination="P4k-qx-zhq" id="wVy-af-Tw0"/>
-                        <outlet property="txtTel" destination="3ma-Gu-Skv" id="VAl-1h-huH"/>
+                        <outlet property="btnSubmit" destination="Hd4-a6-eW1" id="1eY-VF-1wG"/>
+                        <outlet property="isDefault" destination="3hV-h0-BF8" id="soD-QZ-u8W"/>
+                        <outlet property="lblAddress" destination="TZE-K3-Sls" id="2Cw-8m-La4"/>
+                        <outlet property="txtDetailsAddress" destination="c3V-hU-Y9S" id="RJS-52-Dv4"/>
+                        <outlet property="txtName" destination="P4k-qx-zhq" id="hF1-oB-41L"/>
+                        <outlet property="txtTel" destination="3ma-Gu-Skv" id="hSK-sY-Bev"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k3t-wc-JKc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4" y="1206.6502463054187"/>
+            <point key="canvasLocation" x="-431" y="1198"/>
         </scene>
     </scenes>
     <resources>

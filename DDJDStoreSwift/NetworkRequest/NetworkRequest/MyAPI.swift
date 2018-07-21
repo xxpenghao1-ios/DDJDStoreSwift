@@ -21,9 +21,9 @@ public enum MyAPI{
     //删除收货地址
     case deleteStoreShippAddressforAndroid(shippAddressId:Int)
     //修改收货地址
-    case updateStoreShippAddressforAndroid(flag:Int,storeId:String,county:String,city:String,province:String,shippName:String,detailAddress:String,phoneNumber:String,IPhonePenghao:Int,shippAddressId:Int)
+    case updateStoreShippAddressforAndroid(flag:Int,storeId:String,county:String,city:String,province:String,shippName:String,detailAddress:String,phoneNumber:String,shippAddressId:Int)
     //添加收货地址
-    case addStoreShippAddressforAndroid(flag:Int,storeId:String,county:String,city:String,province:String,shippName:String,detailAddress:String,phoneNumber:String,IPhonePenghao:Int)
+    case addStoreShippAddressforAndroid(flag:Int,storeId:String,county:String,city:String,province:String,shippName:String,detailAddress:String,phoneNumber:String)
 }
 extension MyAPI:TargetType{
     //请求URL
@@ -47,17 +47,19 @@ extension MyAPI:TargetType{
             return "queryStoreShippAddressforAndroid.xhtml"
         case .deleteStoreShippAddressforAndroid(_):
             return "deleteStoreShippAddressforAndroid.xhtml"
-        case .updateStoreShippAddressforAndroid(_,_,_,_,_,_,_,_,_,_):
+        case .updateStoreShippAddressforAndroid(_,_,_,_,_,_,_,_,_):
             return "updateStoreShippAddressforAndroid.xhtml"
-        case .addStoreShippAddressforAndroid(_,_,_,_,_,_,_,_,_):
+        case .addStoreShippAddressforAndroid(_,_,_,_,_,_,_,_):
             return "addStoreShippAddressforAndroid.xhtml"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .queryMessageToStore(_,_,_),.querySubStationCC(_),.queryStoreMember(_,_),.queryStoreShippAddressforAndroid(_),.deleteStoreShippAddressforAndroid(_),.updateStoreShippAddressforAndroid(_,_,_,_,_,_,_,_,_,_),.addStoreShippAddressforAndroid(_,_,_,_,_,_,_,_,_):
+        case .queryMessageToStore(_,_,_),.querySubStationCC(_),.queryStoreMember(_,_),.queryStoreShippAddressforAndroid(_),.deleteStoreShippAddressforAndroid(_):
             return .get
+        case .updateStoreShippAddressforAndroid(_,_,_,_,_,_,_,_,_),.addStoreShippAddressforAndroid(_,_,_,_,_,_,_,_):
+            return .post
         }
     }
 
@@ -77,10 +79,10 @@ extension MyAPI:TargetType{
             return .requestParameters(parameters:["storeId":storeId], encoding: URLEncoding.default)
         case let .deleteStoreShippAddressforAndroid(shippAddressId):
             return .requestParameters(parameters:["shippAddressId":shippAddressId], encoding:  URLEncoding.default)
-        case let .updateStoreShippAddressforAndroid(flag, storeId, county, city, province, shippName, detailAddress, phoneNumber, IPhonePenghao, shippAddressId):
-            return .requestParameters(parameters:["flag":flag,"storeId":storeId,"county":county,"city":city,"province":province,"shippName":shippName,"detailAddress":detailAddress,"phoneNumber":phoneNumber,"IPhonePenghao":IPhonePenghao,"shippAddressId":shippAddressId], encoding:  URLEncoding.default)
-        case let .addStoreShippAddressforAndroid(flag, storeId, county, city, province, shippName, detailAddress, phoneNumber, IPhonePenghao):
-            return .requestParameters(parameters:["flag":flag,"storeId":storeId,"county":county,"city":city,"province":province,"shippName":shippName,"detailAddress":detailAddress,"phoneNumber":phoneNumber,"IPhonePenghao":IPhonePenghao], encoding:  URLEncoding.default)
+        case let .updateStoreShippAddressforAndroid(flag, storeId, county, city, province, shippName, detailAddress, phoneNumber,shippAddressId):
+            return .requestParameters(parameters:["flag":flag,"storeId":storeId,"county":county,"city":city,"province":province,"shippName":shippName,"detailAddress":detailAddress,"phoneNumber":phoneNumber,"shippAddressId":shippAddressId], encoding:  URLEncoding.default)
+        case let .addStoreShippAddressforAndroid(flag, storeId, county, city, province, shippName, detailAddress, phoneNumber):
+            return .requestParameters(parameters:["flag":flag,"storeId":storeId,"county":county,"city":city,"province":province,"shippName":shippName,"detailAddress":detailAddress,"phoneNumber":phoneNumber], encoding:  URLEncoding.default)
         }
     }
 

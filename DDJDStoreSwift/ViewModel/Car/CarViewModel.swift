@@ -227,7 +227,8 @@ extension CarViewModel{
         }
         ///未选中组大于0 全选按钮 不选中 否则选中
         updateAllSelectedStatePS.onNext(uncheckArr.count > 0 ? false:true)
-        ///刷新table
+
+        ///刷新页面
         arrPS.onNext(true)
     }
 

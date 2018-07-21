@@ -21,12 +21,15 @@ class LoginController:BaseViewController{
     }
     ///绑定VM
     private func bindViewModel(){
-        let input = LoginViewModel.Input(userName:txtMemberName.rx.text.orEmpty.asObservable(), pw: txtPW.rx.text.orEmpty.asObservable(), loginValidate:btnLogin.rx.tap.asObservable())
+
+        let input = LoginViewModel.Input(userName:txtMemberName.rx.text.orEmpty.asObservable(), pw: txtPW.rx.text.orEmpty.asObservable(), loginValidate:btnLogin.rx.tap.asObservable().throttle(2, scheduler:MainScheduler.instance))
         let outputs = viewModel.transform(input:input)
         outputs.loginBtnIsDisable.drive(btnLogin.rx.isDisable).disposed(by: rx_disposeBag)
         ///登录结果
-        outputs.result.drive(onNext: { (b) in //true成功false失败
+        outputs.result.drive(onNext: { [weak self] (b) in //true成功false失败
             if b{
+                USER_DEFAULTS.set(self?.txtMemberName.text,forKey:"memberName")
+                USER_DEFAULTS.synchronize()
                 APP.window?.rootViewController=TabBarViewController()
             }
         }).disposed(by: rx_disposeBag)
@@ -53,6 +56,7 @@ class LoginController:BaseViewController{
     ///用户名输入框
     private lazy var txtMemberName:UITextField={
         let txt=UITextField.buildTxt(font:18, placeholder:"请输入手机号码", tintColor: UIColor.black, keyboardType: UIKeyboardType.phonePad)
+        txt.text=USER_DEFAULTS.object(forKey:"memberName") as? String
         txt.leftView=setLeftView(str:"memberName")
         txt.leftViewMode=UITextFieldViewMode.always;
         return txt

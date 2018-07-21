@@ -29,8 +29,19 @@ class MyViewModel:NSObject{
     ///菜单视图数据源
     var menuBR=BehaviorRelay<[SectionModel<String,MyModel>]>(value:[])
 
+    ///请求订单数量
+    var orderCountPS=PublishSubject<Bool>()
+
+    ///订单数量数据源
+    var orderCountBR=BehaviorRelay<[OrderCountModel]>(value:[])
+
     override init() {
         super.init()
+
+        ///请求订单数量
+        orderCountPS.subscribe(onNext: { [weak self] (_) in
+            self?.queryOrderStatusSumByMemberId()
+        }).disposed(by:rx_disposeBag)
 
         ///订单数据
         orderBR.accept([SectionModel(model:"",items:
@@ -50,5 +61,18 @@ class MyViewModel:NSObject{
              MyModel.init(name:"联系客服", imgStr:"my_contact_customerService"),
              MyModel.init(name:"投诉与建议", imgStr:"my_complaintsSuggestions")]
             )])
+    }
+}
+///网络请求
+extension MyViewModel{
+
+    ///请求订单商品数量
+    private func queryOrderStatusSumByMemberId(){
+
+        PHRequest.shared.requestJSONArrModel(target:OrderAPI.queryOrderStatusSumByMemberId(memberId:member_Id!), model:OrderCountModel.self).subscribe(onNext: { [weak self] (arr) in
+            self?.orderCountBR.accept(arr)
+        }, onError: { (error) in
+            phLog("获取订单数量出错")
+        }).disposed(by:rx_disposeBag)
     }
 }

@@ -15,6 +15,11 @@ class MyViewController:BaseViewController{
 
     private let vm=MyViewModel()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        vm.orderCountPS.onNext(true)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(scrollView)
@@ -71,7 +76,7 @@ class MyViewController:BaseViewController{
         let _lbl=UILabel.buildLabel(textColor:UIColor.color333(),font:14.5)
         _lbl.textAlignment = .center
         _lbl.frame=CGRect.init(x:0,y:100,width:SCREEN_WIDTH-98,height:20)
-        _lbl.text="18874973113"
+        _lbl.text=USER_DEFAULTS.object(forKey:"memberName") as? String
         return _lbl
     }()
 
@@ -127,9 +132,16 @@ extension MyViewController{
         //创建订单数据源
         let orderDataSource = RxCollectionViewSectionedReloadDataSource
             <SectionModel<String,MyModel>>(
-                configureCell: { (dataSource, collectionView, indexPath, element)  in
+                configureCell: { [weak self] (dataSource, collectionView, indexPath, element)  in
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"MyOrderCollectionViewCellId",for:indexPath) as! MyOrderCollectionViewCell
-                    cell.updateCell(name:element.name, imgStr:element.imgStr)
+
+                    if self?.vm.orderCountBR.value.count == 0{
+                        cell.updateCell(name:element.name, imgStr:element.imgStr, orderCountModel:nil)
+                    }else{
+                        ///拿到对应状态的订单数量  有可能为空
+                        let orderCountModel=self?.vm.orderCountBR.value.filter{ $0.orderStatus == indexPath.row+1 }.first
+                        cell.updateCell(name:element.name, imgStr:element.imgStr, orderCountModel:orderCountModel)
+                    }
                     return cell
             })
 
@@ -146,6 +158,13 @@ extension MyViewController{
 
         ///绑定菜单数据
         vm.menuBR.asObservable().bind(to:menuCollectionView.rx.items(dataSource:menuDataSource)).disposed(by:rx_disposeBag)
+
+        ///更新订单数量
+        vm.orderCountBR.subscribe(onNext: { [weak self] (arr) in
+            if arr.count > 0{
+                self?.orderCollectionView.reloadData()
+            }
+        }).disposed(by:rx_disposeBag)
 
         ///VC操作
         vmOperation()

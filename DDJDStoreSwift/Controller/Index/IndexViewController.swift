@@ -43,11 +43,13 @@ class IndexViewController:BaseViewController,Refreshable{
     }()
     ///幻灯片
     private lazy var cycleScrollView:WRCycleScrollView={
-        let cycleScrollView=WRCycleScrollView(frame:CGRect.init(x:0, y:0, width:SCREEN_WIDTH,height:SCREEN_WIDTH*0.38), type: ImgType.LOCAL, imgs:[SLIDE_DEFAULT])
-        cycleScrollView.backgroundColor=UIColor.white
+        let cycleScrollView=WRCycleScrollView(frame:CGRect.init(x:0, y:0, width:SCREEN_WIDTH,height:SCREEN_WIDTH*0.38))
+        cycleScrollView.backgroundColor=UIColor.viewBgdColor()
+        cycleScrollView.delegate=self
         cycleScrollView.pageControlAliment = .CenterBottom
         cycleScrollView.currentDotColor = .white
         cycleScrollView.autoScrollInterval=5
+        cycleScrollView.localImgArray=[SLIDE_DEFAULT]
         return cycleScrollView
     }()
     ///分类间隔view
@@ -335,6 +337,26 @@ extension IndexViewController{
         vc.hidesBottomBarWhenPushed=true
         self.navigationController?.pushViewController(vc, animated:true)
     }
+}
+///点击幻灯片跳转
+extension IndexViewController:WRCycleScrollViewDelegate{
+    /**
+     点击幻灯片图片回调事件
+
+     - parameter cycleScrollView:SDCycleScrollView!
+     - parameter index:          Int
+     */
+    func cycleScrollViewDidSelect(at index: Int, cycleScrollView: WRCycleScrollView) {
+        let model=self.viewModel.advertisingArrModelBR.value[index]
+        if model.searchStatu == 2{///跳转到搜索页面
+            let vc=GoodListViewController()
+            vc.flag=1
+            vc.titleStr=model.advertisingDescription
+            vc.hidesBottomBarWhenPushed=true
+            self.navigationController?.pushViewController(vc,animated:true)
+        }
+    }
+
 }
 ///实现旋转木马
 extension IndexViewController:iCarouselDataSource,iCarouselDelegate{

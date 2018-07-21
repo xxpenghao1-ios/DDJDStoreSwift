@@ -13,8 +13,8 @@ import RxDataSources
 ///商品详情vm
 class GoodDetailViewModel:NSObject{
 
-    ///保存订单详情
-    var goodDetailBR=BehaviorRelay<GoodDetailModel>(value:GoodDetailModel())
+    ///保存商品详情
+    var goodDetailBR=BehaviorRelay<GoodDetailModel?>(value:nil)
 
     ///商品其他信息title
     var goodDetailOtherTitleArr=["库存","最低起订量","每次商品加减数量","配送商","条码","保质期"]
@@ -92,16 +92,16 @@ extension GoodDetailViewModel{
     private func addCollection(){
         let model=goodDetailBR.value
         PHProgressHUD.show("正在加载")
-        PHRequest.shared.requestJSONObject(target:GoodAPI.goodsAddCollection(goodId:model.goodsbasicinfoId ?? 0, supplierId: model.supplierId ?? 0, subSupplierId:model.subSupplier ?? 0, memberId:member_Id!)).subscribe(onNext: { [weak self] (result) in
+        PHRequest.shared.requestJSONObject(target:GoodAPI.goodsAddCollection(goodId:model?.goodsbasicinfoId ?? 0, supplierId: model?.supplierId ?? 0, subSupplierId:model?.subSupplier ?? 0, memberId:member_Id!)).subscribe(onNext: { [weak self] (result) in
             switch result{
             case let .success(json:json):
                 let success=json["success"].stringValue
                 if success == "success"{
                     PHProgressHUD.showSuccess("成功加入收藏")
-                    model.goodsCollectionStatu=1
+                    model?.goodsCollectionStatu=1
                 }else{
                     PHProgressHUD.showError("收藏失败")
-                    model.goodsCollectionStatu=2
+                    model?.goodsCollectionStatu=2
                 }
                 self?.goodDetailBR.accept(model)
                 break

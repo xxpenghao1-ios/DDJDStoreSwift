@@ -104,6 +104,7 @@ extension IndexViewModel{
     private func getSpecialsAndPromotions(){
         PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertisingPromotionAndPreferential(), model:SpecialAndPromotionsModel.self).retry(1).subscribe(onNext: {
              [weak self] (arrModel) in
+
             self?.specialsAndPromotionsArrModelBR.accept(arrModel)
         }, onError: { (error) in
             phLog("获取特价与促销数据出错:\(error.localizedDescription)")

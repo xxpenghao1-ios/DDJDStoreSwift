@@ -86,12 +86,10 @@ extension PlaceOrderViewController{
 
         ///是否有收货地址信息
         addressVM.defaultAddressModelBR.subscribe(onNext: { [weak self] (model) in
-            if model != nil{
-                self?.lblTel.text=model!.phoneNumber
-                self?.lblShippName.text=model!.shippName
-                let address=(model!.province ?? "")+(model!.city ?? "")+(model!.county ?? "")
-                self?.lblAddress.text = address+(model!.detailAddress ?? "")
-            }
+            self?.lblTel.text=model?.phoneNumber
+            self?.lblShippName.text=model?.shippName
+            let address=(model?.province ?? "")+(model?.city ?? "")+(model?.county ?? "")
+            self?.lblAddress.text = address+(model?.detailAddress ?? "")
         }).disposed(by:rx_disposeBag)
 
         ///是否开启可以使用代金券 默认2关闭,1开启
@@ -109,12 +107,12 @@ extension PlaceOrderViewController{
         }).disposed(by:rx_disposeBag)
 
         ///下单
-        btnSubmit.rx.controlEvent(.touchUpInside).throttle(1, scheduler: MainScheduler.instance).subscribe(onNext: { [weak self] (_) in
+        btnSubmit.rx.controlEvent(.touchUpInside).throttle(1, scheduler: MainScheduler.instance).subscribe(onNext: { (_) in
             weak var weakSelf=self
             if weakSelf == nil{
                 return
             }
-            self?.vm.submitOrder(goodsList:weakSelf!.goodArr.toJSONString() ?? "", pay_message:weakSelf!.txtBuyPS.text ?? "", cashCouponId: nil, addressModel:weakSelf!.addressVM.defaultAddressModelBR.value, detailAddress:weakSelf!.lblAddress.text ?? "")
+            weakSelf!.vm.submitOrder(goodsList:weakSelf!.goodArr.toJSONString() ?? "", pay_message:weakSelf!.txtBuyPS.text ?? "", cashCouponId: nil, addressModel:weakSelf!.addressVM.defaultAddressModelBR.value, detailAddress:weakSelf!.lblAddress.text ?? "")
         }).disposed(by:rx_disposeBag)
 
         ///下单结果
@@ -128,6 +126,7 @@ extension PlaceOrderViewController{
                     ///订单页面
                     let vc=OrderPageViewController()
                     vc.orderStatus=1
+                    vc.carIsFlag=1
                     weakSelf!.navigationController?.pushViewController(vc,animated:true)
                 }, cancelHandler: { (_) in
                     ///返回导航根视图

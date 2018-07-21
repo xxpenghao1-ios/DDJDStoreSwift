@@ -38,6 +38,7 @@ class GoodListViewController:BaseViewController{
             for vc:UIViewController in (self.navigationController?.viewControllers)!{
                 if vc.isKind(of:SearchViewController.classForCoder()){
                     self.navigationController?.popToViewController(vc, animated:true)
+                    return false
                 }
             }
         }

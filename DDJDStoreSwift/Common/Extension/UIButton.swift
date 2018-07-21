@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RxCocoa
 import RxSwift
-
+private var key:String=""
 /// 按钮
 extension UIButton {
     ///创建按钮
@@ -35,6 +35,15 @@ extension UIButton {
     func enable(){
         self.isEnabled = true
         self.alpha = 1
+    }
+
+    var section:Int?{
+        set{
+            objc_setAssociatedObject(self,&key,newValue,objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+        }
+        get{
+            return objc_getAssociatedObject(self,&key) as? Int
+        }
     }
 }
 extension Reactive where Base: UIButton {

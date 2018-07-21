@@ -31,6 +31,7 @@ struct AdvertisingModel:Mappable {
     ///分站Id
     var substationId:Int?
     var isPromotion:Int?
+    ///searchStatu（1，不开启；2，开启） ；根据此字段判断是否可以点击搜索； 如果为2可以搜索，调用搜索接口 searchGoodsInterfaceForStore.xhtml 进行搜索； 搜索内容为此接口返回的advertisingDescription字段
     var searchStatu:Int?
     init?(map: Map) {
     }

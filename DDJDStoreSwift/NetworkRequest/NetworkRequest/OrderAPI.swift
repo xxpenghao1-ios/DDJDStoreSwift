@@ -20,6 +20,8 @@ public enum OrderAPI{
     case updataOrderStatus4Store(orderinfoId:Int)
     //下单
     case storeOrderForAndroid(goodsList:String,detailAddress:String,phoneNumber:String,shippName:String,storeId:String,pay_message:String,tag:Int,cashCouponId:Int?)
+    ///每种订单的数量
+    case queryOrderStatusSumByMemberId(memberId:String)
 }
 extension OrderAPI:TargetType{
     public var path: String {
@@ -34,12 +36,14 @@ extension OrderAPI:TargetType{
             return "updataOrderStatus4Store.xhtml"
         case .storeOrderForAndroid(_,_,_,_,_,_,_,_):
             return "storeOrderForAndroid.xhtml"
+        case .queryOrderStatusSumByMemberId(_):
+            return "queryOrderStatusSumByMemberId"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .queryOrderInfo4AndroidStoreByOrderStatus(_,_,_,_),.queryOrderInfo4AndroidByorderId(_),.storeCancelOrder(_),.updataOrderStatus4Store(_):
+        case .queryOrderInfo4AndroidStoreByOrderStatus(_,_,_,_),.queryOrderInfo4AndroidByorderId(_),.storeCancelOrder(_),.updataOrderStatus4Store(_),.queryOrderStatusSumByMemberId(_):
             return .get
         case .storeOrderForAndroid(_,_,_,_,_,_,_,_):
             return .post
@@ -66,6 +70,8 @@ extension OrderAPI:TargetType{
             }else{
                 return .requestParameters(parameters:["goodsList":goodsList,"detailAddress":detailAddress,"phoneNumber":phoneNumber,"shippName":shippName,"storeId":storeId,"pay_message":pay_message,"tag":tag,"cashCouponId":cashCouponId!], encoding:  URLEncoding.default)
             }
+        case let .queryOrderStatusSumByMemberId(memberId):
+            return .requestParameters(parameters:["memberId":memberId], encoding: URLEncoding.default)
         }
     }
     

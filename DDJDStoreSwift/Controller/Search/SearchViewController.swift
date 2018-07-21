@@ -119,15 +119,15 @@ extension SearchViewController{
         leftView.addSubview(leftImageView)
         txtSearch.leftView=leftView
         txtSearch.leftViewMode=UITextFieldViewMode.always
-        //右边扫码图片
-        let rightView=UIView(frame:CGRect(x:0,y:0, width:35, height:30))
-        let rightImgView=UIImageView(frame:CGRect(x:0,y:2.5, width:25, height:25))
-        rightImgView.isUserInteractionEnabled=true
-        rightImgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushSweepCodeVC)))
-        rightImgView.image=UIImage(named:"sweep_code")
-        rightView.addSubview(rightImgView)
-        txtSearch.rightView=rightView
-        txtSearch.rightViewMode=UITextFieldViewMode.always
+//        //右边扫码图片
+//        let rightView=UIView(frame:CGRect(x:0,y:0, width:35, height:30))
+//        let rightImgView=UIImageView(frame:CGRect(x:0,y:2.5, width:25, height:25))
+//        rightImgView.isUserInteractionEnabled=true
+//        rightImgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushSweepCodeVC)))
+//        rightImgView.image=UIImage(named:"sweep_code")
+//        rightView.addSubview(rightImgView)
+//        txtSearch.rightView=rightView
+//        txtSearch.rightViewMode=UITextFieldViewMode.always
         let searchTxtItem=UIBarButtonItem(customView:txtSearch)
         //搜索按钮
         let searchBtn=UIButton.buildBtn(text:"搜索", textColor:UIColor.color666(), font:15, backgroundColor:UIColor.clear)

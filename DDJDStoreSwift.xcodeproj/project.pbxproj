@@ -86,6 +86,7 @@
 		634F06622101B46200F56684 /* AddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634F06612101B46200F56684 /* AddressModel.swift */; };
 		634F06662101B52300F56684 /* AddressListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 634F06642101B52300F56684 /* AddressListTableViewCell.swift */; };
 		634F06672101B52300F56684 /* AddressListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 634F06652101B52300F56684 /* AddressListTableViewCell.xib */; };
+		6350631B2102BBDD00BC21DB /* UISwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350631A2102BBDD00BC21DB /* UISwitch.swift */; };
 		6350F8B520E3359B00176219 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350F8B420E3359B00176219 /* UIImageView.swift */; };
 		6350F8B820E3759900176219 /* MJRefresh+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350F8B720E3759900176219 /* MJRefresh+Rx.swift */; };
 		6350F8BA20E3761700176219 /* MJRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6350F8B920E3761700176219 /* MJRefresh.swift */; };
@@ -139,6 +140,15 @@
 		63A989F520EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A989F320EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift */; };
 		63A989F620EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63A989F420EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib */; };
 		63A989F820EF1F6C005AD5BB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A989F720EF1F6C005AD5BB /* Date.swift */; };
+		63B3F6C52102D1DB001268C8 /* ShowAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B3F6BC2102D1DB001268C8 /* ShowAddressViewController.swift */; };
+		63B3F6C62102D1DB001268C8 /* checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B3F6BD2102D1DB001268C8 /* checked.png */; };
+		63B3F6C72102D1DB001268C8 /* address.plist in Resources */ = {isa = PBXBuildFile; fileRef = 63B3F6BF2102D1DB001268C8 /* address.plist */; };
+		63B3F6C82102D1DB001268C8 /* unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B3F6C02102D1DB001268C8 /* unchecked@2x.png */; };
+		63B3F6C92102D1DB001268C8 /* unchecked@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B3F6C12102D1DB001268C8 /* unchecked@3x.png */; };
+		63B3F6CA2102D1DB001268C8 /* unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B3F6C22102D1DB001268C8 /* unchecked.png */; };
+		63B3F6CB2102D1DB001268C8 /* checked@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B3F6C32102D1DB001268C8 /* checked@3x.png */; };
+		63B3F6CC2102D1DB001268C8 /* checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B3F6C42102D1DB001268C8 /* checked@2x.png */; };
+		63B3F6CE210322E8001268C8 /* OrderCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B3F6CD210322E8001268C8 /* OrderCountModel.swift */; };
 		63BC6C0B20F9E3700010A8F8 /* BrandViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC6C0A20F9E3700010A8F8 /* BrandViewController.swift */; };
 		63BC6C0D20F9E5EB0010A8F8 /* BrandViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BC6C0C20F9E5EB0010A8F8 /* BrandViewModel.swift */; };
 		63BD7E4320EB17BB00C01219 /* MyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BD7E4220EB17BB00C01219 /* MyViewController.swift */; };
@@ -259,6 +269,7 @@
 		634F06612101B46200F56684 /* AddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressModel.swift; sourceTree = "<group>"; };
 		634F06642101B52300F56684 /* AddressListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressListTableViewCell.swift; sourceTree = "<group>"; };
 		634F06652101B52300F56684 /* AddressListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AddressListTableViewCell.xib; sourceTree = "<group>"; };
+		6350631A2102BBDD00BC21DB /* UISwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UISwitch.swift; sourceTree = "<group>"; };
 		6350F8B420E3359B00176219 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		6350F8B720E3759900176219 /* MJRefresh+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MJRefresh+Rx.swift"; sourceTree = "<group>"; };
 		6350F8B920E3761700176219 /* MJRefresh.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MJRefresh.swift; sourceTree = "<group>"; };
@@ -313,6 +324,15 @@
 		63A989F320EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailGoodTableViewCell.swift; sourceTree = "<group>"; };
 		63A989F420EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderDetailGoodTableViewCell.xib; sourceTree = "<group>"; };
 		63A989F720EF1F6C005AD5BB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		63B3F6BC2102D1DB001268C8 /* ShowAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShowAddressViewController.swift; sourceTree = "<group>"; };
+		63B3F6BD2102D1DB001268C8 /* checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checked.png; sourceTree = "<group>"; };
+		63B3F6BF2102D1DB001268C8 /* address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = address.plist; sourceTree = "<group>"; };
+		63B3F6C02102D1DB001268C8 /* unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unchecked@2x.png"; sourceTree = "<group>"; };
+		63B3F6C12102D1DB001268C8 /* unchecked@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unchecked@3x.png"; sourceTree = "<group>"; };
+		63B3F6C22102D1DB001268C8 /* unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = unchecked.png; sourceTree = "<group>"; };
+		63B3F6C32102D1DB001268C8 /* checked@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@3x.png"; sourceTree = "<group>"; };
+		63B3F6C42102D1DB001268C8 /* checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checked@2x.png"; sourceTree = "<group>"; };
+		63B3F6CD210322E8001268C8 /* OrderCountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCountModel.swift; sourceTree = "<group>"; };
 		63BC6C0A20F9E3700010A8F8 /* BrandViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandViewController.swift; sourceTree = "<group>"; };
 		63BC6C0C20F9E5EB0010A8F8 /* BrandViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandViewModel.swift; sourceTree = "<group>"; };
 		63BD7E4220EB17BB00C01219 /* MyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewController.swift; sourceTree = "<group>"; };
@@ -418,6 +438,7 @@
 				634DB1CB20E72CC600D5016A /* UIImage.swift */,
 				634DB1CF20E7326500D5016A /* Runtime+Extension.swift */,
 				63A989F720EF1F6C005AD5BB /* Date.swift */,
+				6350631A2102BBDD00BC21DB /* UISwitch.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -915,6 +936,7 @@
 				637FAEF020EDC95000299D29 /* OrderGoodModel.swift */,
 				634F0659210183EE00F56684 /* VouchersModel.swift */,
 				634F06612101B46200F56684 /* AddressModel.swift */,
+				63B3F6CD210322E8001268C8 /* OrderCountModel.swift */,
 			);
 			path = My;
 			sourceTree = "<group>";
@@ -987,6 +1009,29 @@
 				634F06572101833600F56684 /* PlaceOrderViewModel.swift */,
 			);
 			path = Car;
+			sourceTree = "<group>";
+		};
+		63B3F6BB2102D1DB001268C8 /* ShowAddressView */ = {
+			isa = PBXGroup;
+			children = (
+				63B3F6BC2102D1DB001268C8 /* ShowAddressViewController.swift */,
+				63B3F6BD2102D1DB001268C8 /* checked.png */,
+				63B3F6BE2102D1DB001268C8 /* AddressPlist */,
+				63B3F6C02102D1DB001268C8 /* unchecked@2x.png */,
+				63B3F6C12102D1DB001268C8 /* unchecked@3x.png */,
+				63B3F6C22102D1DB001268C8 /* unchecked.png */,
+				63B3F6C32102D1DB001268C8 /* checked@3x.png */,
+				63B3F6C42102D1DB001268C8 /* checked@2x.png */,
+			);
+			path = ShowAddressView;
+			sourceTree = "<group>";
+		};
+		63B3F6BE2102D1DB001268C8 /* AddressPlist */ = {
+			isa = PBXGroup;
+			children = (
+				63B3F6BF2102D1DB001268C8 /* address.plist */,
+			);
+			path = AddressPlist;
 			sourceTree = "<group>";
 		};
 		63BD7E4120EB179700C01219 /* My */ = {
@@ -1112,6 +1157,7 @@
 		63FBEE722091AABA00BE6B81 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				63B3F6BB2102D1DB001268C8 /* ShowAddressView */,
 				638F77E720FDDBE5007F3FCA /* Car */,
 				6356EA3F20FC42050021DF6F /* Search */,
 				6380069120F05A2B00D39044 /* Good */,
@@ -1248,26 +1294,33 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63B3F6C92102D1DB001268C8 /* unchecked@3x.png in Resources */,
 				63A989F620EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib in Resources */,
+				63B3F6CC2102D1DB001268C8 /* checked@2x.png in Resources */,
 				63FBEE462091746F00BE6B81 /* LaunchScreen.storyboard in Resources */,
 				637FAEF520EE003600299D29 /* OrderDetail.storyboard in Resources */,
 				638006A320F06BC500D39044 /* NewGoodListTableViewCell.xib in Resources */,
 				634F065621017A8500F56684 /* PlaceOrderTableViewCell.xib in Resources */,
 				63FBEE432091746F00BE6B81 /* Assets.xcassets in Resources */,
 				638F77D020FDCEC7007F3FCA /* CodeScan.bundle in Resources */,
+				63B3F6C82102D1DB001268C8 /* unchecked@2x.png in Resources */,
 				638A26B020ECA33000170762 /* MessageTableViewCell.xib in Resources */,
 				6346E8BA20F4942F00E844F1 /* SpecialGoodTableViewCell.xib in Resources */,
 				63FBEE3E2091746C00BE6B81 /* Main.storyboard in Resources */,
 				637FAEEF20EDB1F600299D29 /* OrderListTableViewCell.xib in Resources */,
 				630BDCF421021A8800EF98A1 /* UpdateAddAddress.storyboard in Resources */,
+				63B3F6CA2102D1DB001268C8 /* unchecked.png in Resources */,
 				630E2EC420F312C400884E79 /* GoodDetail.storyboard in Resources */,
+				63B3F6C72102D1DB001268C8 /* address.plist in Resources */,
 				634F06672101B52300F56684 /* AddressListTableViewCell.xib in Resources */,
 				634EF25A20F8500400A6FFCD /* PromotionGoodTableViewCell.xib in Resources */,
 				6347166220FEC4EA009CFDDA /* Car.storyboard in Resources */,
 				634DB1DE20E7721600D5016A /* Classify.storyboard in Resources */,
 				634F06522101704500F56684 /* PlaceOrder.storyboard in Resources */,
+				63B3F6C62102D1DB001268C8 /* checked.png in Resources */,
 				6347166720FEC76D009CFDDA /* CarTableViewCell.xib in Resources */,
 				634EF26520F89C0000A6FFCD /* GoodListTableViewCell.xib in Resources */,
+				63B3F6CB2102D1DB001268C8 /* checked@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1413,6 +1466,7 @@
 				638F77D520FDCEC7007F3FCA /* LBXScanViewStyle.swift in Sources */,
 				634EF25920F8500400A6FFCD /* PromotionGoodTableViewCell.swift in Sources */,
 				634EF26420F89C0000A6FFCD /* GoodListTableViewCell.swift in Sources */,
+				63B3F6C52102D1DB001268C8 /* ShowAddressViewController.swift in Sources */,
 				6333E75120930C3300CEC3B7 /* UILabel.swift in Sources */,
 				6350F8BA20E3761700176219 /* MJRefresh.swift in Sources */,
 				634EF25E20F899B100A6FFCD /* JNDropDownMenu.swift in Sources */,
@@ -1454,6 +1508,7 @@
 				6341DB3B20945FAD00AC267D /* ViewModelType.swift in Sources */,
 				634F06602101B41A00F56684 /* AddressViewModel.swift in Sources */,
 				638A26A720EC98F600170762 /* MessageViewModel.swift in Sources */,
+				63B3F6CE210322E8001268C8 /* OrderCountModel.swift in Sources */,
 				6333E74F2093010C00CEC3B7 /* UIFont.swift in Sources */,
 				634DB1CA20E723A500D5016A /* UIAlertController.swift in Sources */,
 				633F8CCC20CF5CD600D227AF /* TabBarViewController.swift in Sources */,
@@ -1492,6 +1547,7 @@
 				63BD7E4920EB508300C01219 /* MyViewModel.swift in Sources */,
 				638A26AF20ECA33000170762 /* MessageTableViewCell.swift in Sources */,
 				6341DB332094183500AC267D /* StoreModel.swift in Sources */,
+				6350631B2102BBDD00BC21DB /* UISwitch.swift in Sources */,
 				638A26A420EC7C9700170762 /* MyAPI.swift in Sources */,
 				637FAEE320EDA5CC00299D29 /* OrderModel.swift in Sources */,
 				637FAEDE20EDA32500299D29 /* OrderAPI.swift in Sources */,

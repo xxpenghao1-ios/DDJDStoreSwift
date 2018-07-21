@@ -46,20 +46,24 @@ class AddressViewModel:NSObject{
 }
 extension AddressViewModel{
 
+    ///拿默认收货地址 可以为空
+    private func getDefaultAddressMode(){
+        ///拿到默认地址
+        var model=addressList.first(where: { (model) in
+            return model.defaultFlag == 1
+        })
+        if model == nil{///如果为空拿第一个
+            model=addressList.first
+        }
+        self.defaultAddressModelBR.accept(model)
+    }
     ///获取地址信息
     private func getAddressList(){
 
         PHRequest.shared.requestJSONArrModel(target:MyAPI.queryStoreShippAddressforAndroid(storeId:store_Id!), model:AddressModel.self).subscribe(onNext: { [weak self] (arr) in
             self?.addressList=arr
             self?.addressListBR.accept([.noData :[SectionModel.init(model:"",items:arr)]])
-            ///拿到默认地址
-            var model=arr.first(where: { (model) in
-                return model.defaultFlag == 1
-            })
-            if model == nil{///如果为空拿第一个
-                model=arr.first
-            }
-            self?.defaultAddressModelBR.accept(model)
+            self?.getDefaultAddressMode()
 
         }, onError: { [weak self] (error) in
             self?.addressListBR.accept([.dataError :[SectionModel.init(model:"",items:[])]])
@@ -79,6 +83,7 @@ extension AddressViewModel{
                     self?.addressList.remove(at:row)
                     ///更新ui
                     self?.addressListBR.accept([.noData :[SectionModel.init(model:"",items:self?.addressList ?? [])]])
+                    self?.getDefaultAddressMode()
                 }else{
                     PHProgressHUD.showError("删除地址失败")
                 }

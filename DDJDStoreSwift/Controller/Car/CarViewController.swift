@@ -63,8 +63,6 @@ class CarViewController:BaseViewController{
         btnCheckAll.isSelected=true
 
         table.register(UINib(nibName:"CarTableViewCell", bundle:nil), forCellReuseIdentifier:"carId")
-        table.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier:"headerId")
-        table.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier:"footerId")
         table.backgroundColor=UIColor.clear
         table.separatorInset=UIEdgeInsetsMake(0, 0, 0, 0)
         table.dataSource=self
@@ -84,11 +82,24 @@ class CarViewController:BaseViewController{
         ///清空购物车按钮
         rightBar=UIBarButtonItem(title:"清空", style: UIBarButtonItemStyle.done,target:self, action:#selector(deleteAllCar))
     }
-    ///清空购物车
-    @objc private func deleteAllCar(){
-        UIAlertController.showAlertYesNo(self, title:"温馨提示",message: "您确定要清空购物车吗?", cancelButtonTitle:"取消",okButtonTitle:"确定") { [weak self] (_) in
-            self?.vm.deleteShoppingCar(allDelete:true)
+
+
+}
+///页面操作
+extension CarViewController{
+    ///选择/取消 购物车每组
+    @objc private func selectedSection(sender:UIButton){
+        if sender.isSelected{
+            sender.isSelected=false
+        }else{
+            sender.isSelected=true
         }
+        self.vm.sectionIsSelected(section:sender.tag, isSelected: sender.isSelected)
+    }
+    ///跳转到商品列表 配送商城
+    @objc private func pushGoodList(sender:UIButton){
+        let carModel=self.vm.arr[sender.tag]
+        self.pushSupplierGoodListVC(carModel:carModel)
     }
     ///跳转到配送商城
     private func pushSupplierGoodListVC(carModel:CarModel){
@@ -100,8 +111,13 @@ class CarViewController:BaseViewController{
         vc.hidesBottomBarWhenPushed=true
         self.navigationController?.pushViewController(vc, animated:true)
     }
+    ///清空购物车
+    @objc private func deleteAllCar(){
+        UIAlertController.showAlertYesNo(self, title:"温馨提示",message: "您确定要清空购物车吗?", cancelButtonTitle:"取消",okButtonTitle:"确定") { [weak self] (_) in
+            self?.vm.deleteShoppingCar(allDelete:true)
+        }
+    }
 }
-
 extension CarViewController{
 
     private func bindViewModel(){
@@ -169,9 +185,18 @@ extension CarViewController{
         }else{
             ///获取每组小计小于最低起送价的 组信息
             let noCarArr = vm.arr.filter({ (carModel)  in
+                
                 let sumPrice=Double(carModel.sumPrice ?? "0")!
                 let lowestMoney=Double(carModel.lowestMoney ?? "0")!
-                return sumPrice < lowestMoney
+
+                ///获取选中商品
+                let goodArrSelected=carModel.listGoods!.filter({ (goodModel) in
+                    ///返回 选中的商品 并且库存不等于0的商品
+                    return goodModel.isSelected == 1 && goodModel.goodsStock != 0
+                })
+                ///返回 每组选中的商品大于0 总价小于最低起送价
+                return goodArrSelected.count > 0 && sumPrice < lowestMoney
+
             })
             if noCarArr.count == 0{///如果没有跳转到下单页面
                 let vc=UIStoryboard.init(name:"PlaceOrder", bundle:nil).instantiateViewController(withIdentifier:"PlaceOrderVC") as! PlaceOrderViewController
@@ -235,24 +260,14 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
         if vm.arr.count == 0{
             return nil
         }else{
-            var view=table.dequeueReusableHeaderFooterView(withIdentifier:"headerId")
-            if view == nil{
-                view=UITableViewHeaderFooterView(reuseIdentifier:"headerId")
-            }
-            setCellHeaderView(section:section,view:view!)
-            return view
+            return setCellHeaderView(section:section)
         }
     }
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if vm.arr.count == 0{
             return nil
         }else{
-            var view=table.dequeueReusableHeaderFooterView(withIdentifier:"footerId")
-            if view == nil{
-                view=UITableViewHeaderFooterView(reuseIdentifier:"footerId")
-            }
-            setCellFooterView(section:section, view:view!)
-            return view
+            return setCellFooterView(section:section)
         }
     }
     //返回头部高度
@@ -274,14 +289,14 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
         return "删除"
     }
     ///头部
-    private func setCellHeaderView(section:Int,view:UITableViewHeaderFooterView){
-
+    private func setCellHeaderView(section:Int) -> UIView{
+        let view=UIView.init(frame: CGRect.init(x:0, y:0, width:SCREEN_WIDTH, height:50))
         let carModel=vm.arr[section]
         ///设置背景色
-        view.contentView.backgroundColor=UIColor.white
+        view.backgroundColor=UIColor.white
 
         //给选择图片加上按钮实现点击切换
-        var btnSelectImg=view.contentView.viewWithTag(11) as? UIButton
+        var btnSelectImg=view.viewWithTag(section) as? UIButton
         if btnSelectImg == nil{
             btnSelectImg=UIButton(frame:CGRect(x:10,y:15,width:20,height: 20));
             //选择图片
@@ -289,34 +304,26 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
             let selectImgSelected=UIImage(named:"car_selected");
             btnSelectImg?.setImage(selectImg, for:UIControlState.normal)
             btnSelectImg?.setImage(selectImgSelected, for:.selected);
-            ///选择分组
-            btnSelectImg!.rx.controlEvent(.touchUpInside).subscribe { [weak self] (_) in
-                if btnSelectImg!.isSelected{
-                    btnSelectImg!.isSelected=false
-                }else{
-                    btnSelectImg!.isSelected=true
-                }
-                self?.vm.sectionIsSelected(section:section, isSelected: btnSelectImg!.isSelected)
-            }.disposed(by:rx_disposeBag)
-            btnSelectImg?.tag=11
-            view.contentView.addSubview(btnSelectImg!);
+            btnSelectImg?.tag=section
+            btnSelectImg?.addTarget(self, action:#selector(selectedSection), for: UIControlEvents.touchUpInside)
+            view.addSubview(btnSelectImg!);
         }
         ///供应商名称
-        var lblSupplierName=view.contentView.viewWithTag(22) as? UILabel
+        var lblSupplierName=view.viewWithTag(22) as? UILabel
         if lblSupplierName == nil{
          lblSupplierName=UILabel(frame:CGRect(x:btnSelectImg!.frame.maxX+5,y:15,width:200,height:20))
             lblSupplierName!.font=UIFont.systemFont(ofSize:14)
             lblSupplierName!.tag=22
-            view.contentView.addSubview(lblSupplierName!)
+            view.addSubview(lblSupplierName!)
         }
 
         ///起送金额
-        var lblLowestMoney=view.contentView.viewWithTag(33) as? UILabel
+        var lblLowestMoney=view.viewWithTag(33) as? UILabel
         if lblLowestMoney == nil{
             lblLowestMoney=UILabel.buildLabel(textColor:UIColor.color333(), font:14, textAlignment:.right)
             lblLowestMoney!.frame=CGRect.init(x:SCREEN_WIDTH-160, y:15, width:150,height: 20)
             lblLowestMoney!.tag=33
-            view.contentView.addSubview(lblLowestMoney!)
+            view.addSubview(lblLowestMoney!)
         }
         ///给各个控件赋值
         lblSupplierName!.text=carModel.supplierName
@@ -327,51 +334,50 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
         }else{
             btnSelectImg!.isSelected=false
         }
+        return view
     }
     ///尾部
-    private func setCellFooterView(section:Int,view:UITableViewHeaderFooterView){
-
+    private func setCellFooterView(section:Int) -> UIView{
+        let view=UIView.init(frame: CGRect.init(x:0, y:0, width:SCREEN_WIDTH, height:56))
         let carModel=vm.arr[section]
 
-        view.contentView.backgroundColor=UIColor.white
+        view.backgroundColor=UIColor.white
 
         ///边线
-        var broderView=view.contentView.viewWithTag(111)
+        var broderView=view.viewWithTag(111)
         if broderView == nil{
             broderView=UIView(frame: CGRect.init(x:0, y:50, width:SCREEN_WIDTH,height:6))
             broderView!.tag=111
             broderView!.backgroundColor=UIColor.viewBgdColor()
-            view.contentView.addSubview(broderView!)
+            view.addSubview(broderView!)
         }
 
         ///去凑单按钮
-        var btn=view.contentView.viewWithTag(222) as? UIButton
+        var btn=view.viewWithTag(section) as? UIButton
         if btn == nil{
             btn=UIButton.buildBtn(text:"去凑单", textColor:UIColor.white, font:14, backgroundColor:UIColor.applicationMainColor(), cornerRadius:5)
-            btn!.tag=222
+            btn!.tag=section
             ///默认隐藏
             btn!.isHidden=true
-            ///跳转到配送商城
-            btn!.rx.controlEvent(.touchUpInside).subscribe { [weak self] (_) in
-                self?.pushSupplierGoodListVC(carModel:carModel)
-            }.disposed(by:rx_disposeBag)
-            view.contentView.addSubview(btn!)
+            btn!.addTarget(self,action:#selector(pushGoodList), for: UIControlEvents.touchUpInside)
+
+            view.addSubview(btn!)
         }
 
         ///每组商品提示信息
-        var lblName=view.contentView.viewWithTag(333) as? UILabel
+        var lblName=view.viewWithTag(333) as? UILabel
         if lblName == nil{
             lblName=UILabel.buildLabel(textColor:UIColor.priceColor(), font:14, textAlignment:.left)
             lblName?.tag=333
-            view.contentView.addSubview(lblName!)
+            view.addSubview(lblName!)
         }
 
         ///小计
-        var lblTotal=view.contentView.viewWithTag(444) as? UILabel
+        var lblTotal=view.viewWithTag(444) as? UILabel
         if lblTotal == nil{
             lblTotal=UILabel.buildLabel(textColor:UIColor.priceColor(), font:14, textAlignment:.right)
             lblTotal?.tag=444
-            view.contentView.addSubview(lblTotal!)
+            view.addSubview(lblTotal!)
         }
 
         if Double(carModel.sumPrice!) < Double(carModel.lowestMoney ?? "0"){//如果小计小于最低起送额
@@ -392,6 +398,7 @@ extension CarViewController:UITableViewDelegate,UITableViewDataSource{
 
         lblTotal!.text="小计:\(carModel.sumPrice!)"
 
+        return view
 
     }
 

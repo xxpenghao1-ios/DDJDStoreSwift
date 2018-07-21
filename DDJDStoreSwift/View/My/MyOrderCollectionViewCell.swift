@@ -39,7 +39,16 @@ class MyOrderCollectionViewCell:UICollectionViewCell{
         self.contentView.addSubview(centerView)
 
     }
-    func updateCell(name:String,imgStr:String){
+    func updateCell(name:String,imgStr:String,orderCountModel:OrderCountModel?=nil){
+
+        if orderCountModel == nil{
+            imgView.clearBadge()
+        }else{
+            if orderCountModel!.orderStatus == 3{//已完成隐藏订单数量
+                imgView.clearBadge()
+            }
+            imgView.showBadge(with: WBadgeStyle.number, value:orderCountModel!.orderSum ?? 0,animationType: WBadgeAnimType.none)
+        }
         imgView.image=UIImage.init(named:imgStr)
         lblName.text=name
     }

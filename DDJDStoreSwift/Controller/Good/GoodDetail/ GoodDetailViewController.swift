@@ -117,9 +117,11 @@ extension GoodDetailViewController{
 
         ///获取订单详情数据
         vm.goodDetailBR.asObservable().subscribe(onNext: { [weak self] (model) in
-            ///查询购物车商品数量
-            self?.addCarVM.queryCarSumCountPS.onNext(true)
-            self?.setData(model:model)
+            if model != nil{
+                ///查询购物车商品数量
+                self?.addCarVM.queryCarSumCountPS.onNext(true)
+                self?.setData(model:model!)
+            }
         }).disposed(by:rx_disposeBag)
 
         ///加入购物车
@@ -142,7 +144,10 @@ extension GoodDetailViewController{
             if weakSelf == nil{
                 return
             }
-            weakSelf!.selectedGoodCount(model:weakSelf!.vm.goodDetailBR.value)
+            if weakSelf!.vm.goodDetailBR.value == nil{
+                return
+            }
+            weakSelf!.selectedGoodCount(model:weakSelf!.vm.goodDetailBR.value!)
         }).disposed(by:rx_disposeBag)
     }
     ///set数据
@@ -160,6 +165,7 @@ extension GoodDetailViewController{
         self.lblGoodUnit.text="单位:\(model.goodUnit ?? "")"
         self.lblUitemPrice.text=model.uitemPrice
         self.title=model.goodInfoName
+        self.stepper.value=Double(model.miniCount ?? 1)
         self.stepper.minimumValue=Double(model.miniCount ?? 1)
         ///库存等于-1的时候最多999  否则最大是库存数
         self.stepper.maximumValue=model.goodsStock == -1 ? 999 : Double(model.goodsStock ?? 1)
@@ -195,7 +201,7 @@ extension GoodDetailViewController{
     }
     ///加入收藏
     @objc private func addCollection(){
-        if vm.goodDetailBR.value.goodsCollectionStatu == 1{
+        if vm.goodDetailBR.value?.goodsCollectionStatu == 1{
             PHProgressHUD.showInfo("该商品已经收藏了")
         }else{
            ///发送加入收藏请求
@@ -241,7 +247,7 @@ extension GoodDetailViewController{
             let okAction = alertController!.actions.last! as UIAlertAction
             if text.text?.count > 0{
                 ///当输入数量 是goodsBaseCount的倍数  并且小于等于库存数  大于等于最低起送数量才可以点击确定按钮
-                okAction.isEnabled = Int(text.text!)! % (self.vm.goodDetailBR.value.goodsBaseCount ?? 1) == 0 && Int(text.text!)! <= text.tag && Int(text.text!)! >= (self.vm.goodDetailBR.value.miniCount ?? 1)
+                okAction.isEnabled = Int(text.text!)! % (self.vm.goodDetailBR.value?.goodsBaseCount ?? 1) == 0 && Int(text.text!)! <= text.tag && Int(text.text!)! >= (self.vm.goodDetailBR.value?.miniCount ?? 1)
             }else{
                 okAction.isEnabled=false
             }
@@ -311,8 +317,8 @@ extension GoodDetailViewController:UITableViewDelegate,UITableViewDataSource{
     private func pushGoodListVC(){
         let vc=GoodListViewController()
         vc.flag=4
-        vc.titleStr=vm.goodDetailBR.value.supplierName
-        vc.subSupplierId=vm.goodDetailBR.value.subSupplier
+        vc.titleStr=vm.goodDetailBR.value?.supplierName
+        vc.subSupplierId=vm.goodDetailBR.value?.subSupplier
         self.navigationController?.pushViewController(vc, animated:true)
     }
 }
