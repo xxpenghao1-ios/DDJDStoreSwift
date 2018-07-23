@@ -24,6 +24,18 @@ public enum MyAPI{
     case updateStoreShippAddressforAndroid(flag:Int,storeId:String,county:String,city:String,province:String,shippName:String,detailAddress:String,phoneNumber:String,shippAddressId:Int)
     //添加收货地址
     case addStoreShippAddressforAndroid(flag:Int,storeId:String,county:String,city:String,province:String,shippName:String,detailAddress:String,phoneNumber:String)
+    //问题反馈
+    case complaintsAndSuggestions(complaint:String,storeId:String)
+    ///积分兑换
+    case integralMallExchange(integralMallId:Int,memberId:String,exchangeCount:Int)
+    ///查看剩余积分
+    case queryMemberIntegral(memberId:String)
+    ///积分商品请求
+    case queryIntegralMallForSubStation(subStationId:String,currentPage:Int,pageSize:Int)
+    ///积分记录
+    case storeQueryMemberIntegralV1(memberId:String,currentPage:Int,pageSize:Int)
+    ///兑换记录
+    case queryIntegralMallExchangeRecord(memberId:String,pageSize:Int,currentPage:Int)
 }
 extension MyAPI:TargetType{
     //请求URL
@@ -51,14 +63,26 @@ extension MyAPI:TargetType{
             return "updateStoreShippAddressforAndroid.xhtml"
         case .addStoreShippAddressforAndroid(_,_,_,_,_,_,_,_):
             return "addStoreShippAddressforAndroid.xhtml"
+        case .complaintsAndSuggestions(_,_):
+            return "complaintsAndSuggestions.xhtml"
+        case .integralMallExchange(_,_,_):
+            return "integralMallExchange.xhtml"
+        case .queryMemberIntegral(_):
+            return "queryMemberIntegral.xhtml"
+        case .queryIntegralMallForSubStation(_,_,_):
+            return "queryIntegralMallForSubStation.xhtml"
+        case .storeQueryMemberIntegralV1(_,_,_):
+            return "storeQueryMemberIntegralV1.xhtml"
+        case .queryIntegralMallExchangeRecord(_,_,_):
+            return "queryIntegralMallExchangeRecord.xhtml"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .queryMessageToStore(_,_,_),.querySubStationCC(_),.queryStoreMember(_,_),.queryStoreShippAddressforAndroid(_),.deleteStoreShippAddressforAndroid(_):
+        case .queryMessageToStore(_,_,_),.querySubStationCC(_),.queryStoreMember(_,_),.queryStoreShippAddressforAndroid(_),.deleteStoreShippAddressforAndroid(_),.integralMallExchange(_,_,_),.queryMemberIntegral(_),.queryIntegralMallForSubStation(_,_,_),.storeQueryMemberIntegralV1(_,_,_),.queryIntegralMallExchangeRecord(_,_,_):
             return .get
-        case .updateStoreShippAddressforAndroid(_,_,_,_,_,_,_,_,_),.addStoreShippAddressforAndroid(_,_,_,_,_,_,_,_):
+        case .updateStoreShippAddressforAndroid(_,_,_,_,_,_,_,_,_),.addStoreShippAddressforAndroid(_,_,_,_,_,_,_,_),.complaintsAndSuggestions(_,_):
             return .post
         }
     }
@@ -83,6 +107,18 @@ extension MyAPI:TargetType{
             return .requestParameters(parameters:["flag":flag,"storeId":storeId,"county":county,"city":city,"province":province,"shippName":shippName,"detailAddress":detailAddress,"phoneNumber":phoneNumber,"shippAddressId":shippAddressId], encoding:  URLEncoding.default)
         case let .addStoreShippAddressforAndroid(flag, storeId, county, city, province, shippName, detailAddress, phoneNumber):
             return .requestParameters(parameters:["flag":flag,"storeId":storeId,"county":county,"city":city,"province":province,"shippName":shippName,"detailAddress":detailAddress,"phoneNumber":phoneNumber], encoding:  URLEncoding.default)
+        case let .complaintsAndSuggestions(complaint, storeId):
+            return .requestParameters(parameters:["complaint":complaint,"storeId":storeId], encoding: URLEncoding.default)
+        case let .integralMallExchange(integralMallId, memberId, exchangeCount):
+            return .requestParameters(parameters:["integralMallId":integralMallId,"memberId":memberId,"exchangeCount":exchangeCount], encoding:  URLEncoding.default)
+        case let .queryMemberIntegral(memberId):
+            return .requestParameters(parameters:["memberId":memberId], encoding:  URLEncoding.default)
+        case let .queryIntegralMallForSubStation(subStationId, currentPage, pageSize):
+            return .requestParameters(parameters:["subStationId":subStationId,"currentPage":currentPage,"pageSize":pageSize], encoding:  URLEncoding.default)
+        case let .storeQueryMemberIntegralV1(memberId, currentPage, pageSize):
+            return .requestParameters(parameters:["memberId":memberId,"currentPage":currentPage,"pageSize":pageSize], encoding:  URLEncoding.default)
+        case let .queryIntegralMallExchangeRecord(memberId, pageSize, currentPage):
+            return .requestParameters(parameters:["memberId":memberId,"pageSize":pageSize,"currentPage":currentPage], encoding:  URLEncoding.default)
         }
     }
 

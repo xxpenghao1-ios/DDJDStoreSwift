@@ -23,7 +23,6 @@ class PHProgressHUD: NSObject {
         SVProgressHUD.setForegroundColor(UIColor(white: 1, alpha: 1))
         SVProgressHUD.setBackgroundColor(UIColor(white: 0.15, alpha: 0.85))
         SVProgressHUD.setFont(UIFont.systemFont(ofSize: 14.0))
-        SVProgressHUD.setDefaultMaskType(.none)
         SVProgressHUD.setMinimumDismissTimeInterval(2)
     }
     class func show(_ status: String){

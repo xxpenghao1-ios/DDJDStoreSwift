@@ -117,6 +117,7 @@ extension LoginViewModel{
         USER_DEFAULTS.set(model.substationId, forKey:"substationId")
         USER_DEFAULTS.set(model.storeName, forKey:"storeName")
         USER_DEFAULTS.set(model.memberId, forKey:"memberId")
+        USER_DEFAULTS.set(model.subStationPhoneNumber, forKey:"subStationPhoneNumber")
         USER_DEFAULTS.synchronize()
     }
 }

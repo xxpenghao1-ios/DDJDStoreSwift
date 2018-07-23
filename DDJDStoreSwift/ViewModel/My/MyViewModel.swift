@@ -52,7 +52,7 @@ class MyViewModel:NSObject{
 
         ///菜单数据
         menuBR.accept([SectionModel(model:"",items:
-            [MyModel.init(name:"购物车", imgStr:"my_car"),
+            [MyModel.init(name:"收货地址", imgStr:"my_address"),
              MyModel.init(name:"点单币记录", imgStr:"my_ddb_record"),
              MyModel.init(name:"点单商城", imgStr:"my_dd_store"),
              MyModel.init(name:"我的收藏", imgStr:"my_collection"),

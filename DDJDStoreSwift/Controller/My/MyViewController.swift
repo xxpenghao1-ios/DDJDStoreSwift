@@ -250,7 +250,39 @@ extension MyViewController{
     }
     ///菜单跳转页面
     private func menuPushVC(index:Int){
-        let vc=AddressListViewController()
+        switch index {
+        case 0:
+            ///收货地址
+            let vc=AddressListViewController()
+            pushVC(vc:vc)
+            break
+        case 2:
+            ///点单商城
+            let vc=UIStoryboard.init(name:"IntegralStore", bundle:nil).instantiateViewController(withIdentifier:"IntegralStoreVC") as! IntegralStoreViewController
+            pushVC(vc:vc)
+            break
+        case 4:
+            ///我的消息
+            let vc=MessageViewController()
+            pushVC(vc:vc)
+            break
+        case 6:
+            //联系客服
+            var tel=USER_DEFAULTS.object(forKey:"subStationPhoneNumber") as? String
+            tel=tel ?? "400-835-6878"
+            UIApplication.shared.openURL(Foundation.URL(string :"tel://\(tel!)")!)
+            break
+        case 7:
+            ///投诉与建议
+            let vc=ComplaintsAndSuggestionsViewController()
+            pushVC(vc:vc)
+            break
+        default:break
+        }
+
+    }
+    ///跳转页面
+    private func pushVC(vc:BaseViewController){
         vc.hidesBottomBarWhenPushed=true
         self.navigationController?.pushViewController(vc, animated:true)
     }
