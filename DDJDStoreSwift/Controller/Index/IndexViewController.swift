@@ -272,10 +272,17 @@ extension IndexViewController{
 
         ///点击分类
         self.classifyCollectionView.rx.modelSelected(GoodsCategoryModel.self).subscribe(onNext: { [weak self] (model) in
-            let vc=ClassifyPageViewController()
-            vc.model=model
-            vc.hidesBottomBarWhenPushed=true
-            self?.navigationController?.pushViewController(vc, animated:true)
+            if model.categoryType == 2{///跳转到点单商城
+                ///点单商城
+                let vc=UIStoryboard.init(name:"IntegralStore", bundle:nil).instantiateViewController(withIdentifier:"IntegralStoreVC") as! IntegralStoreViewController
+                vc.hidesBottomBarWhenPushed=true
+                self?.navigationController?.pushViewController(vc, animated:true)
+            }else{
+                let vc=ClassifyPageViewController()
+                vc.model=model
+                vc.hidesBottomBarWhenPushed=true
+                self?.navigationController?.pushViewController(vc, animated:true)
+            }
         }).disposed(by:rx_disposeBag)
 
         ///获取新品推荐数据

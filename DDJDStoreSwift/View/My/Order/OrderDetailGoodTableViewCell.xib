@@ -73,11 +73,19 @@
                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Rx-Yf-ovc">
+                        <rect key="frame" x="65" y="15" width="40" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="40" id="bdK-am-UGL"/>
+                            <constraint firstAttribute="height" constant="40" id="u6C-XJ-Abu"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="AAd-Wi-7Ip" firstAttribute="bottom" secondItem="knH-06-nfZ" secondAttribute="bottom" id="0mr-g3-3cX"/>
                     <constraint firstItem="Pa0-PV-LgL" firstAttribute="bottom" secondItem="knH-06-nfZ" secondAttribute="bottom" id="8hd-gj-xiA"/>
                     <constraint firstItem="knH-06-nfZ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="Bsd-El-iiZ"/>
+                    <constraint firstItem="0Rx-Yf-ovc" firstAttribute="top" secondItem="knH-06-nfZ" secondAttribute="top" id="GxI-kL-o4p"/>
                     <constraint firstItem="Pa0-PV-LgL" firstAttribute="leading" secondItem="AAd-Wi-7Ip" secondAttribute="trailing" id="Ie2-tN-zeP"/>
                     <constraint firstAttribute="trailing" secondItem="WsJ-NU-zjh" secondAttribute="trailing" constant="15" id="JR3-T4-kBG"/>
                     <constraint firstAttribute="trailing" secondItem="sJO-ee-9ZI" secondAttribute="trailing" constant="15" id="K6n-kG-9kE"/>
@@ -89,9 +97,11 @@
                     <constraint firstItem="Ebx-Ge-QV0" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="kym-1W-K28"/>
                     <constraint firstAttribute="trailing" secondItem="Ebx-Ge-QV0" secondAttribute="trailing" constant="15" id="mMu-qc-yJZ"/>
                     <constraint firstItem="AAd-Wi-7Ip" firstAttribute="leading" secondItem="knH-06-nfZ" secondAttribute="trailing" constant="5" id="qVt-nl-q4Z"/>
+                    <constraint firstItem="0Rx-Yf-ovc" firstAttribute="trailing" secondItem="knH-06-nfZ" secondAttribute="trailing" id="uHR-e8-gDg"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="goodFlagImgView" destination="0Rx-Yf-ovc" id="RHG-ST-S47"/>
                 <outlet property="imgView" destination="knH-06-nfZ" id="rmi-Oz-JVf"/>
                 <outlet property="lblGoodCount" destination="WsJ-NU-zjh" id="5HE-CL-15W"/>
                 <outlet property="lblGoodName" destination="Ebx-Ge-QV0" id="53k-Vo-WRd"/>

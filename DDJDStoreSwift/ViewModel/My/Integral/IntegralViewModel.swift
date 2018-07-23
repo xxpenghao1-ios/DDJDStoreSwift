@@ -36,6 +36,10 @@ class IntegralViewModel:NSObject,OutputRefreshProtocol {
 
     ///查询兑换记录
     var requestExchangeRecordPS = PublishSubject<Bool>()
+    ///兑换记录数据
+    var exchangeRecordBR=BehaviorRelay<[EmptyDataType:[SectionModel<String,ExchangeRecordModel>]]>(value:[.loading:[]])
+    ///保存兑换记录
+    var exchangeRecordArr=[ExchangeRecordModel]()
 
     ///积分兑换
     var integralExchangePS = PublishSubject<IntegralGoodModel>()
@@ -87,6 +91,17 @@ class IntegralViewModel:NSObject,OutputRefreshProtocol {
                 self?.requestIntegralRecordList(b:b)
             }
         }).disposed(by:rx_disposeBag)
+
+        ///查询兑换记录
+        requestExchangeRecordPS.subscribe(onNext: { [weak self] (b) in
+            if  b{
+                self?.currentPage=1
+                self?.requestExchangeRecord(b:b)
+            }else{
+                self?.currentPage+=1
+                self?.requestExchangeRecord(b:b)
+            }
+        }).disposed(by:rx_disposeBag)
     }
 
 }
@@ -112,10 +127,10 @@ extension IntegralViewModel{
     ///查询积分商品
     private func requestIntegralGoodList(b:Bool){
 
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
+            weak var weakSelf=self
+            if weakSelf == nil{
+                return
+            }
 
         PHRequest.shared.requestJSONArrModel(target:MyAPI.queryIntegralMallForSubStation(subStationId:substation_Id!, currentPage:currentPage, pageSize:pageSize), model:IntegralGoodModel.self).debug().subscribe(onNext: { (arr) in
             if b == true{///刷新
@@ -203,10 +218,10 @@ extension IntegralViewModel{
 
     ///查询积分记录
     private func requestIntegralRecordList(b:Bool){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
+            weak var weakSelf=self
+            if weakSelf == nil{
+                return
+            }
         PHRequest.shared.requestJSONArrModel(target:MyAPI.storeQueryMemberIntegralV1(memberId:member_Id!, currentPage: currentPage, pageSize: pageSize), model:IntegralRecordModel.self).subscribe(onNext: { (arr) in
             if b == true{///刷新
                 ///每次获取最新的数据
@@ -236,6 +251,43 @@ extension IntegralViewModel{
                 weakSelf!.integralRecordBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.integralRecordArr)]])
             }
             phLog("获取积分记录出错")
+        }).disposed(by:rx_disposeBag)
+    }
+
+    ///查询兑换记录
+    private func requestExchangeRecord(b:Bool){
+            weak var weakSelf=self
+            if weakSelf == nil{
+                return
+            }
+        PHRequest.shared.requestJSONArrModel(target:MyAPI.queryIntegralMallExchangeRecord(memberId:member_Id!, pageSize: pageSize, currentPage: currentPage), model: ExchangeRecordModel.self).subscribe(onNext: { (arr) in
+            if b == true{///刷新
+                ///每次获取最新的数据
+                weakSelf!.exchangeRecordArr=arr
+                weakSelf!.exchangeRecordBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.exchangeRecordArr)]])
+
+
+            }else{//加载更多
+                ///追加数据
+                weakSelf!.exchangeRecordArr+=arr
+                weakSelf!.exchangeRecordBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.exchangeRecordArr)]])
+            }
+            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
+            weakSelf!.refreshStatus.accept(.endFooterRefresh)
+            if arr.count < weakSelf!.pageSize{//如果下面没有数据了
+                weakSelf!.refreshStatus.accept(.noMoreData)
+            }
+        }, onError: { (error) in
+            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
+            weakSelf!.refreshStatus.accept(.endFooterRefresh)
+            ///把页索引-1
+            if weakSelf!.currentPage > 1{
+                weakSelf!.currentPage-=1
+            }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
+                weakSelf!.refreshStatus.accept(.noMoreData)
+                ///获取数据出错 空页面提示
+                weakSelf!.exchangeRecordBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.exchangeRecordArr)]])
+            }
         }).disposed(by:rx_disposeBag)
     }
 }

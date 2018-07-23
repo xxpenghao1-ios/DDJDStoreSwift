@@ -21,6 +21,8 @@ class OrderDetailGoodTableViewCell: UITableViewCell {
     @IBOutlet weak var lblGoodCount:UILabel!
     ///商品是否可退
     @IBOutlet weak var lblReturnGoods:UILabel!
+    ///flag 1特价图片 3促销图片
+    @IBOutlet weak var goodFlagImgView:UIImageView!
     override func awakeFromNib() {
         super.awakeFromNib()
         self.selectionStyle = .none
@@ -29,6 +31,8 @@ class OrderDetailGoodTableViewCell: UITableViewCell {
         // Initialization code
         ///默认隐藏是否退换提示
         lblReturnGoods.isHidden=true
+        ///默认隐藏特价促销图片
+        goodFlagImgView.isHidden=true
     }
     ///更新cell数据
     func updateCell(model:OrderGoodModel){
@@ -46,6 +50,18 @@ class OrderDetailGoodTableViewCell: UITableViewCell {
                 lblReturnGoods.text=""
             }
             lblReturnGoods.isHidden=false
+        }
+        if model.flag == 1{//如果是特价
+            goodFlagImgView.image=UIImage(named:"special_good")
+            goodFlagImgView.isHidden=false
+        }else if model.flag == 3{///如果是促销
+            ///显示促销图标
+            goodFlagImgView.image=UIImage(named:"promotion_good")
+            goodFlagImgView.isHidden=false
+
+        }else{///普通价格
+            ///隐藏促销特价图片 防止重复显示
+            goodFlagImgView.isHidden=true
         }
 
     }

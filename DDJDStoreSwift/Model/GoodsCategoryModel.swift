@@ -20,7 +20,7 @@ struct GoodsCategoryModel:Mappable {
     var goodsCategoryIco:String?
     ///分类描述
     var goodsCategoryIdRemark:String?
-    ///分类类型
+    ///分类类型  1跳转到 购物记录 2跳转到点单商城  其他跳转分类
     var categoryType:Int?
     /// 分站品牌名字
     var brandName:String?

@@ -46,8 +46,9 @@ class MyOrderCollectionViewCell:UICollectionViewCell{
         }else{
             if orderCountModel!.orderStatus == 3{//已完成隐藏订单数量
                 imgView.clearBadge()
+            }else{
+                imgView.showBadge(with: WBadgeStyle.number, value:orderCountModel!.orderSum ?? 0,animationType: WBadgeAnimType.none)
             }
-            imgView.showBadge(with: WBadgeStyle.number, value:orderCountModel!.orderSum ?? 0,animationType: WBadgeAnimType.none)
         }
         imgView.image=UIImage.init(named:imgStr)
         lblName.text=name

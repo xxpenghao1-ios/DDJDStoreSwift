@@ -18,6 +18,7 @@ struct IntegralRecordModel:Mappable{
     var integral:String?;
     ///生成时间
     var time:String?;
+    init(){}
     init?(map: Map) {
         mapping(map: map)
     }

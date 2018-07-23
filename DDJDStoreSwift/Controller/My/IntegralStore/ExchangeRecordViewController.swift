@@ -1,5 +1,5 @@
 //
-//  IntegralRecordViewController.swift
+//  ExchangeRecordViewController.swift
 //  DDJDStoreSwift
 //
 //  Created by hao peng on 2018/7/23.
@@ -10,8 +10,10 @@ import Foundation
 import RxCocoa
 import RxSwift
 import RxDataSources
-///积分记录
-class IntegralRecordViewController:BaseViewController{
+///兑换记录
+class ExchangeRecordViewController:BaseViewController{
+    
+    private var vm=IntegralViewModel()
 
     private lazy var table:UITableView={
         let _table=UITableView(frame:self.view.bounds, style: UITableViewStyle.plain)
@@ -20,30 +22,26 @@ class IntegralRecordViewController:BaseViewController{
         _table.emptyDataSetDelegate=self
         _table.backgroundColor=UIColor.clear
         _table.separatorInset=UIEdgeInsetsMake(0, 0, 0, 0)
-        _table.register(IntegralRecordTableViewCell.self, forCellReuseIdentifier:"integralRecordId")
+        _table.register(ExchangeRecordTableViewCell.self, forCellReuseIdentifier:"exchangeRecordId")
         return _table
     }()
 
-    private var vm=IntegralViewModel()
-
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title="点单币记录"
+        self.title="兑换记录"
         self.view.addSubview(table)
         bindViewModel()
-        self.emptyDataSetTextInfo="还木有点单币使用记录"
-
+        self.emptyDataSetTextInfo="暂无兑换记录"
     }
 }
-extension IntegralRecordViewController:Refreshable{
+extension ExchangeRecordViewController:Refreshable{
 
     private func bindViewModel(){
 
-        vm.requestIntegralRecordPS.onNext(true)
+        vm.requestExchangeRecordPS.onNext(true)
 
-        let dataSource=RxTableViewSectionedReloadDataSource<SectionModel<String,IntegralRecordModel>>(configureCell:{ (_,table,indexPath,model) in
-            let cell=table.dequeueReusableCell(withIdentifier:"integralRecordId") as? IntegralRecordTableViewCell ??  IntegralRecordTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"integralRecordId")
+        let dataSource=RxTableViewSectionedReloadDataSource<SectionModel<String,ExchangeRecordModel>>(configureCell:{ (_,table,indexPath,model) in
+            let cell=table.dequeueReusableCell(withIdentifier:"exchangeRecordId") as? ExchangeRecordTableViewCell ??  ExchangeRecordTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"exchangeRecordId")
             cell.updateCell(model:model)
             return cell
         })
@@ -51,7 +49,7 @@ extension IntegralRecordViewController:Refreshable{
         table.rx.setDelegate(self).disposed(by:rx_disposeBag)
 
         //绑定数据
-        vm.integralRecordBR.asObservable().map({ [weak self] (dic) in
+        vm.exchangeRecordBR.asObservable().map({ [weak self] (dic) in
             let emptyDataType=dic.keys.first ?? .noData
             self?.emptyDataType = emptyDataType
             return dic[emptyDataType] ?? []
@@ -59,20 +57,20 @@ extension IntegralRecordViewController:Refreshable{
 
         ///刷新
         let refreshHeader=initRefreshHeader(table) { [weak self] in
-            self?.vm.requestIntegralRecordPS.onNext(true)
+            self?.vm.requestExchangeRecordPS.onNext(true)
 
         }
         ///加载更多
         let refreshFooter=initRefreshFooter(table) { [weak self] in
-            self?.vm.requestIntegralRecordPS.onNext(false)
+            self?.vm.requestExchangeRecordPS.onNext(false)
         }
         ///自动匹配当前刷新状态
         vm.autoSetRefreshHeaderStatus(header:refreshHeader, footer: refreshFooter).disposed(by:rx_disposeBag)
     }
 }
 
-extension IntegralRecordViewController:UITableViewDelegate{
+extension ExchangeRecordViewController:UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 75
+        return 120
     }
 }

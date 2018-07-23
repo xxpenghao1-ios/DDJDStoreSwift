@@ -29,7 +29,7 @@ class IntegralStoreViewController:BaseViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title="积分商城"
+        self.title="点单商城"
         setUI()
         bindViewModel()
     }
@@ -37,7 +37,7 @@ class IntegralStoreViewController:BaseViewController{
     ///设置ui
     private func setUI(){
 
-        let rightItem=UIBarButtonItem(title:"兑换记录", style: .done, target:self, action:#selector(pushIntegralRecordVC))
+        let rightItem=UIBarButtonItem(title:"兑换记录", style: .done, target:self, action:#selector(pushExchangeRecordVC))
         rightItem.tintColor=UIColor.color333()
         self.navigationItem.rightBarButtonItem=rightItem
 
@@ -64,9 +64,10 @@ class IntegralStoreViewController:BaseViewController{
 
     }
 
-    ///跳转到积分记录页面
-    @objc private func pushIntegralRecordVC(){
-
+    ///跳转到兑换记录页面
+    @objc private func pushExchangeRecordVC(){
+        let vc=ExchangeRecordViewController()
+        self.navigationController?.pushViewController(vc, animated:true)
     }
 }
 

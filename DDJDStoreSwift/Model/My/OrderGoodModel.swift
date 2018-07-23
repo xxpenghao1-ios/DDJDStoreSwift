@@ -22,6 +22,8 @@ struct OrderGoodModel:Mappable{
     var goodUnit:String?
     ///商品是否可以退换
     var returnGoodsFlag:Int?
+    //商品的状态 ；  1特价，2普通,3促销
+    var flag:Int?
     init?(map: Map) {
 
     }
@@ -32,5 +34,6 @@ struct OrderGoodModel:Mappable{
         goodsUprice <- map["goodsUprice"]
         goodUnit <- map["goodUnit"]
         returnGoodsFlag <- map["returnGoodsFlag"]
+        flag <- map["flag"]
     }
 }

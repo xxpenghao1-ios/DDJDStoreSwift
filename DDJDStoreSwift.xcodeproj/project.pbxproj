@@ -165,6 +165,11 @@
 		63BD7E4620EB4CB000C01219 /* MyOrderCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BD7E4520EB4CB000C01219 /* MyOrderCollectionViewCell.swift */; };
 		63BD7E4920EB508300C01219 /* MyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BD7E4820EB508300C01219 /* MyViewModel.swift */; };
 		63BD7E5020EB5A0400C01219 /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 63BD7E4E20EB5A0400C01219 /* UINavigationBar+Awesome.m */; };
+		63E8D63D2105EFDD004EEE9F /* IntegralRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E8D63C2105EFDD004EEE9F /* IntegralRecordTableViewCell.swift */; };
+		63E8D63F2105F758004EEE9F /* ExchangeRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E8D63E2105F758004EEE9F /* ExchangeRecordViewController.swift */; };
+		63E8D6412105F84C004EEE9F /* ExchangeRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E8D6402105F84C004EEE9F /* ExchangeRecordModel.swift */; };
+		63E8D6442105FC91004EEE9F /* ExchangeRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E8D6422105FC91004EEE9F /* ExchangeRecordTableViewCell.swift */; };
+		63E8D6452105FC91004EEE9F /* ExchangeRecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E8D6432105FC91004EEE9F /* ExchangeRecordTableViewCell.xib */; };
 		63FBEE392091746B00BE6B81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE382091746B00BE6B81 /* AppDelegate.swift */; };
 		63FBEE3E2091746C00BE6B81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63FBEE3C2091746C00BE6B81 /* Main.storyboard */; };
 		63FBEE412091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE3F2091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld */; };
@@ -361,6 +366,11 @@
 		63BD7E4820EB508300C01219 /* MyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyViewModel.swift; sourceTree = "<group>"; };
 		63BD7E4C20EB5A0400C01219 /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
 		63BD7E4E20EB5A0400C01219 /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
+		63E8D63C2105EFDD004EEE9F /* IntegralRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegralRecordTableViewCell.swift; sourceTree = "<group>"; };
+		63E8D63E2105F758004EEE9F /* ExchangeRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRecordViewController.swift; sourceTree = "<group>"; };
+		63E8D6402105F84C004EEE9F /* ExchangeRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRecordModel.swift; sourceTree = "<group>"; };
+		63E8D6422105FC91004EEE9F /* ExchangeRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRecordTableViewCell.swift; sourceTree = "<group>"; };
+		63E8D6432105FC91004EEE9F /* ExchangeRecordTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeRecordTableViewCell.xib; sourceTree = "<group>"; };
 		63FBEE352091746B00BE6B81 /* DDJDStoreSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDJDStoreSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63FBEE382091746B00BE6B81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63FBEE3D2091746C00BE6B81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -447,6 +457,7 @@
 				6322DD0221057A4100E1B7F4 /* IntegralStoreViewController.swift */,
 				6322DD0421057C9C00E1B7F4 /* IntegralStore.storyboard */,
 				633EA3082105D2BE00BDF948 /* IntegralRecordViewController.swift */,
+				63E8D63E2105F758004EEE9F /* ExchangeRecordViewController.swift */,
 			);
 			path = IntegralStore;
 			sourceTree = "<group>";
@@ -464,6 +475,9 @@
 			children = (
 				6322DD0C2105A74300E1B7F4 /* IntegralGoodCollectionViewCell.swift */,
 				6322DD0D2105A74300E1B7F4 /* IntegralGoodCollectionViewCell.xib */,
+				63E8D63C2105EFDD004EEE9F /* IntegralRecordTableViewCell.swift */,
+				63E8D6422105FC91004EEE9F /* ExchangeRecordTableViewCell.swift */,
+				63E8D6432105FC91004EEE9F /* ExchangeRecordTableViewCell.xib */,
 			);
 			path = Integral;
 			sourceTree = "<group>";
@@ -997,6 +1011,7 @@
 				63B3F6CD210322E8001268C8 /* OrderCountModel.swift */,
 				6322DD092105A1F900E1B7F4 /* IntegralGoodModel.swift */,
 				633EA30A2105D37C00BDF948 /* IntegralRecordModel.swift */,
+				63E8D6402105F84C004EEE9F /* ExchangeRecordModel.swift */,
 			);
 			path = My;
 			sourceTree = "<group>";
@@ -1381,6 +1396,7 @@
 				634F06672101B52300F56684 /* AddressListTableViewCell.xib in Resources */,
 				634EF25A20F8500400A6FFCD /* PromotionGoodTableViewCell.xib in Resources */,
 				6347166220FEC4EA009CFDDA /* Car.storyboard in Resources */,
+				63E8D6452105FC91004EEE9F /* ExchangeRecordTableViewCell.xib in Resources */,
 				634DB1DE20E7721600D5016A /* Classify.storyboard in Resources */,
 				634F06522101704500F56684 /* PlaceOrder.storyboard in Resources */,
 				63B3F6C62102D1DB001268C8 /* checked.png in Resources */,
@@ -1507,6 +1523,7 @@
 				638F77D420FDCEC7007F3FCA /* LBXScanLineAnimation.swift in Sources */,
 				634DB1DC20E7707500D5016A /* ClassifyViewController.swift in Sources */,
 				639B5A6720F35DFB005CA571 /* CarAPI.swift in Sources */,
+				63E8D6442105FC91004EEE9F /* ExchangeRecordTableViewCell.swift in Sources */,
 				633D0ABA20DE278E0022A4D9 /* IndexHotGoodCollectionViewCell.swift in Sources */,
 				630E2EA220F2E8AA00884E79 /*  GoodDetailViewController.swift in Sources */,
 				6356EA4420FC45AC0021DF6F /* SearchCollectionViewCell.swift in Sources */,
@@ -1524,6 +1541,7 @@
 				63BD7E4620EB4CB000C01219 /* MyOrderCollectionViewCell.swift in Sources */,
 				637FAEE620EDA87B00299D29 /* OrderViewModel.swift in Sources */,
 				633F8CC620CF59BC00D227AF /* ForgotPasswordViewController.swift in Sources */,
+				63E8D63D2105EFDD004EEE9F /* IntegralRecordTableViewCell.swift in Sources */,
 				638A26AB20EC998400170762 /* MessageModel.swift in Sources */,
 				633F8CC920CF5A5B00D227AF /* IndexViewController.swift in Sources */,
 				633F8CD320CF66CF00D227AF /* WRCycleCell.swift in Sources */,
@@ -1603,6 +1621,7 @@
 				634DB1D520E7636C00D5016A /* ClassifyPageViewController.swift in Sources */,
 				634F06622101B46200F56684 /* AddressModel.swift in Sources */,
 				63FBEE6E209178CC00BE6B81 /* PHRequest.swift in Sources */,
+				63E8D63F2105F758004EEE9F /* ExchangeRecordViewController.swift in Sources */,
 				63A989F820EF1F6C005AD5BB /* Date.swift in Sources */,
 				630E2EA620F301BF00884E79 /* GoodDetailViewModel.swift in Sources */,
 				63388BFC20C6392A006713AA /* NSObject.swift in Sources */,
@@ -1610,6 +1629,7 @@
 				634EF26820F8A0AC00A6FFCD /* GoodListViewModel.swift in Sources */,
 				638A269A20EC4D9700170762 /* MyMenuCollectionViewCell.swift in Sources */,
 				638F77D220FDCEC7007F3FCA /* LBXScanView.swift in Sources */,
+				63E8D6412105F84C004EEE9F /* ExchangeRecordModel.swift in Sources */,
 				6380069620F05CC600D39044 /* GoodAPI.swift in Sources */,
 				637FAEEA20EDADAD00299D29 /* OrderViewController.swift in Sources */,
 				634DB1E320E7798F00D5016A /* GoodClassifyTableViewCell.swift in Sources */,

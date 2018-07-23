@@ -77,7 +77,6 @@ extension PromotionPageViewController{
         self.titleSizeSelected = 15;
         self.menuItemWidth=80
         self.progressHeight=2
-        self.pageAnimatable=true
         self.titleColorNormal = UIColor.color333()
     }
 }
