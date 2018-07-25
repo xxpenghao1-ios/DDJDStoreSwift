@@ -13,16 +13,19 @@ import RxSwift
 class PlaceOrderViewModel:NSObject{
 
     //保存代金券使用下限
-    var cashcouponLowerLimitOfUseBS=BehaviorRelay<Int>(value:0)
+    var cashcouponLowerLimitOfUseBR=BehaviorRelay<Int>(value:0)
 
     //保存是否开启可以使用代金券 默认2关闭,1开启
-    var cashcouponStatuBS=BehaviorRelay<Int>(value:2)
+    var cashcouponStatuBR=BehaviorRelay<Int>(value:2)
 
     //分站店铺积分获取是否开启； 1开启，2关闭；
-    var subStationBalanceStatuBS=BehaviorRelay<Int>(value:2)
+    var subStationBalanceStatuBR=BehaviorRelay<Int>(value:2)
 
     ///下单 true成功
     var submitSuccessBR=BehaviorRelay<Bool>(value:false)
+
+    ///保存选择中代金券信息
+    var selectedVouchersModelBR=BehaviorRelay<VouchersModel?>(value:nil)
 
     override init() {
         super.init()
@@ -71,8 +74,8 @@ class PlaceOrderViewModel:NSObject{
         PHRequest.shared.requestJSONObject(target:MyAPI.querySubStationCC(substationId:substation_Id!)).subscribe(onNext: { [weak self] (result) in
             switch result{
             case let .success(json:json):
-                self?.cashcouponLowerLimitOfUseBS.accept(json["cashcouponLowerLimitOfUse"].intValue)
-                self?.cashcouponStatuBS.accept(json["cashcouponStatu"].intValue)
+                self?.cashcouponLowerLimitOfUseBR.accept(json["cashcouponLowerLimitOfUse"].intValue)
+                self?.cashcouponStatuBR.accept(json["cashcouponStatu"].intValue)
                 phLog("店铺代金券使用下限\(json["cashcouponLowerLimitOfUse"].intValue)")
                 phLog("店铺是否可以使用代金券\(json["cashcouponStatu"].intValue)")
                 break
@@ -88,7 +91,7 @@ class PlaceOrderViewModel:NSObject{
             switch result{
             case let .success(json:json):
                 let flag=json["substationEntity"]["subStationBalanceStatu"].intValue
-                self?.subStationBalanceStatuBS.accept(flag)
+                self?.subStationBalanceStatuBR.accept(flag)
                 phLog("店铺是否可以获取积分\(flag)")
                 break
             default:break

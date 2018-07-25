@@ -256,15 +256,31 @@ extension MyViewController{
             let vc=AddressListViewController()
             pushVC(vc:vc)
             break
+        case 1:
+            ///购买记录
+            let vc=PurchaseRecordsViewController()
+            pushVC(vc:vc)
+            break
         case 2:
             ///点单商城
             let vc=UIStoryboard.init(name:"IntegralStore", bundle:nil).instantiateViewController(withIdentifier:"IntegralStoreVC") as! IntegralStoreViewController
+            pushVC(vc:vc)
+            break
+        case 3:
+            ///商品收藏
+            let vc=CollectionGoodViewController()
+            vc.hidesBottomBarWhenPushed=true
             pushVC(vc:vc)
             break
         case 4:
             ///我的消息
             let vc=MessageViewController()
             pushVC(vc:vc)
+            break
+        case 5:
+            ///代金券
+            let vc=VouchersViewController()
+            pushVC(vc: vc)
             break
         case 6:
             //联系客服

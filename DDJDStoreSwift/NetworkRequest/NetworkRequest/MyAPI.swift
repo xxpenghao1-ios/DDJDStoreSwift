@@ -36,12 +36,17 @@ public enum MyAPI{
     case storeQueryMemberIntegralV1(memberId:String,currentPage:Int,pageSize:Int)
     ///兑换记录
     case queryIntegralMallExchangeRecord(memberId:String,pageSize:Int,currentPage:Int)
+    ///购买历史
+    case queryStorePurchaseRecord(memberId:String,pageSize:Int,currentPage:Int)
+    ///代金券
+    case queryStoreCashCoupon(storeId:String,pageSize:Int,currentPage:Int)
+    
 }
 extension MyAPI:TargetType{
     //请求URL
     public var baseURL:URL{
         switch self {
-        case .querySubStationCC(_):
+        case .querySubStationCC(_),.queryStoreCashCoupon(_,_,_):
             return Foundation.URL(string:HTTP_URL.components(separatedBy:"/front/")[0])!
         default:return Foundation.URL(string:HTTP_URL)!
             
@@ -75,12 +80,16 @@ extension MyAPI:TargetType{
             return "storeQueryMemberIntegralV1.xhtml"
         case .queryIntegralMallExchangeRecord(_,_,_):
             return "queryIntegralMallExchangeRecord.xhtml"
+        case .queryStorePurchaseRecord(_,_,_):
+            return "queryStorePurchaseRecord.sc"
+        case .queryStoreCashCoupon(_,_,_):
+            return "cc/queryStoreCashCoupon"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .queryMessageToStore(_,_,_),.querySubStationCC(_),.queryStoreMember(_,_),.queryStoreShippAddressforAndroid(_),.deleteStoreShippAddressforAndroid(_),.integralMallExchange(_,_,_),.queryMemberIntegral(_),.queryIntegralMallForSubStation(_,_,_),.storeQueryMemberIntegralV1(_,_,_),.queryIntegralMallExchangeRecord(_,_,_):
+        case .queryMessageToStore(_,_,_),.querySubStationCC(_),.queryStoreMember(_,_),.queryStoreShippAddressforAndroid(_),.deleteStoreShippAddressforAndroid(_),.integralMallExchange(_,_,_),.queryMemberIntegral(_),.queryIntegralMallForSubStation(_,_,_),.storeQueryMemberIntegralV1(_,_,_),.queryIntegralMallExchangeRecord(_,_,_),.queryStorePurchaseRecord(_,_,_),.queryStoreCashCoupon(_,_,_):
             return .get
         case .updateStoreShippAddressforAndroid(_,_,_,_,_,_,_,_,_),.addStoreShippAddressforAndroid(_,_,_,_,_,_,_,_),.complaintsAndSuggestions(_,_):
             return .post
@@ -119,6 +128,10 @@ extension MyAPI:TargetType{
             return .requestParameters(parameters:["memberId":memberId,"currentPage":currentPage,"pageSize":pageSize], encoding:  URLEncoding.default)
         case let .queryIntegralMallExchangeRecord(memberId, pageSize, currentPage):
             return .requestParameters(parameters:["memberId":memberId,"pageSize":pageSize,"currentPage":currentPage], encoding:  URLEncoding.default)
+        case let .queryStorePurchaseRecord(memberId, pageSize, currentPage):
+            return .requestParameters(parameters:["memberId":memberId,"pageSize":pageSize,"currentPage":currentPage], encoding:  URLEncoding.default)
+        case let .queryStoreCashCoupon(storeId, pageSize, currentPage):
+            return .requestParameters(parameters:["storeId":storeId,"pageSize":pageSize,"currentPage":currentPage], encoding: URLEncoding.default)
         }
     }
 

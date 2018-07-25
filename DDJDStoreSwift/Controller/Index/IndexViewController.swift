@@ -277,6 +277,11 @@ extension IndexViewController{
                 let vc=UIStoryboard.init(name:"IntegralStore", bundle:nil).instantiateViewController(withIdentifier:"IntegralStoreVC") as! IntegralStoreViewController
                 vc.hidesBottomBarWhenPushed=true
                 self?.navigationController?.pushViewController(vc, animated:true)
+            }else if model.categoryType == 1{
+                ///购买记录
+                let vc=PurchaseRecordsViewController()
+                vc.hidesBottomBarWhenPushed=true
+                self?.navigationController?.pushViewController(vc, animated:true)
             }else{
                 let vc=ClassifyPageViewController()
                 vc.model=model

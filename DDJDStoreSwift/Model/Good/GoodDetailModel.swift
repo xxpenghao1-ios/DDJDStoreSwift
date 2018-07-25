@@ -14,6 +14,8 @@ class GoodDetailModel:Mappable{
     var supplierId:Int?
     ///商品id
     var goodsbasicinfoId:Int?
+    ///促销商品id
+    var collectionGoodId:Int?
     var goodsId:Int? //也是商品id
     ///商品名称
     var goodInfoName:String?
@@ -85,6 +87,12 @@ class GoodDetailModel:Mappable{
     var carNumber:Int?
     ///购物车商品总价
     var goodsSumMoney:String?
+    ///收藏供应商id
+    var collectionSupplierId:Int?
+    ///收藏配送商id
+    var collectionSubSupplierId:Int?
+    ///配送商品价格
+    var subSupplierUprice:String?
     init(){}
     required init?(map: Map) {
 
@@ -92,6 +100,7 @@ class GoodDetailModel:Mappable{
     func mapping(map: Map) {
         supplierId <- map["supplierId"]
         goodsbasicinfoId <- map["goodsbasicinfoId"]
+        collectionGoodId <- map["collectionGoodId"]
         goodsId <- map["goodsId"]
         goodInfoName <- map["goodInfoName"]
         remark <- map["remark"]
@@ -127,5 +136,8 @@ class GoodDetailModel:Mappable{
         flag <- map["flag"]
         carNumber <- map["carNumber"]
         goodsSumMoney <- map["goodsSumMoney"]
+        collectionSupplierId <- map["collectionSupplierId"]
+        collectionSubSupplierId <- map["collectionSubSupplierId"]
+        subSupplierUprice <- map["subSupplierUprice"]
     }
 }

@@ -122,6 +122,8 @@ extension GoodDetailViewController{
                 self?.addCarVM.queryCarSumCountPS.onNext(true)
                 self?.setData(model:model!)
             }
+        },onError:{ [weak self] (_) in ///获取订单详情出错 返回上一页
+            self?.navigationController?.popViewController(animated:true)
         }).disposed(by:rx_disposeBag)
 
         ///加入购物车
@@ -130,7 +132,11 @@ extension GoodDetailViewController{
             if weakSelf == nil{
                 return
             }
-            weakSelf!.addCarVM.addCarPS.onNext(Int(weakSelf!.stepper.value))
+            if weakSelf!.stepper.value == 0{
+                PHProgressHUD.showInfo("加入商品数量不能为0")
+            }else{
+                weakSelf!.addCarVM.addCarPS.onNext(Int(weakSelf!.stepper.value))
+            }
         }).disposed(by:rx_disposeBag)
 
         ///更新购物车item按钮数量
@@ -202,7 +208,7 @@ extension GoodDetailViewController{
     ///加入收藏
     @objc private func addCollection(){
         if vm.goodDetailBR.value?.goodsCollectionStatu == 1{
-            PHProgressHUD.showInfo("该商品已经收藏了")
+            vm.cancelCollectionPS.onNext(true)
         }else{
            ///发送加入收藏请求
            vm.addCollectionPS.onNext(true)

@@ -25,6 +25,9 @@ class GoodDetailViewModel:NSObject{
     ///加入收藏
     var addCollectionPS=PublishSubject<Bool>()
 
+    ///取消收藏
+    var cancelCollectionPS=PublishSubject<Bool>()
+
     ///商品详情flag   1特价，2普通,3促销
     init(model:GoodDetailModel,goodDetailflag:Int) {
         super.init()
@@ -37,6 +40,11 @@ class GoodDetailViewModel:NSObject{
             if b{
                 self?.addCollection()
             }
+        }).disposed(by:rx_disposeBag)
+
+        ///取消收藏
+        cancelCollectionPS.subscribe(onNext: { [weak self] (_) in
+            self?.cancelCollection()
         }).disposed(by:rx_disposeBag)
     }
 
@@ -109,4 +117,31 @@ extension GoodDetailViewModel{
             }
         }).disposed(by:rx_disposeBag)
     }
+    
+    ///取消收藏
+    private func cancelCollection(){
+        let model=goodDetailBR.value
+        PHProgressHUD.showLoading("请稍后...")
+        PHRequest.shared.requestJSONObject(target:GoodAPI.goodsCancelCollection(memberId:member_Id!, goodId:model?.goodsbasicinfoId ?? 0)).debug().subscribe(onNext: { [weak self] (result) in
+            switch result{
+            case let .success(json:json):
+                let success = json["success"].stringValue
+                if success == "success"{
+                    PHProgressHUD.showSuccess("取消收藏成功")
+                    model?.goodsCollectionStatu=2
+                }else{
+                    PHProgressHUD.showSuccess("取消收藏失败")
+                    model?.goodsCollectionStatu=1
+                }
+                self?.goodDetailBR.accept(model)
+                break
+            default:
+                PHProgressHUD.showSuccess("取消收藏失败")
+                break
+            }
+            }, onError: { (error) in
+                phLog("取消收藏错误")
+        }).disposed(by:rx_disposeBag)
+    }
+
 }

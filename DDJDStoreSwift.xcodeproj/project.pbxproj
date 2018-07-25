@@ -15,6 +15,16 @@
 		630E2EA620F301BF00884E79 /* GoodDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630E2EA520F301BF00884E79 /* GoodDetailViewModel.swift */; };
 		630E2EA820F30A9D00884E79 /* GoodDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630E2EA720F30A9D00884E79 /* GoodDetailModel.swift */; };
 		630E2EC420F312C400884E79 /* GoodDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630E2EC320F312C400884E79 /* GoodDetail.storyboard */; };
+		63101CB32107FFB9008C5CC7 /* CollectionGoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63101CB22107FFB9008C5CC7 /* CollectionGoodViewController.swift */; };
+		63101CB62108013A008C5CC7 /* CollectionGoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63101CB52108013A008C5CC7 /* CollectionGoodViewModel.swift */; };
+		63196933210846DF00955768 /* PurchaseRecordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63196932210846DF00955768 /* PurchaseRecordsViewController.swift */; };
+		631969362108495F00955768 /* PurchaseRecordsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631969352108495F00955768 /* PurchaseRecordsViewModel.swift */; };
+		6319693A2108526D00955768 /* PurchaseRecordsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631969382108526D00955768 /* PurchaseRecordsTableViewCell.swift */; };
+		6319693B2108526D00955768 /* PurchaseRecordsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 631969392108526D00955768 /* PurchaseRecordsTableViewCell.xib */; };
+		6319693E2108590400955768 /* VouchersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6319693D2108590400955768 /* VouchersViewController.swift */; };
+		631969412108597300955768 /* VouchersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631969402108597300955768 /* VouchersViewModel.swift */; };
+		6319694521085BD700955768 /* VouchersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6319694321085BD700955768 /* VouchersTableViewCell.swift */; };
+		6319694621085BD700955768 /* VouchersTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6319694421085BD700955768 /* VouchersTableViewCell.xib */; };
 		6322DD0321057A4100E1B7F4 /* IntegralStoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6322DD0221057A4100E1B7F4 /* IntegralStoreViewController.swift */; };
 		6322DD0521057C9C00E1B7F4 /* IntegralStore.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6322DD0421057C9C00E1B7F4 /* IntegralStore.storyboard */; };
 		6322DD08210585E500E1B7F4 /* IntegralViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6322DD07210585E500E1B7F4 /* IntegralViewModel.swift */; };
@@ -212,6 +222,16 @@
 		630E2EA520F301BF00884E79 /* GoodDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodDetailViewModel.swift; sourceTree = "<group>"; };
 		630E2EA720F30A9D00884E79 /* GoodDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodDetailModel.swift; sourceTree = "<group>"; };
 		630E2EC320F312C400884E79 /* GoodDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GoodDetail.storyboard; sourceTree = "<group>"; };
+		63101CB22107FFB9008C5CC7 /* CollectionGoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGoodViewController.swift; sourceTree = "<group>"; };
+		63101CB52108013A008C5CC7 /* CollectionGoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGoodViewModel.swift; sourceTree = "<group>"; };
+		63196932210846DF00955768 /* PurchaseRecordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseRecordsViewController.swift; sourceTree = "<group>"; };
+		631969352108495F00955768 /* PurchaseRecordsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseRecordsViewModel.swift; sourceTree = "<group>"; };
+		631969382108526D00955768 /* PurchaseRecordsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseRecordsTableViewCell.swift; sourceTree = "<group>"; };
+		631969392108526D00955768 /* PurchaseRecordsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PurchaseRecordsTableViewCell.xib; sourceTree = "<group>"; };
+		6319693D2108590400955768 /* VouchersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VouchersViewController.swift; sourceTree = "<group>"; };
+		631969402108597300955768 /* VouchersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VouchersViewModel.swift; sourceTree = "<group>"; };
+		6319694321085BD700955768 /* VouchersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VouchersTableViewCell.swift; sourceTree = "<group>"; };
+		6319694421085BD700955768 /* VouchersTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VouchersTableViewCell.xib; sourceTree = "<group>"; };
 		6322DD0221057A4100E1B7F4 /* IntegralStoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegralStoreViewController.swift; sourceTree = "<group>"; };
 		6322DD0421057C9C00E1B7F4 /* IntegralStore.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = IntegralStore.storyboard; sourceTree = "<group>"; };
 		6322DD07210585E500E1B7F4 /* IntegralViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegralViewModel.swift; sourceTree = "<group>"; };
@@ -449,6 +469,72 @@
 				630E2EA520F301BF00884E79 /* GoodDetailViewModel.swift */,
 			);
 			path = GoodDetail;
+			sourceTree = "<group>";
+		};
+		63101CB12107FF9E008C5CC7 /* CollectionGood */ = {
+			isa = PBXGroup;
+			children = (
+				63101CB22107FFB9008C5CC7 /* CollectionGoodViewController.swift */,
+			);
+			path = CollectionGood;
+			sourceTree = "<group>";
+		};
+		63101CB421080129008C5CC7 /* CollectionGood */ = {
+			isa = PBXGroup;
+			children = (
+				63101CB52108013A008C5CC7 /* CollectionGoodViewModel.swift */,
+			);
+			path = CollectionGood;
+			sourceTree = "<group>";
+		};
+		63196931210846C600955768 /* PurchaseRecords */ = {
+			isa = PBXGroup;
+			children = (
+				63196932210846DF00955768 /* PurchaseRecordsViewController.swift */,
+			);
+			path = PurchaseRecords;
+			sourceTree = "<group>";
+		};
+		631969342108495000955768 /* PurchaseRecords */ = {
+			isa = PBXGroup;
+			children = (
+				631969352108495F00955768 /* PurchaseRecordsViewModel.swift */,
+			);
+			path = PurchaseRecords;
+			sourceTree = "<group>";
+		};
+		631969372108525C00955768 /* PurchaseRecords */ = {
+			isa = PBXGroup;
+			children = (
+				631969382108526D00955768 /* PurchaseRecordsTableViewCell.swift */,
+				631969392108526D00955768 /* PurchaseRecordsTableViewCell.xib */,
+			);
+			path = PurchaseRecords;
+			sourceTree = "<group>";
+		};
+		6319693C210858F700955768 /* Vouchers */ = {
+			isa = PBXGroup;
+			children = (
+				6319693D2108590400955768 /* VouchersViewController.swift */,
+			);
+			path = Vouchers;
+			sourceTree = "<group>";
+		};
+		6319693F2108595B00955768 /* Vouchers */ = {
+			isa = PBXGroup;
+			children = (
+				631969402108597300955768 /* VouchersViewModel.swift */,
+			);
+			path = Vouchers;
+			sourceTree = "<group>";
+		};
+		6319694221085BC900955768 /* Vouchers */ = {
+			isa = PBXGroup;
+			children = (
+				6319694321085BD700955768 /* VouchersTableViewCell.swift */,
+				6319694421085BD700955768 /* VouchersTableViewCell.xib */,
+			);
+			path = Vouchers;
 			sourceTree = "<group>";
 		};
 		6322DD0121057A1100E1B7F4 /* IntegralStore */ = {
@@ -959,6 +1045,7 @@
 		6380069C20F06B6500D39044 /* Good */ = {
 			isa = PBXGroup;
 			children = (
+				631969372108525C00955768 /* PurchaseRecords */,
 				634EF26120F89BE600A6FFCD /* GoodList */,
 				634EF25620F84FF100A6FFCD /* PromotionGood */,
 				6346E8B620F4941600E844F1 /* SpecialGood */,
@@ -1112,6 +1199,9 @@
 		63BD7E4120EB179700C01219 /* My */ = {
 			isa = PBXGroup;
 			children = (
+				6319693C210858F700955768 /* Vouchers */,
+				63196931210846C600955768 /* PurchaseRecords */,
+				63101CB12107FF9E008C5CC7 /* CollectionGood */,
 				6322DD0121057A1100E1B7F4 /* IntegralStore */,
 				634F065B2101B1BB00F56684 /* Address */,
 				637FAEDF20EDA48B00299D29 /* Order */,
@@ -1126,6 +1216,7 @@
 		63BD7E4420EB4C7500C01219 /* My */ = {
 			isa = PBXGroup;
 			children = (
+				6319694221085BC900955768 /* Vouchers */,
 				6322DD0B2105A72400E1B7F4 /* Integral */,
 				634F06632101B51000F56684 /* Address */,
 				637FAEEB20EDB1E400299D29 /* Order */,
@@ -1139,6 +1230,9 @@
 		63BD7E4720EB507400C01219 /* My */ = {
 			isa = PBXGroup;
 			children = (
+				6319693F2108595B00955768 /* Vouchers */,
+				631969342108495000955768 /* PurchaseRecords */,
+				63101CB421080129008C5CC7 /* CollectionGood */,
 				6322DD06210585BA00E1B7F4 /* Integral */,
 				634F065E2101B3F300F56684 /* Address */,
 				637FAEE420EDA84A00299D29 /* Order */,
@@ -1373,6 +1467,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6319693B2108526D00955768 /* PurchaseRecordsTableViewCell.xib in Resources */,
 				63B3F6C92102D1DB001268C8 /* unchecked@3x.png in Resources */,
 				63A989F620EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib in Resources */,
 				63B3F6CC2102D1DB001268C8 /* checked@2x.png in Resources */,
@@ -1400,6 +1495,7 @@
 				634DB1DE20E7721600D5016A /* Classify.storyboard in Resources */,
 				634F06522101704500F56684 /* PlaceOrder.storyboard in Resources */,
 				63B3F6C62102D1DB001268C8 /* checked.png in Resources */,
+				6319694621085BD700955768 /* VouchersTableViewCell.xib in Resources */,
 				6347166720FEC76D009CFDDA /* CarTableViewCell.xib in Resources */,
 				634EF26520F89C0000A6FFCD /* GoodListTableViewCell.xib in Resources */,
 				63B3F6CB2102D1DB001268C8 /* checked@3x.png in Resources */,
@@ -1531,6 +1627,7 @@
 				6350F8B820E3759900176219 /* MJRefresh+Rx.swift in Sources */,
 				634DB1DA20E76A7000D5016A /* ClassifyViewModel.swift in Sources */,
 				6322DD0A2105A1F900E1B7F4 /* IntegralGoodModel.swift in Sources */,
+				63101CB62108013A008C5CC7 /* CollectionGoodViewModel.swift in Sources */,
 				6341DB3820944E8A00AC267D /* UIView.swift in Sources */,
 				633EA3092105D2BE00BDF948 /* IntegralRecordViewController.swift in Sources */,
 				63FBEE412091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld in Sources */,
@@ -1549,13 +1646,17 @@
 				6380069420F05A4C00D39044 /* NewGoodViewController.swift in Sources */,
 				638F77D120FDCEC7007F3FCA /* LBXScanNetAnimation.swift in Sources */,
 				63FBEE752091AAFA00BE6B81 /* LoginController.swift in Sources */,
+				63101CB32107FFB9008C5CC7 /* CollectionGoodViewController.swift in Sources */,
 				638F77D520FDCEC7007F3FCA /* LBXScanViewStyle.swift in Sources */,
 				6322DD08210585E500E1B7F4 /* IntegralViewModel.swift in Sources */,
 				634EF25920F8500400A6FFCD /* PromotionGoodTableViewCell.swift in Sources */,
 				634EF26420F89C0000A6FFCD /* GoodListTableViewCell.swift in Sources */,
+				63196933210846DF00955768 /* PurchaseRecordsViewController.swift in Sources */,
 				63B3F6C52102D1DB001268C8 /* ShowAddressViewController.swift in Sources */,
 				6333E75120930C3300CEC3B7 /* UILabel.swift in Sources */,
+				631969412108597300955768 /* VouchersViewModel.swift in Sources */,
 				6350F8BA20E3761700176219 /* MJRefresh.swift in Sources */,
+				6319693E2108590400955768 /* VouchersViewController.swift in Sources */,
 				634EF25E20F899B100A6FFCD /* JNDropDownMenu.swift in Sources */,
 				634DB1D020E7326500D5016A /* Runtime+Extension.swift in Sources */,
 				638006A220F06BC500D39044 /* NewGoodListTableViewCell.swift in Sources */,
@@ -1565,11 +1666,13 @@
 				634F065521017A8500F56684 /* PlaceOrderTableViewCell.swift in Sources */,
 				630E2EA820F30A9D00884E79 /* GoodDetailModel.swift in Sources */,
 				6333E74B2092D23200CEC3B7 /* UITextField.swift in Sources */,
+				631969362108495F00955768 /* PurchaseRecordsViewModel.swift in Sources */,
 				634DB1D220E7557C00D5016A /* AdMessgInfoModel.swift in Sources */,
 				634F065D2101B21400F56684 /* AddressListViewController.swift in Sources */,
 				6322DD0321057A4100E1B7F4 /* IntegralStoreViewController.swift in Sources */,
 				638F77EE20FDE7C5007F3FCA /* CarModel.swift in Sources */,
 				6341DB41209460E900AC267D /* PHProgressHUD.swift in Sources */,
+				6319693A2108526D00955768 /* PurchaseRecordsTableViewCell.swift in Sources */,
 				6322DD0E2105A74300E1B7F4 /* IntegralGoodCollectionViewCell.swift in Sources */,
 				633F8CDA20CFB29500D227AF /* AdvertisingModel.swift in Sources */,
 				638F77D720FDCEC7007F3FCA /* LBXScanWrapper.swift in Sources */,
@@ -1643,6 +1746,7 @@
 				6341DB332094183500AC267D /* StoreModel.swift in Sources */,
 				6350631B2102BBDD00BC21DB /* UISwitch.swift in Sources */,
 				638A26A420EC7C9700170762 /* MyAPI.swift in Sources */,
+				6319694521085BD700955768 /* VouchersTableViewCell.swift in Sources */,
 				637FAEE320EDA5CC00299D29 /* OrderModel.swift in Sources */,
 				637FAEDE20EDA32500299D29 /* OrderAPI.swift in Sources */,
 				634F06662101B52300F56684 /* AddressListTableViewCell.swift in Sources */,

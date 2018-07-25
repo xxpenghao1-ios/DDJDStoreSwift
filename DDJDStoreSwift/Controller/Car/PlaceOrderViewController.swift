@@ -32,7 +32,7 @@ class PlaceOrderViewController:BaseViewController{
     //提交订单
     @IBOutlet weak var btnSubmit: UIButton!
 
-//    private var vouchersModel:
+
     ///买家附言输入框
     private lazy var txtBuyPS:UITextField={
         let _txt=UITextField.buildTxt(font:14, placeholder:"选填,请对本次交易留言", tintColor: UIColor.color666(),keyboardType: UIKeyboardType.default)
@@ -176,14 +176,20 @@ extension PlaceOrderViewController:UITableViewDelegate,UITableViewDataSource{
                 }
             }else if indexPath.row == 3{
                 cell.textLabel!.text="代金券"
-                if vm.cashcouponStatuBS.value == 2{
+                if vm.cashcouponStatuBR.value == 2{
                     cell.detailTextLabel!.text="该区域暂未开通"
                 }else{
+                    if vm.selectedVouchersModelBR.value == nil{///如果还没有代价券信息 提示用户满多少可以使用代金券
+                        cell!.detailTextLabel!.text="满\(vm.cashcouponLowerLimitOfUseBR.value)元可以使用代金券"
+                    }else{///如果有代金券信息  提示满多少 可以减多少元
+                        cell!.detailTextLabel!.text="满\(vm.cashcouponLowerLimitOfUseBR.value)立减\(vm.selectedVouchersModelBR.value!.cashCouponAmountOfMoney ?? 0)元"
+                    }
+
                     cell.accessoryType = .disclosureIndicator
                 }
             }else if indexPath.row == 4{
                 cell.textLabel!.text="积分"
-                if vm.subStationBalanceStatuBS.value == 2{
+                if vm.subStationBalanceStatuBR.value == 2{
                     cell.detailTextLabel!.text="该区域暂未开通"
                 }else{
                     cell.detailTextLabel!.text="本次下单获得\(sumPirce.components(separatedBy:".")[0])积分"
@@ -250,5 +256,17 @@ extension PlaceOrderViewController:UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at:indexPath, animated:true)
+        if indexPath.row == 3{///跳转到代金券页面
+            if vm.cashcouponStatuBR.value == 1{///如果开通了使用代金券功能 跳转
+                let vc=VouchersViewController()
+                vc.orderFlag=1
+                vc.useVouchersClosure={ [weak self] (model) in
+                    ///保存代金券信息
+                    self?.vm.selectedVouchersModelBR.accept(model)
+                }
+                self.navigationController?.pushViewController(vc, animated:true)
+            }
+        }
+
     }
 }
