@@ -11,7 +11,7 @@ import Moya
 ///首页网络请求
 public enum IndexAPI{
     ///幻灯片请求
-    case mobileAdvertising(countyId:String)
+    case mobileAdvertising_v5(subStationId:String)
     ///获取促销/特价 图片
     case mobileAdvertisingPromotionAndPreferential()
     ///首页查询分类
@@ -26,8 +26,8 @@ public enum IndexAPI{
 extension IndexAPI:TargetType{
     public var path: String {
         switch self{
-        case .mobileAdvertising(_):
-            return "mobileAdvertising.xhtml"
+        case .mobileAdvertising_v5(_):
+            return "mobileAdvertising_v5.xhtml"
         case .mobileAdvertisingPromotionAndPreferential():
             return "mobileAdvertisingPromotionAndPreferential.xhtml"
         case .queryOneCategory():
@@ -43,7 +43,7 @@ extension IndexAPI:TargetType{
     }
     public var method: Moya.Method {
         switch self {
-        case .mobileAdvertising(_),.mobileAdvertisingPromotionAndPreferential(),.queryOneCategory(),.queryGoodsForAndroidIndexForStore(_,_,_,_,_),.queryAdMessgInfo(_),.queryGoodsForAndroidIndexForStoreNew(_,_,_,_,_,_):
+        case .mobileAdvertising_v5(_),.mobileAdvertisingPromotionAndPreferential(),.queryOneCategory(),.queryGoodsForAndroidIndexForStore(_,_,_,_,_),.queryAdMessgInfo(_),.queryGoodsForAndroidIndexForStoreNew(_,_,_,_,_,_):
             return .get
         }
     }
@@ -53,8 +53,8 @@ extension IndexAPI:TargetType{
     }
     public var task: Task {
         switch self {
-        case let .mobileAdvertising(countyId):
-            return .requestParameters(parameters:["countyId":countyId],encoding:URLEncoding.default)
+        case let .mobileAdvertising_v5(subStationId):
+            return .requestParameters(parameters:["subStationId":subStationId],encoding:URLEncoding.default)
         case .mobileAdvertisingPromotionAndPreferential():
             return .requestPlain
         case .queryOneCategory():

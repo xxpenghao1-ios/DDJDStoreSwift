@@ -13,6 +13,9 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+//百度移动统计
+#import "BaiduMobStat.h"
+
 ///旋转木马效果
 #import "iCarousel.h"
 

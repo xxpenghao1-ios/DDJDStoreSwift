@@ -36,6 +36,8 @@ extension LoginViewModel:ViewModelType{
         }
     }
     func transform(input: Input) -> Output {
+        /// 获取缓存中的deviceToken
+        let deviceToken=USER_DEFAULTS.object(forKey: "deviceToken") as? String ?? "penghao"
         ///验证登录按钮是否点击
         let loginBtnIsDisable=input.pw.map { (pw) -> Bool in
             return pw.count >= 1 ? true : false
@@ -49,7 +51,7 @@ extension LoginViewModel:ViewModelType{
             }.flatMapLatest { (res)-> Observable<ResponseResult> in
                     PHProgressHUD.showLoading("正在登录...")
                     ///发送网络请求返回结果
-                    return PHRequest.shared.requestJSONObject(target: LoginAndRegisterAPI.login(memberName:res.0, password:res.1, deviceToken:"penghao",deviceName:"ios",flag:2))
+                    return PHRequest.shared.requestJSONObject(target: LoginAndRegisterAPI.login(memberName:res.0, password:res.1, deviceToken:deviceToken,deviceName:UIDevice().name,flag:1))
             }.map({ [unowned self] (result) -> Bool in
                 switch result{
                 case let .success(json):

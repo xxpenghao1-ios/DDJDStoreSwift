@@ -187,6 +187,7 @@
 		63E8D6412105F84C004EEE9F /* ExchangeRecordModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E8D6402105F84C004EEE9F /* ExchangeRecordModel.swift */; };
 		63E8D6442105FC91004EEE9F /* ExchangeRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E8D6422105FC91004EEE9F /* ExchangeRecordTableViewCell.swift */; };
 		63E8D6452105FC91004EEE9F /* ExchangeRecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E8D6432105FC91004EEE9F /* ExchangeRecordTableViewCell.xib */; };
+		63EA4E352109F4580067C004 /* AppDelegateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA4E342109F4580067C004 /* AppDelegateAPI.swift */; };
 		63FBEE392091746B00BE6B81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE382091746B00BE6B81 /* AppDelegate.swift */; };
 		63FBEE3E2091746C00BE6B81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63FBEE3C2091746C00BE6B81 /* Main.storyboard */; };
 		63FBEE412091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE3F2091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld */; };
@@ -415,6 +416,7 @@
 		63E8D6402105F84C004EEE9F /* ExchangeRecordModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRecordModel.swift; sourceTree = "<group>"; };
 		63E8D6422105FC91004EEE9F /* ExchangeRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRecordTableViewCell.swift; sourceTree = "<group>"; };
 		63E8D6432105FC91004EEE9F /* ExchangeRecordTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeRecordTableViewCell.xib; sourceTree = "<group>"; };
+		63EA4E342109F4580067C004 /* AppDelegateAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateAPI.swift; sourceTree = "<group>"; };
 		63FBEE352091746B00BE6B81 /* DDJDStoreSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDJDStoreSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63FBEE382091746B00BE6B81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63FBEE3D2091746C00BE6B81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -750,6 +752,7 @@
 				637FAEDD20EDA32500299D29 /* OrderAPI.swift */,
 				6380069520F05CC600D39044 /* GoodAPI.swift */,
 				639B5A6620F35DFB005CA571 /* CarAPI.swift */,
+				63EA4E342109F4580067C004 /* AppDelegateAPI.swift */,
 			);
 			path = NetworkRequest;
 			sourceTree = "<group>";
@@ -1733,6 +1736,7 @@
 				634EF25920F8500400A6FFCD /* PromotionGoodTableViewCell.swift in Sources */,
 				634EF26420F89C0000A6FFCD /* GoodListTableViewCell.swift in Sources */,
 				63196933210846DF00955768 /* PurchaseRecordsViewController.swift in Sources */,
+				63EA4E352109F4580067C004 /* AppDelegateAPI.swift in Sources */,
 				63B3F6C52102D1DB001268C8 /* ShowAddressViewController.swift in Sources */,
 				6333E75120930C3300CEC3B7 /* UILabel.swift in Sources */,
 				631969412108597300955768 /* VouchersViewModel.swift in Sources */,

@@ -12,8 +12,10 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    /// 主页面
+    /// 主页面 用于更新购物车角标
     var tab:TabBarViewController?
+
+    internal var vm=AppDelegateViewModel()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
@@ -43,6 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidBecomeActive(_ application: UIApplication) {
         JPUSHService.resetBadge()
         application.applicationIconBadgeNumber=0;
+        ///检查用户是否被其他人登录
+        vm.memberDeviceVerificationPS.onNext(true)
+        ///上线
+        vm.addSubStationMemberPS.onNext(true)
     }
     ///接收到推送消息处理
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -59,11 +65,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        ///下线
+        vm.subSubStationMemberPS.onNext(true)
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        //实现一个可以后台运行几分钟的权限, 当用户在后台强制退出程序时就会走applicationWillTerminate 了.
+        UIApplication.shared.beginBackgroundTask(expirationHandler:nil)
+
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -73,6 +84,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
+        ///下线
+        vm.subSubStationMemberPS.onNext(true)
         if #available(iOS 10.0, *) {
             self.saveContext()
         } else {

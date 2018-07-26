@@ -77,7 +77,7 @@ extension IndexViewModel{
     ///获取幻灯片数据
     private func getMobileAdvertising(){
         ///发送网络请求获取
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertising(countyId:county_Id!),model:AdvertisingModel.self).retry(1).subscribe(onNext: { [weak self] (arrModel) in
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertising_v5(subStationId:substation_Id!),model:AdvertisingModel.self).retry(1).subscribe(onNext: { [weak self] (arrModel) in
             self?.advertisingArrModelBR.accept(arrModel)
             },onError: { (error) in
                 phLog("获取幻灯片数据出错:\(error.localizedDescription)")

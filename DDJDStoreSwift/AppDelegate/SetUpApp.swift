@@ -15,7 +15,8 @@ extension AppDelegate{
     
     ///设置app
     internal func setApp(){
-        if store_Id == nil{
+        
+        if member_Id == nil{
             self.jumpToLoginVC()
         }else{
             self.jumpToIndexVC()
@@ -45,7 +46,7 @@ extension AppDelegate{
         //开启键盘框架
         IQKeyboardManager.shared.enable = true
 
-        ///初始化
+        ///初始化 提示框架
         PHProgressHUD.initProgressHUD()
 
         ///图片缓存
@@ -56,9 +57,12 @@ extension AppDelegate{
 
         //监听极光推送自定义消息(只有在前端运行的时候才能收到自定义消息的推送。)
         NotificationCenter.default.addObserver(self, selector:#selector(networkDidReceiveMessage), name:NSNotification.Name.jpfNetworkDidReceiveMessage, object:nil)
-
         //关闭极光推送打印
         JPUSHService.setLogOFF()
+
+        ///百度统计
+        BaiduMobStat.default().start(withAppId:"ec2fbe36a3")
+        BaiduMobStat.default().enableDebugOn=false
     }
 }
 
@@ -85,7 +89,7 @@ extension AppDelegate:JPUSHRegisterDelegate{
             let json=JSON(userInfo!)
             let nmoreMessage=json["extras"]["nmoreMessage"].intValue
             if nmoreMessage == 3{//如果为3 表示该账号在其他设备登录
-
+                vm.memberDeviceVerificationPS.onNext(true)
             }
         }
     }
@@ -93,9 +97,11 @@ extension AppDelegate:JPUSHRegisterDelegate{
     @available(iOS 10.0, *)
     func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
         let userInfo=response.notification.request.content.userInfo
+        PHSpeechSynthesizer().startPlayVoice(str:"点单即到,正在做特价促销活动")
         if (response.notification.request.trigger?.isKind(of:UNPushNotificationTrigger.classForCoder()))!{
             JPUSHService.handleRemoteNotification(userInfo)
             print(userInfo)
+
 
         }
         completionHandler()
@@ -104,9 +110,11 @@ extension AppDelegate:JPUSHRegisterDelegate{
     @available(iOS 10.0, *)
     func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
         let userInfo=notification.request.content.userInfo
+        PHSpeechSynthesizer().startPlayVoice(str:"点单即到,正在做特价促销活动")
         if (notification.request.trigger?.isKind(of:UNPushNotificationTrigger.classForCoder()))!{
             JPUSHService.handleRemoteNotification(userInfo)
             print(userInfo)
+
             //转换为json
 //            let jsonObject=JSON(userInfo);
 

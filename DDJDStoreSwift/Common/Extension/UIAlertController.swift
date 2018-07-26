@@ -17,13 +17,13 @@ extension UIAlertController {
      - parameter message:           弹出内容
      - parameter okButtonTitle:     按钮名称
      */
-    class func showAlertYes(_ presentController: UIViewController!,title: String?,message: String?,okButtonTitle: String?) {
+    class func showAlertYes(_ presentController: UIViewController?,title: String?,message: String?,okButtonTitle: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         if (okButtonTitle != nil) {
             alert.addAction(UIAlertAction(title: okButtonTitle!, style: UIAlertActionStyle.default, handler: nil))
         }
 
-        presentController!.present(alert, animated: true, completion: nil)
+        presentController?.present(alert, animated: true, completion: nil)
     }
     /**
      弹出单个按钮(需要传入一个闭包参数)
@@ -34,13 +34,13 @@ extension UIAlertController {
      - parameter okButtonTitle:     按钮名称
      - parameter okHandler:         闭包参数
      */
-    class func showAlertYes(_ presentController: UIViewController!,title: String?,message:String?,okButtonTitle: String? ,okHandler: ((UIAlertAction?) -> Void)!) {
+    class func showAlertYes(_ presentController: UIViewController?,title: String?,message:String?,okButtonTitle: String? ,okHandler: ((UIAlertAction?) -> Void)!) {
         let alert = UIAlertController(title:title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         if (okButtonTitle != nil) {
             alert.addAction(UIAlertAction(title: okButtonTitle!, style: UIAlertActionStyle.default, handler: okHandler))
         }
 
-        presentController!.present(alert, animated: true, completion: nil)
+        presentController?.present(alert, animated: true, completion: nil)
     }
     /**
      弹出带确定取消的按钮
@@ -51,7 +51,7 @@ extension UIAlertController {
      - parameter okButtonTitle:     确定按钮名称
      - parameter cancelButtonTitle: 取消按钮名称
      */
-    class func showAlertYesNo(_ presentController: UIViewController!,title: String?,message: String?,cancelButtonTitle: String?,okButtonTitle: String?) {
+    class func showAlertYesNo(_ presentController: UIViewController?,title: String?,message: String?,cancelButtonTitle: String?,okButtonTitle: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         if (cancelButtonTitle != nil) {
             alert.addAction(UIAlertAction(title: cancelButtonTitle!, style: UIAlertActionStyle.default, handler: nil))
@@ -60,7 +60,7 @@ extension UIAlertController {
             alert.addAction(UIAlertAction(title: okButtonTitle!, style: UIAlertActionStyle.default, handler: nil))
         }
 
-        presentController!.present(alert, animated: true, completion: nil)
+        presentController?.present(alert, animated: true, completion: nil)
     }
     /**
      弹出带确定取消的按钮(需要传入一个闭包参数)
@@ -72,7 +72,7 @@ extension UIAlertController {
      - parameter cancelButtonTitle: 取消按钮名称
      - parameter okHandler:         闭包参数
      */
-    class func showAlertYesNo(_ presentController: UIViewController!,title: String?,message: String?,cancelButtonTitle: String? ,okButtonTitle: String? ,okHandler: ((UIAlertAction?) -> Void)!) {
+    class func showAlertYesNo(_ presentController: UIViewController?,title: String?,message: String?,cancelButtonTitle: String? ,okButtonTitle: String? ,okHandler: ((UIAlertAction?) -> Void)!) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         if (cancelButtonTitle != nil) {
             alert.addAction(UIAlertAction(title: cancelButtonTitle!, style: UIAlertActionStyle.default, handler: nil))
@@ -80,7 +80,7 @@ extension UIAlertController {
         if (okButtonTitle != nil) {
             alert.addAction(UIAlertAction(title: okButtonTitle!, style: UIAlertActionStyle.default, handler: okHandler))
         }
-        presentController!.present(alert, animated: true, completion: nil)
+        presentController?.present(alert, animated: true, completion: nil)
     }
     /**
      弹出带确定取消的按钮(需要传入2个闭包参数)
@@ -92,7 +92,7 @@ extension UIAlertController {
      - parameter cancelButtonTitle: 取消按钮名称
      - parameter okHandler:         闭包参数
      */
-    class func showAlertYesNo(_ presentController: UIViewController!,title: String?,message: String?,cancelButtonTitle: String? ,okButtonTitle: String? ,okHandler: ((UIAlertAction?) -> Void)!,cancelHandler:((UIAlertAction?) -> Void)!) {
+    class func showAlertYesNo(_ presentController: UIViewController?,title: String?,message: String?,cancelButtonTitle: String? ,okButtonTitle: String? ,okHandler: ((UIAlertAction?) -> Void)!,cancelHandler:((UIAlertAction?) -> Void)!) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
         if (cancelButtonTitle != nil) {
             alert.addAction(UIAlertAction(title: cancelButtonTitle!, style: UIAlertActionStyle.default, handler:cancelHandler))
@@ -100,6 +100,6 @@ extension UIAlertController {
         if (okButtonTitle != nil) {
             alert.addAction(UIAlertAction(title: okButtonTitle!, style: UIAlertActionStyle.default, handler: okHandler))
         }
-        presentController!.present(alert, animated: true, completion: nil)
+        presentController?.present(alert, animated: true, completion: nil)
     }
 }
