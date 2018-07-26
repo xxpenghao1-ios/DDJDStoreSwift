@@ -119,5 +119,6 @@ extension LoginViewModel{
         USER_DEFAULTS.set(model.memberId, forKey:"memberId")
         USER_DEFAULTS.set(model.subStationPhoneNumber, forKey:"subStationPhoneNumber")
         USER_DEFAULTS.synchronize()
+        PHJPushHelper.setTagAndAlias(alias:model.storeId ?? "", tag: model.substationId ?? "")
     }
 }

@@ -16,9 +16,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var tab:TabBarViewController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
         setApp()
+        //开启极光推送
+        PHJPushHelper.setupWithOptions(launchOptions:launchOptions,delegate:self)
         
         return true
+    }
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+
+        //设备标识是NSdata通过截取字符串去掉空格获得字符串保存进缓存 登录发给服务器 用于控制用户只能在一台设备登录
+        let characterSet: CharacterSet = CharacterSet(charactersIn: "<>")
+        let deviceTokenString: String = (deviceToken.description as NSString)
+            .trimmingCharacters(in: characterSet)
+            .replacingOccurrences(of: " ", with: "") as String
+        //把截取的设备令牌保存进缓存
+        USER_DEFAULTS.set(deviceTokenString, forKey:"deviceToken")
+        //写入磁盘
+        USER_DEFAULTS.synchronize()
+        //在appdelegate注册设备处调用
+        JPUSHService.registerDeviceToken(deviceToken)
+
+    }
+    ///后台进入前台
+    func applicationDidBecomeActive(_ application: UIApplication) {
+        JPUSHService.resetBadge()
+        application.applicationIconBadgeNumber=0;
+    }
+    ///接收到推送消息处理
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        // Required, iOS 7 Support
+        JPUSHService.handleRemoteNotification(userInfo)
+        completionHandler(.newData)
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) {
+        //// Required,For systems with less than or equal to iOS6
+        JPUSHService.handleRemoteNotification(userInfo)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -35,10 +70,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    }
-
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
@@ -48,7 +79,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Fallback on earlier versions
         }
     }
-
+    
+    deinit{
+        NotificationCenter.default.removeObserver(self)
+    }
     // MARK: - Core Data stack
     @available(iOS 10.0, *)
     lazy var persistentContainer: NSPersistentContainer = {

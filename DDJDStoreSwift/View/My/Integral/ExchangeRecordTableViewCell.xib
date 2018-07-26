@@ -80,8 +80,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="imgGood" destination="o0h-ev-NO3" id="K61-Pq-PjS"/>
-                <outlet property="lblCount" destination="r1b-Bv-JgC" id="rmU-il-VAN"/>
+                <outlet property="imgGood" destination="o0h-ev-NO3" id="cAg-9f-Xbe"/>
+                <outlet property="lblCount" destination="r1b-Bv-JgC" id="Mop-2m-dfU"/>
                 <outlet property="lblGoodName" destination="zwd-0V-Fqd" id="qfH-RY-kKA"/>
                 <outlet property="lblStatu" destination="hU8-4w-hjp" id="LmC-TJ-7IU"/>
                 <outlet property="lblTime" destination="8aL-mC-e3d" id="Cgj-6v-Zar"/>

@@ -22,8 +22,19 @@ public enum OrderAPI{
     case storeOrderForAndroid(goodsList:String,detailAddress:String,phoneNumber:String,shippName:String,storeId:String,pay_message:String,tag:Int,cashCouponId:Int?)
     ///每种订单的数量
     case queryOrderStatusSumByMemberId(memberId:String)
+    ///店铺对订单进行评价
+    case storeOrderInfoScore(orderInfoId:Int,orderScore:Int?,orderEvaluate:String?,distributionScore:Int?,userServiceScore:Int?,storeId:String)
 }
 extension OrderAPI:TargetType{
+    //请求URL
+    public var baseURL:URL{
+        switch self {
+        case .storeOrderInfoScore:
+            return Foundation.URL(string:HTTP_URL.components(separatedBy:"/front/")[0])!
+        default:return Foundation.URL(string:HTTP_URL)!
+
+        }
+    }
     public var path: String {
         switch self {
         case .queryOrderInfo4AndroidStoreByOrderStatus(_,_,_,_):
@@ -38,6 +49,8 @@ extension OrderAPI:TargetType{
             return "storeOrderForAndroid.xhtml"
         case .queryOrderStatusSumByMemberId(_):
             return "queryOrderStatusSumByMemberId"
+        case .storeOrderInfoScore:
+            return "score/storeOrderInfoScore"
         }
     }
 
@@ -45,7 +58,7 @@ extension OrderAPI:TargetType{
         switch self {
         case .queryOrderInfo4AndroidStoreByOrderStatus(_,_,_,_),.queryOrderInfo4AndroidByorderId(_),.storeCancelOrder(_),.updataOrderStatus4Store(_),.queryOrderStatusSumByMemberId(_):
             return .get
-        case .storeOrderForAndroid(_,_,_,_,_,_,_,_):
+        case .storeOrderForAndroid(_,_,_,_,_,_,_,_),.storeOrderInfoScore:
             return .post
         }
     }
@@ -72,6 +85,8 @@ extension OrderAPI:TargetType{
             }
         case let .queryOrderStatusSumByMemberId(memberId):
             return .requestParameters(parameters:["memberId":memberId], encoding: URLEncoding.default)
+        case let .storeOrderInfoScore(orderInfoId, orderScore, orderEvaluate, distributionScore, userServiceScore, storeId):
+            return .requestParameters(parameters:["orderInfoId":orderInfoId,"orderScore":orderScore ?? 5,"orderEvaluate":orderEvaluate ?? "","distributionScore":distributionScore ?? 5,"userServiceScore":userServiceScore ?? 5,"storeId":storeId], encoding: URLEncoding.default)
         }
     }
     

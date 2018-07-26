@@ -22,7 +22,7 @@ class ExchangeRecordViewController:BaseViewController{
         _table.emptyDataSetDelegate=self
         _table.backgroundColor=UIColor.clear
         _table.separatorInset=UIEdgeInsetsMake(0, 0, 0, 0)
-        _table.register(ExchangeRecordTableViewCell.self, forCellReuseIdentifier:"exchangeRecordId")
+        _table.register(UINib(nibName:"ExchangeRecordTableViewCell", bundle:nil), forCellReuseIdentifier:"exchangeRecordId")
         return _table
     }()
 

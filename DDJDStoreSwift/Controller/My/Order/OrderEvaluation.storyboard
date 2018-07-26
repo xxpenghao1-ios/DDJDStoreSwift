@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Order Evaluation View Controller-->
+        <scene sceneID="WOU-RP-UUd">
+            <objects>
+                <viewController storyboardIdentifier="OrderEvaluationVC" id="a0j-tc-DrI" customClass="OrderEvaluationViewController" customModule="DDJDStoreSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2wK-ym-83G"/>
+                        <viewControllerLayoutGuide type="bottom" id="7tY-1K-5Kp"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="tHT-Vy-1Pi">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ps1-Hj-sOv">
+                                <rect key="frame" x="0.0" y="30" width="320" height="210"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3S5-Qa-El2">
+                                        <rect key="frame" x="0.0" y="70" width="320" height="0.5"/>
+                                        <color key="backgroundColor" red="0.87058823529999996" green="0.87450980389999999" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="0.5" id="Pbu-JW-9JW"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="订单评分 :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FUV-uR-JnU">
+                                        <rect key="frame" x="15" y="25" width="65" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="5KX-KG-V3V"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="d40-6N-Oqp"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LjO-Uf-hdR" customClass="SwiftyStarRatingView" customModule="DDJDStoreSwift" customModuleProvider="target">
+                                        <rect key="frame" x="85" y="23" width="150" height="24"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="QsD-nX-8C3"/>
+                                            <constraint firstAttribute="width" constant="150" id="U70-cs-J0Y"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="emptyStarImage" value="order_evaluation_uncheck"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="filledStarImage" value="order_evaluation_selected"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="minimumValue">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="value">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="spacing">
+                                                <real key="value" value="7"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="allowsHalfStars" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="maximumValue">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Nu7-x0-fY4">
+                                        <rect key="frame" x="15" y="85.5" width="290" height="109.5"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="tintColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="210" id="5Xk-ze-KCO"/>
+                                    <constraint firstItem="FUV-uR-JnU" firstAttribute="leading" secondItem="ps1-Hj-sOv" secondAttribute="leading" constant="15" id="7oe-yD-8lQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="Nu7-x0-fY4" secondAttribute="trailing" constant="15" id="Fws-id-Xfk"/>
+                                    <constraint firstItem="FUV-uR-JnU" firstAttribute="top" secondItem="ps1-Hj-sOv" secondAttribute="top" constant="25" id="Gcm-s3-NHz"/>
+                                    <constraint firstItem="LjO-Uf-hdR" firstAttribute="top" secondItem="ps1-Hj-sOv" secondAttribute="top" constant="23" id="VL2-1B-AHd"/>
+                                    <constraint firstItem="Nu7-x0-fY4" firstAttribute="leading" secondItem="ps1-Hj-sOv" secondAttribute="leading" constant="15" id="W6n-jt-hnK"/>
+                                    <constraint firstItem="3S5-Qa-El2" firstAttribute="leading" secondItem="ps1-Hj-sOv" secondAttribute="leading" id="WxF-37-UcS"/>
+                                    <constraint firstItem="3S5-Qa-El2" firstAttribute="top" secondItem="ps1-Hj-sOv" secondAttribute="top" constant="70" id="b2D-Se-WNI"/>
+                                    <constraint firstAttribute="trailing" secondItem="3S5-Qa-El2" secondAttribute="trailing" id="fmf-fA-tzC"/>
+                                    <constraint firstAttribute="bottom" secondItem="Nu7-x0-fY4" secondAttribute="bottom" constant="15" id="l13-q7-e7Y"/>
+                                    <constraint firstItem="LjO-Uf-hdR" firstAttribute="leading" secondItem="FUV-uR-JnU" secondAttribute="trailing" constant="5" id="pQy-fK-dKh"/>
+                                    <constraint firstItem="Nu7-x0-fY4" firstAttribute="top" secondItem="3S5-Qa-El2" secondAttribute="bottom" constant="15" id="wkC-qZ-cVk"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6RT-Z0-Lw1">
+                                <rect key="frame" x="0.0" y="265" width="320" height="180"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3gx-7W-lEy">
+                                        <rect key="frame" x="15" y="40" width="290" height="0.5"/>
+                                        <color key="backgroundColor" red="0.87058823529999996" green="0.87450980389999999" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="0.5" id="zr3-Nk-EB3"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="016-rs-1O1">
+                                        <rect key="frame" x="15" y="110.5" width="290" height="1"/>
+                                        <color key="backgroundColor" red="0.87058823529999996" green="0.87450980389999999" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="0.5" id="jeX-97-QOb"/>
+                                        </constraints>
+                                    </view>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="order_store_name" translatesAutoresizingMaskIntoConstraints="NO" id="2eE-HY-Mkw">
+                                        <rect key="frame" x="15" y="8" width="24" height="24"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="24" id="9Oh-pt-xTW"/>
+                                            <constraint firstAttribute="height" constant="24" id="g2g-q5-ClX"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="nil" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZLE-sX-UxT">
+                                        <rect key="frame" x="44" y="10" width="42" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="YAy-VJ-GqY"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="qXL-2b-feM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="配送评分 :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nDm-Ra-lAH">
+                                        <rect key="frame" x="15" y="65.5" width="65" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="eVF-Xh-5E9"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="m8y-4A-XNX"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xm1-of-FR7" customClass="SwiftyStarRatingView" customModule="DDJDStoreSwift" customModuleProvider="target">
+                                        <rect key="frame" x="85" y="63.5" width="150" height="24"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="P3X-A2-hfW"/>
+                                            <constraint firstAttribute="width" constant="150" id="iju-HO-LZe"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="emptyStarImage" value="order_evaluation_uncheck"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="filledStarImage" value="order_evaluation_selected"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="minimumValue">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="value">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="spacing">
+                                                <real key="value" value="7"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="allowsHalfStars" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="maximumValue">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="业务员分 :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aDL-wD-qfg">
+                                        <rect key="frame" x="15" y="136.5" width="65" height="20"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="20" id="ay8-76-kDT"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="42" id="wsz-Rr-OQB"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kgj-8L-ou5" customClass="SwiftyStarRatingView" customModule="DDJDStoreSwift" customModuleProvider="target">
+                                        <rect key="frame" x="85" y="134.5" width="150" height="24"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="24" id="5Fg-Qe-dWj"/>
+                                            <constraint firstAttribute="width" constant="150" id="IAi-7v-lUg"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="emptyStarImage" value="order_evaluation_uncheck"/>
+                                            <userDefinedRuntimeAttribute type="image" keyPath="filledStarImage" value="order_evaluation_selected"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="minimumValue">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="value">
+                                                <real key="value" value="0.0"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="spacing">
+                                                <real key="value" value="7"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="allowsHalfStars" value="NO"/>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="maximumValue">
+                                                <real key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="016-rs-1O1" secondAttribute="trailing" constant="15" id="2o2-Dw-mZx"/>
+                                    <constraint firstItem="2eE-HY-Mkw" firstAttribute="leading" secondItem="6RT-Z0-Lw1" secondAttribute="leading" constant="15" id="7gD-Rc-6NP"/>
+                                    <constraint firstItem="nDm-Ra-lAH" firstAttribute="leading" secondItem="6RT-Z0-Lw1" secondAttribute="leading" constant="15" id="CWo-A3-NHy"/>
+                                    <constraint firstItem="xm1-of-FR7" firstAttribute="leading" secondItem="nDm-Ra-lAH" secondAttribute="trailing" constant="5" id="DzW-YQ-DTo"/>
+                                    <constraint firstItem="xm1-of-FR7" firstAttribute="top" secondItem="3gx-7W-lEy" secondAttribute="bottom" constant="23" id="ESF-OM-kRV"/>
+                                    <constraint firstItem="kgj-8L-ou5" firstAttribute="top" secondItem="016-rs-1O1" secondAttribute="bottom" constant="23" id="FFo-Fx-dLa"/>
+                                    <constraint firstItem="kgj-8L-ou5" firstAttribute="leading" secondItem="aDL-wD-qfg" secondAttribute="trailing" constant="5" id="Goq-u7-L6m"/>
+                                    <constraint firstItem="3gx-7W-lEy" firstAttribute="top" secondItem="6RT-Z0-Lw1" secondAttribute="top" constant="40" id="HST-Pd-KDd"/>
+                                    <constraint firstAttribute="height" constant="180" id="I9T-Zz-I7h"/>
+                                    <constraint firstAttribute="trailing" secondItem="3gx-7W-lEy" secondAttribute="trailing" constant="15" id="MsR-L9-x56"/>
+                                    <constraint firstItem="2eE-HY-Mkw" firstAttribute="top" secondItem="6RT-Z0-Lw1" secondAttribute="top" constant="8" id="Pzd-fb-ZAi"/>
+                                    <constraint firstItem="nDm-Ra-lAH" firstAttribute="top" secondItem="3gx-7W-lEy" secondAttribute="bottom" constant="25" id="TOQ-TV-4JY"/>
+                                    <constraint firstItem="ZLE-sX-UxT" firstAttribute="leading" secondItem="2eE-HY-Mkw" secondAttribute="trailing" constant="5" id="Ucy-bt-EY7"/>
+                                    <constraint firstItem="016-rs-1O1" firstAttribute="leading" secondItem="6RT-Z0-Lw1" secondAttribute="leading" constant="15" id="aGG-dB-qjQ"/>
+                                    <constraint firstItem="3gx-7W-lEy" firstAttribute="leading" secondItem="6RT-Z0-Lw1" secondAttribute="leading" constant="15" id="eIp-Vu-ir1"/>
+                                    <constraint firstItem="kgj-8L-ou5" firstAttribute="leading" secondItem="aDL-wD-qfg" secondAttribute="trailing" constant="5" id="kHd-jB-Tef"/>
+                                    <constraint firstItem="016-rs-1O1" firstAttribute="top" secondItem="3gx-7W-lEy" secondAttribute="bottom" constant="70" id="rB0-nX-Px1"/>
+                                    <constraint firstItem="xm1-of-FR7" firstAttribute="leading" secondItem="nDm-Ra-lAH" secondAttribute="trailing" constant="5" id="usg-2E-C8m"/>
+                                    <constraint firstItem="ZLE-sX-UxT" firstAttribute="top" secondItem="6RT-Z0-Lw1" secondAttribute="top" constant="10" id="vXi-Kt-GBa"/>
+                                    <constraint firstItem="aDL-wD-qfg" firstAttribute="top" secondItem="016-rs-1O1" secondAttribute="bottom" constant="25" id="xGS-Wz-huY"/>
+                                    <constraint firstItem="aDL-wD-qfg" firstAttribute="leading" secondItem="6RT-Z0-Lw1" secondAttribute="leading" constant="15" id="zXL-eR-bRf"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="r1f-Mv-vTa">
+                                <rect key="frame" x="31" y="475" width="258" height="45"/>
+                                <color key="backgroundColor" red="1" green="0.88235294119999996" blue="0.91372549020000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="kYe-IS-Smr"/>
+                                </constraints>
+                                <state key="normal" title="提交评价">
+                                    <color key="titleColor" red="0.89019607840000003" green="0.24313725489999999" blue="0.40784313729999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.88132256269999998" green="0.87950366739999997" blue="0.88978022339999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="r1f-Mv-vTa" firstAttribute="top" secondItem="6RT-Z0-Lw1" secondAttribute="bottom" constant="30" id="7zG-7A-eyV"/>
+                            <constraint firstItem="6RT-Z0-Lw1" firstAttribute="top" secondItem="ps1-Hj-sOv" secondAttribute="bottom" constant="25" id="HAq-VD-zEP"/>
+                            <constraint firstItem="r1f-Mv-vTa" firstAttribute="leading" secondItem="tHT-Vy-1Pi" secondAttribute="leadingMargin" constant="15" id="ICc-gc-TMG"/>
+                            <constraint firstAttribute="trailing" secondItem="6RT-Z0-Lw1" secondAttribute="trailing" id="QAn-Jc-Rlp"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="r1f-Mv-vTa" secondAttribute="trailing" constant="15" id="bgf-vo-5Xe"/>
+                            <constraint firstItem="ps1-Hj-sOv" firstAttribute="leading" secondItem="tHT-Vy-1Pi" secondAttribute="leading" id="c8P-jb-wJh"/>
+                            <constraint firstAttribute="trailing" secondItem="ps1-Hj-sOv" secondAttribute="trailing" id="xpS-0o-7dA"/>
+                            <constraint firstItem="6RT-Z0-Lw1" firstAttribute="leading" secondItem="tHT-Vy-1Pi" secondAttribute="leading" id="xsx-Bg-6We"/>
+                            <constraint firstItem="ps1-Hj-sOv" firstAttribute="top" secondItem="2wK-ym-83G" secondAttribute="bottom" constant="10" id="ytn-BT-xpM"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="btnSubmit" destination="r1f-Mv-vTa" id="wU4-sr-Nfh"/>
+                        <outlet property="distributionView" destination="xm1-of-FR7" id="ZFA-lY-QmC"/>
+                        <outlet property="lblSupplierName" destination="ZLE-sX-UxT" id="eGk-bk-JgV"/>
+                        <outlet property="orderView" destination="LjO-Uf-hdR" id="aDO-DX-NI9"/>
+                        <outlet property="salesmanView" destination="kgj-8L-ou5" id="t5L-Xa-Luw"/>
+                        <outlet property="txtStr" destination="Nu7-x0-fY4" id="c4a-My-sr9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YxP-f7-nNK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-282.60869565217394" y="166.30434782608697"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="order_evaluation_selected" width="72" height="69"/>
+        <image name="order_evaluation_uncheck" width="72" height="69"/>
+        <image name="order_store_name" width="100" height="100"/>
+    </resources>
+</document>

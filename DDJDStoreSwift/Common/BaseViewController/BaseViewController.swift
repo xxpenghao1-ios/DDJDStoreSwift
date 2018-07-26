@@ -78,6 +78,8 @@ extension BaseViewController{
         USER_DEFAULTS.removeObject(forKey:"storeName")
         USER_DEFAULTS.removeObject(forKey:"memberId")
         USER_DEFAULTS.synchronize()
+        ///清除推送信息
+        PHJPushHelper.removeTagAndAlias()
     }
 }
 

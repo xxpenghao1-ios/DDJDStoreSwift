@@ -93,14 +93,14 @@ extension PlaceOrderViewController{
         }).disposed(by:rx_disposeBag)
 
         ///是否开启可以使用代金券 默认2关闭,1开启
-        vm.cashcouponStatuBS.subscribe(onNext: { [weak self] (i) in
+        vm.cashcouponStatuBR.subscribe(onNext: { [weak self] (i) in
             if i == 1{
                 self?.table.reloadSections([1],with:.none)
             }
         }).disposed(by:rx_disposeBag)
 
         ///分站店铺积分获取是否开启； 1开启，2关闭；
-        vm.subStationBalanceStatuBS.subscribe(onNext:{ [weak self]  (i) in
+        vm.subStationBalanceStatuBR.subscribe(onNext:{ [weak self]  (i) in
             if i == 1{
                 self?.table.reloadSections([1],with:.none)
             }
@@ -112,7 +112,7 @@ extension PlaceOrderViewController{
             if weakSelf == nil{
                 return
             }
-            weakSelf!.vm.submitOrder(goodsList:weakSelf!.goodArr.toJSONString() ?? "", pay_message:weakSelf!.txtBuyPS.text ?? "", cashCouponId: nil, addressModel:weakSelf!.addressVM.defaultAddressModelBR.value, detailAddress:weakSelf!.lblAddress.text ?? "")
+            weakSelf!.vm.submitOrder(goodsList:weakSelf!.goodArr.toJSONString() ?? "", pay_message:weakSelf!.txtBuyPS.text ?? "", cashCouponId:weakSelf!.vm.selectedVouchersModelBR.value?.cashCouponId, addressModel:weakSelf!.addressVM.defaultAddressModelBR.value, detailAddress:weakSelf!.lblAddress.text ?? "")
         }).disposed(by:rx_disposeBag)
 
         ///下单结果
@@ -180,9 +180,9 @@ extension PlaceOrderViewController:UITableViewDelegate,UITableViewDataSource{
                     cell.detailTextLabel!.text="该区域暂未开通"
                 }else{
                     if vm.selectedVouchersModelBR.value == nil{///如果还没有代价券信息 提示用户满多少可以使用代金券
-                        cell!.detailTextLabel!.text="满\(vm.cashcouponLowerLimitOfUseBR.value)元可以使用代金券"
+                        cell.detailTextLabel!.text="满\(vm.cashcouponLowerLimitOfUseBR.value)元可以使用代金券"
                     }else{///如果有代金券信息  提示满多少 可以减多少元
-                        cell!.detailTextLabel!.text="满\(vm.cashcouponLowerLimitOfUseBR.value)立减\(vm.selectedVouchersModelBR.value!.cashCouponAmountOfMoney ?? 0)元"
+                        cell.detailTextLabel!.text="满\(vm.cashcouponLowerLimitOfUseBR.value)立减\(vm.selectedVouchersModelBR.value!.cashCouponAmountOfMoney ?? 0)元"
                     }
 
                     cell.accessoryType = .disclosureIndicator
@@ -192,7 +192,7 @@ extension PlaceOrderViewController:UITableViewDelegate,UITableViewDataSource{
                 if vm.subStationBalanceStatuBR.value == 2{
                     cell.detailTextLabel!.text="该区域暂未开通"
                 }else{
-                    cell.detailTextLabel!.text="本次下单获得\(sumPirce.components(separatedBy:".")[0])积分"
+                    cell.detailTextLabel!.text="本次下单获得\(sumPirce.components(separatedBy:".")[0])点单币"
                     cell.accessoryType = .disclosureIndicator
                 }
             }
@@ -256,17 +256,39 @@ extension PlaceOrderViewController:UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at:indexPath, animated:true)
-        if indexPath.row == 3{///跳转到代金券页面
-            if vm.cashcouponStatuBR.value == 1{///如果开通了使用代金券功能 跳转
-                let vc=VouchersViewController()
-                vc.orderFlag=1
-                vc.useVouchersClosure={ [weak self] (model) in
-                    ///保存代金券信息
-                    self?.vm.selectedVouchersModelBR.accept(model)
+        if indexPath.section == 1{
+            if indexPath.row == 3{///跳转到代金券页面
+                if vm.cashcouponStatuBR.value == 1{///如果开通了使用代金券功能 跳转
+                    useVouchers()
                 }
-                self.navigationController?.pushViewController(vc, animated:true)
+            }else if indexPath.row == 4{
+                if vm.subStationBalanceStatuBR.value == 1{///跳转到点单币商城中
+                    let vc=UIStoryboard.init(name:"IntegralStore", bundle:nil).instantiateViewController(withIdentifier:"IntegralStoreVC") as! IntegralStoreViewController
+                    self.navigationController?.pushViewController(vc, animated:true)
+                }
             }
         }
 
+    }
+
+    ///使用代金券
+    private func useVouchers(){
+        if Double(self.sumPirce)! >= Double(self.vm.cashcouponLowerLimitOfUseBR.value){//总价必须大于代金券使用下限
+            let vc=VouchersViewController()
+            vc.orderFlag=1
+            vc.useVouchersClosure={ [weak self] (model) in
+                ///保存代金券信息
+                self?.vm.selectedVouchersModelBR.accept(model)
+
+                ///计算能省多少元钱
+                let price=PriceComputationsUtil.decimalNumberWithString(multiplierValue:self?.sumPirce ?? "0", multiplicandValue:(model.cashCouponAmountOfMoney ?? 0).description, type: ComputationsType.subtraction, position:2)
+                self?.lblSumPrice.text="￥\(price)(立省\(model.cashCouponAmountOfMoney ?? 0)元)"
+                ///刷新代金券信息
+                self?.table.reloadRows(at:[IndexPath(row:3,section: 1)], with: .none)
+            }
+            self.navigationController?.pushViewController(vc, animated:true)
+        }else{
+            PHProgressHUD.showInfo("订单金额要满\(self.vm.cashcouponLowerLimitOfUseBR.value)元才能使用代金券")
+        }
     }
 }

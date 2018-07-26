@@ -76,23 +76,8 @@ class IndexViewController:BaseViewController,Refreshable{
     ///特价促销区 ***************
     private lazy var specialsAndPromotionsView:UIView={
 
-        let view=UIView(frame: CGRect.init(x:0, y: classifyCollectionView.frame.maxY+10, width:SCREEN_WIDTH,height:220))
+        let view=UIView(frame: CGRect.init(x:0, y: classifyCollectionView.frame.maxY+10, width:SCREEN_WIDTH,height:SCREEN_WIDTH/2*1.1))
         view.backgroundColor=UIColor.white
-        ///特价标题
-        let title=UILabel.buildLabel(text:"特价促销", textColor: UIColor.color333(),font:16, textAlignment:.left)
-        title.frame=CGRect.init(x:15,y:0,width:SCREEN_WIDTH-30,height:35)
-        view.addSubview(title)
-        view.addSubview(specialsAndPromotionsImgView)
-        return view
-    }()
-    ///特价促销图片view
-    private lazy var specialsAndPromotionsImgView:UIView={
-        let view=UIView(frame: CGRect.init(x:15,y:35, width:SCREEN_WIDTH-30, height:175))
-        view.backgroundColor=UIColor.white
-        ///加上阴影效果
-        view.layer.shadowOpacity = 0.8
-        view.layer.shadowColor = UIColor.applicationMainColor().cgColor
-        view.layer.shadowOffset = CGSize(width: 1, height: 1)
         view.addSubview(specialsImgView)
         view.addSubview(promotionsImgView)
         return view
@@ -100,7 +85,7 @@ class IndexViewController:BaseViewController,Refreshable{
 
     ///特价图片
     private lazy var specialsImgView:UIImageView={ 
-        let imageView=UIImageView(frame: CGRect.init(x:175*0.8, y:0, width:SCREEN_WIDTH-30-175*0.8,height:175))
+        let imageView=UIImageView(frame: CGRect.init(x:SCREEN_WIDTH/2, y:0, width:SCREEN_WIDTH/2,height:SCREEN_WIDTH/2*1.1))
         imageView.image=UIImage.init(named:"index_special")
         imageView.isUserInteractionEnabled=true
         imageView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushSpecialVC)))
@@ -108,7 +93,7 @@ class IndexViewController:BaseViewController,Refreshable{
     }()
     ///促销图片
     private lazy var promotionsImgView:UIImageView={
-        let imageView=UIImageView(frame:CGRect.init(x:0,y:0,width:175*0.8,height:175))
+        let imageView=UIImageView(frame:CGRect.init(x:0,y:0,width:SCREEN_WIDTH/2,height:SCREEN_WIDTH/2*1.1))
         imageView.image=UIImage.init(named:"index_promotion")
         imageView.isUserInteractionEnabled=true
         imageView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushPromotionVC)))

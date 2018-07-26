@@ -100,22 +100,22 @@ extension OrderDetailViewController{
         vm.cancelOrderResult?.subscribe(onNext: { [weak self] (result) in
             if result{//取消订单成功 返回订单列表
                 self?.cancelOrderClosure?() ///订单列表刷新数据
-                self?.navigationController?.popViewController(animated:true)
+                self?.navigationController?.popViewController(animated: true)
             }
         }).disposed(by:rx_disposeBag)
 
-        ///确认收货
+        ///确认收货结果
         vm.confirmTheGoodsResult?.subscribe(onNext: { [weak self] (result) in
             if result{//确认收货成功 返回订单列表
                 self?.confirmTheGoodsClosure?() ///订单列表刷新数据
-                self?.navigationController?.popViewController(animated:true)
+                self?.confirmTheGoodsSuccess()
             }
         }).disposed(by:rx_disposeBag)
     }
     ///取消订单
     private func cancelOrder(){
         ///调用取消订单
-        btn.rx.tap.asObservable().subscribe(onNext: { (_) in
+        btn.rx.tap.asObservable().throttle(1, scheduler:MainScheduler.instance).subscribe(onNext: { (_) in
             weak var weakSelf=self
             if weakSelf == nil{
                 return
@@ -126,12 +126,25 @@ extension OrderDetailViewController{
 
         }).disposed(by:rx_disposeBag)
     }
+
     ///确认收货
     private func confirmTheGoods(){
         ///调用确认收货
-        btn.rx.tap.asObservable().subscribe(onNext: { [weak self] (_) in
+        btn.rx.tap.asObservable().throttle(1, scheduler:MainScheduler.instance).subscribe(onNext: { [weak self] (_) in
             self?.vm.confirmTheGoodsPS.onNext(true)
         }).disposed(by:rx_disposeBag)
+    }
+
+    ///确认收货成功
+    private func confirmTheGoodsSuccess(){
+        UIAlertController.showAlertYesNo(self, title:"点单即到", message:"确认收货成功,您可以对本次订单评分", cancelButtonTitle:"返回", okButtonTitle:"去评价", okHandler: { [weak self] (_) in
+            let vc=UIStoryboard(name:"OrderEvaluation", bundle:nil).instantiateViewController(withIdentifier:"OrderEvaluationVC") as! OrderEvaluationViewController
+            vc.supplierName=self?.vm.orderDetailModelBR.value.supplierName
+            vc.orderInfoId=self?.vm.orderDetailModelBR.value.orderinfoId
+            self?.navigationController?.pushViewController(vc, animated:true)
+        }) { [weak self] (_) in
+            self?.navigationController?.popViewController(animated:true)
+        }
     }
 }
 

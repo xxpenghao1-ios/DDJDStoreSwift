@@ -40,6 +40,8 @@ public enum MyAPI{
     case queryStorePurchaseRecord(memberId:String,pageSize:Int,currentPage:Int)
     ///代金券
     case queryStoreCashCoupon(storeId:String,pageSize:Int,currentPage:Int)
+    ///店铺的服务人员信息
+    case storeServicePersonal(storeId:String)
     
 }
 extension MyAPI:TargetType{
@@ -84,12 +86,14 @@ extension MyAPI:TargetType{
             return "queryStorePurchaseRecord.sc"
         case .queryStoreCashCoupon(_,_,_):
             return "cc/queryStoreCashCoupon"
+        case .storeServicePersonal(_):
+            return "storeServicePersonal"
         }
     }
 
     public var method: Moya.Method {
         switch self {
-        case .queryMessageToStore(_,_,_),.querySubStationCC(_),.queryStoreMember(_,_),.queryStoreShippAddressforAndroid(_),.deleteStoreShippAddressforAndroid(_),.integralMallExchange(_,_,_),.queryMemberIntegral(_),.queryIntegralMallForSubStation(_,_,_),.storeQueryMemberIntegralV1(_,_,_),.queryIntegralMallExchangeRecord(_,_,_),.queryStorePurchaseRecord(_,_,_),.queryStoreCashCoupon(_,_,_):
+        case .queryMessageToStore(_,_,_),.querySubStationCC(_),.queryStoreMember(_,_),.queryStoreShippAddressforAndroid(_),.deleteStoreShippAddressforAndroid(_),.integralMallExchange(_,_,_),.queryMemberIntegral(_),.queryIntegralMallForSubStation(_,_,_),.storeQueryMemberIntegralV1(_,_,_),.queryIntegralMallExchangeRecord(_,_,_),.queryStorePurchaseRecord(_,_,_),.queryStoreCashCoupon(_,_,_),.storeServicePersonal(_):
             return .get
         case .updateStoreShippAddressforAndroid(_,_,_,_,_,_,_,_,_),.addStoreShippAddressforAndroid(_,_,_,_,_,_,_,_),.complaintsAndSuggestions(_,_):
             return .post
@@ -132,6 +136,8 @@ extension MyAPI:TargetType{
             return .requestParameters(parameters:["memberId":memberId,"pageSize":pageSize,"currentPage":currentPage], encoding:  URLEncoding.default)
         case let .queryStoreCashCoupon(storeId, pageSize, currentPage):
             return .requestParameters(parameters:["storeId":storeId,"pageSize":pageSize,"currentPage":currentPage], encoding: URLEncoding.default)
+        case let .storeServicePersonal(storeId):
+            return .requestParameters(parameters:["storeId":storeId], encoding: URLEncoding.default)
         }
     }
 

@@ -54,14 +54,24 @@
                                         <color key="textColor" red="1" green="0.070588235289999995" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dga-C4-K56">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.66666666666666663"/>
+                                        <color key="backgroundColor" red="0.87058823529999996" green="0.87450980389999999" blue="0.88235294119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="0.5" id="l3U-s8-ktG"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="Dga-C4-K56" firstAttribute="top" secondItem="E7H-M8-dQS" secondAttribute="top" id="3l5-Mx-4PZ"/>
                                     <constraint firstAttribute="trailing" secondItem="4xm-Rf-6tE" secondAttribute="trailing" constant="15" id="JnD-NU-PFV"/>
+                                    <constraint firstItem="Dga-C4-K56" firstAttribute="leading" secondItem="E7H-M8-dQS" secondAttribute="leading" id="RX6-T8-UaB"/>
                                     <constraint firstItem="rOQ-AD-Sna" firstAttribute="centerY" secondItem="E7H-M8-dQS" secondAttribute="centerY" id="Say-gR-17S"/>
                                     <constraint firstItem="4xm-Rf-6tE" firstAttribute="centerY" secondItem="E7H-M8-dQS" secondAttribute="centerY" id="bcY-4v-P4y"/>
                                     <constraint firstAttribute="height" constant="50" id="gsV-6B-nb0"/>
                                     <constraint firstItem="rOQ-AD-Sna" firstAttribute="leading" secondItem="WkR-FP-CX7" secondAttribute="trailing" id="lKR-dF-w7h"/>
+                                    <constraint firstAttribute="trailing" secondItem="Dga-C4-K56" secondAttribute="trailing" id="lkn-VZ-dOM"/>
                                     <constraint firstItem="WkR-FP-CX7" firstAttribute="leading" secondItem="E7H-M8-dQS" secondAttribute="leading" constant="15" id="rjJ-5d-fCe"/>
                                     <constraint firstItem="4xm-Rf-6tE" firstAttribute="leading" secondItem="rOQ-AD-Sna" secondAttribute="trailing" id="u28-L2-Q52"/>
                                     <constraint firstItem="WkR-FP-CX7" firstAttribute="centerY" secondItem="E7H-M8-dQS" secondAttribute="centerY" id="ua4-28-4yQ"/>
@@ -240,7 +250,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qd4-Rn-YSA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1162.4000000000001" y="155.9113300492611"/>
+            <point key="canvasLocation" x="-562.39999999999998" y="150"/>
         </scene>
     </scenes>
 </document>
