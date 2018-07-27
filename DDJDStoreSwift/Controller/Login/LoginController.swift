@@ -11,11 +11,18 @@ import SnapKit
 import RxSwift
 import RxCocoa
 ///登录页面
-class LoginController:BaseViewController{
+class LoginController:UIViewController{
     private let viewModel = LoginViewModel()
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated:true)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="登录"
+        self.view.backgroundColor=UIColor.viewBgdColor()
         loadViewlayout()
         bindViewModel()
     }
@@ -33,6 +40,12 @@ class LoginController:BaseViewController{
                 APP.window?.rootViewController=TabBarViewController()
             }
         }).disposed(by: rx_disposeBag)
+
+        ///注册按钮点击
+        btnRegister.rx.tap.asObservable().throttle(2, scheduler:MainScheduler.instance).subscribe(onNext: {  (_) in
+            weak var this=self
+            UIAlertController.showAlertYes(this, title:"温馨提示", message:"请去平台官网http://www.hnzltx.com联系客服注册", okButtonTitle:"知道了")
+        }).disposed(by:rx_disposeBag)
     }
     ///包含登录页面所有控件view
     private lazy var loginView:UIView={
@@ -84,6 +97,8 @@ class LoginController:BaseViewController{
     ///忘记密码
     private lazy var lblForgetassword:UILabel={
         let lbl=UILabel.buildLabel(text:"忘记密码?",textColor:UIColor.color666(), font:27/2, textAlignment: NSTextAlignment.right)
+        lbl.isUserInteractionEnabled=true
+        lbl.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushForgetasswordVC)))
         return lbl
     }()
     ///登录按钮
@@ -91,13 +106,6 @@ class LoginController:BaseViewController{
         let btn=UIButton.buildBtn(text:"登录", textColor: UIColor.white, font:18, backgroundColor: UIColor.RGBFromHexColor(hexString:"ff1261"), cornerRadius:10)
         ///默认登录按钮不能点击
         btn.disable()
-        return btn
-    }()
-    ///注册按钮
-    private lazy var btnRegister:UIButton={
-        let btn=UIButton.buildBtn(text:"注册", textColor:UIColor.color666(),font:18, backgroundColor: UIColor.clear, cornerRadius:10)
-        btn.layer.borderWidth=1
-        btn.layer.borderColor=UIColor.RGBFromHexColor(hexString:"d2d2d2").cgColor
         return btn
     }()
 
@@ -109,6 +117,20 @@ class LoginController:BaseViewController{
         leftView.addSubview(img)
         return leftView
     }
+    ///注册按钮
+    private lazy var btnRegister:UIButton={
+        let btn=UIButton.buildBtn(text:"注册", textColor:UIColor.color666(),font:18, backgroundColor: UIColor.clear, cornerRadius:10)
+        btn.layer.borderWidth=1
+        btn.layer.borderColor=UIColor.RGBFromHexColor(hexString:"d2d2d2").cgColor
+        return btn
+    }()
+
+    ///跳转到忘记密码
+    @objc private func pushForgetasswordVC(){
+        let vc=UIStoryboard(name:"ForgotPassword", bundle:nil).instantiateViewController(withIdentifier:"ForgotPasswordVC") as! ForgotPasswordViewController
+        self.navigationController?.pushViewController(vc, animated:true)
+    }
+
 }
 ///页面布局
 extension LoginController{

@@ -12,18 +12,32 @@ import Moya
 public enum LoginAndRegisterAPI{
     ///登录接口
     case login(memberName:String,password:String,deviceToken:String,deviceName:String,flag:Int)
+    ///验证账号是否存在
+    case doMemberTheOnly(memberName:String)
+    ///修改密码
+    case updatePassWord(memberName:String,newPassWord:String)
+    ///获取验证码 flag=updatePassword 修改密码
+    case returnRandCode(memberName:String,flag:String)
 }
 extension LoginAndRegisterAPI:TargetType{
     public var path: String {
         switch self{
         case .login(_,_,_,_,_):
             return "storeLoginInterface.xhtml"
+        case .updatePassWord:
+            return "updatePassWord.xhtml"
+        case .doMemberTheOnly:
+            return "doMemberTheOnly.xhtml"
+        case .returnRandCode:
+            return "returnRandCode.xhtml"
         }
     }
     public var method: Moya.Method {
         switch self {
-        case .login(_,_,_,_,_):
+        case .login:
             return .post
+        case .doMemberTheOnly,.returnRandCode,.updatePassWord:
+            return .get
         }
     }
     //  单元测试用
@@ -34,6 +48,12 @@ extension LoginAndRegisterAPI:TargetType{
         switch self {
         case let .login(memberName, password, deviceToken, deviceName, flag):
             return .requestParameters(parameters:["memberName":memberName,"password":password,"deviceToken":deviceToken,"deviceName":deviceName,"flag":flag],encoding:URLEncoding.default)
+        case let .updatePassWord(memberName, newPassWord):
+            return .requestParameters(parameters:["memberName":memberName,"newPassWord":newPassWord],encoding:URLEncoding.default)
+        case let .doMemberTheOnly(memberName):
+            return .requestParameters(parameters:["memberName":memberName],encoding:URLEncoding.default)
+        case let .returnRandCode(memberName, flag):
+            return .requestParameters(parameters:["memberName":memberName,"flag":flag],encoding:URLEncoding.default)
         }
     }
 }

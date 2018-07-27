@@ -51,8 +51,8 @@ class SpecialPageViewController:WMPageController{
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {
         let vc=SpecialViewController()
         vc.order=index == 0 ? "count":"price"
-        vc.updateCarCountItemClosure={ (count) in
-            self.btnPushCar?.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
+        vc.updateCarCountItemClosure={ [weak self] (count) in
+            self?.btnPushCar?.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
         }
         return vc
     }

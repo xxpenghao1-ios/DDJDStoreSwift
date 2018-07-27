@@ -45,7 +45,7 @@ extension LoginViewModel:ViewModelType{
         ///合并成1个Observable
         let nameAndPw=Observable.combineLatest(input.userName,input.pw) { ($0, $1) }
         ///登录发送网络请求返回状态
-        let result=input.loginValidate.withLatestFrom(nameAndPw)
+        let result=input.loginValidate.throttle(1, scheduler: MainScheduler.instance).withLatestFrom(nameAndPw)
             .filter{ [unowned self] in  //验证输入是否正确
                 return self.validateInputInfo(name:$0, pw:$1)
             }.flatMapLatest { (res)-> Observable<ResponseResult> in

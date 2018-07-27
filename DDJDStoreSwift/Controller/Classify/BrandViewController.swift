@@ -18,7 +18,7 @@ class BrandViewController:BaseViewController{
 
     var vm:BrandViewModel!
 
-    private var collection:UICollectionView={
+    private lazy var collection:UICollectionView={
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset=UIEdgeInsets.init(top:10, left:10, bottom:10, right:10)
         let widthH=(SCREEN_WIDTH-40)/3

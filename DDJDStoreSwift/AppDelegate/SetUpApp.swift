@@ -76,7 +76,7 @@ extension AppDelegate{
     //跳转到登录页面(切换根视图)
     func jumpToLoginVC(){
         let login=LoginController()
-        self.window?.rootViewController=login
+        self.window?.rootViewController=UINavigationController(rootViewController:login) 
     }
 }
 

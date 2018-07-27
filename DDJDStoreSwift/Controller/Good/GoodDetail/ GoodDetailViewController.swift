@@ -231,7 +231,11 @@ extension GoodDetailViewController{
                 textField.placeholder = "请输入\(model.miniCount ?? 1)~\(model.goodsStock ?? 1)之间\(model.goodsBaseCount ?? 1)的倍数"
                 textField.tag=model.goodsStock ?? 1
             }
-            NotificationCenter.default.addObserver(self, selector: #selector(self.alertTextFieldDidChange), name: NSNotification.Name.UITextFieldTextDidChange, object: textField)
+            weak var this=self
+            if this == nil{
+                return
+            }
+            NotificationCenter.default.addObserver(this!, selector: #selector(self.alertTextFieldDidChange), name: NSNotification.Name.UITextFieldTextDidChange, object: textField)
         }
         //确定
         let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ [weak self] Void in
