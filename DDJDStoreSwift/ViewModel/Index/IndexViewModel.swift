@@ -112,18 +112,18 @@ extension IndexViewModel{
     }
     ///获取新品推荐
     private func getNewGood(){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
+
         PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStoreNew(countyId:county_Id!, storeId:store_Id!, isDisplayFlag:2,currentPage:1,pageSize:30, order:""), model:NewGoodModel.self).retry(1)
-            .subscribe(onNext: { (arrModel) in
+            .subscribe(onNext: { [weak self] (arrModel) in
+                if self == nil{
+                    return
+                }
                 var valueArr=[NewGoodModel]()
                 let _=arrModel.map({ (model) in //循环打印
                     valueArr.append(model)
                     //每次加3个 加满重新赋值  最后1组不确定 满足旋转木马效果
                     if valueArr.count == 3{
-                        weakSelf!.newGoodArrModelBR.accept(weakSelf!.newGoodArrModelBR.value+[SectionModel.init(model:"",items:valueArr)])
+                        self!.newGoodArrModelBR.accept(self!.newGoodArrModelBR.value+[SectionModel.init(model:"",items:valueArr)])
                         valueArr.removeAll()
                     }
                 })
@@ -133,36 +133,33 @@ extension IndexViewModel{
     }
     ///获取热门商品  b是是否刷新数据 true是  false加载下一页数据
     private func getHotGood(b:Bool?){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
+
         ///发送网络请求
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:county_Id!, isDisplayFlag:2,storeId:store_Id!,currentPage:currentPage,pageSize:pageSize),model:GoodDetailModel.self).retry(1).subscribe(onNext: { (arrModel) in
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:county_Id!, isDisplayFlag:2,storeId:store_Id!,currentPage:currentPage,pageSize:pageSize),model:GoodDetailModel.self).retry(1).subscribe(onNext: { [weak self] (arrModel) in
 
             if b == true{///刷新
                 ///每次获取最新的数据
-                weakSelf!.hotGoodArr=arrModel
-                weakSelf!.hotGoodArrModelBR.accept([SectionModel.init(model:"",items:weakSelf!.hotGoodArr)])
+                self?.hotGoodArr=arrModel
+                self?.hotGoodArrModelBR.accept([SectionModel.init(model:"",items:self?.hotGoodArr ?? [])])
 
             }else{//加载更多
                 ///追加数据
-                weakSelf!.hotGoodArr+=arrModel
-            weakSelf!.hotGoodArrModelBR.accept([SectionModel.init(model:"",items:weakSelf!.hotGoodArr)])
+                self?.hotGoodArr+=arrModel
+            self?.hotGoodArrModelBR.accept([SectionModel.init(model:"",items:self?.hotGoodArr ?? [])])
             }
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            if arrModel.count < weakSelf!.pageSize{//如果下面没有数据了
-                weakSelf!.refreshStatus.accept(.noMoreData)
+            self?.refreshStatus.accept(.endHeaderRefresh)
+            self?.refreshStatus.accept(.endFooterRefresh)
+            if arrModel.count < self?.pageSize{//如果下面没有数据了
+                self?.refreshStatus.accept(.noMoreData)
             }
-            }, onError: { (error) in
+            }, onError: { [weak self] (error) in
                 ///把页索引-1
-                if weakSelf!.currentPage > 1{
-                    weakSelf!.currentPage-=1
+                if self?.currentPage > 1{
+                    self?.currentPage-=1
                 }
                 phLog("获取分类数据出错:\(error.localizedDescription)")
-                weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-                weakSelf!.refreshStatus.accept(.endFooterRefresh)
+                self?.refreshStatus.accept(.endHeaderRefresh)
+                self?.refreshStatus.accept(.endFooterRefresh)
         }).disposed(by:rx_disposeBag)
     }
     ///获取公告栏信息

@@ -12,7 +12,7 @@ class GoodListTableViewCell: UITableViewCell {
     ///跳转到商品详情
     var pushGoodDetailClosure:(() -> Void)?
     ///加入购物车
-    var addCarClosure:(() -> Void)?
+    var addCarClosure:((Int) -> Void)?
     ///选择商品数量
     var selectedGoodCountClosure:(() -> Void)?
     ///商品图片
@@ -119,7 +119,7 @@ class GoodListTableViewCell: UITableViewCell {
     }
     ///加入购物车
     @objc private func addCar(){
-        self.addCarClosure?()
+        self.addCarClosure?(Int(stepper.value))
     }
     ///选择商品数量
     @objc private func selectedGoodCount(){

@@ -15,6 +15,9 @@ class OtherViewController:BaseViewController{
 
     private var table:UITableView!
 
+    ///是否开启 语音活动语音提示
+    private var isCancelSpeechSwitch:UISwitch?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="其他"
@@ -27,6 +30,11 @@ class OtherViewController:BaseViewController{
         table.tableFooterView=UIView.init(frame:CGRect.zero)
         table.separatorInset=UIEdgeInsets.zero
         self.view.addSubview(table)
+    }
+    ///是否取消语音
+    @objc private func isCancelSpeech(sender:UISwitch){
+        USER_DEFAULTS.set(sender.isOn, forKey:"isCancelSpeech")
+        USER_DEFAULTS.synchronize()
     }
 }
 extension OtherViewController:UITableViewDelegate,UITableViewDataSource{
@@ -45,17 +53,26 @@ extension OtherViewController:UITableViewDelegate,UITableViewDataSource{
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=table.dequeueReusableCell(withIdentifier:"id") ?? UITableViewCell(style: UITableViewCellStyle.value1, reuseIdentifier:"id")
-        cell.accessoryType = .disclosureIndicator
+        cell.accessoryType = .none
         cell.textLabel?.font=UIFont.systemFont(ofSize:15)
         cell.detailTextLabel?.font=UIFont.systemFont(ofSize:14)
         if indexPath.section == 0{
             cell.textLabel?.text=section1NameArr[indexPath.row]
+            isCancelSpeechSwitch = cell.contentView.viewWithTag(111) as? UISwitch
+            if isCancelSpeechSwitch == nil{
+                isCancelSpeechSwitch=UISwitch(frame:CGRect(x:SCREEN_WIDTH-60, y:10, width:45, height:30))
 
+                isCancelSpeechSwitch!.isOn=USER_DEFAULTS.object(forKey:"isCancelSpeech") as? Bool ?? false
+                isCancelSpeechSwitch!.addTarget(self, action:#selector(isCancelSpeech), for: .valueChanged)
+                cell.contentView.addSubview(isCancelSpeechSwitch!)
+
+            }
         }else{
             cell.textLabel?.text=section2NameArr[indexPath.row]
             if indexPath.row == 0{
                 cache.calculateDiskCacheSize(completion: { (size) in
                     cell.detailTextLabel?.text="\(size/1024/1024)MB"
+                    cell.accessoryType = .disclosureIndicator
                 })
             }else if indexPath.row == 1{
                 //应用程序信息

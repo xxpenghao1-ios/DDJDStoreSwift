@@ -113,11 +113,11 @@ extension IntegralStoreViewController:Refreshable{
         //创建分类数据源
         let dataSource = RxCollectionViewSectionedReloadDataSource
             <SectionModel<String,IntegralGoodModel>>(
-                configureCell: { (dataSource, collectionView, indexPath, model)  in
+                configureCell: {  [weak self] (dataSource, collectionView, indexPath, model)  in
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"integralGoodId",for:indexPath) as! IntegralGoodCollectionViewCell
                     cell.updateCell(model:model)
                     ///积分兑换
-                    cell.exchangeIntegralGoodClosure={ [weak self] in
+                    cell.exchangeIntegralGoodClosure={ 
                         self?.vm.integralExchangePS.onNext(model)
                     }
                     return cell

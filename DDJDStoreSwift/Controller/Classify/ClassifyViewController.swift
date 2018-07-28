@@ -109,20 +109,16 @@ extension ClassifyViewController:Refreshable{
 
 
         ///table选中事件
-        table.rx.itemSelected.asObservable().subscribe(onNext: { (indexPath) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
+        table.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] (indexPath) in
             ///获取2级分类名称
             let key=tableDataSource[indexPath]
             ///获取2级分类对应的3级分类数据
-            let sectionModel=SectionModel(model:"", items: weakSelf!.vm.goodsCategory23ArrBR.value[key] ?? [])
+            let sectionModel=SectionModel(model:"", items: self?.vm.goodsCategory23ArrBR.value[key] ?? [])
             ///更新3级分类数据
-            weakSelf!.vm.goodsCategory3ArrBR.accept([.noData
+            self?.vm.goodsCategory3ArrBR.accept([.noData
                 :[sectionModel]])
             ///记录每次选中的行索引
-            weakSelf!.vm.index=indexPath.row
+           self?.vm.index=indexPath.row
         }).disposed(by:rx_disposeBag)
     }
     ///从底部点击进来
@@ -143,26 +139,22 @@ extension ClassifyViewController:Refreshable{
             .disposed(by:rx_disposeBag)
 
         ///table选中事件
-        table.rx.itemSelected.asObservable().subscribe(onNext: { (indexPath) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
+        table.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] (indexPath) in
             ///获取2级分类model
             let model=tableDataSource[indexPath]
             if model.goodsCategoryName == "全部"{///直接获取所有的3级分类
-                weakSelf!.vm.goodsCategory3ArrBR.accept([.noData:weakSelf!.vm.goodsCategoryAll3ArrBR.value])
+                self?.vm.goodsCategory3ArrBR.accept([.noData:self?.vm.goodsCategoryAll3ArrBR.value ?? []])
             }else{
                 ///获取全部的3级分类
-                let allArrModel3=weakSelf!.vm.goodsCategoryAll3ArrBR.value[0].items
+                let allArrModel3=self?.vm.goodsCategoryAll3ArrBR.value[0].items
                 ///筛选父id是当前选中的2级分类id3级分类
-                let arrModel3=allArrModel3.filter({ (m) -> Bool in
+                let arrModel3=allArrModel3?.filter({ (m) -> Bool in
                     return m.goodsCategoryPid == model.goodsCategoryId
                 })
-                weakSelf!.vm.goodsCategory3ArrBR.accept([.noData:[SectionModel.init(model:"",items:arrModel3)]])
+                self?.vm.goodsCategory3ArrBR.accept([.noData:[SectionModel.init(model:"",items:arrModel3 ?? [])]])
             }
             ///记录每次选中的行索引
-            weakSelf!.vm.index=indexPath.row
+            self?.vm.index=indexPath.row
         }).disposed(by:rx_disposeBag)
     }
 }

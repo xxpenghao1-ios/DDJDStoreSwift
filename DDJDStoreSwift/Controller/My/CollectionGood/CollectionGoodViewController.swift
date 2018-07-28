@@ -77,8 +77,8 @@ extension CollectionGoodViewController:Refreshable{
                 self?.pushGoodDetail(model:model)
             }
             ///加入购物车车
-            cell.addCarClosure={
-                self?.addCarVM.addCar(model:model, goodsCount:Int(cell.stepper.value),flag:2)
+            cell.addCarClosure={ (goodCount) in
+                self?.addCarVM.addCar(model:model, goodsCount:goodCount,flag:2)
             }
             ///选择商品数量
             cell.selectedGoodCountClosure={

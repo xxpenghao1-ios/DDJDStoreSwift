@@ -63,6 +63,10 @@ extension AppDelegate{
         ///百度统计
         BaiduMobStat.default().start(withAppId:"ec2fbe36a3")
         BaiduMobStat.default().enableDebugOn=false
+
+        ///默认开启推送活动语音播报
+        USER_DEFAULTS.set(true, forKey:"isCancelSpeech")
+        USER_DEFAULTS.synchronize()
     }
 }
 
@@ -85,11 +89,7 @@ extension AppDelegate:JPUSHRegisterDelegate{
 
     ///处理推送消息
     private func managePushInfo(json:JSON){
-        ///是否取消语音播报  true是
-        let isCancelSpeech=USER_DEFAULTS.object(forKey:"isCancelSpeech") as? Bool ?? false
-        if isCancelSpeech{
-
-        }
+        
 
     }
     ///监听自定义消息

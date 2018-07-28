@@ -48,7 +48,7 @@ class ForgotPasswordViewController:UIViewController{
         txtMemberName.layer.cornerRadius=5
         txtMemberName.adjustsFontSizeToFitWidth=true;
         txtMemberName.tintColor=UIColor.color999()
-        txtMemberName.keyboardType=UIKeyboardType.phonePad
+        txtMemberName.keyboardType=UIKeyboardType.numberPad
         txtMemberName.font=UIFont.systemFont(ofSize: 14)
         //不为空，且在编辑状态时（及获得焦点）显示清空按钮
         txtMemberName.clearButtonMode=UITextFieldViewMode.whileEditing

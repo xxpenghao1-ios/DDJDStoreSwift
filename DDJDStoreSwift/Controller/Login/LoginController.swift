@@ -68,7 +68,7 @@ class LoginController:UIViewController{
     }()
     ///用户名输入框
     private lazy var txtMemberName:UITextField={
-        let txt=UITextField.buildTxt(font:18, placeholder:"请输入手机号码", tintColor: UIColor.black, keyboardType: UIKeyboardType.phonePad)
+        let txt=UITextField.buildTxt(font:18, placeholder:"请输入手机号码", tintColor: UIColor.black, keyboardType: UIKeyboardType.numberPad)
         txt.text=USER_DEFAULTS.object(forKey:"memberName") as? String
         txt.leftView=setLeftView(str:"memberName")
         txt.leftViewMode=UITextFieldViewMode.always;

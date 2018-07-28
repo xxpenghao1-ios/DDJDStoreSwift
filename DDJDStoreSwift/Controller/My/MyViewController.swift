@@ -27,6 +27,19 @@ class MyViewController:BaseViewController{
         bindViewModel()
     }
 
+    //监听滑动事件
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        //获取偏移量
+        let offsetY = scrollView.contentOffset.y+NAV_HEIGHT;
+        //判断是否改变
+        if ( offsetY < 0) {
+            var rect = topBacImgView.frame;
+            //我们只需要改变view的y值和高度即可
+            rect.origin.y = offsetY
+            rect.size.height = 235/2 - offsetY
+            topBacImgView.frame = rect;
+        }
+    }
     ///滑动容器
     private lazy var scrollView:UIScrollView={
         let _scrollView=UIScrollView(frame:self.view.bounds)
@@ -173,24 +186,6 @@ extension MyViewController{
 
     ///VM操作
     private func vmOperation(){
-        ///下拉背景图片拉伸
-        scrollView.rx.didScroll.asObservable().subscribe { (_) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
-            //获取偏移量
-            let offsetY = weakSelf!.scrollView.contentOffset.y+NAV_HEIGHT;
-
-            //判断是否改变
-            if ( offsetY < 0) {
-                var rect = weakSelf!.topBacImgView.frame;
-                //我们只需要改变view的y值和高度即可
-                rect.origin.y = offsetY
-                rect.size.height = 235/2 - offsetY
-                weakSelf!.topBacImgView.frame = rect;
-            }
-        }.disposed(by:rx_disposeBag)
 
         ///订单点击事件
         orderCollectionView.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] (indexPath) in

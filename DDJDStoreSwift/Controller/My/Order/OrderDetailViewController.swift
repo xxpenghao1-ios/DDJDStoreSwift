@@ -115,16 +115,16 @@ extension OrderDetailViewController{
     ///取消订单
     private func cancelOrder(){
         ///调用取消订单
-        btn.rx.tap.asObservable().throttle(1, scheduler:MainScheduler.instance).subscribe(onNext: { (_) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
-            UIAlertController.showAlertYesNo(weakSelf!, title:"提示", message:"您确定要取消订单吗?", cancelButtonTitle:"取消", okButtonTitle:"确定", okHandler: { (action) in
-                weakSelf!.vm.cancelOrderPS.onNext(true)
-            })
-
+        btn.rx.tap.asObservable().throttle(1, scheduler:MainScheduler.instance).subscribe(onNext: { [weak self] (_) in
+            self?.confirmCancelTheOrder()
         }).disposed(by:rx_disposeBag)
+    }
+
+    ///确定取消订单吗
+    private func confirmCancelTheOrder(){
+        UIAlertController.showAlertYesNo(self, title:"提示", message:"您确定要取消订单吗?", cancelButtonTitle:"取消", okButtonTitle:"确定", okHandler: {  [weak self] (action) in
+            self?.vm.cancelOrderPS.onNext(true)
+        })
     }
 
     ///确认收货

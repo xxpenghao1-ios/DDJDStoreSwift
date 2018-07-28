@@ -127,15 +127,11 @@ extension GoodDetailViewController{
         }).disposed(by:rx_disposeBag)
 
         ///加入购物车
-        btnAddCar.rx.tap.asObservable().subscribe({ (_) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
-            if weakSelf!.stepper.value == 0{
+        btnAddCar.rx.tap.asObservable().subscribe({ [weak self] (_) in
+            if self?.stepper.value == 0{
                 PHProgressHUD.showInfo("加入商品数量不能为0")
             }else{
-                weakSelf!.addCarVM.addCarPS.onNext(Int(weakSelf!.stepper.value))
+                self?.addCarVM.addCarPS.onNext(Int(self?.stepper.value ?? 1))
             }
         }).disposed(by:rx_disposeBag)
 
@@ -145,15 +141,11 @@ extension GoodDetailViewController{
         }).disposed(by:rx_disposeBag)
 
         ///选择商品数量
-        btnSelectedGoodCount.rx.tap.asObservable().subscribe(onNext: {  (_) in
-            weak var weakSelf=self
-            if weakSelf == nil{
+        btnSelectedGoodCount.rx.tap.asObservable().subscribe(onNext: { [weak self] (_) in
+            if self?.vm.goodDetailBR.value == nil{
                 return
             }
-            if weakSelf!.vm.goodDetailBR.value == nil{
-                return
-            }
-            weakSelf!.selectedGoodCount(model:weakSelf!.vm.goodDetailBR.value!)
+            self?.selectedGoodCount(model:(self?.vm.goodDetailBR.value)!)
         }).disposed(by:rx_disposeBag)
     }
     ///set数据
@@ -222,7 +214,7 @@ extension GoodDetailViewController{
     func selectedGoodCount(model:GoodDetailModel){
         let alertController = UIAlertController(title:nil, message:"输入您要购买的数量", preferredStyle: UIAlertControllerStyle.alert);
         alertController.addTextField {
-            (textField: UITextField!) -> Void in
+            (textField: UITextField!) ->  Void in
             textField.keyboardType=UIKeyboardType.numberPad
             if model.goodsStock == -1{//判断库存 等于-1 表示库存充足 由于UI大小最多显示3位数
                 textField.placeholder = "请输入\(model.miniCount ?? 1)~999之间\(model.goodsBaseCount ?? 1)的倍数"
@@ -235,7 +227,7 @@ extension GoodDetailViewController{
             if this == nil{
                 return
             }
-            NotificationCenter.default.addObserver(this!, selector: #selector(self.alertTextFieldDidChange), name: NSNotification.Name.UITextFieldTextDidChange, object: textField)
+            NotificationCenter.default.addObserver(this!, selector: #selector(this!.alertTextFieldDidChange), name: NSNotification.Name.UITextFieldTextDidChange, object: textField)
         }
         //确定
         let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ [weak self] Void in

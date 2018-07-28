@@ -82,6 +82,7 @@ class GoodListViewController:BaseViewController{
     ///设置UI
     private func setUI(){
 
+
         self.view.addSubview(menu)
 
         table.frame=CGRect.init(x:0,y:menu.frame.maxY,width:SCREEN_WIDTH, height:SCREEN_HEIGH-NAV_HEIGHT-44-BOTTOM_SAFETY_DISTANCE_HEIGHT)
@@ -114,26 +115,26 @@ extension GoodListViewController:Refreshable{
 
         vm=GoodListViewModel(flag:flag,goodsCategoryId:goodsCategoryId, subSupplierId:subSupplierId, searchCondition:titleStr)
         ///创建数据源
-        let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ (_,table,indexPath,model) in
+        let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"goodListId") as? GoodListTableViewCell ?? GoodListTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"goodListId")
             if indexPath.row % 2 == 0{
                 cell.contentView.backgroundColor=UIColor.white
             }else{
                 cell.contentView.backgroundColor=UIColor.viewBgdColor()
             }
+            cell.updateCell(model:model)
             ///跳转到商品详情
-            cell.pushGoodDetailClosure={ [weak self] in
+            cell.pushGoodDetailClosure={
                 self?.pushGoodDetail(model:model)
             }
             ///加入购物车车
-            cell.addCarClosure={ [weak self] in
-                self?.addCarVM.addCar(model:model, goodsCount:Int(cell.stepper.value),flag:2)
+            cell.addCarClosure={ (goodCount) in
+                self?.addCarVM.addCar(model:model, goodsCount:goodCount,flag:2)
             }
             ///选择商品数量
-            cell.selectedGoodCountClosure={ [weak self] in
+            cell.selectedGoodCountClosure={
                 self?.selectedGoodCount(model:model,indexPath:indexPath)
             }
-            cell.updateCell(model:model)
             return cell
         },sectionIndexTitles:{ [weak self] _ in
             if self?.flag == 1{//如果是搜索不显示字母
@@ -211,7 +212,7 @@ extension GoodListViewController:Refreshable{
         }
         let alertController = UIAlertController(title:nil, message:"输入您要购买的数量", preferredStyle: UIAlertControllerStyle.alert);
         alertController.addTextField {
-            (textField: UITextField!) -> Void in
+            (textField: UITextField!) ->  Void in
             textField.keyboardType=UIKeyboardType.numberPad
             if model.goodsStock == -1{//判断库存 等于-1 表示库存充足 由于UI大小最多显示3位数
                 textField.placeholder = "请输入\(model.miniCount ?? 1)~999之间\(model.goodsBaseCount ?? 1)的倍数"
