@@ -47,21 +47,34 @@ class PHJPushHelper:NSObject{
     class func setTagAndAlias(alias storeId:String,tag substationId:String){
         //设置应用程序别名
         JPUSHService.setAlias(storeId,completion:nil,seq:22)
-        JPUSHService.setTags([substationId], completion:nil, seq:11)
+//        JPUSHService.setTags([substationId], completion:nil, seq:11)
+
+        JPUSHService.setTags([substationId], completion: { (code, tags,i) in
+            print(code)
+            print(tags)
+            print(i)
+        }, seq:11)
     }
     ///清空推送别名/tag
     class func removeTagAndAlias(){
         JPUSHService.deleteAlias(nil, seq:22)
-        JPUSHService.cleanTags(nil, seq: 11)
+        JPUSHService.deleteTags([substation_Id ?? "0"], completion: nil, seq:11)
+        JPUSHService.registrationID()
+//        JPUSHService.cleanTags({ (code,tags, i) in
+//            print(code)
+//            print(tags)
+//            print(i)
+//        }, seq: 11)
+//        JPUSHService.cleanTags(nil, seq: 11)
     }
-    ///清空推送tag
-    class func removeTag(){
-        JPUSHService.cleanTags(nil, seq: 11)
-    }
-    ///清空推送别名
-    class func removeAlias(){
-        JPUSHService.deleteAlias(nil, seq:22)
-    }
-    
+//    ///清空推送tag
+//    class func removeTag(){
+//        JPUSHService.cleanTags(nil, seq: 11)
+//    }
+//    ///清空推送别名
+//    class func removeAlias(){
+//        JPUSHService.deleteAlias(nil, seq:22)
+//    }
+
 }
 

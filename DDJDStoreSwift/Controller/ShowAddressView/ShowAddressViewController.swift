@@ -116,10 +116,10 @@ class ShowAddressViewController:UIViewController,UITableViewDataSource,UITableVi
             self.selectedIndexPath=indexPath
             let msg=self.selectedProvince!+"-"+self.selectedCity!+"-"+self.selectedArea!
             let alert=UIAlertController(title:"地区选择", message:msg, preferredStyle: UIAlertControllerStyle.alert)
-            let ok=UIAlertAction(title:"确定", style: UIAlertActionStyle.default, handler:{  Void in
+            let ok=UIAlertAction(title:"确定", style: UIAlertActionStyle.default, handler:{ [weak self]  Void in
                 //通知上一页面刷新数据
                 NotificationCenter.default.post(name: Notification.Name(rawValue: "postUpdateAddress"), object:msg)
-                self.dismiss(animated: true, completion:nil)
+                self?.cancel()
                 
             })
             let cancel=UIAlertAction(title:"取消", style: UIAlertActionStyle.cancel, handler:nil)

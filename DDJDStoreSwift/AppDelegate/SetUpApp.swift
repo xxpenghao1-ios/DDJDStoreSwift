@@ -82,6 +82,16 @@ extension AppDelegate{
 
 ///极光推送
 extension AppDelegate:JPUSHRegisterDelegate{
+
+    ///处理推送消息
+    private func managePushInfo(json:JSON){
+        ///是否取消语音播报  true是
+        let isCancelSpeech=USER_DEFAULTS.object(forKey:"isCancelSpeech") as? Bool ?? false
+        if isCancelSpeech{
+
+        }
+
+    }
     ///监听自定义消息
     @objc func networkDidReceiveMessage(_ notification:Notification){
         let userInfo=notification.userInfo
@@ -97,7 +107,7 @@ extension AppDelegate:JPUSHRegisterDelegate{
     @available(iOS 10.0, *)
     func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
         let userInfo=response.notification.request.content.userInfo
-        PHSpeechSynthesizer().startPlayVoice(str:"点单即到,正在做特价促销活动")
+
         if (response.notification.request.trigger?.isKind(of:UNPushNotificationTrigger.classForCoder()))!{
             JPUSHService.handleRemoteNotification(userInfo)
             print(userInfo)
@@ -110,7 +120,6 @@ extension AppDelegate:JPUSHRegisterDelegate{
     @available(iOS 10.0, *)
     func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
         let userInfo=notification.request.content.userInfo
-        PHSpeechSynthesizer().startPlayVoice(str:"点单即到,正在做特价促销活动")
         if (notification.request.trigger?.isKind(of:UNPushNotificationTrigger.classForCoder()))!{
             JPUSHService.handleRemoteNotification(userInfo)
             print(userInfo)

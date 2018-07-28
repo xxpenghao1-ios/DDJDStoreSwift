@@ -115,16 +115,26 @@ class CarTableViewCell: UITableViewCell {
             ///显示特价图标
             goodFlagImgView.image=UIImage(named:"special_good")
             goodFlagImgView.isHidden=false
-            ///最大购买数量
-            maxCarNumberCount=model.eachCount ?? 0
+            if model.eachCount > model.goodsStock{//如果限购数量大于库存数量
+                ///最大购买数量为库存数量
+                maxCarNumberCount=model.goodsStock ?? 0
+            }else{
+                ///最大购买数量为限购数
+                maxCarNumberCount=model.eachCount ?? 0
+            }
         }else if model.flag == 3{///如果是促销
             lblGoodName.text=(model.goodInfoName ?? "")+"(限购~~\(model.promotionStoreEachCount ?? 0)\(model.goodUnit ?? ""))"
             setStock(stock: model.goodsStock)
             ///显示促销图标
             goodFlagImgView.image=UIImage(named:"promotion_good")
             goodFlagImgView.isHidden=false
-            ///最大购买数量
-            maxCarNumberCount=model.promotionStoreEachCount ?? 0
+            if model.promotionStoreEachCount > model.goodsStock{//如果限购数量大于库存数量
+                ///最大购买数量为库存数量
+                maxCarNumberCount=model.goodsStock ?? 0
+            }else{
+                ///最大购买数量为限购数
+                maxCarNumberCount=model.promotionStoreEachCount ?? 0
+            }
         }else{///普通价格
             ///隐藏促销特价图片 防止重复显示
             goodFlagImgView.isHidden=true

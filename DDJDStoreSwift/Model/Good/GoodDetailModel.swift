@@ -42,6 +42,8 @@ class GoodDetailModel:Mappable{
     /// 商品库存  -1 库存充足
     var goodsStock:Int?
     /// 特价库存
+    var stock:Int?
+    /// 商品数量
     var goodsCount:Int?
     /// 单位
     var goodUnit:String?
@@ -51,6 +53,8 @@ class GoodDetailModel:Mappable{
     var salesCount:Int?
     /// 特价价格
     var preferentialPrice:String?
+    /// 特价id
+    var preferentialId:Int?
     /// 商品详情特价
     var prefertialPrice:String?
     /// 配送商名称
@@ -114,11 +118,13 @@ class GoodDetailModel:Mappable{
         miniCount <- map["miniCount"]
         goodsBaseCount <- map["goodsBaseCount"]
         goodsStock <- map["goodsStock"]
+        stock <- map["stock"]
         goodsCount <- map["goodsCount"]
         goodUnit <- map["goodUnit"]
         uitemPrice <- map["uitemPrice"]
         salesCount <- map["salesCount"]
         preferentialPrice <- map["preferentialPrice"]
+        preferentialId <- map["preferentialId"]
         prefertialPrice <- map["prefertialPrice"]
         supplierName <- map["supplierName"]
         goodInfoCode <- map["goodInfoCode"]

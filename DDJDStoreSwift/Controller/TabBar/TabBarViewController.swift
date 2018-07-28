@@ -21,21 +21,23 @@ class TabBarViewController:UITabBarController{
     ///监听购物车商品变化
     private var addCarGoodCountVM=AddCarGoodCountViewModel()
 
-    let carVC=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
+//    let carVC=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        bindViewModel()
         //首页
         addChildViewController(IndexViewController(),title: "首页", imageName: "1")
         //分类
         addChildViewController(ClassifyPageViewController(), title:"分类", imageName:"2")
 
+        let carVC=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
         //购物车
         addChildViewController(carVC, title:"购物车", imageName:"3")
         ///个人中心
         addChildViewController(MyViewController(), title:"个人中心", imageName:"4")
         self.tabBar.tintColor=UIColor.applicationMainColor()
+
+        bindViewModel()
     }
     /**
      初始化子控制器
@@ -95,11 +97,10 @@ extension TabBarViewController{
         ///查询购物车商品数量结果
         addCarGoodCountVM.queryCarSumCountBR.subscribe(onNext: { [weak self] (count) in
             if count > 0{
-                self?.carVC.tabBarItem.badgeValue=count.description
+                self?.tabBar.items?[2].badgeValue=count.description
             }else{
-                self?.carVC.tabBarItem.badgeValue=nil
+                self?.tabBar.items?[2].badgeValue=nil
             }
-            
         }).disposed(by:rx_disposeBag)
     }
 }

@@ -71,6 +71,8 @@ extension BaseViewController{
     }
     ///清除用户缓存信息
     func clearUserDefault(){
+        ///清除推送信息
+        PHJPushHelper.removeTagAndAlias()
         USER_DEFAULTS.removeObject(forKey:"storeId")
         USER_DEFAULTS.removeObject(forKey:"countyId")
         USER_DEFAULTS.removeObject(forKey:"county")
@@ -78,8 +80,7 @@ extension BaseViewController{
         USER_DEFAULTS.removeObject(forKey:"storeName")
         USER_DEFAULTS.removeObject(forKey:"memberId")
         USER_DEFAULTS.synchronize()
-        ///清除推送信息
-        PHJPushHelper.removeTagAndAlias()
+
     }
 }
 

@@ -93,16 +93,9 @@ extension UpdateAddAddressViewController{
     }
     private func bindViewModel(){
 
-        btnSubmit.rx.tap.throttle(1, scheduler:MainScheduler.instance).subscribe(onNext: { (_) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
-            if weakSelf!.addressModel == nil{
-                weakSelf!.vm.addAddress(flag:weakSelf!.isDefault.isOn == true ? 1:2, province: weakSelf!.province, city:weakSelf!.city, county: weakSelf!.county, detailAddress:weakSelf!.txtDetailsAddress!.text ?? "", phoneNumber: weakSelf!.txtTel.text ?? "", shippName:weakSelf!.txtName.text ?? "")
-            }else{
-                weakSelf!.vm.updateAddress(flag:weakSelf!.isDefault.isOn == true ? 1:2, province: weakSelf!.province, city:weakSelf!.city, county: weakSelf!.county, detailAddress:weakSelf!.txtDetailsAddress!.text ?? "", phoneNumber: weakSelf!.txtTel.text ?? "", shippName:weakSelf!.txtName.text ?? "",shippAddressId:weakSelf!.addressModel!.shippAddressId ?? 0)
-            }
+
+        btnSubmit.rx.tap.throttle(1, scheduler:MainScheduler.instance).subscribe({ [weak self] (_) in
+            self?.addAndUpdateAddress(addressModel:self?.addressModel)
         }).disposed(by:rx_disposeBag)
 
         ///操作成功返回上一页
@@ -111,5 +104,14 @@ extension UpdateAddAddressViewController{
                 self?.navigationController?.popViewController(animated: true)
             }
         }).disposed(by:rx_disposeBag)
+    }
+
+    ///添加修改收货地址
+    private func addAndUpdateAddress(addressModel:AddressModel?){
+        if addressModel == nil{
+            vm.addAddress(flag:isDefault.isOn == true ? 1:2, province: province, city:city, county:county, detailAddress:txtDetailsAddress!.text ?? "", phoneNumber:txtTel.text ?? "", shippName:txtName.text ?? "")
+        }else{
+            vm.updateAddress(flag:isDefault.isOn == true ? 1:2, province: province, city:city, county:county, detailAddress:txtDetailsAddress.text ?? "", phoneNumber:txtTel.text ?? "", shippName:txtName.text ?? "",shippAddressId:addressModel!.shippAddressId ?? 0)
+        }
     }
 }

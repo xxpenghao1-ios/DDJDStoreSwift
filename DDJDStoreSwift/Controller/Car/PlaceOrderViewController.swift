@@ -122,15 +122,15 @@ extension PlaceOrderViewController{
                 return
             }
             if b{ ///下单成功
-                UIAlertController.showAlertYesNo(weakSelf!, title:"点单即到", message:"下单成功,您的货物会在24小时内送货上门,请注意查收。", cancelButtonTitle:"知道了", okButtonTitle:"查看订单", okHandler: { (_) in
+                UIAlertController.showAlertYesNo(weakSelf!, title:"点单即到", message:"下单成功,您的货物会在24小时内送货上门,请注意查收。", cancelButtonTitle:"知道了", okButtonTitle:"查看订单", okHandler: { [weak self] (_) in
                     ///订单页面
                     let vc=OrderPageViewController()
                     vc.orderStatus=1
                     vc.carIsFlag=1
-                    weakSelf!.navigationController?.pushViewController(vc,animated:true)
-                }, cancelHandler: { (_) in
+                    self?.navigationController?.pushViewController(vc,animated:true)
+                }, cancelHandler: { [weak self] (_) in
                     ///返回导航根视图
-                    weakSelf!.navigationController?.popToRootViewController(animated: true);
+                    self?.navigationController?.popToRootViewController(animated: true);
                 })
                 ///更新购物车角标
                 APP.tab?.updateCarBadgeValue.onNext(true)

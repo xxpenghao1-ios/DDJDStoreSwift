@@ -96,9 +96,9 @@ class SpecialGoodTableViewCell: UITableViewCell {
             lblGoodName.text=(model.goodInfoName ?? "")+"(限购~~\(model.eachCount!)\(model.goodUnit ?? ""))"
         }
 
-        lblStock.text="库存:\(model.goodsCount ?? 0)"
+        lblStock.text="库存:\(model.goodsStock ?? 0)"
         ///如果库存等于0或者空
-        if model.goodsCount == nil || model.goodsCount == 0{
+        if model.goodsStock == nil || model.goodsStock == 0{
             showGoodStateImgView(name:"to_sell_out")
         }
 

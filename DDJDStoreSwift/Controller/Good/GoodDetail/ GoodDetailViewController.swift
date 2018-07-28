@@ -145,7 +145,7 @@ extension GoodDetailViewController{
         }).disposed(by:rx_disposeBag)
 
         ///选择商品数量
-        btnSelectedGoodCount.rx.tap.asObservable().subscribe(onNext: { (_) in
+        btnSelectedGoodCount.rx.tap.asObservable().subscribe(onNext: {  (_) in
             weak var weakSelf=self
             if weakSelf == nil{
                 return

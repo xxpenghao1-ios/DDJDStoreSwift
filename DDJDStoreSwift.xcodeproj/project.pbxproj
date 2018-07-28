@@ -166,6 +166,8 @@
 		638F77EC20FDE0DA007F3FCA /* CarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77EB20FDE0DA007F3FCA /* CarViewModel.swift */; };
 		638F77EE20FDE7C5007F3FCA /* CarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638F77ED20FDE7C5007F3FCA /* CarModel.swift */; };
 		639B5A6720F35DFB005CA571 /* CarAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639B5A6620F35DFB005CA571 /* CarAPI.swift */; };
+		639EA381210C5EAD0074AB3D /* tejia .mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 639EA37F210C5EAC0074AB3D /* tejia .mp3 */; };
+		639EA382210C5EAD0074AB3D /* cuxiao.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 639EA380210C5EAD0074AB3D /* cuxiao.mp3 */; };
 		63A989F520EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A989F320EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift */; };
 		63A989F620EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63A989F420EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib */; };
 		63A989F820EF1F6C005AD5BB /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A989F720EF1F6C005AD5BB /* Date.swift */; };
@@ -396,6 +398,8 @@
 		638F77EB20FDE0DA007F3FCA /* CarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarViewModel.swift; sourceTree = "<group>"; };
 		638F77ED20FDE7C5007F3FCA /* CarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarModel.swift; sourceTree = "<group>"; };
 		639B5A6620F35DFB005CA571 /* CarAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarAPI.swift; sourceTree = "<group>"; };
+		639EA37F210C5EAC0074AB3D /* tejia .mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "tejia .mp3"; sourceTree = "<group>"; };
+		639EA380210C5EAD0074AB3D /* cuxiao.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cuxiao.mp3; sourceTree = "<group>"; };
 		63A989F320EEF98E005AD5BB /* OrderDetailGoodTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailGoodTableViewCell.swift; sourceTree = "<group>"; };
 		63A989F420EEF98E005AD5BB /* OrderDetailGoodTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OrderDetailGoodTableViewCell.xib; sourceTree = "<group>"; };
 		63A989F720EF1F6C005AD5BB /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
@@ -695,6 +699,7 @@
 		6341DB2E2094112B00AC267D /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				639EA383210C611C0074AB3D /* Music */,
 				63FBEE422091746F00BE6B81 /* Assets.xcassets */,
 				63FBEE3C2091746C00BE6B81 /* Main.storyboard */,
 				63FBEE442091746F00BE6B81 /* LaunchScreen.storyboard */,
@@ -927,7 +932,6 @@
 			isa = PBXGroup;
 			children = (
 				634EF26720F8A0AC00A6FFCD /* GoodListViewModel.swift */,
-				630BDCF7210220CF00EF98A1 /* UpdateAddAddressViewModel.swift */,
 			);
 			path = GoodList;
 			sourceTree = "<group>";
@@ -945,6 +949,7 @@
 		634F065E2101B3F300F56684 /* Address */ = {
 			isa = PBXGroup;
 			children = (
+				630BDCF7210220CF00EF98A1 /* UpdateAddAddressViewModel.swift */,
 				634F065F2101B41A00F56684 /* AddressViewModel.swift */,
 			);
 			path = Address;
@@ -1250,6 +1255,15 @@
 				634F06572101833600F56684 /* PlaceOrderViewModel.swift */,
 			);
 			path = Car;
+			sourceTree = "<group>";
+		};
+		639EA383210C611C0074AB3D /* Music */ = {
+			isa = PBXGroup;
+			children = (
+				639EA37F210C5EAC0074AB3D /* tejia .mp3 */,
+				639EA380210C5EAD0074AB3D /* cuxiao.mp3 */,
+			);
+			path = Music;
 			sourceTree = "<group>";
 		};
 		63B3F6BB2102D1DB001268C8 /* ShowAddressView */ = {
@@ -1563,6 +1577,7 @@
 				637FAEF520EE003600299D29 /* OrderDetail.storyboard in Resources */,
 				6322DD0F2105A74300E1B7F4 /* IntegralGoodCollectionViewCell.xib in Resources */,
 				638006A320F06BC500D39044 /* NewGoodListTableViewCell.xib in Resources */,
+				639EA381210C5EAD0074AB3D /* tejia .mp3 in Resources */,
 				6322DD0521057C9C00E1B7F4 /* IntegralStore.storyboard in Resources */,
 				634F065621017A8500F56684 /* PlaceOrderTableViewCell.xib in Resources */,
 				63FBEE432091746F00BE6B81 /* Assets.xcassets in Resources */,
@@ -1570,6 +1585,7 @@
 				638F77D020FDCEC7007F3FCA /* CodeScan.bundle in Resources */,
 				63B3F6C82102D1DB001268C8 /* unchecked@2x.png in Resources */,
 				638A26B020ECA33000170762 /* MessageTableViewCell.xib in Resources */,
+				639EA382210C5EAD0074AB3D /* cuxiao.mp3 in Resources */,
 				6346E8BA20F4942F00E844F1 /* SpecialGoodTableViewCell.xib in Resources */,
 				63FBEE3E2091746C00BE6B81 /* Main.storyboard in Resources */,
 				637FAEEF20EDB1F600299D29 /* OrderListTableViewCell.xib in Resources */,
@@ -2034,7 +2050,10 @@
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = "$(SRCROOT)/DDJDStoreSwift/AppDelegate/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				OTHER_SWIFT_FLAGS = "$(inherited) \"-D\" \"COCOAPODS\"";
 				"OTHER_SWIFT_FLAGS[arch=*]" = "$(inherited) \"-D\" \"COCOAPODS\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.nmore.phddjdStore;
@@ -2059,7 +2078,10 @@
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = "$(SRCROOT)/DDJDStoreSwift/AppDelegate/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nmore.phddjdStore;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "DDJDStoreSwift/Resource/DDJDStoreSwift-Bridging-Header.h";
@@ -2078,7 +2100,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = DDJDStoreSwiftTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = penghao.DDJDStoreSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -2095,7 +2121,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = DDJDStoreSwiftTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = penghao.DDJDStoreSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -2111,7 +2141,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = DDJDStoreSwiftUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = penghao.DDJDStoreSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -2127,7 +2161,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5A79UN6C3M;
 				INFOPLIST_FILE = DDJDStoreSwiftUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = penghao.DDJDStoreSwiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;

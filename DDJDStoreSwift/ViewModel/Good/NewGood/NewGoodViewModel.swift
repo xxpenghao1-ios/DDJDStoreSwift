@@ -13,7 +13,7 @@ import RxDataSources
 ///新品推荐
 class NewGoodViewModel:NSObject,OutputRefreshProtocol{
     ///新品数据
-    var newGoodArrModelBR=BehaviorRelay<[EmptyDataType:[SectionModel<String,GoodDetailModel>]]>(value:[.loading:[]])
+     var newGoodArrModelBR=BehaviorRelay<[EmptyDataType:[SectionModel<String,GoodDetailModel>]]>(value:[.loading:[]])
 
     ///保存新品数据
     var newGoodArrModel=[GoodDetailModel]()
@@ -45,39 +45,44 @@ class NewGoodViewModel:NSObject,OutputRefreshProtocol{
     }
     ///获取新品推荐商品
     private func getNewGood(b:Bool){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
-        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryGoodsForAndroidIndexForStoreNew(storeId:store_Id!, pageSize:pageSize, currentPage:currentPage), model:GoodDetailModel.self).subscribe(onNext: {  (arr) in
-            if b == true{///刷新
-                ///每次获取最新的数据
-                weakSelf!.newGoodArrModel=arr
-                weakSelf!.newGoodArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.newGoodArrModel)]])
-
-
-            }else{//加载更多
-                ///追加数据
-                weakSelf!.newGoodArrModel+=arr
-                weakSelf!.newGoodArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.newGoodArrModel)]])
-            }
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            if arr.count < weakSelf!.pageSize{//如果下面没有数据了
-                weakSelf!.refreshStatus.accept(.noMoreData)
-            }
-        }, onError: { (error) in
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            ///把页索引-1
-            if weakSelf!.currentPage > 1{
-                weakSelf!.currentPage-=1
-            }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
-                weakSelf!.refreshStatus.accept(.noMoreData)
-                ///获取数据出错 空页面提示
-                weakSelf!.newGoodArrModelBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.newGoodArrModel)]])
-            }
+        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryGoodsForAndroidIndexForStoreNew(storeId:store_Id!, pageSize:pageSize, currentPage:currentPage), model:GoodDetailModel.self).subscribe(onNext: {  [weak self] (arr) in
+            self?.subscribeResult(b:b, arr:arr)
+        }, onError: { [weak self] (error) in
+            self?.errorResult()
             phLog("获取新品推荐列表数据出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
+    }
+    ///请求结果处理
+    private func subscribeResult(b:Bool,arr:[GoodDetailModel]){
+        if b == true{///刷新
+            ///每次获取最新的数据
+            newGoodArrModel=arr
+            newGoodArrModelBR.accept([.noData:[SectionModel.init(model:"",items:newGoodArrModel)]])
+
+
+        }else{//加载更多
+            ///追加数据
+            newGoodArrModel+=arr
+            newGoodArrModelBR.accept([.noData:[SectionModel.init(model:"",items:newGoodArrModel)]])
+        }
+        refreshStatus.accept(.endHeaderRefresh)
+        refreshStatus.accept(.endFooterRefresh)
+        if arr.count < pageSize{//如果下面没有数据了
+            refreshStatus.accept(.noMoreData)
+        }
+    }
+
+    ///错误结果处理
+    private func errorResult(){
+        refreshStatus.accept(.endHeaderRefresh)
+        refreshStatus.accept(.endFooterRefresh)
+        ///把页索引-1
+        if currentPage > 1{
+            currentPage-=1
+        }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
+            refreshStatus.accept(.noMoreData)
+            ///获取数据出错 空页面提示
+            newGoodArrModelBR.accept([.dataError:[SectionModel.init(model:"",items:newGoodArrModel)]])
+        }
     }
 }

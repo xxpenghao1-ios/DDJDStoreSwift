@@ -65,6 +65,14 @@ class GoodListViewController:BaseViewController{
         _table.emptyDataSetDelegate=self
         return _table
     }()
+
+    ///返回顶部按钮
+    private lazy var btnReturnTop:UIButton={
+        let _btn=UIButton()
+        _btn.setImage(UIImage(named:"return_top"), for:.normal)
+        _btn.isHidden=true
+        return _btn
+    }()
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title=titleStr
@@ -78,6 +86,9 @@ class GoodListViewController:BaseViewController{
 
         table.frame=CGRect.init(x:0,y:menu.frame.maxY,width:SCREEN_WIDTH, height:SCREEN_HEIGH-NAV_HEIGHT-44-BOTTOM_SAFETY_DISTANCE_HEIGHT)
         self.view.addSubview(table)
+
+        btnReturnTop.frame=CGRect(x:SCREEN_WIDTH-50, y:table.frame.maxY-55, width:45, height:45)
+        self.view.addSubview(btnReturnTop)
 
         //空视图提示文字
         self.emptyDataSetTextInfo="亲,暂时没有该类商品"
@@ -103,7 +114,7 @@ extension GoodListViewController:Refreshable{
 
         vm=GoodListViewModel(flag:flag,goodsCategoryId:goodsCategoryId, subSupplierId:subSupplierId, searchCondition:titleStr)
         ///创建数据源
-        let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
+        let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"goodListId") as? GoodListTableViewCell ?? GoodListTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"goodListId")
             if indexPath.row % 2 == 0{
                 cell.contentView.backgroundColor=UIColor.white
@@ -111,15 +122,15 @@ extension GoodListViewController:Refreshable{
                 cell.contentView.backgroundColor=UIColor.viewBgdColor()
             }
             ///跳转到商品详情
-            cell.pushGoodDetailClosure={
+            cell.pushGoodDetailClosure={ [weak self] in
                 self?.pushGoodDetail(model:model)
             }
             ///加入购物车车
-            cell.addCarClosure={
+            cell.addCarClosure={ [weak self] in
                 self?.addCarVM.addCar(model:model, goodsCount:Int(cell.stepper.value),flag:2)
             }
             ///选择商品数量
-            cell.selectedGoodCountClosure={
+            cell.selectedGoodCountClosure={ [weak self] in
                 self?.selectedGoodCount(model:model,indexPath:indexPath)
             }
             cell.updateCell(model:model)
@@ -157,6 +168,21 @@ extension GoodListViewController:Refreshable{
 
         table.rx.setDelegate(self).disposed(by:rx_disposeBag)
 
+        ///返回顶部
+        btnReturnTop.rx.tap.asObservable().subscribe(onNext: { [weak self] (_) in
+            let at=IndexPath(item:0, section:0)
+            self?.table.scrollToRow(at:at, at: UITableViewScrollPosition.top, animated:true)
+        }).disposed(by:rx_disposeBag)
+
+        ///监听滑动事件
+        table.rx.didScroll.subscribe(onNext: { [weak self] (_) in
+            if self?.table.contentOffset.y > 400{//滑动600距离显示返回顶部按钮
+                self?.btnReturnTop.isHidden=false
+            }else{
+                self?.btnReturnTop.isHidden=true
+            }
+
+        }).disposed(by:rx_disposeBag)
         ///刷新
         let refreshHeader=initRefreshHeader(table) { [weak self] in
             self?.vm.requestNewDataCommond.onNext(true)

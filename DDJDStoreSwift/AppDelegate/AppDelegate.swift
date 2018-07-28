@@ -29,12 +29,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 
         //设备标识是NSdata通过截取字符串去掉空格获得字符串保存进缓存 登录发给服务器 用于控制用户只能在一台设备登录
-        let characterSet: CharacterSet = CharacterSet(charactersIn: "<>")
-        let deviceTokenString: String = (deviceToken.description as NSString)
-            .trimmingCharacters(in: characterSet)
-            .replacingOccurrences(of: " ", with: "") as String
+        let nsdataStr = NSData.init(data: deviceToken)
+        let datastr = nsdataStr.description.replacingOccurrences(of: "<", with: "").replacingOccurrences(of: ">", with: "").replacingOccurrences(of: " ", with: "")
         //把截取的设备令牌保存进缓存
-        USER_DEFAULTS.set(deviceTokenString, forKey:"deviceToken")
+        USER_DEFAULTS.set(datastr,forKey:"deviceToken")
         //写入磁盘
         USER_DEFAULTS.synchronize()
         //在appdelegate注册设备处调用

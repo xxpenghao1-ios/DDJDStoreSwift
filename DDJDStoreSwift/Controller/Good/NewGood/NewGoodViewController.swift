@@ -20,25 +20,25 @@ class NewGoodViewController:BaseViewController{
         _table.backgroundColor=UIColor.clear
         _table.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0)
         _table.register(UINib(nibName:"NewGoodListTableViewCell", bundle:nil), forCellReuseIdentifier:"newGoodListId")
-        _table.emptyDataSetSource=self
-        _table.emptyDataSetDelegate=self
         return _table
     }()
 
     ///跳转购物车按钮
     private var btnPushCar:UIButton!
 
-    private let vm=NewGoodViewModel()
+    private var vm=NewGoodViewModel()
 
-    private let addCarVM=AddCarGoodCountViewModel()
+    private var addCarVM=AddCarGoodCountViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="新品推荐区"
         table.frame=self.view.bounds
-        self.view.addSubview(table)
+        table.emptyDataSetSource=self
+        table.emptyDataSetDelegate=self
         //空视图提示文字
         self.emptyDataSetTextInfo="亲,暂无新品"
+        self.view.addSubview(table)
         ///跳转到购物车按钮
         btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
         btnPushCar.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
@@ -65,14 +65,14 @@ extension NewGoodViewController:Refreshable{
             }else{
                 cell.contentView.backgroundColor=UIColor.viewBgdColor()
             }
-            cell.pushGoodDetailClosure={
+            cell.updateCell(model:model)
+            cell.pushGoodDetailClosure={ 
                 self?.pushGoodDetail(model:model)
             }
             ///加入购物车车
-            cell.addCarClosure={
-                self?.addCarVM.addCar(model:model, goodsCount:Int(cell.stepper.value),flag:2)
+            cell.addCarClosure={ (goodCount) in
+                self?.addCarVM.addCar(model:model,goodsCount:goodCount,flag:2)
             }
-            cell.updateCell(model:model)
             return cell
         })
 

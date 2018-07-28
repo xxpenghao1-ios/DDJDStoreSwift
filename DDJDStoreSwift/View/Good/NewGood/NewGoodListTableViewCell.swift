@@ -12,7 +12,7 @@ class NewGoodListTableViewCell: UITableViewCell {
     ///跳转到商品详情
     var pushGoodDetailClosure:(() -> Void)?
     ///加入购物车
-    var addCarClosure:(() -> Void)?
+    var addCarClosure:((Int) -> Void)?
     ///商品图片
     @IBOutlet weak var imgView:UIImageView!
     ///商品名称
@@ -103,11 +103,11 @@ class NewGoodListTableViewCell: UITableViewCell {
     }
     ///跳转到商品详情
     @objc private func pushGoodDetail(){
-        self.pushGoodDetailClosure?()
+        pushGoodDetailClosure?()
     }
     ///加入购物车
     @objc private func addCar(){
-        self.addCarClosure?()
+        addCarClosure?(Int(stepper.value))
     }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

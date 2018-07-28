@@ -10,7 +10,7 @@ import Foundation
 import RxDataSources
 import RxSwift
 import RxCocoa
-///购物车按钮
+///购物车
 class CarViewController:BaseViewController{
 
     private var vm=CarViewModel()

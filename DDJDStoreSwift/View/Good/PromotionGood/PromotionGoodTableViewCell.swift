@@ -76,8 +76,8 @@ class PromotionGoodTableViewCell: UITableViewCell {
         lblUpice.text="￥\(model.uprice ?? "0")"
 
         lblSalesCount.text="销量:\(model.salesCount ?? 0)"
-
-        lblPromotionStr.text=model.goodsDes
+        
+        lblPromotionStr.text=model.goodsDes?.replacingOccurrences(of:"；", with:"\n")
 
         let times=model.promotionEndTime?.components(separatedBy:".")
         if times != nil && Int(times![0]) > 0{///促销时间不为空

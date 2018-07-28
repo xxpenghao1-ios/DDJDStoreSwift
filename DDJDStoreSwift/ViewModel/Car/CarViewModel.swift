@@ -59,10 +59,10 @@ extension CarViewModel{
             ///统一库存  把特价 促销  普通库存统一到goodsStock
             let mapArr=carArr.map({ (carModel) -> CarModel in
                 let goodList=carModel.listGoods!.map({ (goodModel) -> GoodDetailModel in
-                    if goodModel.flag == 1{
-                        goodModel.goodsStock=goodModel.goodsCount
-                    }else if goodModel.flag == 3{
+                    if goodModel.flag == 3{//促销
                         goodModel.goodsStock=goodModel.promotionEachCount
+                    }else if goodModel.flag == 1{//特价
+                        goodModel.goodsStock=goodModel.stock
                     }
                     return goodModel
                 })
