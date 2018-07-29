@@ -32,7 +32,7 @@ class IndexViewController:BaseViewController,Refreshable{
 
         scrollView=UIScrollView(frame:self.view.bounds)
         self.view.addSubview(scrollView)
-        
+
         ///幻灯片
         cycleScrollView=WRCycleScrollView(frame:CGRect.init(x:0, y:0, width:SCREEN_WIDTH,height:SCREEN_WIDTH*0.38))
         cycleScrollView.backgroundColor=UIColor.viewBgdColor()
@@ -43,7 +43,9 @@ class IndexViewController:BaseViewController,Refreshable{
         cycleScrollView.localImgArray=[SLIDE_DEFAULT]
         scrollView.addSubview(cycleScrollView)
 
-
+        ///分类间隔view
+        let classifyCollectionIntervalView=UIView.init(frame: CGRect.init(x:0, y:cycleScrollView.frame.maxY, width:SCREEN_WIDTH, height:15))
+        view.backgroundColor=UIColor.white
         scrollView.addSubview(classifyCollectionIntervalView)
 
         ///分类
@@ -60,8 +62,74 @@ class IndexViewController:BaseViewController,Refreshable{
         classifyCollectionView.register(IndexClassifyCollectionViewCell.self, forCellWithReuseIdentifier:"indexClassifyId")
         scrollView.addSubview(classifyCollectionView)
 
+        ///特价促销区 ***************
+        ///特价图片
+        specialsImgView=UIImageView(frame: CGRect.init(x:SCREEN_WIDTH/2, y:0, width:SCREEN_WIDTH/2,height:SCREEN_WIDTH/2*1.1))
+        specialsImgView.image=UIImage.init(named:"index_special")
+        specialsImgView.isUserInteractionEnabled=true
+        specialsImgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushSpecialVC)))
+
+        ///促销图片
+        promotionsImgView=UIImageView(frame:CGRect.init(x:0,y:0,width:SCREEN_WIDTH/2,height:SCREEN_WIDTH/2*1.1))
+        promotionsImgView.image=UIImage.init(named:"index_promotion")
+        promotionsImgView.isUserInteractionEnabled=true
+        promotionsImgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushPromotionVC)))
+
+        specialsAndPromotionsView=UIView(frame: CGRect.init(x:0, y: classifyCollectionView.frame.maxY+10, width:SCREEN_WIDTH,height:SCREEN_WIDTH/2*1.1))
+        specialsAndPromotionsView.backgroundColor=UIColor.white
+        specialsAndPromotionsView.addSubview(specialsImgView)
+        specialsAndPromotionsView.addSubview(promotionsImgView)
         scrollView.addSubview(specialsAndPromotionsView)
+
+        ///新品推荐view
+        newGoodView=UIView(frame: CGRect.init(x:0, y:specialsAndPromotionsView.frame.maxY+10, width:SCREEN_WIDTH, height:35+carouselHeight+7))
+        newGoodView.backgroundColor=UIColor.white
+        ///新品标题
+        let _title=UILabel.buildLabel(text:"新品推荐", textColor: UIColor.color333(),font:16, textAlignment:.left)
+        _title.frame=CGRect.init(x:15,y:0,width:SCREEN_WIDTH-30,height:35)
+        newGoodView.addSubview(_title)
+
+        ///旋转木马控件
+        carousel=iCarousel(frame:CGRect.init(x:0,y:35, width:SCREEN_WIDTH,height:carouselHeight))
+        carousel.type = .rotary
+        carousel.dataSource=self
+        carousel.delegate=self
+
+        ///新品推荐空提示
+        newGoodNilLab=UILabel.buildLabel(text:"暂无新品", textColor: UIColor.color666(), font:15, textAlignment: .center)
+        newGoodNilLab.frame=CGRect.init(x:0,y:(carouselHeight+7-20)/2, width:SCREEN_WIDTH, height:20)
+        newGoodNilLab.isHidden=true
+
+        newGoodView.addSubview(carousel)
+        newGoodView.addSubview(newGoodNilLab)
         scrollView.addSubview(newGoodView)
+
+
+        ///热门商品头部view
+        hotTopView=UIView(frame:CGRect.init(x:0,y:newGoodView.frame.maxY, width:SCREEN_WIDTH, height: 52))
+        ///提示按钮
+        let btnTitle=UIButton.buildBtn(text:"热门商品", textColor:UIColor.white, font:16, backgroundColor:UIColor.RGBFromHexColor(hexString:"ff1261"), cornerRadius:15)
+        btnTitle.frame=CGRect.init(x:(SCREEN_WIDTH-90)/2,y:11, width:90, height:30)
+
+        ///白色view
+        let whiteView=UIView(frame: CGRect.init(x:0, y:26, width:SCREEN_WIDTH, height: 26))
+        whiteView.backgroundColor=UIColor.white
+        view.addSubview(whiteView)
+        view.addSubview(btnTitle)
+
+        ///热门商品UICollectionView
+        let hotflowLayout = UICollectionViewFlowLayout()
+        hotflowLayout.sectionInset=UIEdgeInsets.init(top:7, left: 7, bottom: 7, right:7)
+        //计算每列的宽度，需要在布局之前算好
+        let columnWidth = (SCREEN_WIDTH - 21)/2
+        hotflowLayout.itemSize = CGSize(width:columnWidth,height:columnWidth+72)
+        hotflowLayout.scrollDirection = UICollectionViewScrollDirection.vertical//设置垂直显
+        hotflowLayout.minimumLineSpacing=7
+        hotflowLayout.minimumInteritemSpacing=7
+        hotGoodCollectionView=UICollectionView(frame:CGRect(x:0,y:hotTopView.frame.maxY,width:SCREEN_WIDTH,height:0),collectionViewLayout:hotflowLayout)
+        hotGoodCollectionView.backgroundColor=UIColor.viewBgdColor()
+        hotGoodCollectionView.isScrollEnabled=false
+        hotGoodCollectionView.register(IndexHotGoodCollectionViewCell.self, forCellWithReuseIdentifier:"indexHotGoodCellId");
         scrollView.addSubview(hotTopView)
         scrollView.addSubview(hotGoodCollectionView)
         scrollView.contentSize=CGSize(width:SCREEN_WIDTH, height:hotGoodCollectionView.frame.maxY+15)
@@ -74,100 +142,30 @@ class IndexViewController:BaseViewController,Refreshable{
     private var cycleScrollView:WRCycleScrollView!
 
     ///分类间隔view
-    private lazy var classifyCollectionIntervalView:UIView={
-        let view=UIView.init(frame: CGRect.init(x:0, y:cycleScrollView.frame.maxY, width:SCREEN_WIDTH, height:15))
-        view.backgroundColor=UIColor.white
-        return view
-    }()
+    private var classifyCollectionIntervalView:UIView!
 
     ///分类
     private var classifyCollectionView:UICollectionView!
 
     ///特价促销区 ***************
-    private lazy var specialsAndPromotionsView:UIView={
-
-        let view=UIView(frame: CGRect.init(x:0, y: classifyCollectionView.frame.maxY+10, width:SCREEN_WIDTH,height:SCREEN_WIDTH/2*1.1))
-        view.backgroundColor=UIColor.white
-        view.addSubview(specialsImgView)
-        view.addSubview(promotionsImgView)
-        return view
-    }()
+    private var specialsAndPromotionsView:UIView!
 
     ///特价图片
-    private lazy var specialsImgView:UIImageView={ 
-        let imageView=UIImageView(frame: CGRect.init(x:SCREEN_WIDTH/2, y:0, width:SCREEN_WIDTH/2,height:SCREEN_WIDTH/2*1.1))
-        imageView.image=UIImage.init(named:"index_special")
-        imageView.isUserInteractionEnabled=true
-        imageView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushSpecialVC)))
-        return imageView
-    }()
+    private var specialsImgView:UIImageView!
     ///促销图片
-    private lazy var promotionsImgView:UIImageView={
-        let imageView=UIImageView(frame:CGRect.init(x:0,y:0,width:SCREEN_WIDTH/2,height:SCREEN_WIDTH/2*1.1))
-        imageView.image=UIImage.init(named:"index_promotion")
-        imageView.isUserInteractionEnabled=true
-        imageView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushPromotionVC)))
-        return imageView
-    }()
+    private  var promotionsImgView:UIImageView!
     /******************/
 
     ///新品推荐view
-    private lazy var newGoodView:UIView={
-        let _view=UIView(frame: CGRect.init(x:0, y:specialsAndPromotionsView.frame.maxY+10, width:SCREEN_WIDTH, height:35+carouselHeight+7))
-        _view.backgroundColor=UIColor.white
-        ///新品标题
-        let _title=UILabel.buildLabel(text:"新品推荐", textColor: UIColor.color333(),font:16, textAlignment:.left)
-        _title.frame=CGRect.init(x:15,y:0,width:SCREEN_WIDTH-30,height:35)
-        _view.addSubview(_title)
-        _view.addSubview(carousel)
-        _view.addSubview(newGoodNilLab)
-        return _view
-    }()
+    private var newGoodView:UIView!
     ///旋转木马控件
-    private lazy var carousel:iCarousel={
-        let _carousel=iCarousel(frame:CGRect.init(x:0,y:35, width:SCREEN_WIDTH,height:carouselHeight))
-        _carousel.type = .rotary
-        _carousel.dataSource=self
-        _carousel.delegate=self
-        return _carousel
-    }()
+    private var carousel:iCarousel!
     ///新品推荐空提示
-    private lazy var newGoodNilLab:UILabel={
-        let _lab=UILabel.buildLabel(text:"暂无新品", textColor: UIColor.color666(), font:15, textAlignment: .center)
-        _lab.frame=CGRect.init(x:0,y:(carouselHeight+7-20)/2, width:SCREEN_WIDTH, height:20)
-        _lab.isHidden=true
-        return _lab
-    }()
+    private var newGoodNilLab:UILabel!
     ///热门商品头部view
-    private lazy var hotTopView:UIView={
-        let view=UIView(frame:CGRect.init(x:0,y:newGoodView.frame.maxY, width:SCREEN_WIDTH, height: 52))
-        ///提示按钮
-        let btnTitle=UIButton.buildBtn(text:"热门商品", textColor:UIColor.white, font:16, backgroundColor:UIColor.RGBFromHexColor(hexString:"ff1261"), cornerRadius:15)
-        btnTitle.frame=CGRect.init(x:(SCREEN_WIDTH-90)/2,y:11, width:90, height:30)
-
-        ///白色view
-        let whiteView=UIView(frame: CGRect.init(x:0, y:26, width:SCREEN_WIDTH, height: 26))
-        whiteView.backgroundColor=UIColor.white
-        view.addSubview(whiteView)
-        view.addSubview(btnTitle)
-        return view
-    }()
+    private var hotTopView:UIView!
     ///热门商品UICollectionView
-    private lazy var hotGoodCollectionView:UICollectionView={
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.sectionInset=UIEdgeInsets.init(top:7, left: 7, bottom: 7, right:7)
-        //计算每列的宽度，需要在布局之前算好
-        let columnWidth = (SCREEN_WIDTH - 21)/2
-        flowLayout.itemSize = CGSize(width:columnWidth,height:columnWidth+72)
-        flowLayout.scrollDirection = UICollectionViewScrollDirection.vertical//设置垂直显
-        flowLayout.minimumLineSpacing=7
-        flowLayout.minimumInteritemSpacing=7
-        let hotCollectionView=UICollectionView(frame:CGRect(x:0,y:hotTopView.frame.maxY,width:SCREEN_WIDTH,height:0),collectionViewLayout:flowLayout)
-        hotCollectionView.backgroundColor=UIColor.viewBgdColor()
-        hotCollectionView.isScrollEnabled=false
-        hotCollectionView.register(IndexHotGoodCollectionViewCell.self, forCellWithReuseIdentifier:"indexHotGoodCellId");
-        return hotCollectionView
-    }()
+    private var hotGoodCollectionView:UICollectionView!
 }
 ///设置导航栏
 extension IndexViewController{

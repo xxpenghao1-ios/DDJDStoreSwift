@@ -68,6 +68,15 @@ class IndexViewModel:NSObject,OutputRefreshProtocol{
                 self?.getHotGood(b:event.element)
             }
         }.disposed(by:rx_disposeBag)
+
+        ///把幻灯片model数据转换成路径数组
+        advertisingArrModelBR.asObservable().map { (arrModel) -> [String] in
+            return arrModel.map({ (model) -> String in
+                return HTTP_URL_IMG+(model.advertisingURL ?? "")
+            })
+        }.subscribe(onNext: { [weak self] (imgUrlArr) in
+            self?.imgUrlArrBR.accept(imgUrlArr)
+        }).disposed(by:rx_disposeBag)
     }
 
 
@@ -77,23 +86,16 @@ extension IndexViewModel{
     ///获取幻灯片数据
     private func getMobileAdvertising(){
         ///发送网络请求获取
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertising_v5(subStationId:substation_Id!),model:AdvertisingModel.self).retry(1).subscribe(onNext: { [weak self] (arrModel) in
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertising_v5(subStationId:substation_Id!),model:AdvertisingModel.self).subscribe(onNext: { [weak self] (arrModel) in
             self?.advertisingArrModelBR.accept(arrModel)
             },onError: { (error) in
                 phLog("获取幻灯片数据出错:\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
-        ///把幻灯片model数据转换成路径数组
-        advertisingArrModelBR.asObservable().map { (arrModel) -> [String] in
-            return arrModel.map({ (model) -> String in
-                return HTTP_URL_IMG+(model.advertisingURL ?? "")
-            })
-            }.subscribe(onNext: { [weak self] (imgUrlArr) in
-                self?.imgUrlArrBR.accept(imgUrlArr)
-            }).disposed(by:rx_disposeBag)
+
     }
     ///获取分类数据
     private func getOneCategory(){
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryOneCategory(), model:GoodsCategoryModel.self).retry(1).subscribe(onNext: { [weak self] (arrModel) in
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryOneCategory(), model:GoodsCategoryModel.self).subscribe(onNext: { [weak self] (arrModel) in
             self?.categorySectionBR.accept([SectionModel.init(model:"", items:arrModel)])
             }, onError: { (error) in
                 phLog("获取分类数据出错:\(error.localizedDescription)")
@@ -102,7 +104,7 @@ extension IndexViewModel{
     }
     ///获取特价促销图片
     private func getSpecialsAndPromotions(){
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertisingPromotionAndPreferential(), model:SpecialAndPromotionsModel.self).retry(1).subscribe(onNext: {
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.mobileAdvertisingPromotionAndPreferential(), model:SpecialAndPromotionsModel.self).subscribe(onNext: {
              [weak self] (arrModel) in
 
             self?.specialsAndPromotionsArrModelBR.accept(arrModel)
@@ -113,7 +115,7 @@ extension IndexViewModel{
     ///获取新品推荐
     private func getNewGood(){
 
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStoreNew(countyId:county_Id!, storeId:store_Id!, isDisplayFlag:2,currentPage:1,pageSize:30, order:""), model:NewGoodModel.self).retry(1)
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStoreNew(countyId:county_Id!, storeId:store_Id!, isDisplayFlag:2,currentPage:1,pageSize:30, order:""), model:NewGoodModel.self)
             .subscribe(onNext: { [weak self] (arrModel) in
                 if self == nil{
                     return
@@ -135,7 +137,7 @@ extension IndexViewModel{
     private func getHotGood(b:Bool?){
 
         ///发送网络请求
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:county_Id!, isDisplayFlag:2,storeId:store_Id!,currentPage:currentPage,pageSize:pageSize),model:GoodDetailModel.self).retry(1).subscribe(onNext: { [weak self] (arrModel) in
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:county_Id!, isDisplayFlag:2,storeId:store_Id!,currentPage:currentPage,pageSize:pageSize),model:GoodDetailModel.self).subscribe(onNext: { [weak self] (arrModel) in
 
             if b == true{///刷新
                 ///每次获取最新的数据
@@ -164,7 +166,7 @@ extension IndexViewModel{
     }
     ///获取公告栏信息
     private func getAdMessgInfo(){
-        PHRequest.shared.requestJSONModel(target:IndexAPI.queryAdMessgInfo(substationId:substation_Id!),model:AdMessgInfoModel.self).retry(1).subscribe(onNext: { [weak self] (model) in
+        PHRequest.shared.requestJSONModel(target:IndexAPI.queryAdMessgInfo(substationId:substation_Id!),model:AdMessgInfoModel.self).subscribe(onNext: { [weak self] (model) in
             
             self?.adMessgInfoBR.accept(model)
         }, onError: { (error) in

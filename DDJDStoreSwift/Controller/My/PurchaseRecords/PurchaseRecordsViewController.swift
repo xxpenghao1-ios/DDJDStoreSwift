@@ -13,17 +13,7 @@ import RxSwift
 ///购买记录
 class PurchaseRecordsViewController:BaseViewController{
 
-    private lazy var table:UITableView={
-        let _table=UITableView(frame:self.view.bounds, style: UITableViewStyle.plain)
-        _table.tableFooterView=UIView.init(frame: CGRect.zero)
-        _table.emptyDataSetSource=self
-        _table.emptyDataSetDelegate=self
-        _table.backgroundColor=UIColor.clear
-        _table.separatorInset=UIEdgeInsetsMake(0, 0, 0, 0)
-        _table.register(UINib(nibName:"PurchaseRecordsTableViewCell", bundle:nil), forCellReuseIdentifier:"purchaseRecordsId")
-        return _table
-    }()
-
+    private var table:UITableView!
     ///跳转到购物车按钮
     private var btnPushCar:UIButton?
 
@@ -42,6 +32,13 @@ class PurchaseRecordsViewController:BaseViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="购买记录"
+        table=UITableView(frame:self.view.bounds, style: UITableViewStyle.plain)
+        table.tableFooterView=UIView.init(frame: CGRect.zero)
+        table.emptyDataSetSource=self
+        table.emptyDataSetDelegate=self
+        table.backgroundColor=UIColor.clear
+        table.separatorInset=UIEdgeInsetsMake(0, 0, 0, 0)
+        table.register(UINib(nibName:"PurchaseRecordsTableViewCell", bundle:nil), forCellReuseIdentifier:"purchaseRecordsId")
         self.view.addSubview(table)
         self.emptyDataSetTextInfo="暂无购买记录"
         ///跳转到购物车按钮
