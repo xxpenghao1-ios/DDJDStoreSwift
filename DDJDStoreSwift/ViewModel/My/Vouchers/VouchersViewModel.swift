@@ -41,39 +41,44 @@ class VouchersViewModel:NSObject,OutputRefreshProtocol{
 
     ///请求代金券数据
     private func requestVouchers(b:Bool){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
-        PHRequest.shared.requestJSONArrModel(target:MyAPI.queryStoreCashCoupon(storeId:store_Id!, pageSize: pageSize, currentPage: currentPage), model:VouchersModel.self).debug().subscribe(onNext: { (arr) in
-            if b == true{///刷新
-                ///每次获取最新的数据
-                weakSelf!.vouchersArr=arr
-                weakSelf!.vouchersBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.vouchersArr)]])
-
-
-            }else{//加载更多
-                ///追加数据
-                weakSelf!.vouchersArr+=arr
-                weakSelf!.vouchersBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.vouchersArr)]])
-            }
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            if arr.count < weakSelf!.pageSize{//如果下面没有数据了
-                weakSelf!.refreshStatus.accept(.noMoreData)
-            }
-        }, onError: { (error) in
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            ///把页索引-1
-            if weakSelf!.currentPage > 1{
-                weakSelf!.currentPage-=1
-            }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
-                weakSelf!.refreshStatus.accept(.noMoreData)
-                ///获取数据出错 空页面提示
-                weakSelf!.vouchersBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.vouchersArr)]])
-            }
+         PHRequest.shared.requestJSONArrModel(target:MyAPI.queryStoreCashCoupon(storeId:store_Id!, pageSize: pageSize, currentPage: currentPage), model:VouchersModel.self).debug().subscribe(onNext: { [weak self] (arr) in
+            self?.subscribeResult(b:b, arr:arr)
+        }, onError: { [weak self] (error) in
+            self?.errorResult()
             phLog("获取代金券出错")
         }).disposed(by:rx_disposeBag)
+    }
+    ///请求结果
+    private func subscribeResult(b:Bool,arr:[VouchersModel]){
+        if b == true{///刷新
+            ///每次获取最新的数据
+            vouchersArr=arr
+            vouchersBR.accept([.noData:[SectionModel.init(model:"",items:vouchersArr)]])
+
+
+        }else{//加载更多
+            ///追加数据
+            vouchersArr+=arr
+            vouchersBR.accept([.noData:[SectionModel.init(model:"",items:vouchersArr)]])
+        }
+        refreshStatus.accept(.endHeaderRefresh)
+        refreshStatus.accept(.endFooterRefresh)
+        if arr.count < pageSize{//如果下面没有数据了
+            refreshStatus.accept(.noMoreData)
+        }
+    }
+
+    ///请求错误
+    private func errorResult(){
+        refreshStatus.accept(.endHeaderRefresh)
+        refreshStatus.accept(.endFooterRefresh)
+        ///把页索引-1
+        if currentPage > 1{
+            currentPage-=1
+        }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
+            refreshStatus.accept(.noMoreData)
+            ///获取数据出错 空页面提示
+            vouchersBR.accept([.dataError:[SectionModel.init(model:"",items:vouchersArr)]])
+        }
     }
 }

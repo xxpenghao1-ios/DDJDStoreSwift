@@ -50,6 +50,7 @@ class PromotionViewController:BaseViewController{
     ///跳转到购物车按钮
     private var btnPushCar:UIButton!
 
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -66,6 +67,8 @@ class PromotionViewController:BaseViewController{
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        ///查询购物车商品数量
+        addCarVM?.queryCarSumCountPS.onNext(true)
         if !viewFlag {
             table.mj_header.beginRefreshing()
         }
@@ -99,8 +102,6 @@ extension PromotionViewController:Refreshable{
             return cell
         })
 
-        ///查询购物车商品数量
-        addCarVM?.queryCarSumCountPS.onNext(true)
 
         ///更新购物车item按钮数量
         addCarVM?.queryCarSumCountBR.asObservable().subscribe(onNext: { [weak self] (count) in

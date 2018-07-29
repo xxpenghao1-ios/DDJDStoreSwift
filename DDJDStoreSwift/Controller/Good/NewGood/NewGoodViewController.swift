@@ -30,6 +30,12 @@ class NewGoodViewController:BaseViewController{
 
     private var addCarVM=AddCarGoodCountViewModel()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        ///查询购物车商品数量
+        addCarVM.queryCarSumCountPS.onNext(true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="新品推荐区"
@@ -76,8 +82,7 @@ extension NewGoodViewController:Refreshable{
             return cell
         })
 
-        ///查询购物车商品数量
-        addCarVM.queryCarSumCountPS.onNext(true)
+
 
         ///更新购物车item按钮数量
         addCarVM.queryCarSumCountBR.asObservable().subscribe(onNext: { [weak self] (count) in

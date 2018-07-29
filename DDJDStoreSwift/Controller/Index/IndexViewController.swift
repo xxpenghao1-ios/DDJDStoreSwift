@@ -25,41 +25,28 @@ class IndexViewController:BaseViewController,Refreshable{
     override func viewDidLoad() {
         super.viewDidLoad()
         setNav()
-        self.view.addSubview(scrollView)
+        setUI()
         bindViewModel()
     }
-    ///可滑动容器
-    private lazy var scrollView:UIScrollView={
-        let scrollView=UIScrollView(frame:self.view.bounds)
-        scrollView.addSubview(cycleScrollView)
-        scrollView.addSubview(classifyCollectionIntervalView)
-        scrollView.addSubview(classifyCollectionView)
-        scrollView.addSubview(specialsAndPromotionsView)
-        scrollView.addSubview(newGoodView)
-        scrollView.addSubview(hotTopView)
-        scrollView.addSubview(hotGoodCollectionView)
-        scrollView.contentSize=CGSize(width:SCREEN_WIDTH, height:hotGoodCollectionView.frame.maxY+15)
-        return scrollView
-    }()
-    ///幻灯片
-    private lazy var cycleScrollView:WRCycleScrollView={
-        let cycleScrollView=WRCycleScrollView(frame:CGRect.init(x:0, y:0, width:SCREEN_WIDTH,height:SCREEN_WIDTH*0.38))
+    private func setUI(){
+
+        scrollView=UIScrollView(frame:self.view.bounds)
+        self.view.addSubview(scrollView)
+        
+        ///幻灯片
+        cycleScrollView=WRCycleScrollView(frame:CGRect.init(x:0, y:0, width:SCREEN_WIDTH,height:SCREEN_WIDTH*0.38))
         cycleScrollView.backgroundColor=UIColor.viewBgdColor()
         cycleScrollView.delegate=self
         cycleScrollView.pageControlAliment = .CenterBottom
         cycleScrollView.currentDotColor = .white
         cycleScrollView.autoScrollInterval=5
         cycleScrollView.localImgArray=[SLIDE_DEFAULT]
-        return cycleScrollView
-    }()
-    ///分类间隔view
-    private lazy var classifyCollectionIntervalView:UIView={
-        let view=UIView.init(frame: CGRect.init(x:0, y:cycleScrollView.frame.maxY, width:SCREEN_WIDTH, height:15))
-        view.backgroundColor=UIColor.white
-        return view
-    }()
-    ///分类
-    private lazy var classifyCollectionView:UICollectionView={
+        scrollView.addSubview(cycleScrollView)
+
+
+        scrollView.addSubview(classifyCollectionIntervalView)
+
+        ///分类
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInset=UIEdgeInsets.init(top:0, left:15, bottom:0, right:15)
         let widthH=(SCREEN_WIDTH-75)/4
@@ -68,11 +55,34 @@ class IndexViewController:BaseViewController,Refreshable{
         flowLayout.minimumLineSpacing = 10;//每个相邻layout的上下
         flowLayout.minimumInteritemSpacing = 15;//每个相邻layout的左右
         flowLayout.headerReferenceSize = CGSize(width:0, height: 0);
-        let collectionView=UICollectionView(frame:CGRect.init(x:0, y:classifyCollectionIntervalView.frame.maxY,width:SCREEN_WIDTH,height:widthH*2+25), collectionViewLayout: flowLayout)
-        collectionView.backgroundColor=UIColor.white
-        collectionView.register(IndexClassifyCollectionViewCell.self, forCellWithReuseIdentifier:"indexClassifyId")
-        return collectionView
+        classifyCollectionView=UICollectionView(frame:CGRect.init(x:0, y:classifyCollectionIntervalView.frame.maxY,width:SCREEN_WIDTH,height:widthH*2+25), collectionViewLayout: flowLayout)
+        classifyCollectionView.backgroundColor=UIColor.white
+        classifyCollectionView.register(IndexClassifyCollectionViewCell.self, forCellWithReuseIdentifier:"indexClassifyId")
+        scrollView.addSubview(classifyCollectionView)
+
+        scrollView.addSubview(specialsAndPromotionsView)
+        scrollView.addSubview(newGoodView)
+        scrollView.addSubview(hotTopView)
+        scrollView.addSubview(hotGoodCollectionView)
+        scrollView.contentSize=CGSize(width:SCREEN_WIDTH, height:hotGoodCollectionView.frame.maxY+15)
+
+    }
+    ///可滑动容器
+    private var scrollView:UIScrollView!
+
+    ///幻灯片
+    private var cycleScrollView:WRCycleScrollView!
+
+    ///分类间隔view
+    private lazy var classifyCollectionIntervalView:UIView={
+        let view=UIView.init(frame: CGRect.init(x:0, y:cycleScrollView.frame.maxY, width:SCREEN_WIDTH, height:15))
+        view.backgroundColor=UIColor.white
+        return view
     }()
+
+    ///分类
+    private var classifyCollectionView:UICollectionView!
+
     ///特价促销区 ***************
     private lazy var specialsAndPromotionsView:UIView={
 

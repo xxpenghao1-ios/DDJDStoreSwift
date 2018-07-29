@@ -127,38 +127,33 @@ extension IntegralViewModel{
     ///查询积分商品
     private func requestIntegralGoodList(b:Bool){
 
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
-
-        PHRequest.shared.requestJSONArrModel(target:MyAPI.queryIntegralMallForSubStation(subStationId:substation_Id!, currentPage:currentPage, pageSize:pageSize), model:IntegralGoodModel.self).debug().subscribe(onNext: { (arr) in
+        PHRequest.shared.requestJSONArrModel(target:MyAPI.queryIntegralMallForSubStation(subStationId:substation_Id!, currentPage:currentPage, pageSize:pageSize), model:IntegralGoodModel.self).debug().subscribe(onNext: { [weak self] (arr) in
             if b == true{///刷新
                 ///每次获取最新的数据
-                weakSelf!.integralGoodListArr=arr
-                weakSelf!.integralGoodListBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.integralGoodListArr)]])
+                self?.integralGoodListArr=arr
+                self?.integralGoodListBR.accept([.noData:[SectionModel.init(model:"",items:self?.integralGoodListArr ?? [])]])
 
 
             }else{//加载更多
                 ///追加数据
-                weakSelf!.integralGoodListArr+=arr
-                weakSelf!.integralGoodListBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.integralGoodListArr)]])
+                self?.integralGoodListArr+=arr
+                self?.integralGoodListBR.accept([.noData:[SectionModel.init(model:"",items:self?.integralGoodListArr ?? [])]])
             }
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            if arr.count < weakSelf!.pageSize{//如果下面没有数据了
-                weakSelf!.refreshStatus.accept(.noMoreData)
+            self?.refreshStatus.accept(.endHeaderRefresh)
+            self?.refreshStatus.accept(.endFooterRefresh)
+            if arr.count < self?.pageSize{//如果下面没有数据了
+                self?.refreshStatus.accept(.noMoreData)
             }
-        }, onError: { (error) in
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
+        }, onError: { [weak self] (error) in
+            self?.refreshStatus.accept(.endHeaderRefresh)
+            self?.refreshStatus.accept(.endFooterRefresh)
             ///把页索引-1
-            if weakSelf!.currentPage > 1{
-                weakSelf!.currentPage-=1
+            if self?.currentPage > 1{
+                self?.currentPage-=1
             }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
-                weakSelf!.refreshStatus.accept(.noMoreData)
+                self?.refreshStatus.accept(.noMoreData)
                 ///获取数据出错 空页面提示
-                weakSelf!.integralGoodListBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.integralGoodListArr)]])
+                self?.integralGoodListBR.accept([.dataError:[SectionModel.init(model:"",items:[])]])
             }
             phLog("获取会员积分商品失败")
         }).disposed(by:rx_disposeBag)
@@ -218,37 +213,33 @@ extension IntegralViewModel{
 
     ///查询积分记录
     private func requestIntegralRecordList(b:Bool){
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
-        PHRequest.shared.requestJSONArrModel(target:MyAPI.storeQueryMemberIntegralV1(memberId:member_Id!, currentPage: currentPage, pageSize: pageSize), model:IntegralRecordModel.self).subscribe(onNext: { (arr) in
+        PHRequest.shared.requestJSONArrModel(target:MyAPI.storeQueryMemberIntegralV1(memberId:member_Id!, currentPage: currentPage, pageSize: pageSize), model:IntegralRecordModel.self).subscribe(onNext: { [weak self] (arr) in
             if b == true{///刷新
                 ///每次获取最新的数据
-                weakSelf!.integralRecordArr=arr
-                weakSelf!.integralRecordBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.integralRecordArr)]])
+                self?.integralRecordArr=arr
+                self?.integralRecordBR.accept([.noData:[SectionModel.init(model:"",items:self?.integralRecordArr ?? [])]])
 
 
             }else{//加载更多
                 ///追加数据
-                weakSelf!.integralRecordArr+=arr
-                weakSelf!.integralRecordBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.integralRecordArr)]])
+                self?.integralRecordArr+=arr
+                self?.integralRecordBR.accept([.noData:[SectionModel.init(model:"",items:self?.integralRecordArr ?? [])]])
             }
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            if arr.count < weakSelf!.pageSize{//如果下面没有数据了
-                weakSelf!.refreshStatus.accept(.noMoreData)
+            self?.refreshStatus.accept(.endHeaderRefresh)
+            self?.refreshStatus.accept(.endFooterRefresh)
+            if arr.count < self?.pageSize{//如果下面没有数据了
+                self?.refreshStatus.accept(.noMoreData)
             }
-        }, onError: { (error) in
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
+        }, onError: { [weak self] (error) in
+            self?.refreshStatus.accept(.endHeaderRefresh)
+            self?.refreshStatus.accept(.endFooterRefresh)
             ///把页索引-1
-            if weakSelf!.currentPage > 1{
-                weakSelf!.currentPage-=1
+            if self?.currentPage > 1{
+                self?.currentPage-=1
             }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
-                weakSelf!.refreshStatus.accept(.noMoreData)
+                self?.refreshStatus.accept(.noMoreData)
                 ///获取数据出错 空页面提示
-                weakSelf!.integralRecordBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.integralRecordArr)]])
+                self?.integralRecordBR.accept([.dataError:[SectionModel.init(model:"",items:[])]])
             }
             phLog("获取积分记录出错")
         }).disposed(by:rx_disposeBag)
@@ -256,37 +247,33 @@ extension IntegralViewModel{
 
     ///查询兑换记录
     private func requestExchangeRecord(b:Bool){
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
-        PHRequest.shared.requestJSONArrModel(target:MyAPI.queryIntegralMallExchangeRecord(memberId:member_Id!, pageSize: pageSize, currentPage: currentPage), model: ExchangeRecordModel.self).subscribe(onNext: { (arr) in
+             PHRequest.shared.requestJSONArrModel(target:MyAPI.queryIntegralMallExchangeRecord(memberId:member_Id!, pageSize: pageSize, currentPage: currentPage), model: ExchangeRecordModel.self).subscribe(onNext: {  [weak self](arr) in
             if b == true{///刷新
                 ///每次获取最新的数据
-                weakSelf!.exchangeRecordArr=arr
-                weakSelf!.exchangeRecordBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.exchangeRecordArr)]])
+                self?.exchangeRecordArr=arr
+                self?.exchangeRecordBR.accept([.noData:[SectionModel.init(model:"",items:self?.exchangeRecordArr ?? [])]])
 
 
             }else{//加载更多
                 ///追加数据
-                weakSelf!.exchangeRecordArr+=arr
-                weakSelf!.exchangeRecordBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.exchangeRecordArr)]])
+                self?.exchangeRecordArr+=arr
+                self?.exchangeRecordBR.accept([.noData:[SectionModel.init(model:"",items:self?.exchangeRecordArr ?? [])]])
             }
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            if arr.count < weakSelf!.pageSize{//如果下面没有数据了
-                weakSelf!.refreshStatus.accept(.noMoreData)
+            self?.refreshStatus.accept(.endHeaderRefresh)
+            self?.refreshStatus.accept(.endFooterRefresh)
+            if arr.count < self?.pageSize{//如果下面没有数据了
+                self?.refreshStatus.accept(.noMoreData)
             }
-        }, onError: { (error) in
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
+        }, onError: { [weak self] (error) in
+            self?.refreshStatus.accept(.endHeaderRefresh)
+            self?.refreshStatus.accept(.endFooterRefresh)
             ///把页索引-1
-            if weakSelf!.currentPage > 1{
-                weakSelf!.currentPage-=1
+            if self?.currentPage > 1{
+                self?.currentPage-=1
             }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
-                weakSelf!.refreshStatus.accept(.noMoreData)
+                self?.refreshStatus.accept(.noMoreData)
                 ///获取数据出错 空页面提示
-                weakSelf!.exchangeRecordBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.exchangeRecordArr)]])
+                self?.exchangeRecordBR.accept([.dataError:[SectionModel.init(model:"",items:[])]])
             }
         }).disposed(by:rx_disposeBag)
     }

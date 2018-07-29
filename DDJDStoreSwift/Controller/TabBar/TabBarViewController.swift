@@ -78,16 +78,12 @@ extension TabBarViewController{
 
         ///购物车加减执行 dic key true加 false减
         carAddSubtractUpdateCarBadgeValue.subscribe(onNext: { [weak self] (dic) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
             let _=dic.map({ (b,count) in
                 if b {
-                    weakSelf!.addCarGoodCountVM.queryCarSumCountBR.accept(weakSelf!.addCarGoodCountVM.queryCarSumCountBR.value + count)
+                    self?.addCarGoodCountVM.queryCarSumCountBR.accept(self?.addCarGoodCountVM.queryCarSumCountBR.value ?? 0 + count)
 
                 }else{
-                    weakSelf!.addCarGoodCountVM.queryCarSumCountBR.accept(weakSelf!.addCarGoodCountVM.queryCarSumCountBR.value - count)
+                    self?.addCarGoodCountVM.queryCarSumCountBR.accept(self?.addCarGoodCountVM.queryCarSumCountBR.value ?? 0 - count)
 
                 }
             })

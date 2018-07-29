@@ -47,39 +47,45 @@ class SpecialGoodViewModel:NSObject,OutputRefreshProtocol{
 
     ///查询特价  order=count 销量排序   price 价格排序
     private func getSpecialGoodArr(b:Bool,order:String){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
-        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryPreferentialAndGoods4Store(storeId:store_Id!, pageSize:pageSize, currentPage: currentPage,order: order), model:GoodDetailModel.self).subscribe(onNext: { (arr) in
-            if b == true{///刷新
-                ///每次获取最新的数据
-                weakSelf!.specialArrModel=arr
-                weakSelf!.specialArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.specialArrModel)]])
-
-
-            }else{//加载更多
-                ///追加数据
-                weakSelf!.specialArrModel+=arr
-                weakSelf!.specialArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.specialArrModel)]])
-            }
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            if arr.count < weakSelf!.pageSize{//如果下面没有数据了
-                weakSelf!.refreshStatus.accept(.noMoreData)
-            }
-        }, onError: { (error) in
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            ///把页索引-1
-            if weakSelf!.currentPage > 1{
-                weakSelf!.currentPage-=1
-            }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
-                weakSelf!.refreshStatus.accept(.noMoreData)
-                ///获取数据出错
-                weakSelf!.specialArrModelBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.specialArrModel)]])
-            }
+        
+        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryPreferentialAndGoods4Store(storeId:store_Id!, pageSize:pageSize, currentPage: currentPage,order: order), model:GoodDetailModel.self).subscribe(onNext: { [weak self] (arr) in
+            self?.subscribeResult(b:b, arr:arr)
+        }, onError: { [weak self] (error) in
+            self?.errorResult()
             phLog("获取特价列表数据出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
+    }
+    ///请求结果
+    private func subscribeResult(b:Bool,arr:[GoodDetailModel]){
+        if b == true{///刷新
+            ///每次获取最新的数据
+            specialArrModel=arr
+            specialArrModelBR.accept([.noData:[SectionModel.init(model:"",items:specialArrModel)]])
+
+
+        }else{//加载更多
+            ///追加数据
+            specialArrModel+=arr
+            specialArrModelBR.accept([.noData:[SectionModel.init(model:"",items:specialArrModel)]])
+        }
+        refreshStatus.accept(.endHeaderRefresh)
+        refreshStatus.accept(.endFooterRefresh)
+        if arr.count < pageSize{//如果下面没有数据了
+            refreshStatus.accept(.noMoreData)
+        }
+    }
+
+    ///请求错误
+    private func errorResult(){
+        refreshStatus.accept(.endHeaderRefresh)
+        refreshStatus.accept(.endFooterRefresh)
+        ///把页索引-1
+        if currentPage > 1{
+            currentPage-=1
+        }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
+            refreshStatus.accept(.noMoreData)
+            ///获取数据出错
+            specialArrModelBR.accept([.dataError:[SectionModel.init(model:"",items:specialArrModel)]])
+        }
     }
 }

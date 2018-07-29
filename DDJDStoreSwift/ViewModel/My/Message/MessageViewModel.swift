@@ -48,37 +48,46 @@ class MessageViewModel:NSObject,OutputRefreshProtocol{
     }
 
     ///获取消息信息
-    private func getMessageToStore(b:Bool?){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
-        PHRequest.shared.requestJSONArrModel(target:MyAPI.queryMessageToStore(substationId:substation_Id!, pageSize:pageSize, currentPage:currentPage), model: MessageModel.self).subscribe(onNext: { (arrModel) in
-            if b == true{///刷新
-                ///每次获取最新的数据
-                weakSelf!.messageArr=arrModel
-                weakSelf!.messageArrBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.messageArr)]])
-
-            }else{//加载更多
-                ///追加数据
-                weakSelf!.messageArr+=arrModel
-                weakSelf!.messageArrBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.messageArr)]])
-            }
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            if arrModel.count < weakSelf!.pageSize{//如果下面没有数据了
-                weakSelf!.refreshStatus.accept(.noMoreData)
-            }
-        }, onError: { (error) in
-            ///把页索引-1
-            if weakSelf!.currentPage > 1{
-                weakSelf!.currentPage-=1
-            }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
-                weakSelf!.refreshStatus.accept(.noMoreData)
-                ///获取数据出错 空页面提示
-                weakSelf!.messageArrBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.messageArr)]])
-            }
+    private func getMessageToStore(b:Bool){
+        PHRequest.shared.requestJSONArrModel(target:MyAPI.queryMessageToStore(substationId:substation_Id!, pageSize:pageSize, currentPage:currentPage), model: MessageModel.self).subscribe(onNext: { [weak self] (arrModel) in
+            self?.subscribeResult(b:b,arr:arrModel)
+        }, onError: { [weak self] (error) in
+            self?.errorResult()
             phLog("获取消息信息发送错误:\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }
+
+    ///请求结果
+    private func subscribeResult(b:Bool,arr:[MessageModel]){
+        if b == true{///刷新
+            ///每次获取最新的数据
+            messageArr=arr
+            messageArrBR.accept([.noData:[SectionModel.init(model:"",items:messageArr)]])
+
+        }else{//加载更多
+            ///追加数据
+            messageArr+=arr
+            messageArrBR.accept([.noData:[SectionModel.init(model:"",items:messageArr)]])
+        }
+        refreshStatus.accept(.endHeaderRefresh)
+        refreshStatus.accept(.endFooterRefresh)
+        if arr.count < pageSize{//如果下面没有数据了
+            refreshStatus.accept(.noMoreData)
+        }
+    }
+
+    ///错误结果
+    private func errorResult(){
+        refreshStatus.accept(.endHeaderRefresh)
+        refreshStatus.accept(.endFooterRefresh)
+        ///把页索引-1
+        if currentPage > 1{
+            currentPage-=1
+        }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
+            refreshStatus.accept(.noMoreData)
+            ///获取数据出错 空页面提示
+            messageArrBR.accept([.dataError:[SectionModel.init(model:"",items:[])]])
+        }
+    }
+
 }

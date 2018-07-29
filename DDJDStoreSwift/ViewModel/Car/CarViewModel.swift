@@ -46,10 +46,6 @@ extension CarViewModel{
 
     ///获取购物车商品数量
     private func getCarGoodList(){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
         PHProgressHUD.show("正在加载...")
         PHRequest.shared.requestJSONArrModel(target:CarAPI.queryShoppingCarNew(memberId:member_Id!, storeId:store_Id!), model:CarModel.self).map({ (arr) -> [CarModel] in
             ///筛选出商品list有值的(万一后台sb返回了个空呢😆)
@@ -70,13 +66,13 @@ extension CarViewModel{
                 return carModel
             })
             return mapArr
-        }).subscribe(onNext: { (arr) in
-                weakSelf!.arr=arr
-                weakSelf!.setSumPriceArrModel(arr:arr)
-                weakSelf!.arrPS.onNext(true)
-        }, onError: { (error) in
-                weakSelf!.arr=[]
-                weakSelf!.arrPS.onNext(true)
+        }).subscribe(onNext: { [weak self] (arr) in
+                self?.arr=arr
+                self?.setSumPriceArrModel(arr:arr)
+                self?.arrPS.onNext(true)
+        }, onError: { [weak self] (error) in
+                self?.arr=[]
+                self?.arrPS.onNext(true)
                 phLog("获取购物车数据出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
 

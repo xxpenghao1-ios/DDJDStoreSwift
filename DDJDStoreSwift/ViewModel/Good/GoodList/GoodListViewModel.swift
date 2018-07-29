@@ -81,40 +81,31 @@ extension GoodListViewModel{
     /// order = seachLetter 根据字母搜索时，必须传 搜索的字母；
     /// seachLetterValue  搜索的字母
     private func getGoodsInfoByCategoryForAndroidForStore(b:Bool,goodsCategoryId:Int,seachLetterValue:String?,order:String,tag:Int,priceScreen:Int?=nil){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
-        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryGoodsInfoByCategoryForAndroidForStore(pageSize:pageSize,currentPage:currentPage, goodsCategoryId: goodsCategoryId,storeId: store_Id!, priceScreen:priceScreen,order:order, tag:tag, seachLetterValue:seachLetterValue), model:GoodDetailModel.self).subscribe(onNext: { (arr) in
-            weakSelf!.subscribeResult(b:b, arr:arr)
-        }, onError: { (error) in
-            weakSelf!.errorResult()
+
+        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryGoodsInfoByCategoryForAndroidForStore(pageSize:pageSize,currentPage:currentPage, goodsCategoryId: goodsCategoryId,storeId: store_Id!, priceScreen:priceScreen,order:order, tag:tag, seachLetterValue:seachLetterValue), model:GoodDetailModel.self).subscribe(onNext: { [weak self] (arr) in
+            self?.subscribeResult(b:b, arr:arr)
+        }, onError: { [weak self] (error) in
+            self?.errorResult()
             phLog("获取商品列表数据出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }
     ///查询配送商所属商品
     private func getSubSupplierGoodList(b:Bool,subSupplierId:Int?,order:String,tag:Int,seachLetterValue:String?){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
-        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryShoppingCarMoreGoodsForSubSupplier(storeId:store_Id!,subSupplierId: subSupplierId ?? 0, pageSize:pageSize, currentPage: currentPage, order:order,seachLetterValue: seachLetter, tag:tag), model:GoodDetailModel.self).subscribe(onNext: { (arr) in
-            weakSelf!.subscribeResult(b:b, arr:arr)
-        }, onError: { (error) in
-            weakSelf!.errorResult()
+
+        PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryShoppingCarMoreGoodsForSubSupplier(storeId:store_Id!,subSupplierId: subSupplierId ?? 0, pageSize:pageSize, currentPage: currentPage, order:order,seachLetterValue: seachLetter, tag:tag), model:GoodDetailModel.self).subscribe(onNext: { [weak self] (arr) in
+            self?.subscribeResult(b:b, arr:arr)
+        }, onError: { [weak self] (error) in
+            self?.errorResult()
             phLog("查询配送商所属商品出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }
     ///根据商品名字或者品牌查询商品的详细信息接口
     private func searchGoodsInterfaceForStore(b:Bool,searchCondition:String,order:String,tag:Int){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
-        PHRequest.shared.requestJSONArrModel(target:GoodAPI.searchGoodsInterfaceForStore(pageSize:pageSize,currentPage:currentPage,searchCondition:searchCondition, isDisplayFlag: 2, storeId: store_Id!,order:order, tag:tag), model: GoodDetailModel.self).subscribe(onNext: { (arr) in
-            weakSelf!.subscribeResult(b:b, arr:arr)
-        }, onError: { (error) in
-            weakSelf!.errorResult()
+
+        PHRequest.shared.requestJSONArrModel(target:GoodAPI.searchGoodsInterfaceForStore(pageSize:pageSize,currentPage:currentPage,searchCondition:searchCondition, isDisplayFlag: 2, storeId: store_Id!,order:order, tag:tag), model: GoodDetailModel.self).subscribe(onNext: { [weak self] (arr) in
+            self?.subscribeResult(b:b, arr:arr)
+        }, onError: { [weak self] (error) in
+            self?.errorResult()
             phLog("搜索商品出错\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }

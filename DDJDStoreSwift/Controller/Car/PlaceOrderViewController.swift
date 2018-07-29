@@ -107,33 +107,14 @@ extension PlaceOrderViewController{
         }).disposed(by:rx_disposeBag)
 
         ///下单
-        btnSubmit.rx.controlEvent(.touchUpInside).throttle(1, scheduler: MainScheduler.instance).subscribe(onNext: { (_) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
-            weakSelf!.vm.submitOrder(goodsList:weakSelf!.goodArr.toJSONString() ?? "", pay_message:weakSelf!.txtBuyPS.text ?? "", cashCouponId:weakSelf!.vm.selectedVouchersModelBR.value?.cashCouponId, addressModel:weakSelf!.addressVM.defaultAddressModelBR.value, detailAddress:weakSelf!.lblAddress.text ?? "")
+        btnSubmit.rx.controlEvent(.touchUpInside).throttle(1, scheduler: MainScheduler.instance).subscribe(onNext: { [weak self] (_) in
+            self?.placeOrder()
         }).disposed(by:rx_disposeBag)
 
         ///下单结果
-        vm.submitSuccessBR.subscribe(onNext: { (b) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
+        vm.submitSuccessBR.subscribe(onNext: { [weak self] (b) in
             if b{ ///下单成功
-                UIAlertController.showAlertYesNo(weakSelf!, title:"点单即到", message:"下单成功,您的货物会在24小时内送货上门,请注意查收。", cancelButtonTitle:"知道了", okButtonTitle:"查看订单", okHandler: { [weak self] (_) in
-                    ///订单页面
-                    let vc=OrderPageViewController()
-                    vc.orderStatus=1
-                    vc.carIsFlag=1
-                    self?.navigationController?.pushViewController(vc,animated:true)
-                }, cancelHandler: { [weak self] (_) in
-                    ///返回导航根视图
-                    self?.navigationController?.popToRootViewController(animated: true);
-                })
-                ///更新购物车角标
-                APP.tab?.updateCarBadgeValue.onNext(true)
+                self?.placeOrderSuccessFul()
             }
         }).disposed(by:rx_disposeBag)
 
@@ -146,6 +127,25 @@ extension PlaceOrderViewController{
             sumCount+=(model.carNumber ?? 1)
         }
         lblSumCount.text="共\(sumCount)件"
+    }
+    ///下单
+    private func placeOrder(){
+        self.vm.submitOrder(goodsList:self.goodArr.toJSONString() ?? "", pay_message:self.txtBuyPS.text ?? "", cashCouponId:self.vm.selectedVouchersModelBR.value?.cashCouponId, addressModel:self.addressVM.defaultAddressModelBR.value, detailAddress:self.lblAddress.text ?? "")
+    }
+    ///下单成功
+    private func placeOrderSuccessFul(){
+        UIAlertController.showAlertYesNo(self, title:"点单即到", message:"下单成功,您的货物会在24小时内送货上门,请注意查收。", cancelButtonTitle:"知道了", okButtonTitle:"查看订单", okHandler: { [weak self] (_) in
+            ///订单页面
+            let vc=OrderPageViewController()
+            vc.orderStatus=1
+            vc.carIsFlag=1
+            self?.navigationController?.pushViewController(vc,animated:true)
+            }, cancelHandler: { [weak self] (_) in
+                ///返回导航根视图
+                self?.navigationController?.popToRootViewController(animated: true);
+        })
+        ///更新购物车角标
+        APP.tab?.updateCarBadgeValue.onNext(true)
     }
 }
 extension PlaceOrderViewController:UITableViewDelegate,UITableViewDataSource{

@@ -48,40 +48,47 @@ class OrderViewModel:NSObject,OutputRefreshProtocol{
 }
 
 extension OrderViewModel{
-    ///查询消息
+    ///查询订单数据
     private func getOrderInfo4AndroidStoreByOrderStatus(b:Bool,orderStatus:Int?){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
-        PHRequest.shared.requestJSONArrModel(target:OrderAPI.queryOrderInfo4AndroidStoreByOrderStatus(orderStatus:orderStatus ?? 0, storeId:store_Id!, pageSize: pageSize, currentPage:currentPage), model:OrderModel.self).subscribe(onNext: { (arr) in
-            if b == true{///刷新
-                ///每次获取最新的数据
-                weakSelf!.orderArrModel=arr
-                weakSelf!.orderArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.orderArrModel)]])
 
-
-            }else{//加载更多
-                ///追加数据
-                weakSelf!.orderArrModel+=arr
-                weakSelf!.orderArrModelBR.accept([.noData:[SectionModel.init(model:"",items:weakSelf!.orderArrModel)]])
-            }
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            if arr.count < weakSelf!.pageSize{//如果下面没有数据了
-                weakSelf!.refreshStatus.accept(.noMoreData)
-            }
-        }, onError: { (error) in
-            weakSelf!.refreshStatus.accept(.endHeaderRefresh)
-            weakSelf!.refreshStatus.accept(.endFooterRefresh)
-            ///把页索引-1
-            if weakSelf!.currentPage > 1{
-                weakSelf!.currentPage-=1
-            }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
-                weakSelf!.refreshStatus.accept(.noMoreData)
-                ///获取数据出错 空页面提示
-                weakSelf!.orderArrModelBR.accept([.dataError:[SectionModel.init(model:"",items:weakSelf!.orderArrModel)]])
-            }
+        PHRequest.shared.requestJSONArrModel(target:OrderAPI.queryOrderInfo4AndroidStoreByOrderStatus(orderStatus:orderStatus ?? 0, storeId:store_Id!, pageSize: pageSize, currentPage:currentPage), model:OrderModel.self).subscribe(onNext: { [weak self] (arr) in
+            self?.subscribeResult(b:b, arr:arr)
+        }, onError: { [weak self] (error) in
+            self?.errorResult()
         }).disposed(by:rx_disposeBag)
+    }
+
+    ///请求结果
+    private func subscribeResult(b:Bool,arr:[OrderModel]){
+        if b == true{///刷新
+            ///每次获取最新的数据
+            orderArrModel=arr
+            orderArrModelBR.accept([.noData:[SectionModel.init(model:"",items:orderArrModel)]])
+
+
+        }else{//加载更多
+            ///追加数据
+            orderArrModel+=arr
+            orderArrModelBR.accept([.noData:[SectionModel.init(model:"",items:orderArrModel)]])
+        }
+        refreshStatus.accept(.endHeaderRefresh)
+        refreshStatus.accept(.endFooterRefresh)
+        if arr.count < pageSize{//如果下面没有数据了
+            refreshStatus.accept(.noMoreData)
+        }
+    }
+
+    ///错误结果
+    private func errorResult(){
+        refreshStatus.accept(.endHeaderRefresh)
+        refreshStatus.accept(.endFooterRefresh)
+        ///把页索引-1
+        if currentPage > 1{
+            currentPage-=1
+        }else{ ///如果是第一页 表示第一次加载出错了  隐藏加载更多
+            refreshStatus.accept(.noMoreData)
+            ///获取数据出错 空页面提示
+            orderArrModelBR.accept([.dataError:[SectionModel.init(model:"",items:orderArrModel)]])
+        }
     }
 }

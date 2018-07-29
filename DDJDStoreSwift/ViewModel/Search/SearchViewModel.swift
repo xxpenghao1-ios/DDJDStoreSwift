@@ -57,13 +57,10 @@ class SearchViewModel:NSObject{
         }).disposed(by:rx_disposeBag)
 
         ///订阅 searchArrBR 每次添加新搜索记录都会执行
-        searchArrBR.asObservable().subscribe({ (_) in
-            weak var weakSelf=self
-            if weakSelf == nil{
-                return
-            }
+        searchArrBR.asObservable().subscribe({ [weak self] (_) in
+
             ///传入已经获取好的品牌数据
-            weakSelf!.updateAllBrandAndSearchStrBR(arr:weakSelf!.allSystemBrandBR.value)
+            self?.updateAllBrandAndSearchStrBR(arr:self?.allSystemBrandBR.value ?? [])
         }).disposed(by:rx_disposeBag)
 
         ///删除所有搜索信息
@@ -97,20 +94,17 @@ class SearchViewModel:NSObject{
 extension SearchViewModel{
     ///获取推荐品牌
     private func  getAllSystemBrand(){
-        weak var weakSelf=self
-        if weakSelf == nil{
-            return
-        }
-        PHRequest.shared.requestJSONArrModel(target:ClassifyAPI.queryAllSystemBrand(), model:GoodsCategoryModel.self).subscribe(onNext: { (arr) in
+
+        PHRequest.shared.requestJSONArrModel(target:ClassifyAPI.queryAllSystemBrand(), model:GoodsCategoryModel.self).subscribe(onNext: { [weak self] (arr) in
             var modelArr=arr
             if  arr.count > 0{
                 var model=GoodsCategoryModel()
                 model.brandName="品牌推荐"
                 modelArr.insert(model,at:0)
             }
-            weakSelf!.allSystemBrandBR.accept(modelArr)
-        }, onError: { (error) in
-            weakSelf!.allSystemBrandBR.accept([])
+            self?.allSystemBrandBR.accept(modelArr)
+        }, onError: { [weak self] (error) in
+            self?.allSystemBrandBR.accept([])
             phLog("获取推荐品牌失败\(error.localizedDescription)")
         }).disposed(by:rx_disposeBag)
     }

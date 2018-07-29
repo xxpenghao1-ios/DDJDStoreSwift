@@ -32,6 +32,11 @@ class GoodListViewController:BaseViewController{
 
     private var addCarVM=AddCarGoodCountViewModel()
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        ///查询购物车商品数量
+        addCarVM.queryCarSumCountPS.onNext(true)
+    }
     ///监听返回按钮
     override func navigationShouldPopOnBackButton() -> Bool {
         if flag == 1{///如果搜索页面进来  或者扫码页面进来 直接返回搜索页面 跳过扫码页面
@@ -151,8 +156,7 @@ extension GoodListViewController:Refreshable{
             self?.table.mj_header.beginRefreshing()
             return index
         })
-        ///查询购物车商品数量
-        addCarVM.queryCarSumCountPS.onNext(true)
+
 
         ///更新购物车item按钮数量
         addCarVM.queryCarSumCountBR.asObservable().subscribe(onNext: { [weak self] (count) in

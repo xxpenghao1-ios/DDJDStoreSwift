@@ -61,6 +61,8 @@ class SpecialViewController:BaseViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        ///查询购物车商品数量
+        addCarVM?.queryCarSumCountPS.onNext(true)
         if !viewFlag {
             table.mj_header.beginRefreshing()
         }
@@ -96,8 +98,7 @@ extension SpecialViewController:Refreshable{
             return cell
         })
 
-        ///查询购物车商品数量
-        addCarVM?.queryCarSumCountPS.onNext(true)
+
 
         ///更新购物车item按钮数量
         addCarVM?.queryCarSumCountBR.asObservable().subscribe(onNext: { [weak self] (count) in

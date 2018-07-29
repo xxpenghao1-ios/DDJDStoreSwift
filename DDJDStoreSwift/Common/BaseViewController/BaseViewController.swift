@@ -94,14 +94,25 @@ extension BaseViewController{
 
             ///设置导航栏颜色
             self.navigationController?.navigationBar.lt_setBackgroundColor(UIColor.RGBFromHexColor(hexString:"ff1261"))
+
+            setStatusBarBackgroundColor(color:UIColor.RGBFromHexColor(hexString:"ff1261"))
         }else{
             ///还原导航栏底部黑线
             self.navigationController?.navigationBar.shadowImage=nil
             ///还原导航颜色
             self.navigationController?.navigationBar.lt_reset()
+
+            setStatusBarBackgroundColor(color:UIColor.white)
         }
     }
-
+    //设置状态栏背景颜色
+    func setStatusBarBackgroundColor(color : UIColor) {
+        let statusBarWindow : UIView = UIApplication.shared.value(forKey: "statusBarWindow") as! UIView
+        let statusBar : UIView = statusBarWindow.value(forKey: "statusBar") as! UIView
+        if statusBar.responds(to:#selector(setter: UIView.backgroundColor)) {
+            statusBar.backgroundColor = color
+        }
+    }
 }
 ///空视图展示 对应视图
 public enum EmptyDataType{

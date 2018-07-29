@@ -17,39 +17,30 @@ class MyViewController:BaseViewController{
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        ///查询订单数据
         vm.orderCountPS.onNext(true)
-    }
 
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.addSubview(scrollView)
         setNav()
         bindViewModel()
     }
-
-    //监听滑动事件
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        //获取偏移量
-        let offsetY = scrollView.contentOffset.y+NAV_HEIGHT;
-        //判断是否改变
-        if ( offsetY < 0) {
-            var rect = topBacImgView.frame;
-            //我们只需要改变view的y值和高度即可
-            rect.origin.y = offsetY
-            rect.size.height = 235/2 - offsetY
-            topBacImgView.frame = rect;
-        }
-    }
     ///滑动容器
     private lazy var scrollView:UIScrollView={
-        let _scrollView=UIScrollView(frame:self.view.bounds)
+        let _scrollView=UIScrollView(frame:view.bounds)
         _scrollView.addSubview(topBacImgView)
         _scrollView.addSubview(memberInfoView)
         _scrollView.addSubview(memberheadPortrait)
         _scrollView.addSubview(orderCollectionView)
         _scrollView.addSubview(menuCollectionView)
         _scrollView.addSubview(btnReturnLogin)
-        _scrollView.contentSize=CGSize.init(width:SCREEN_WIDTH, height:btnReturnLogin.frame.maxY+12.5)
+        if btnReturnLogin.frame.maxY+12.5 < SCREEN_HEIGH - TAB_BAR_HEIGHT{
+            _scrollView.contentSize=CGSize.init(width:SCREEN_WIDTH, height:SCREEN_HEIGH - TAB_BAR_HEIGHT)
+        }else{
+            _scrollView.contentSize=CGSize.init(width:SCREEN_WIDTH, height:btnReturnLogin.frame.maxY+12.5)
+        }
         return _scrollView
     }()
 
@@ -157,6 +148,19 @@ extension MyViewController{
                     }
                     return cell
             })
+
+        scrollView.rx.didScroll.subscribe(onNext: { [weak self] (_) in
+            //获取偏移量
+            let offsetY = (self?.scrollView.contentOffset.y ?? 0)+NAV_HEIGHT;
+            //判断是否改变
+            if ( offsetY < 0) {
+                var rect = self?.topBacImgView.frame;
+                //我们只需要改变view的y值和高度即可
+                rect?.origin.y = offsetY
+                rect?.size.height = 235/2 - offsetY
+                self?.topBacImgView.frame = rect!;
+            }
+        }).disposed(by:rx_disposeBag)
 
         ///绑定订单数据
         vm.orderBR.asObservable().bind(to:orderCollectionView.rx.items(dataSource:orderDataSource)).disposed(by: rx_disposeBag)
