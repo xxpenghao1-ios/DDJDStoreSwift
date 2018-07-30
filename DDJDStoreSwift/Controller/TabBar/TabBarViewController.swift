@@ -9,19 +9,18 @@
 import Foundation
 import UIKit
 import RxSwift
+import SwiftyJSON
 ///tabVC
 class TabBarViewController:UITabBarController{
 
     ///更新购物车BadgeValue
     var updateCarBadgeValue=PublishSubject<Bool>()
-
-    ///更新购物车BadgeValue(购物车加减执行 true加 false减)
-    var carAddSubtractUpdateCarBadgeValue=PublishSubject<[Bool:Int]>()
     
     ///监听购物车商品变化
     private var addCarGoodCountVM=AddCarGoodCountViewModel()
 
-//    let carVC=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
+    private var carVC=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,7 +29,6 @@ class TabBarViewController:UITabBarController{
         //分类
         addChildViewController(ClassifyPageViewController(), title:"分类", imageName:"2")
 
-        let carVC=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
         //购物车
         addChildViewController(carVC, title:"购物车", imageName:"3")
         ///个人中心
@@ -38,6 +36,9 @@ class TabBarViewController:UITabBarController{
         self.tabBar.tintColor=UIColor.applicationMainColor()
 
         bindViewModel()
+
+        //接收通知 更新购物车角标
+        NotificationCenter.default.addObserver(self, selector:#selector(updateBadgeValue), name:NSNotification.Name(rawValue: "postBadgeValue"), object:nil)
     }
     /**
      初始化子控制器
@@ -63,9 +64,38 @@ class TabBarViewController:UITabBarController{
         // 4.将子控制器添加到当前控制器上
         addChildViewController(nav)
     }
+    deinit{
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 extension TabBarViewController{
+    /**
+     收到通知更新角标
 
+     - parameter notification:NSNotification
+     */
+    @objc func updateBadgeValue(_ notification:Notification){
+        if notification.object != nil{
+            let obj=notification.object as! Int
+            if obj == 2{///购物车商品增加
+                if notification.userInfo != nil{
+                    let userInfo=JSON(notification.userInfo!)
+                    let count=self.addCarGoodCountVM.queryCarSumCountBR.value+userInfo["carCount"].intValue
+                    self.addCarGoodCountVM.queryCarSumCountBR.accept(count)
+                }
+            }else if obj == 3{ ///减少
+                if notification.userInfo != nil{
+                    let userInfo=JSON(notification.userInfo!)
+                    let count=self.addCarGoodCountVM.queryCarSumCountBR.value-userInfo["carCount"].intValue
+                    self.addCarGoodCountVM.queryCarSumCountBR.accept(count)
+
+                }
+            }else {//读取服务器购物车总数量
+                updateCarBadgeValue.onNext(true)
+            }
+        }
+
+    }
     private func bindViewModel(){
 
         ///更新购物商品数量 默认加载一次
@@ -76,26 +106,12 @@ extension TabBarViewController{
             }
         }).disposed(by:rx_disposeBag)
 
-        ///购物车加减执行 dic key true加 false减
-        carAddSubtractUpdateCarBadgeValue.subscribe(onNext: { [weak self] (dic) in
-            let _=dic.map({ (b,count) in
-                if b {
-                    self?.addCarGoodCountVM.queryCarSumCountBR.accept(self?.addCarGoodCountVM.queryCarSumCountBR.value ?? 0 + count)
-
-                }else{
-                    self?.addCarGoodCountVM.queryCarSumCountBR.accept(self?.addCarGoodCountVM.queryCarSumCountBR.value ?? 0 - count)
-
-                }
-            })
-
-        }).disposed(by:rx_disposeBag)
-        
         ///查询购物车商品数量结果
         addCarGoodCountVM.queryCarSumCountBR.subscribe(onNext: { [weak self] (count) in
             if count > 0{
-                self?.tabBar.items?[2].badgeValue=count.description
+                self?.carVC.tabBarItem.badgeValue=count.description
             }else{
-                self?.tabBar.items?[2].badgeValue=nil
+                self?.carVC.tabBarItem.badgeValue=nil
             }
         }).disposed(by:rx_disposeBag)
     }

@@ -156,8 +156,12 @@ extension CarViewController{
         }).disposed(by:rx_disposeBag)
 
         ///查询购物车商品数量设置角标
-        addCarGoodCountVM.queryCarSumCountBR.asObservable().subscribe(onNext: { (_) in
-            APP.tab?.updateCarBadgeValue.onNext(true)
+        addCarGoodCountVM.queryCarSumCountBR.asObservable().subscribe(onNext:{ [weak self] (count) in
+            if count > 0{
+                self?.tabBarItem.badgeValue=count.description
+            }else{
+                self?.tabBarItem.badgeValue=nil
+            }
         }).disposed(by:rx_disposeBag)
 
         ///去结算

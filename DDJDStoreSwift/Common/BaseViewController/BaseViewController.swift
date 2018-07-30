@@ -93,16 +93,16 @@ extension BaseViewController{
             self.navigationController?.navigationBar.shadowImage=UIImage.imageFromColor(UIColor.RGBFromHexColor(hexString:"ff1261"))
 
             ///设置导航栏颜色
-            self.navigationController?.navigationBar.lt_setBackgroundColor(UIColor.RGBFromHexColor(hexString:"ff1261"))
+            self.navigationController?.navigationBar.barTintColor=UIColor.RGBFromHexColor(hexString:"ff1261")
 
-            setStatusBarBackgroundColor(color:UIColor.RGBFromHexColor(hexString:"ff1261"))
+//            setStatusBarBackgroundColor(color:UIColor.RGBFromHexColor(hexString:"ff1261"))
         }else{
             ///还原导航栏底部黑线
             self.navigationController?.navigationBar.shadowImage=nil
             ///还原导航颜色
-            self.navigationController?.navigationBar.lt_reset()
+            self.navigationController?.navigationBar.barTintColor=UIColor.white
 
-            setStatusBarBackgroundColor(color:UIColor.white)
+//            setStatusBarBackgroundColor(color:UIColor.white)
         }
     }
     //设置状态栏背景颜色

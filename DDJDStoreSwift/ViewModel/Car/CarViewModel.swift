@@ -111,19 +111,23 @@ extension CarViewModel{
                 if success == "success"{
                     if allDelete == true{///如果删除全部
                         self?.arr.removeAll()
+
+                        ///删除所有的商品  重新查询购物车角标
+                        NotificationCenter.default.post(name:NSNotification.Name(rawValue:"postBadgeValue"),object:1)
+                        
                     }else{
+                        let model=self?.arr[index!.section].listGoods![index!.row]
                         ///删除对应商品
                         self?.arr[index!.section].listGoods?.remove(at:index!.row)
                         if self?.arr[index!.section].listGoods?.count == 0{//如果删完了
                             ///删除对应的组
                             self?.arr.remove(at:index!.section)
                         }
+                        ///删除单个商品  更新购物车角标
+                        NotificationCenter.default.post(name:NSNotification.Name(rawValue:"postBadgeValue"), object: 3, userInfo: ["carCount":model?.carNumber ?? 0])
                     }
                     ///更新购物车各种状态
                     self?.setSumPriceArrModel(arr:self?.arr ?? [])
-                    ///更新购物车数量
-                    APP.tab?.updateCarBadgeValue.onNext(true)
-                    
                     PHProgressHUD.showSuccess("删除成功")
                 }else{
                     PHProgressHUD.showError("删除失败")

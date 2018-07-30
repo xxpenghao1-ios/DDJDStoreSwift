@@ -100,6 +100,10 @@ extension OrderDetailViewController{
         vm.cancelOrderResult?.subscribe(onNext: { [weak self] (result) in
             if result{//取消订单成功 返回订单列表
                 self?.cancelOrderClosure?() ///订单列表刷新数据
+
+                ///刷新购物车角标
+                NotificationCenter.default.post(name:NSNotification.Name(rawValue:"postBadgeValue"),object:1)
+                
                 self?.navigationController?.popViewController(animated: true)
             }
         }).disposed(by:rx_disposeBag)

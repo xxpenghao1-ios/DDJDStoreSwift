@@ -33,6 +33,11 @@ class OtherViewController:BaseViewController{
     }
     ///是否取消语音
     @objc private func isCancelSpeech(sender:UISwitch){
+        if sender.isOn {///如果开启
+            PHJPushHelper.setTag(tag:substation_Id ?? "")
+        }else{///如果取消
+            PHJPushHelper.removeTag()
+        }
         USER_DEFAULTS.set(sender.isOn, forKey:"isCancelSpeech")
         USER_DEFAULTS.synchronize()
     }

@@ -145,7 +145,8 @@ extension PlaceOrderViewController{
                 self?.navigationController?.popToRootViewController(animated: true);
         })
         ///更新购物车角标
-        APP.tab?.updateCarBadgeValue.onNext(true)
+        //发送通知更新角标
+        NotificationCenter.default.post(name:NSNotification.Name(rawValue: "postBadgeValue"), object:1)
     }
 }
 extension PlaceOrderViewController:UITableViewDelegate,UITableViewDataSource{

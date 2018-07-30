@@ -12,8 +12,6 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    /// 主页面 用于更新购物车角标
-    var tab:TabBarViewController?
 
     internal var vm=AppDelegateViewModel()
 

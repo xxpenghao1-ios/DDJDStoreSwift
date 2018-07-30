@@ -13,7 +13,7 @@ let APP_KEY="5d41be0ff7738eb9a5d3bff0"
 /// 指明应用程序包的下载渠道，为方便分渠道统计，具体值由你自行定义，如：App Store。
 let CHANNEL="ddjd"
 ///false(默认值)表示采用的是开发证书，true表示采用生产证书发布应用。
-let APS_FOR_PRODUCTION=false
+let APS_FOR_PRODUCTION=true
 /// 集成极光推送
 class PHJPushHelper:NSObject{
     /**
@@ -51,6 +51,11 @@ class PHJPushHelper:NSObject{
         JPUSHService.setTags([substationId], completion:nil, seq:11)
 
 
+    }
+    ///设置推送tag
+    class func setTag(tag substationId:String){
+        //设置tag
+        JPUSHService.setTags([substationId], completion:nil, seq:11)
     }
     ///清空推送别名/tag
     class func removeTagAndAlias(){

@@ -27,7 +27,7 @@ class AddressListViewController:BaseViewController{
     }()
 
     private lazy var btnAddAddress:UIButton={
-        let btn=UIButton.buildBtn(text:"添加收货地址", textColor:UIColor.white, font:16, backgroundColor:UIColor.RGBFromHexColor(hexString:"FFE1E9"))
+        let btn=UIButton.buildBtn(text:"添加收货地址", textColor:UIColor.applicationMainColor(), font:16, backgroundColor:UIColor.RGBFromHexColor(hexString:"FFE1E9"))
         btn.frame=CGRect.init(x:0, y:table.frame.maxY, width:SCREEN_WIDTH, height:50)
         return btn
     }()

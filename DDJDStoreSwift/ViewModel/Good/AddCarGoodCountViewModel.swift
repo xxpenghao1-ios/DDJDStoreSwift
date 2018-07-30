@@ -51,13 +51,13 @@ class AddCarGoodCountViewModel:NSObject {
             switch result{
             case let .success(json:json):
                 let success=json["success"].stringValue
-                phLog(success)
                 if success == "success"{
                     let count=json["shoppingCount"].intValue
                     ///查询购物车商品总数量
                     self?.queryCarSumCountBR.accept(count)
+
                     ///更新购物车角标
-                    APP.tab?.updateCarBadgeValue.onNext(true)
+                    NotificationCenter.default.post(name:NSNotification.Name(rawValue:"postBadgeValue"), object:1)
                     PHProgressHUD.showSuccess("成功加入购物车")
                 }else if success == "tjxgbz"{
                     PHProgressHUD.showInfo("特价商品限购数量不足")

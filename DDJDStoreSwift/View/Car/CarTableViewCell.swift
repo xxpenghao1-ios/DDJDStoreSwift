@@ -211,8 +211,8 @@ extension CarTableViewCell{
 
             self.updateCarNumberClosure?(goodModel!.carNumber!)
 
-            ///更新购物车BadgeValue(购物车加减执行 true加 false减)
-            APP.tab?.carAddSubtractUpdateCarBadgeValue.onNext([true:goodsBaseCount])
+            //发送通知更新角标
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "postBadgeValue"), object:2,userInfo:["carCount":goodModel!.goodsBaseCount!])
         }
     }
     ///减少商品数量
@@ -226,8 +226,8 @@ extension CarTableViewCell{
 
             self.updateCarNumberClosure?(goodModel!.carNumber!)
 
-            ///更新购物车BadgeValue(购物车加减执行 true加 false减)
-            APP.tab?.carAddSubtractUpdateCarBadgeValue.onNext([false:goodsBaseCount])
+            //发送通知更新角标
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "postBadgeValue"), object:3, userInfo:["carCount":goodModel!.goodsBaseCount!])
         }
     }
 

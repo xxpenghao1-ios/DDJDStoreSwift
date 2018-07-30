@@ -64,9 +64,6 @@ extension AppDelegate{
         BaiduMobStat.default().start(withAppId:"ec2fbe36a3")
         BaiduMobStat.default().enableDebugOn=false
 
-        ///默认开启推送活动语音播报
-        USER_DEFAULTS.set(true, forKey:"isCancelSpeech")
-        USER_DEFAULTS.synchronize()
     }
 }
 
@@ -74,22 +71,22 @@ extension AppDelegate{
 extension AppDelegate{
     //跳转到首页
     func jumpToIndexVC(){
-        tab=TabBarViewController()
+        let tab=TabBarViewController()
         self.window?.rootViewController=tab
     }
     //跳转到登录页面(切换根视图)
     func jumpToLoginVC(){
         let login=LoginController()
-        self.window?.rootViewController=UINavigationController(rootViewController:login) 
+        self.window?.rootViewController=UINavigationController(rootViewController:login)
     }
 }
 
 ///极光推送
 extension AppDelegate:JPUSHRegisterDelegate{
 
-    ///处理推送消息
+    ///处理推送消息  目前不做处理
     private func managePushInfo(json:JSON){
-        
+        print(json)
 
     }
     ///监听自定义消息
@@ -110,9 +107,7 @@ extension AppDelegate:JPUSHRegisterDelegate{
 
         if (response.notification.request.trigger?.isKind(of:UNPushNotificationTrigger.classForCoder()))!{
             JPUSHService.handleRemoteNotification(userInfo)
-            print(userInfo)
-
-
+            managePushInfo(json:JSON(userInfo))
         }
         completionHandler()
     }
@@ -122,11 +117,7 @@ extension AppDelegate:JPUSHRegisterDelegate{
         let userInfo=notification.request.content.userInfo
         if (notification.request.trigger?.isKind(of:UNPushNotificationTrigger.classForCoder()))!{
             JPUSHService.handleRemoteNotification(userInfo)
-            print(userInfo)
-
-            //转换为json
-//            let jsonObject=JSON(userInfo);
-
+            managePushInfo(json:JSON(userInfo))
         }
 
     }
