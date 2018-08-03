@@ -18,7 +18,7 @@ extension Response {
         do{
             let json=JSON(try self.mapJSON())
             print(json)
-            guard let object = Mapper<T>().map(JSONObject: try mapJSON()) else {
+            guard let object = Mapper<T>().map(JSONObject:json.object) else {
                 throw MoyaError.jsonMapping(self)
             }
             return object
@@ -47,7 +47,7 @@ extension ObservableType where E == Response{
     //返回一个Observable<ResponseResult>
     public func mapObject<T:Mappable>(_ type: T.Type) -> Observable<T> {
         return flatMap { response -> Observable<T> in
-            return Observable<T>.just(try response.mapObjectModel(type.self))
+            return Observable<T>.just(try response.mapObjectModel(type))
         }
     }
 

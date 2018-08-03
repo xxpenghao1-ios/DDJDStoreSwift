@@ -21,12 +21,22 @@ class IndexClassifyCollectionViewCell:UICollectionViewCell{
         return _lbl
 
     }()
+
+    var pushClassifyClosure:(() -> Void)?
+
     override init(frame: CGRect){
         super.init(frame:frame)
         imgView.frame=CGRect(x:10,y: 0,width:frame.size.width-20,height: frame.size.height-20)
         self.contentView.addSubview(imgView);
         name.frame=CGRect(x:0,y:frame.height-20,width: frame.width,height: 20)
         self.contentView.addSubview(name);
+        self.contentView.isUserInteractionEnabled=true
+        self.contentView.addGestureRecognizer(UITapGestureRecognizer(target: self, action:#selector(pushClassifyVC)))
+    }
+
+    ///跳转到分类页面
+    @objc private func pushClassifyVC(){
+        pushClassifyClosure?()
     }
     //传入数据
     func updateCell(model:GoodsCategoryModel){

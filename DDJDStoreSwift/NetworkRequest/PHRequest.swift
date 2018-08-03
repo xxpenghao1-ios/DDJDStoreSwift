@@ -56,7 +56,7 @@ final public class PHRequest:NSObject{
                 case let .success(response):
                     do {
                         
-                        observable.onNext(try response.mapArray(M.self))
+                        observable.onNext(try response.mapArray(model))
                     } catch {
                         observable.onError(MoyaError.jsonMapping(response))
                     }
@@ -75,7 +75,7 @@ final public class PHRequest:NSObject{
                 switch result{
                 case let .success(response):
                     do {
-                        observable.onNext(try response.mapObjectModel(M.self))
+                        observable.onNext(try response.mapObjectModel(model))
                     } catch {
                         observable.onError(MoyaError.jsonMapping(response))
                     }

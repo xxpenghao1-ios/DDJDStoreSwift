@@ -63,7 +63,7 @@ class GoodDetailViewController:BaseViewController{
     ///跳转到购物车按钮
     private var btnPushCar:UIButton?
 
-    private var vm:GoodDetailViewModel!
+    private var vm=GoodDetailViewModel()
 
     ///加入购物车vm
     private var addCarVM:AddCarGoodCountViewModel!
@@ -120,8 +120,8 @@ extension GoodDetailViewController{
         if model == nil{
             return
         }
-        ///初始化vm
-        vm=GoodDetailViewModel(model:model!,goodDetailflag:flag)
+        ///查询商品详情
+        vm.goodDetailPS.onNext((model!, flag))
         ///初始化加入购物车vm
         addCarVM=AddCarGoodCountViewModel(model:model!, flag:flag)
 
@@ -137,7 +137,7 @@ extension GoodDetailViewController{
         }).disposed(by:rx_disposeBag)
 
         ///加入购物车
-        btnAddCar.rx.tap.asObservable().subscribe({ [weak self] (_) in
+        btnAddCar.rx.tap.asObservable().bind(onNext: { [weak self] (_) in
             if self?.stepper.value == 0{
                 PHProgressHUD.showInfo("加入商品数量不能为0")
             }else{
@@ -146,18 +146,20 @@ extension GoodDetailViewController{
         }).disposed(by:rx_disposeBag)
 
         ///更新购物车item按钮数量
-        addCarVM.queryCarSumCountBR.asObservable().subscribe(onNext: { [weak self] (count) in
-            self?.btnPushCar?.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
-        }).disposed(by:rx_disposeBag)
+        addCarVM.queryCarSumCountBR.asObservable().bind { [weak self] (count) in
+            self?.btnPushCar?.showBadge(with: WBadgeStyle.number, value:count, animationType: WBadgeAnimType.none)
+        }.disposed(by:rx_disposeBag)
 
         ///选择商品数量
         btnSelectedGoodCount.rx.tap.asObservable().subscribe(onNext: { [weak self] (_) in
-            if self?.vm.goodDetailBR.value == nil{
+            guard let `self` = self else { return }
+            if self.vm.goodDetailBR.value == nil{
                 return
             }
-            self?.selectedGoodCount(model:(self?.vm.goodDetailBR.value)!)
+            self.selectedGoodCount(model:self.vm.goodDetailBR.value!)
         }).disposed(by:rx_disposeBag)
     }
+
     ///set数据
     private func setData(model:GoodDetailModel){
         self.goodImgView.ph_setImage(withUrlString:HTTP_URL_IMG+(model.goodPic ?? ""), placeholderImgName:GOOD_DEFAULT_IMG)
@@ -236,10 +238,9 @@ extension GoodDetailViewController{
             self?.txtNotification(textField:textField)
         }
         //确定
-        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ [weak self] (action) in
-            let alert=self?.presentedViewController as! UIAlertController
-            let text=(alert.textFields?.first)! as UITextField
-            self?.stepper.value=Double(text.text!)!
+        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ (action) in
+            let text=(alertController.textFields?.first)! as UITextField
+            self.stepper.value=Double(text.text!)!
         })
         //取消
         let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.cancel, handler: nil)

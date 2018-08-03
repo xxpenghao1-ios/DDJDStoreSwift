@@ -78,13 +78,13 @@ extension BrandViewController:Refreshable{
         }).bind(to:collection.rx.items(dataSource:brandDataSource)).disposed(by:rx_disposeBag)
 
         ///选中3级分类事件
-        self.collection.rx.modelSelected(GoodsCategoryModel.self).asObservable().subscribe(onNext: { [weak self] (model) in
-            let vc=GoodListViewController()
-            vc.flag=1
-            vc.titleStr=model.brandName
-            vc.hidesBottomBarWhenPushed=true
-            self?.navigationController?.pushViewController(vc,animated:true)
-        }).disposed(by:rx_disposeBag)
+        self.collection.rx.modelSelected(GoodsCategoryModel.self).asObservable().bind(onNext: { [weak self] (model) in
+                let vc=GoodListViewController()
+                vc.flag=1
+                vc.titleStr=model.brandName
+                vc.hidesBottomBarWhenPushed=true
+                self?.navigationController?.pushViewController(vc,animated:true)
+            }).disposed(by:rx_disposeBag)
 
         ///刷新
         let refreshHeader=initRefreshHeader(collection) { [weak self] in

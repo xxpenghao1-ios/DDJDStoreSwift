@@ -114,8 +114,8 @@ class IndexViewController:BaseViewController,Refreshable{
         ///白色view
         let whiteView=UIView(frame: CGRect.init(x:0, y:26, width:SCREEN_WIDTH, height: 26))
         whiteView.backgroundColor=UIColor.white
-        view.addSubview(whiteView)
-        view.addSubview(btnTitle)
+        hotTopView.addSubview(whiteView)
+        hotTopView.addSubview(btnTitle)
 
         ///热门商品UICollectionView
         let hotflowLayout = UICollectionViewFlowLayout()
@@ -237,6 +237,8 @@ extension IndexViewController{
     ///绑定VM
     private func bindViewModel(){
 
+        viewModel.requestNewDataCommond.onNext(true)
+
         ///弹出公告栏
         viewModel.adMessgInfoBR.asObservable().subscribe(onNext: { [weak self] (model) in
             if model != nil{
@@ -252,9 +254,12 @@ extension IndexViewController{
         //创建分类数据源
         let categoryDataSource = RxCollectionViewSectionedReloadDataSource
             <SectionModel<String,GoodsCategoryModel>>(
-                configureCell: { (dataSource, collectionView, indexPath, element)  in
+                configureCell: { [weak self] (dataSource, collectionView, indexPath, model)  in
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"indexClassifyId",for:indexPath) as! IndexClassifyCollectionViewCell
-                    cell.updateCell(model:element)
+                    cell.updateCell(model:model)
+                    cell.pushClassifyClosure={
+                        self?.pushCategoryVC(model:model)
+                    }
                     return cell
             })
 
@@ -262,26 +267,6 @@ extension IndexViewController{
         viewModel.categorySectionBR.asObservable()
             .bind(to:self.classifyCollectionView.rx.items(dataSource:categoryDataSource))
             .disposed(by:rx_disposeBag)
-
-        ///点击分类
-        self.classifyCollectionView.rx.modelSelected(GoodsCategoryModel.self).subscribe(onNext: { [weak self] (model) in
-            if model.categoryType == 2{///跳转到点单商城
-                ///点单商城
-                let vc=UIStoryboard.init(name:"IntegralStore", bundle:nil).instantiateViewController(withIdentifier:"IntegralStoreVC") as! IntegralStoreViewController
-                vc.hidesBottomBarWhenPushed=true
-                self?.navigationController?.pushViewController(vc, animated:true)
-            }else if model.categoryType == 1{
-                ///购买记录
-                let vc=PurchaseRecordsViewController()
-                vc.hidesBottomBarWhenPushed=true
-                self?.navigationController?.pushViewController(vc, animated:true)
-            }else{
-                let vc=ClassifyPageViewController()
-                vc.model=model
-                vc.hidesBottomBarWhenPushed=true
-                self?.navigationController?.pushViewController(vc, animated:true)
-            }
-        }).disposed(by:rx_disposeBag)
 
         ///获取新品推荐数据
         viewModel.newGoodArrModelBR.asObservable().subscribe(onNext: { [weak self] (arr) in
@@ -341,6 +326,26 @@ extension IndexViewController{
         vc.flag=2
         vc.hidesBottomBarWhenPushed=true
         self.navigationController?.pushViewController(vc, animated:true)
+    }
+
+    ///跳转到分类页面
+    private func pushCategoryVC(model:GoodsCategoryModel){
+        if model.categoryType == 2{///跳转到点单商城
+            ///点单商城
+            let vc=UIStoryboard.init(name:"IntegralStore", bundle:nil).instantiateViewController(withIdentifier:"IntegralStoreVC") as! IntegralStoreViewController
+            vc.hidesBottomBarWhenPushed=true
+            self.navigationController?.pushViewController(vc, animated:true)
+        }else if model.categoryType == 1{
+            ///购买记录
+            let vc=PurchaseRecordsViewController()
+            vc.hidesBottomBarWhenPushed=true
+            self.navigationController?.pushViewController(vc, animated:true)
+        }else{
+            let vc=ClassifyPageViewController()
+            vc.model=model
+            vc.hidesBottomBarWhenPushed=true
+            self.navigationController?.pushViewController(vc, animated:true)
+        }
     }
 }
 ///点击幻灯片跳转

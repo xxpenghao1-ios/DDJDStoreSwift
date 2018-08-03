@@ -16,6 +16,8 @@ class GoodDetailViewModel:NSObject{
     ///保存商品详情
     var goodDetailBR=BehaviorRelay<GoodDetailModel?>(value:nil)
 
+    var goodDetailPS=PublishSubject<(GoodDetailModel,Int)>()
+
     ///商品其他信息title
     var goodDetailOtherTitleArr=["库存","最低起订量","每次商品加减数量","配送商","条码","保质期"]
 
@@ -29,12 +31,13 @@ class GoodDetailViewModel:NSObject{
     var cancelCollectionPS=PublishSubject<Bool>()
 
     ///商品详情flag   1特价，2普通,3促销
-    init(model:GoodDetailModel,goodDetailflag:Int) {
+    override init() {
         super.init()
 
-        ///查看商品详情
-        getGoodDetail(model:model,goodDetailflag:goodDetailflag)
-
+        ///查看商品详情  商品详情flag   1特价，2普通,3促销
+        goodDetailPS.asObservable().subscribe(onNext: { [weak self] (model,goodDetailflag) in
+            self?.getGoodDetail(model:model,goodDetailflag:goodDetailflag)
+        }).disposed(by:rx_disposeBag)
         ///加入收藏
         addCollectionPS.subscribe(onNext: { [weak self](b) in
             if b{

@@ -49,16 +49,15 @@ class ClassifyViewModel:NSObject,OutputRefreshProtocol{
     
      override init() {
         super.init()
-
-        requestNewDataCommond.subscribe { [weak self] (event) in
-            if event.element == true{
+        requestNewDataCommond.asObservable().subscribe(onNext: { [weak self] (b) in
+            if b{
                 self?.index=0
                 self?.getTwoCategoryForMob()
             }else{
                 self?.index=0
                 self?.getCategory4AndroidAll()
             }
-        }.disposed(by: rx_disposeBag)
+        }).disposed(by:rx_disposeBag)
     }
 }
 extension ClassifyViewModel{

@@ -53,22 +53,19 @@ class IndexViewModel:NSObject,OutputRefreshProtocol{
         super.init()
         ///初始化就加载公告栏信息
         getAdMessgInfo()
-        requestNewDataCommond
-            .startWith(true)//默认刷新数据加载
-            .subscribe { [weak self] (event) in
-            if event.element == true{//重新加载数据
+        requestNewDataCommond.asObservable().subscribe(onNext: { [weak self] (b) in
+            if b{
                 self?.currentPage=1
                 self?.getMobileAdvertising()
                 self?.getOneCategory()
                 self?.getNewGood()
                 self?.getSpecialsAndPromotions()
-                self?.getHotGood(b:event.element)
-            }else{///加载热门商品下一页
+                self?.getHotGood(b:b)
+            }else{
                 self?.currentPage+=1
-                self?.getHotGood(b:event.element)
+                self?.getHotGood(b:b)
             }
-        }.disposed(by:rx_disposeBag)
-
+        }).disposed(by:rx_disposeBag)
         ///把幻灯片model数据转换成路径数组
         advertisingArrModelBR.asObservable().map { (arrModel) -> [String] in
             return arrModel.map({ (model) -> String in
