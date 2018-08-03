@@ -10,7 +10,7 @@ import UIKit
 let HTTP_URL_IMG="http://www.hnddjd.com"; //http://www.hnddjd.com/front/
 ///c.hnddjd.com
 ///数据请求路径
-let HTTP_URL="http://ddjd.houjue.me/front/";
+let HTTP_URL="http://www.hnddjd.com/front/";
 
 /// 屏幕宽
 let SCREEN_WIDTH=UIScreen.main.bounds.width
