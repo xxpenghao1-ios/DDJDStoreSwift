@@ -31,6 +31,9 @@ PODS:
     - Differentiator (~> 3.0)
     - RxCocoa (~> 4.0)
     - RxSwift (~> 4.0)
+  - RxGesture (1.2.1):
+    - RxCocoa (~> 4.0)
+    - RxSwift (~> 4.0)
   - RxSwift (4.2.0)
   - SnapKit (4.0.0)
   - SVProgressHUD (2.2.5)
@@ -57,6 +60,7 @@ DEPENDENCIES:
   - ObjectMapper
   - RxCocoa
   - RxDataSources
+  - RxGesture
   - RxSwift
   - SnapKit
   - SVProgressHUD
@@ -86,6 +90,7 @@ SPEC REPOS:
     - Result
     - RxCocoa
     - RxDataSources
+    - RxGesture
     - RxSwift
     - SnapKit
     - SVProgressHUD
@@ -114,6 +119,7 @@ SPEC CHECKSUMS:
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   RxCocoa: 0b54909c902e1e581212a03e690bbd94032d8baa
   RxDataSources: cb7c31e652a87ebb919da45f716bbb87b3765f6b
+  RxGesture: c278eb05b187abd47e11e65464ae4de53ab71d95
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
@@ -122,6 +128,6 @@ SPEC CHECKSUMS:
   WZLBadge: 9ec779dcfd94c825518b395e8315fccaabff1bfa
   XCGLogger: 4fc1bc0bdd5828cb8dc8da7a843536cda1bea8f3
 
-PODFILE CHECKSUM: 44c9414f369b7e7535f6b9e0a293735d62f13577
+PODFILE CHECKSUM: 9c74e8b23659bf912995cab4346df9d533a20073
 
 COCOAPODS: 1.5.0

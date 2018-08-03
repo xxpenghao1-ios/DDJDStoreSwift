@@ -39,30 +39,24 @@ extension SearchViewController:UITextFieldDelegate{
         //数据源
         let dataSource = RxCollectionViewSectionedReloadDataSource
             <SectionModel<String,GoodsCategoryModel>>(
-                configureCell: { (dataSource, collectionView, indexPath,model)  in
+                configureCell: { [weak self] (dataSource, collectionView, indexPath,model)  in
                     let cell =  collectionView.dequeueReusableCell(withReuseIdentifier:"searchId",for:indexPath) as! SearchCollectionViewCell
-                        cell.updateCell(str:model.brandName)
+                    cell.updateCell(str:model.brandName)
+                    cell.pushGoodListClosure={
+                        if model.brandName == "清除"{
+                            self?.vm.deleteSearchStrPS.onNext(true)
+                        }else{
+                            if model.brandName != "搜索历史" && model.brandName != "品牌推荐"{
+                                self?.pushGoodList(str:model.brandName)
+                            }
+                        }
+                    }
                     return cell
             })
 
         ///绑定数据源
         vm.allBrandAndSearchStrBR.asObservable().bind(to:collection.rx.items(dataSource:dataSource)).disposed(by:rx_disposeBag)
 
-        ///选中3级分类事件
-        self.collection.rx.modelSelected(GoodsCategoryModel.self).asObservable().subscribe(onNext: { [weak self] (model) in
-            if model.brandName == "清除"{
-                self?.vm.deleteSearchStr.onNext(true)
-            }else{
-                if model.brandName != "搜索历史" && model.brandName != "品牌推荐"{
-                    self?.pushGoodList(str:model.brandName)
-                }
-            }
-        }).disposed(by:rx_disposeBag)
-
-        ///点击搜索按钮 验证完成后跳转到商品列表
-        vm.pushGoodList.asObservable().subscribe(onNext: { [weak self] (str) in
-            self?.pushGoodList(str:str)
-        }).disposed(by:rx_disposeBag)
     }
     ///跳转到商品列表
     private func pushGoodList(str:String?){
@@ -75,7 +69,8 @@ extension SearchViewController:UITextFieldDelegate{
     }
     //点击键盘搜索按钮
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.vm.addSearchStr.onNext(textField.text)
+        self.vm.addSearchStrPS.onNext(textField.text)
+        self.pushGoodList(str:textField.text)
         return true
     }
     //点击view隐藏键盘
@@ -132,23 +127,24 @@ extension SearchViewController{
         //搜索按钮
         let searchBtn=UIButton.buildBtn(text:"搜索", textColor:UIColor.color666(), font:15, backgroundColor:UIColor.clear)
         searchBtn.frame=CGRect(x:0, y:0, width:40, height:30)
-        searchBtn.rx.tap.asObservable().subscribe { [weak self] (_) in
-            self?.vm.addSearchStr.onNext(self?.txtSearch.text)
-            }.disposed(by: rx_disposeBag)
+        searchBtn.rx.tap.asDriver(onErrorJustReturn:()).drive(onNext: { [weak self] (_) in
+            self?.vm.addSearchStrPS.onNext(self?.txtSearch.text)
+            self?.pushGoodList(str:self?.txtSearch.text)
+        }).disposed(by: rx_disposeBag)
         let searchBtnItem=UIBarButtonItem(customView:searchBtn)
         self.navigationItem.rightBarButtonItems=[searchBtnItem,searchTxtItem]
     }
-    ///跳转到扫码页面
-    @objc private func pushSweepCodeVC(){
-        let camera: PrivateResource = .cameraCode
-        let propose: Propose = {
-            proposeToAccess(camera, agreed: {
-                let vc=ScanCodeGetBarcodeViewController()
-                self.navigationController?.pushViewController(vc, animated:true)
-            }, rejected: {
-                self.alertNoPermissionToAccess(camera)
-            })
-        }
-        showProposeMessageIfNeedFor(camera, andTryPropose: propose)
-    }
+//    ///跳转到扫码页面
+//    @objc private func pushSweepCodeVC(){
+//        let camera: PrivateResource = .cameraCode
+//        let propose: Propose = {
+//            proposeToAccess(camera, agreed: { [weak self] in
+//                let vc=ScanCodeGetBarcodeViewController()
+//                self?.navigationController?.pushViewController(vc, animated:true)
+//            }, rejected: { [weak self] in
+//                self?.alertNoPermissionToAccess(camera)
+//            })
+//        }
+//        showProposeMessageIfNeedFor(camera, andTryPropose: propose)
+//    }
 }

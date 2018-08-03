@@ -17,6 +17,7 @@
 		630E2EA620F301BF00884E79 /* GoodDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630E2EA520F301BF00884E79 /* GoodDetailViewModel.swift */; };
 		630E2EA820F30A9D00884E79 /* GoodDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630E2EA720F30A9D00884E79 /* GoodDetailModel.swift */; };
 		630E2EC420F312C400884E79 /* GoodDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 630E2EC320F312C400884E79 /* GoodDetail.storyboard */; };
+		630FECC32114934600FE745E /* BrandCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630FECC22114934600FE745E /* BrandCollectionViewCell.swift */; };
 		63101CB32107FFB9008C5CC7 /* CollectionGoodViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63101CB22107FFB9008C5CC7 /* CollectionGoodViewController.swift */; };
 		63101CB62108013A008C5CC7 /* CollectionGoodViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63101CB52108013A008C5CC7 /* CollectionGoodViewModel.swift */; };
 		63196933210846DF00955768 /* PurchaseRecordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63196932210846DF00955768 /* PurchaseRecordsViewController.swift */; };
@@ -236,6 +237,7 @@
 		630E2EA520F301BF00884E79 /* GoodDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodDetailViewModel.swift; sourceTree = "<group>"; };
 		630E2EA720F30A9D00884E79 /* GoodDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoodDetailModel.swift; sourceTree = "<group>"; };
 		630E2EC320F312C400884E79 /* GoodDetail.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GoodDetail.storyboard; sourceTree = "<group>"; };
+		630FECC22114934600FE745E /* BrandCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandCollectionViewCell.swift; sourceTree = "<group>"; };
 		63101CB22107FFB9008C5CC7 /* CollectionGoodViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGoodViewController.swift; sourceTree = "<group>"; };
 		63101CB52108013A008C5CC7 /* CollectionGoodViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionGoodViewModel.swift; sourceTree = "<group>"; };
 		63196932210846DF00955768 /* PurchaseRecordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseRecordsViewController.swift; sourceTree = "<group>"; };
@@ -873,6 +875,7 @@
 			children = (
 				634DB1E020E7762F00D5016A /* ClassifyCollectionViewCell.swift */,
 				634DB1E220E7798F00D5016A /* GoodClassifyTableViewCell.swift */,
+				630FECC22114934600FE745E /* BrandCollectionViewCell.swift */,
 			);
 			path = Classify;
 			sourceTree = "<group>";
@@ -1664,6 +1667,7 @@
 				"${BUILT_PRODUCTS_DIR}/Result/Result.framework",
 				"${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework",
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
+				"${BUILT_PRODUCTS_DIR}/RxGesture/RxGesture.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -1690,6 +1694,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Result.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxCocoa.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxGesture.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
@@ -1744,6 +1749,7 @@
 				63FBEE412091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld in Sources */,
 				638F77D320FDCEC7007F3FCA /* LBXScanViewController.swift in Sources */,
 				638F77E120FDD28A007F3FCA /* Proposer.swift in Sources */,
+				630FECC32114934600FE745E /* BrandCollectionViewCell.swift in Sources */,
 				633B856020E618C500F714D7 /* Array.swift in Sources */,
 				633F8CD520CFA69F00D227AF /* IndexAPI.swift in Sources */,
 				63BD7E4620EB4CB000C01219 /* MyOrderCollectionViewCell.swift in Sources */,

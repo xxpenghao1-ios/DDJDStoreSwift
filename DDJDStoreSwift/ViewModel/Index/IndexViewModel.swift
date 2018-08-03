@@ -131,43 +131,48 @@ extension IndexViewModel{
         }).disposed(by:rx_disposeBag)
     }
     ///获取热门商品  b是是否刷新数据 true是  false加载下一页数据
-    private func getHotGood(b:Bool?){
+    private func getHotGood(b:Bool){
 
         ///发送网络请求
-        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:county_Id!, isDisplayFlag:2,storeId:store_Id!,currentPage:currentPage,pageSize:pageSize),model:GoodDetailModel.self).subscribe(onNext: { [weak self] (arrModel) in
-
-            if b == true{///刷新
-                ///每次获取最新的数据
-                self?.hotGoodArr=arrModel
-                self?.hotGoodArrModelBR.accept([SectionModel.init(model:"",items:self?.hotGoodArr ?? [])])
-
-            }else{//加载更多
-                ///追加数据
-                self?.hotGoodArr+=arrModel
-            self?.hotGoodArrModelBR.accept([SectionModel.init(model:"",items:self?.hotGoodArr ?? [])])
-            }
-            self?.refreshStatus.accept(.endHeaderRefresh)
-            self?.refreshStatus.accept(.endFooterRefresh)
-            if arrModel.count < self?.pageSize{//如果下面没有数据了
-                self?.refreshStatus.accept(.noMoreData)
-            }
+        PHRequest.shared.requestJSONArrModel(target:IndexAPI.queryGoodsForAndroidIndexForStore(countyId:county_Id!, isDisplayFlag:2,storeId:store_Id!,currentPage:currentPage,pageSize:pageSize),model:GoodDetailModel.self).subscribe(onNext: { [weak self] (arr) in
+                self?.hotSubscribeResult(b:b, arr:arr)
             }, onError: { [weak self] (error) in
-                ///把页索引-1
-                if self?.currentPage > 1{
-                    self?.currentPage-=1
-                }
-                phLog("获取分类数据出错:\(error.localizedDescription)")
-                self?.refreshStatus.accept(.endHeaderRefresh)
-                self?.refreshStatus.accept(.endFooterRefresh)
+                self?.hotErrorResult()
         }).disposed(by:rx_disposeBag)
     }
     ///获取公告栏信息
     private func getAdMessgInfo(){
         PHRequest.shared.requestJSONModel(target:IndexAPI.queryAdMessgInfo(substationId:substation_Id!),model:AdMessgInfoModel.self).subscribe(onNext: { [weak self] (model) in
-            
             self?.adMessgInfoBR.accept(model)
         }, onError: { (error) in
             phLog("获取公告栏数据出错:\(error.localizedDescription)")
         }).disposed(by: rx_disposeBag)
+    }
+    ///热门商品请求成功
+    private func hotSubscribeResult(b:Bool,arr:[GoodDetailModel]){
+        if b == true{///刷新
+            ///每次获取最新的数据
+            self.hotGoodArr=arr
+            self.hotGoodArrModelBR.accept([SectionModel.init(model:"",items:self.hotGoodArr)])
+
+        }else{//加载更多
+            ///追加数据
+            self.hotGoodArr+=arr
+            self.hotGoodArrModelBR.accept([SectionModel.init(model:"",items:self.hotGoodArr)])
+        }
+        self.refreshStatus.accept(.endHeaderRefresh)
+        self.refreshStatus.accept(.endFooterRefresh)
+        if arr.count < self.pageSize{//如果下面没有数据了
+            self.refreshStatus.accept(.noMoreData)
+        }
+    }
+    ///请求错误
+    private func hotErrorResult(){
+        ///把页索引-1
+        if self.currentPage > 1{
+            self.currentPage-=1
+        }
+        self.refreshStatus.accept(.endHeaderRefresh)
+        self.refreshStatus.accept(.endFooterRefresh)
     }
 }

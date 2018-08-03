@@ -19,12 +19,20 @@ class ClassifyCollectionViewCell:UICollectionViewCell{
         _lab.lineBreakMode = .byWordWrapping
         return _lab
     }()
+
+    var pushGoodListClosure:(() -> Void)?
+
     override init(frame: CGRect) {
         super.init(frame:frame)
         imgView.frame=CGRect.init(x:15, y:0, width:self.frame.width-30, height:self.frame.width-30)
         self.contentView.addSubview(imgView)
         lblName.frame=CGRect.init(x:0, y:imgView.frame.maxY+5,width:self.frame.width, height:20)
         self.contentView.addSubview(lblName)
+        self.contentView.isUserInteractionEnabled=true
+        self.contentView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(pushGoodListVC)))
+    }
+    @objc private func pushGoodListVC(){
+        pushGoodListClosure?()
     }
     func updateCell(model:GoodsCategoryModel){
         lblName.text=model.goodsCategoryName

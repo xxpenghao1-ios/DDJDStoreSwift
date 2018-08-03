@@ -36,7 +36,15 @@ class ClassifyViewController:BaseViewController {
         setUI()
         bindViewModel()
     }
-    
+    ///跳转商品列表
+    private func  pushGoodListVC(model:GoodsCategoryModel){
+        let vc=GoodListViewController()
+        vc.flag=2
+        vc.goodsCategoryId=model.goodsCategoryId
+        vc.titleStr=model.goodsCategoryName
+        vc.hidesBottomBarWhenPushed=true
+        self.navigationController?.pushViewController(vc,animated:true)
+    }
 }
 
 extension ClassifyViewController:Refreshable{
@@ -55,21 +63,15 @@ extension ClassifyViewController:Refreshable{
 
 
         ///3级分类数据源
-        let collectionDataSource=RxCollectionViewSectionedReloadDataSource<SectionModel<String,GoodsCategoryModel>>(configureCell: { (_, collection, indexPath,element)  in
+        let collectionDataSource=RxCollectionViewSectionedReloadDataSource<SectionModel<String,GoodsCategoryModel>>(configureCell: { [weak self] (_, collection, indexPath,model)  in
             let cell=collection.dequeueReusableCell(withReuseIdentifier:"ClassifyCollectionViewCellId", for: indexPath) as! ClassifyCollectionViewCell
-            cell.updateCell(model:element)
+            cell.updateCell(model:model)
+            cell.pushGoodListClosure={
+                self?.pushGoodListVC(model:model)
+            }
             return cell
         })
 
-        ///选中3级分类事件
-        self.collection.rx.modelSelected(GoodsCategoryModel.self).asObservable().bind(onNext: { [weak self] (model) in
-            let vc=GoodListViewController()
-            vc.flag=2
-            vc.goodsCategoryId=model.goodsCategoryId
-            vc.titleStr=model.goodsCategoryName
-            vc.hidesBottomBarWhenPushed=true
-            self?.navigationController?.pushViewController(vc,animated:true)
-        }).disposed(by:rx_disposeBag)
 
         ///绑定3级分类
         vm.goodsCategory3ArrBR.asObservable().map({ [weak self] (dic) -> [SectionModel<String,GoodsCategoryModel>] in
@@ -90,6 +92,7 @@ extension ClassifyViewController:Refreshable{
         ///自动匹配当前刷新状态
         vm.autoSetRefreshHeaderStatus(header:refreshHeader, footer:nil).disposed(by:rx_disposeBag)
     }
+
     ///根据1级分类设置
     private func setLevel1GoodsCategory(){
         ///2级分类数据源
@@ -110,15 +113,15 @@ extension ClassifyViewController:Refreshable{
 
         ///table选中事件
         table.rx.itemSelected.asObservable().bind(onNext: { [weak self] (indexPath) in
-//            ///获取2级分类名称
-//            let key=tableDataSource[indexPath]
-//            ///获取2级分类对应的3级分类数据
-//            let sectionModel=SectionModel(model:"", items: self?.vm.goodsCategory23ArrBR.value[key] ?? [])
-//            ///更新3级分类数据
-//            self?.vm.goodsCategory3ArrBR.accept([.noData
-//                :[sectionModel]])
-//            ///记录每次选中的行索引
-//            self?.vm.index=indexPath.row
+            ///获取2级分类名称
+            let key=tableDataSource[indexPath]
+            ///获取2级分类对应的3级分类数据
+            let sectionModel=SectionModel(model:"", items: self?.vm.goodsCategory23ArrBR.value[key] ?? [])
+            ///更新3级分类数据
+            self?.vm.goodsCategory3ArrBR.accept([.noData
+                :[sectionModel]])
+            ///记录每次选中的行索引
+            self?.vm.index=indexPath.row
         }).disposed(by:rx_disposeBag)
     }
     ///从底部点击进来
@@ -140,21 +143,21 @@ extension ClassifyViewController:Refreshable{
 
         ///table选中事件
         table.rx.itemSelected.asObservable().bind(onNext: { [weak self] (indexPath) in
-//            ///获取2级分类model
-//            let model=tableDataSource[indexPath]
-//            if model.goodsCategoryName == "全部"{///直接获取所有的3级分类
-//                self?.vm.goodsCategory3ArrBR.accept([.noData:self?.vm.goodsCategoryAll3ArrBR.value ?? []])
-//            }else{
-//                ///获取全部的3级分类
-//                let allArrModel3=self?.vm.goodsCategoryAll3ArrBR.value[0].items
-//                ///筛选父id是当前选中的2级分类id3级分类
-//                let arrModel3=allArrModel3?.filter({ (m) -> Bool in
-//                    return m.goodsCategoryPid == model.goodsCategoryId
-//                })
-//                self?.vm.goodsCategory3ArrBR.accept([.noData:[SectionModel.init(model:"",items:arrModel3 ?? [])]])
-//            }
-//            ///记录每次选中的行索引
-//            self?.vm.index=indexPath.row
+            ///获取2级分类model
+            let model=tableDataSource[indexPath]
+            if model.goodsCategoryName == "全部"{///直接获取所有的3级分类
+                self?.vm.goodsCategory3ArrBR.accept([.noData:self?.vm.goodsCategoryAll3ArrBR.value ?? []])
+            }else{
+                ///获取全部的3级分类
+                let allArrModel3=self?.vm.goodsCategoryAll3ArrBR.value[0].items
+                ///筛选父id是当前选中的2级分类id3级分类
+                let arrModel3=allArrModel3?.filter({ (m) -> Bool in
+                    return m.goodsCategoryPid == model.goodsCategoryId
+                })
+                self?.vm.goodsCategory3ArrBR.accept([.noData:[SectionModel.init(model:"",items:arrModel3 ?? [])]])
+            }
+            ///记录每次选中的行索引
+            self?.vm.index=indexPath.row
         }).disposed(by:rx_disposeBag)
     }
 }

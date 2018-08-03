@@ -39,18 +39,24 @@ class SearchCollectionViewCell:UICollectionViewCell{
 
     private var lblName:UILabel!
 
+    var pushGoodListClosure:(() -> Void)?
     override init(frame: CGRect) {
         super.init(frame:frame)
         lblName=UILabel.buildLabel(textColor: UIColor.color333(),font:14, textAlignment: NSTextAlignment.center)
         self.contentView.addSubview(lblName)
         self.contentView.layer.cornerRadius=35/2
         self.contentView.backgroundColor=UIColor.white
+        lblName.isUserInteractionEnabled=true
+        lblName.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodListVC)))
         lblName.snp.makeConstraints { (make) in
             make.left.equalTo(self.contentView.snp.left)
             make.top.equalTo(7.5)
             make.height.equalTo(20)
             make.right.equalTo(self.contentView.snp.right)
         }
+    }
+    @objc private func pushGoodListVC(){
+        pushGoodListClosure?()
     }
     /**
      更新cell

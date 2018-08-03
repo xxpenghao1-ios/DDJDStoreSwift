@@ -61,7 +61,7 @@ class GoodListViewModel:NSObject,OutputRefreshProtocol{
     ///网络请求
     private func request(b:Bool,flag:Int,goodsCategoryId:Int?,subSupplierId:Int?,searchCondition:String?){
         if flag == 1{///搜索商品
-            searchGoodsInterfaceForStore(b:b,searchCondition:searchCondition ?? "" , order:order, tag:tag)
+            searchGoodsInterfaceForStore(b:b,searchCondition:searchCondition ?? "" , order:order, tag:tag, goodsCategoryId: goodsCategoryId)
         }else if flag == 2{//查询3级分类列表
             getGoodsInfoByCategoryForAndroidForStore(b:b, goodsCategoryId:goodsCategoryId ?? 0, seachLetterValue:seachLetter,order:order,tag:tag)
         }else if flag == 3{///查询休闲零食1元区
@@ -100,9 +100,9 @@ extension GoodListViewModel{
         }).disposed(by:rx_disposeBag)
     }
     ///根据商品名字或者品牌查询商品的详细信息接口
-    private func searchGoodsInterfaceForStore(b:Bool,searchCondition:String,order:String,tag:Int){
+    private func searchGoodsInterfaceForStore(b:Bool,searchCondition:String,order:String,tag:Int,goodsCategoryId:Int?){
 
-        PHRequest.shared.requestJSONArrModel(target:GoodAPI.searchGoodsInterfaceForStore(pageSize:pageSize,currentPage:currentPage,searchCondition:searchCondition, isDisplayFlag: 2, storeId: store_Id!,order:order, tag:tag), model: GoodDetailModel.self).subscribe(onNext: { [weak self] (arr) in
+        PHRequest.shared.requestJSONArrModel(target:GoodAPI.searchGoodsInterfaceForStore(pageSize:pageSize,currentPage:currentPage,searchCondition:searchCondition, isDisplayFlag: 2, storeId: store_Id!,order:order, tag:tag, goodsCategoryId:goodsCategoryId), model: GoodDetailModel.self).subscribe(onNext: { [weak self] (arr) in
             self?.subscribeResult(b:b, arr:arr)
         }, onError: { [weak self] (error) in
             self?.errorResult()

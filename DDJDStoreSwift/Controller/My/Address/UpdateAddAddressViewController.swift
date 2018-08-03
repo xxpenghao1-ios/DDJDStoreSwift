@@ -94,7 +94,7 @@ extension UpdateAddAddressViewController{
     private func bindViewModel(){
 
 
-        btnSubmit.rx.tap.throttle(1, scheduler:MainScheduler.instance).subscribe({ [weak self] (_) in
+        btnSubmit.rx.tap.throttle(1, scheduler:MainScheduler.instance).asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
             self?.addAndUpdateAddress(addressModel:self?.addressModel)
         }).disposed(by:rx_disposeBag)
 

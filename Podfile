@@ -26,5 +26,6 @@ target ‘DDJDStoreSwift’ do
     pod 'RxCocoa'
     pod 'Moya/RxSwift'
     pod 'RxDataSources'
+    pod 'RxGesture'
 end
 

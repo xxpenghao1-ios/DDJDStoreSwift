@@ -33,7 +33,7 @@ public enum GoodAPI{
     //购物车中查询配送商的更多商品（凑单）
     case queryShoppingCarMoreGoodsForSubSupplier(storeId:String,subSupplierId:Int,pageSize:Int,currentPage:Int,order:String,seachLetterValue:String?,tag:Int)
     ///根据商品名称/品牌搜索商品
-    case searchGoodsInterfaceForStore(pageSize:Int,currentPage:Int,searchCondition:String,isDisplayFlag:Int,storeId:String,order:String,tag:Int)
+    case searchGoodsInterfaceForStore(pageSize:Int,currentPage:Int,searchCondition:String,isDisplayFlag:Int,storeId:String,order:String,tag:Int,goodsCategoryId:Int?)
     ///查询收藏商品
     case queryStoreCollectionList(memberId:String,pageSize:Int,currentPage:Int)
     ///购买记录
@@ -58,7 +58,7 @@ extension GoodAPI:TargetType{
             return "goodsCancelCollection.sc"
         case .queryShoppingCarMoreGoodsForSubSupplier(_,_,_,_,_,_,_):
             return "queryShoppingCarMoreGoodsForSubSupplier.xhtml"
-        case .searchGoodsInterfaceForStore(_,_,_,_,_,_,_):
+        case .searchGoodsInterfaceForStore(_,_,_,_,_,_,_,_):
             return "searchGoodsInterfaceForStore.xhtml"
         case .queryStoreCollectionList(_,_,_):
             return "queryStoreCollectionList.sc"
@@ -71,7 +71,7 @@ extension GoodAPI:TargetType{
         switch self {
         case .queryGoodsForAndroidIndexForStoreNew(_,_,_),.queryPreferentialAndGoods4Store(_,_,_,_),.queryStorePromotionGoodsList(_,_,_,_),.queryGoodsInfoByCategoryForAndroidForStore(_,_,_,_,_,_,_,_),.queryGoodsDetailsForAndroid(_,_,_,_,_,_,_,_),.goodsAddCollection(_,_,_,_),.queryShoppingCarMoreGoodsForSubSupplier(_,_,_,_,_,_,_),.queryStorePurchaseRecord(_,_,_):
             return .get
-        case .searchGoodsInterfaceForStore(_,_,_,_,_,_,_),.goodsCancelCollection(_,_),.queryStoreCollectionList(_,_,_):
+        case .searchGoodsInterfaceForStore(_,_,_,_,_,_,_,_),.goodsCancelCollection(_,_),.queryStoreCollectionList(_,_,_):
             return .post
         }
     }
@@ -118,8 +118,12 @@ extension GoodAPI:TargetType{
             }else{
                 return .requestPlain
             }
-        case let .searchGoodsInterfaceForStore(pageSize,currentPage,searchCondition, isDisplayFlag, storeId, order, tag):
-            return .requestParameters(parameters:["pageSize":pageSize,"currentPage":currentPage,"searchCondition":searchCondition,"isDisplayFlag":isDisplayFlag,"storeId":storeId,"order":order,"tag":tag], encoding: URLEncoding.default)
+        case let .searchGoodsInterfaceForStore(pageSize,currentPage,searchCondition, isDisplayFlag, storeId, order, tag,goodsCategoryId):
+            if goodsCategoryId == nil{
+                return .requestParameters(parameters:["pageSize":pageSize,"currentPage":currentPage,"searchCondition":searchCondition,"isDisplayFlag":isDisplayFlag,"storeId":storeId,"order":order,"tag":tag], encoding: URLEncoding.default)
+            }else{
+                return .requestParameters(parameters:["pageSize":pageSize,"currentPage":currentPage,"searchCondition":searchCondition,"isDisplayFlag":isDisplayFlag,"storeId":storeId,"order":order,"tag":tag,"goodsCategoryId":goodsCategoryId!], encoding: URLEncoding.default)
+            }
         case let .queryStoreCollectionList(memberId,pageSize,currentPage):
             return .requestParameters(parameters:["memberId":memberId,"pageSize":pageSize,"currentPage":currentPage], encoding: URLEncoding.default)
         case let .queryStorePurchaseRecord(memberId, pageSize, currentPage):

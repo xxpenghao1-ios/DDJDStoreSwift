@@ -10,6 +10,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 import RxDataSources
+import RxGesture
 ///品牌
 class BrandViewController:BaseViewController{
 
@@ -29,7 +30,7 @@ class BrandViewController:BaseViewController{
         flowLayout.headerReferenceSize = CGSize(width:0, height: 0);
         let collectionView=UICollectionView(frame:CGRect.init(x:0, y:2,width:SCREEN_WIDTH,height:SCREEN_HEIGH-NAV_HEIGHT-44-BOTTOM_SAFETY_DISTANCE_HEIGHT-2), collectionViewLayout: flowLayout)
         collectionView.backgroundColor=UIColor.white
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier:"brandCellId")
+        collectionView.register(BrandCollectionViewCell.self, forCellWithReuseIdentifier:"brandCellId")
         return collectionView
     }()
     override func viewDidLoad() {
@@ -40,6 +41,15 @@ class BrandViewController:BaseViewController{
         self.emptyDataSetTextInfo="暂时木有相关品牌"
         vm=BrandViewModel(goodsCategoryId:goodsCategoryId)
         bindViewModel()
+    }
+    ///跳转商品列表
+    private func  pushGoodListVC(model:GoodsCategoryModel){
+        let vc=GoodListViewController()
+        vc.flag=1
+        vc.goodsCategoryId=model.goodsCategoryId
+        vc.titleStr=model.brandName
+        vc.hidesBottomBarWhenPushed=true
+        self.navigationController?.pushViewController(vc,animated:true)
     }
 }
 ///绑定vm
@@ -56,17 +66,13 @@ extension BrandViewController:Refreshable{
         //创建品牌数据源
         let brandDataSource = RxCollectionViewSectionedReloadDataSource
             <SectionModel<String,GoodsCategoryModel>>(
-                configureCell: { (dataSource, collectionView, indexPath,model)  in
-                    let cell =  collectionView.dequeueReusableCell(withReuseIdentifier:"brandCellId",for:indexPath)
-                    var lblName=cell.contentView.viewWithTag(11) as? UILabel
-                    if lblName == nil{
-                        lblName=UILabel.buildLabel(textColor:UIColor.RGBFromHexColor(hexString:"414141"),font:15, textAlignment:.center)
-                        lblName?.tag=11
-                        cell.contentView.addSubview(lblName!)
+                configureCell: {  [weak self] (dataSource, collectionView, indexPath,model)  in
+                    let cell =  collectionView.dequeueReusableCell(withReuseIdentifier:"brandCellId",for:indexPath) as! BrandCollectionViewCell
+                    
+                    cell.updateCell(name:model.brandName)
+                    cell.pushGoodListClosure={
+                        self?.pushGoodListVC(model:model)
                     }
-                    lblName!.frame=cell.contentView.frame
-                    lblName!.text=model.brandName
-                    cell.contentView.backgroundColor=UIColor.RGBFromHexColor(hexString:"ebebeb")
                     return cell
             })
 
@@ -77,14 +83,6 @@ extension BrandViewController:Refreshable{
             return dic[emptyDataType] ?? []
         }).bind(to:collection.rx.items(dataSource:brandDataSource)).disposed(by:rx_disposeBag)
 
-        ///选中3级分类事件
-        self.collection.rx.modelSelected(GoodsCategoryModel.self).asObservable().bind(onNext: { [weak self] (model) in
-                let vc=GoodListViewController()
-                vc.flag=1
-                vc.titleStr=model.brandName
-                vc.hidesBottomBarWhenPushed=true
-                self?.navigationController?.pushViewController(vc,animated:true)
-            }).disposed(by:rx_disposeBag)
 
         ///刷新
         let refreshHeader=initRefreshHeader(collection) { [weak self] in

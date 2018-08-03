@@ -17,7 +17,7 @@ class SearchViewModel:NSObject{
     private var allSystemBrandBR=BehaviorRelay<[GoodsCategoryModel]>(value:[])
 
     ///保存缓存中的搜索记录
-    private var searchArrBR=BehaviorRelay<[String]>(value:[])
+    private var searchArrBR=[String]()
 
     ///搜索记录和品牌推荐  分2组信息
     var allBrandAndSearchStrBR=BehaviorRelay<[SectionModel<String,GoodsCategoryModel>]>(value:[])
@@ -26,13 +26,13 @@ class SearchViewModel:NSObject{
     var requestNewDataCommond = PublishSubject<Bool>()
 
     ///添加搜索信息
-    var addSearchStr=PublishSubject<String?>()
+    var addSearchStrPS=PublishSubject<String?>()
 
     ///删除所有的搜索信息
-    var deleteSearchStr=PublishSubject<Bool>()
+    var deleteSearchStrPS=PublishSubject<Bool>()
 
-    ///跳转到商品页面
-    var pushGoodList=PublishSubject<String?>()
+    
+
     override init() {
         super.init()
 
@@ -43,11 +43,9 @@ class SearchViewModel:NSObject{
         }).disposed(by:rx_disposeBag)
 
         ///添加搜索信息
-        addSearchStr.subscribe(onNext: { [weak self] (str) in
+        addSearchStrPS.subscribe(onNext: { [weak self] (str) in
             self?.setSearchStr(str:str)
         }).disposed(by:rx_disposeBag)
-
-
 
         ///订阅allSystemBrandBR
         allSystemBrandBR.asObservable().subscribe(onNext: { [weak self] (arr) in
@@ -56,24 +54,17 @@ class SearchViewModel:NSObject{
 
         }).disposed(by:rx_disposeBag)
 
-        ///订阅 searchArrBR 每次添加新搜索记录都会执行
-        searchArrBR.asObservable().subscribe({ [weak self] (_) in
-
-            ///传入已经获取好的品牌数据
-            self?.updateAllBrandAndSearchStrBR(arr:self?.allSystemBrandBR.value ?? [])
-        }).disposed(by:rx_disposeBag)
-
         ///删除所有搜索信息
-        deleteSearchStr.asObservable().subscribe(onNext: { [weak self] (_) in
+        deleteSearchStrPS.asObservable().subscribe(onNext: { [weak self] (_) in
             //删除搜索记录
             USER_DEFAULTS.removeObject(forKey:"searchStrArr")
             //写入磁盘
             USER_DEFAULTS.synchronize();
             ///修改页面数据
-            self?.searchArrBR.accept([])
+            self?.searchArrBR=[]
         }).disposed(by:rx_disposeBag)
     }
-    ///更新数据源
+    ///更新数据源 传入品牌数据
     private func updateAllBrandAndSearchStrBR(arr:[GoodsCategoryModel]){
         let searchArrStr=getGoodsCategoryModelArr()
         if searchArrStr.count == 0 && arr.count == 0{///推荐品牌为空  搜索记录为空
@@ -155,8 +146,7 @@ extension SearchViewModel{
         //写入磁盘
         USER_DEFAULTS.synchronize();
         ///添加到缓存成功  修改页面数据
-        searchArrBR.accept(arr)
-        ///发送跳转页面消息
-        pushGoodList.onNext(string)
+        self.updateAllBrandAndSearchStrBR(arr:self.allSystemBrandBR.value)
+
     }
 }

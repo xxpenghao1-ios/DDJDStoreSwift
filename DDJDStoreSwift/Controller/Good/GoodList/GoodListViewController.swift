@@ -19,7 +19,7 @@ class GoodListViewController:BaseViewController{
     ///有值表示从购物车中跳转过来
     var isCarFlag:Int?
 
-    ///接收分类3级id
+    ///接收分类id
     var goodsCategoryId:Int?
 
     ///接收配送商id
@@ -108,10 +108,10 @@ class GoodListViewController:BaseViewController{
             btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
             btnPushCar!.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
             ///点击跳转购物车
-            btnPushCar!.rx.controlEvent(UIControlEvents.touchUpInside).subscribe { [weak self] (_) in
+            btnPushCar!.rx.tap.asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
                 let vc=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
                 self?.navigationController?.pushViewController(vc, animated: true)
-            }.disposed(by:rx_disposeBag)
+            }).disposed(by:rx_disposeBag)
             let pushCarItem=UIBarButtonItem(customView:btnPushCar!)
             pushCarItem.tintColor=UIColor.colorItem()
             self.navigationItem.rightBarButtonItem=pushCarItem
@@ -163,7 +163,7 @@ extension GoodListViewController:Refreshable{
 
 
         ///更新购物车item按钮数量
-        addCarVM.queryCarSumCountBR.asObservable().subscribe(onNext: { [weak self] (count) in
+        addCarVM.queryCarSumCountBR.asDriver(onErrorJustReturn:0).drive(onNext: { [weak self] (count) in
             self?.btnPushCar?.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
         }).disposed(by:rx_disposeBag)
 
@@ -178,19 +178,18 @@ extension GoodListViewController:Refreshable{
         table.rx.setDelegate(self).disposed(by:rx_disposeBag)
 
         ///返回顶部
-        btnReturnTop.rx.tap.asObservable().subscribe(onNext: { [weak self] (_) in
+        btnReturnTop.rx.tap.asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
             let at=IndexPath(item:0, section:0)
             self?.table.scrollToRow(at:at, at: UITableViewScrollPosition.top, animated:true)
         }).disposed(by:rx_disposeBag)
 
         ///监听滑动事件
-        table.rx.didScroll.subscribe(onNext: { [weak self] (_) in
+        table.rx.didScroll.asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
             if self?.table.contentOffset.y > 400{//滑动600距离显示返回顶部按钮
                 self?.btnReturnTop.isHidden=false
             }else{
                 self?.btnReturnTop.isHidden=true
             }
-
         }).disposed(by:rx_disposeBag)
         ///刷新
         let refreshHeader=initRefreshHeader(table) { [weak self] in
@@ -231,9 +230,8 @@ extension GoodListViewController:Refreshable{
             self?.txtNotification(textField:textField)
         }
         //确定
-        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ [weak self] Void in
-            let alert=self?.presentedViewController as! UIAlertController
-            let text=(alert.textFields?.first)! as UITextField
+        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ Void in
+            let text=(alertController.textFields?.first)! as UITextField
             cell!.stepper.value=Double(text.text!)!
         })
         //取消
