@@ -27,8 +27,6 @@ extension ForgotPasswordViewModel:ViewModelType{
             self?.getCode(memberName:memberName)
         }).disposed(by:rx_disposeBag)
 
-        ///手机号码如果是11位验证码按钮可以点击
-        let codeBtnIsDisable=input.memberName.map { $0.count == 11 }.share(replay:1, scope:.whileConnected).asDriver(onErrorJustReturn:false)
 
         ///提交按钮是否可以点击
         let submitBtnIsDisable=Observable.combineLatest(input.memberName,input.pw,input.code).map{ $0.count == 11 && $1.count >= 6 && $2.count > 0 }.share(replay:1, scope:.whileConnected).asDriver(onErrorJustReturn:false)
@@ -36,7 +34,14 @@ extension ForgotPasswordViewModel:ViewModelType{
 
 
         ///倒计时  60开始到计时
-        let codeTheCountdown=input.codeValidate.throttle(2, scheduler: MainScheduler.instance).withLatestFrom(input.memberName).flatMapLatest { (memberName)-> Observable<ResponseResult> in
+        let codeTheCountdown=input.codeValidate.throttle(2, scheduler: MainScheduler.instance).withLatestFrom(input.memberName).filter({ (memberName) -> Bool in
+            if memberName.count == 11{
+                return true
+            }else{
+                PHProgressHUD.showInfo("请输入正确的手机号码")
+                return false
+            }
+        }).flatMapLatest { (memberName)-> Observable<ResponseResult> in
             PHProgressHUD.showLoading("正在验证账号是否存在...")
             ///发送网络请求返回结果
             return PHRequest.shared.requestJSONObject(target: LoginAndRegisterAPI.doMemberTheOnly(memberName:memberName))
@@ -81,7 +86,7 @@ extension ForgotPasswordViewModel:ViewModelType{
                 default:return false
                 }
             }.asDriver(onErrorJustReturn:false)
-        return Output(result:result, submitBtnIsDisable:submitBtnIsDisable,codeBtnIsDisable:codeBtnIsDisable, codeTheCountdown:codeTheCountdown)
+        return Output(result:result, submitBtnIsDisable:submitBtnIsDisable, codeTheCountdown:codeTheCountdown)
     }
 
     ///获取验证码
@@ -121,14 +126,11 @@ extension ForgotPasswordViewModel:ViewModelType{
         let result:Driver<Bool>
         ///提交按钮是否禁用  false禁用 true不禁用
         let submitBtnIsDisable:Driver<Bool>
-        ///验证码按钮  false禁用 true不禁用
-        let codeBtnIsDisable:Driver<Bool>
         ///验证码倒计时
         let codeTheCountdown:Driver<Int>
-        init(result:Driver<Bool>,submitBtnIsDisable:Driver<Bool>,codeBtnIsDisable:Driver<Bool>,codeTheCountdown:Driver<Int>) {
+        init(result:Driver<Bool>,submitBtnIsDisable:Driver<Bool>,codeTheCountdown:Driver<Int>) {
             self.result=result
             self.submitBtnIsDisable=submitBtnIsDisable
-            self.codeBtnIsDisable=codeBtnIsDisable
             self.codeTheCountdown=codeTheCountdown
 
         }

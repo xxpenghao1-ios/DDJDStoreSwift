@@ -82,17 +82,17 @@ extension IntegralStoreViewController:Refreshable{
         vm.requestSumIntegralPS.onNext(true)
 
         //获取积分
-        vm.sumIntegralBR.subscribe(onNext: { [weak self] (integral) in
+        vm.sumIntegralBR.asDriver(onErrorJustReturn:0).drive(onNext: { [weak self] (integral) in
             self?.lblIntegral.text=integral.description
         }).disposed(by:rx_disposeBag)
 
         ///点击查看积分说明
-        btnExplain.rx.tap.asObservable().throttle(1, scheduler:MainScheduler.instance) .subscribe(onNext: { [weak self] (_) in
+        btnExplain.rx.tap.throttle(1, scheduler:MainScheduler.instance).asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
             self?.showIntegralExplain(str:self?.vm.integralExplainBR.value)
         }).disposed(by:rx_disposeBag)
 
         ///点击跳转到积分记录页面
-        btnCheckTheDetails.rx.tap.asObservable().throttle(1, scheduler:MainScheduler.instance) .subscribe(onNext: { [weak self] (_) in
+        btnCheckTheDetails.rx.tap.throttle(1, scheduler:MainScheduler.instance).asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
             let vc=IntegralRecordViewController()
             self?.navigationController?.pushViewController(vc, animated:true)
         }).disposed(by:rx_disposeBag)

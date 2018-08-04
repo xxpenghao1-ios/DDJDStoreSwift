@@ -39,6 +39,15 @@ let SLIDE_DEFAULT="slide_defualt"
 
 let APP=UIApplication.shared.delegate as! AppDelegate
 
+///是否是iPhone_5 true是
+let iPhone_5=SCREEN_WIDTH==320.0 ? true : false
+
+///是否是iPhone_6 true是
+let iPhone_6=SCREEN_WIDTH==375.0 ? true : false
+
+///是否是iPhone_6Plus以上屏幕 true是
+let iPhone_6Plus=SCREEN_WIDTH > 375.0 ? true : false
+
 ///获取县区id
 var county_Id:String?{
     get{

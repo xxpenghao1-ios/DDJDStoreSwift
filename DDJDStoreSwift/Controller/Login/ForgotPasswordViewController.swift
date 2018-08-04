@@ -93,8 +93,6 @@ extension ForgotPasswordViewController{
 
         let outputs = vm.transform(input:input)
 
-        outputs.codeBtnIsDisable.drive(btnGetCode.rx.isDisable).disposed(by:rx_disposeBag)
-
         outputs.submitBtnIsDisable.drive(btnSubmit.rx.isDisable).disposed(by:rx_disposeBag)
 
         ///接收倒计时结果

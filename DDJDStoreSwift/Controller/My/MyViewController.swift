@@ -122,7 +122,7 @@ class MyViewController:BaseViewController{
 
     ///退出登录
     private lazy var btnReturnLogin:UIButton={
-        let _btn=UIButton.buildBtn(text:"退出登录", textColor:UIColor.color333(), font: 16.5, backgroundColor: UIColor.white)
+        let _btn=UIButton.buildBtn(text:"退出登录",textColor:UIColor.color333(), font: 16.5, backgroundColor:UIColor.white)
         _btn.frame=CGRect.init(x:10, y:menuCollectionView.frame.maxY+12.5, width:SCREEN_WIDTH-20, height:49)
         return _btn
     }()
@@ -149,7 +149,7 @@ extension MyViewController{
                     return cell
             })
 
-        scrollView.rx.didScroll.subscribe(onNext: { [weak self] (_) in
+        scrollView.rx.didScroll.asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
             //获取偏移量
             let offsetY = (self?.scrollView.contentOffset.y ?? 0)+NAV_HEIGHT;
             //判断是否改变
@@ -177,7 +177,7 @@ extension MyViewController{
         vm.menuBR.asObservable().bind(to:menuCollectionView.rx.items(dataSource:menuDataSource)).disposed(by:rx_disposeBag)
 
         ///更新订单数量
-        vm.orderCountBR.subscribe(onNext: { [weak self] (arr) in
+        vm.orderCountBR.asDriver(onErrorJustReturn: []).drive(onNext: { [weak self] (arr) in
             if arr.count > 0{
                 self?.orderCollectionView.reloadData()
             }
@@ -219,11 +219,8 @@ extension MyViewController{
         }).disposed(by:rx_disposeBag)
 
         ///退出登录
-        btnReturnLogin.rx.controlEvent(UIControlEvents.touchUpInside).subscribe(onNext: { [weak self] (_) in
-            if self == nil{
-                return
-            }
-            self!.returnLogin()
+        btnReturnLogin.rx.controlEvent(UIControlEvents.touchUpInside).asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
+            self?.returnLogin()
         }).disposed(by: rx_disposeBag)
     }
 }

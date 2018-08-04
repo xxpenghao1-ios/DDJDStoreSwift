@@ -83,10 +83,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PbC-zw-tLe">
-                        <rect key="frame" x="225" y="80" width="80" height="30"/>
+                        <rect key="frame" x="237" y="80" width="78" height="30"/>
                         <color key="backgroundColor" red="1" green="0.88235294119999996" blue="0.91372549020000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="80" id="40F-WP-713"/>
+                            <constraint firstAttribute="width" constant="78" id="40F-WP-713"/>
                             <constraint firstAttribute="height" constant="30" id="dvV-Ov-d4G"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
@@ -267,7 +267,7 @@
                     <constraint firstAttribute="bottom" secondItem="ooo-KT-0q8" secondAttribute="bottom" id="LBs-2f-nJL"/>
                     <constraint firstItem="3hG-Zd-ZVc" firstAttribute="leading" secondItem="ooo-KT-0q8" secondAttribute="trailing" constant="7" id="Ltk-A0-EaU"/>
                     <constraint firstItem="xoQ-u3-7P2" firstAttribute="leading" secondItem="MR6-FN-7be" secondAttribute="trailing" id="Nq3-lM-iWF"/>
-                    <constraint firstAttribute="trailing" secondItem="PbC-zw-tLe" secondAttribute="trailing" constant="15" id="Nzd-Et-xoN"/>
+                    <constraint firstAttribute="trailing" secondItem="PbC-zw-tLe" secondAttribute="trailing" constant="5" id="Nzd-Et-xoN"/>
                     <constraint firstItem="aAw-iD-fyP" firstAttribute="top" secondItem="3hG-Zd-ZVc" secondAttribute="bottom" id="OG8-2F-oVH"/>
                     <constraint firstItem="MR6-FN-7be" firstAttribute="bottom" secondItem="aAw-iD-fyP" secondAttribute="bottom" id="P6W-iI-9zE"/>
                     <constraint firstItem="ooo-KT-0q8" firstAttribute="leading" secondItem="q8q-Yq-sGa" secondAttribute="leading" constant="10" id="Qef-rm-NG7"/>
@@ -308,7 +308,7 @@
                 <outlet property="stepper" destination="iLo-uU-HTL" id="hac-3x-Pw1"/>
                 <outlet property="to_sell_out_ImgView" destination="hLA-p4-U4t" id="JOL-MN-rqf"/>
             </connections>
-            <point key="canvasLocation" x="-1132" y="-389"/>
+            <point key="canvasLocation" x="-1305" y="-451"/>
         </tableViewCell>
     </objects>
     <resources>

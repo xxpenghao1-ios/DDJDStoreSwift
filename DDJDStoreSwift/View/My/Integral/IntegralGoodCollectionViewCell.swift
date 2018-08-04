@@ -40,7 +40,7 @@ class IntegralGoodCollectionViewCell: UICollectionViewCell {
 
         imgView.ph_setImage(withUrlString:HTTP_URL_IMG+(model.goodsPic ?? ""), placeholderImgName:GOOD_DEFAULT_IMG)
 
-        lblGoodName.text=(model.goodsName ?? "")+"(剩余兑换:\(model.goodsSurplusCount ?? 0))"
+        lblGoodName.text=(model.goodsName ?? "")+"(剩余:\(model.goodsSurplusCount ?? 0))"
 
         lblIntegral.text=model.exchangeIntegral?.description
 

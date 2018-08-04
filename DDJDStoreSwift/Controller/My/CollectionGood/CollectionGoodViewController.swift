@@ -44,10 +44,10 @@ class CollectionGoodViewController:BaseViewController{
         btnPushCar=UIButton(frame: CGRect.init(x:0, y:0, width:25,height:25))
         btnPushCar!.setImage(UIImage(named:"pushCar"), for: UIControlState.normal)
         ///点击跳转购物车
-        btnPushCar!.rx.controlEvent(UIControlEvents.touchUpInside).subscribe { [weak self] (_) in
+        btnPushCar!.rx.tap.asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
             let vc=UIStoryboard.init(name:"Car", bundle:nil).instantiateViewController(withIdentifier:"CarVC") as! CarViewController
             self?.navigationController?.pushViewController(vc, animated: true)
-            }.disposed(by:rx_disposeBag)
+        }).disposed(by:rx_disposeBag)
         let pushCarItem=UIBarButtonItem(customView:btnPushCar!)
         pushCarItem.tintColor=UIColor.colorItem()
         self.navigationItem.rightBarButtonItem=pushCarItem
@@ -86,7 +86,7 @@ extension CollectionGoodViewController:Refreshable{
         })
 
         ///更新购物车item按钮数量
-        addCarVM.queryCarSumCountBR.asObservable().subscribe(onNext: { [weak self] (count) in
+        addCarVM.queryCarSumCountBR.asDriver(onErrorJustReturn:0).drive(onNext: { [weak self] (count) in
             self?.btnPushCar?.showBadge(with: WBadgeStyle.number, value: count, animationType: WBadgeAnimType.none)
         }).disposed(by:rx_disposeBag)
 

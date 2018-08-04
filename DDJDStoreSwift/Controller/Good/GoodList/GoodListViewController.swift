@@ -124,7 +124,7 @@ extension GoodListViewController:Refreshable{
 
         vm=GoodListViewModel(flag:flag,goodsCategoryId:goodsCategoryId, subSupplierId:subSupplierId, searchCondition:titleStr)
         ///创建数据源
-        let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
+        let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"goodListId") as? GoodListTableViewCell ?? GoodListTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"goodListId")
             if indexPath.row % 2 == 0{
                 cell.contentView.backgroundColor=UIColor.white
@@ -133,15 +133,15 @@ extension GoodListViewController:Refreshable{
             }
             cell.updateCell(model:model)
             ///跳转到商品详情
-            cell.pushGoodDetailClosure={
+            cell.pushGoodDetailClosure={ [weak self] in
                 self?.pushGoodDetail(model:model)
             }
             ///加入购物车车
-            cell.addCarClosure={ (goodCount) in
+            cell.addCarClosure={ [weak self] (goodCount) in
                 self?.addCarVM.addCar(model:model, goodsCount:goodCount,flag:2)
             }
             ///选择商品数量
-            cell.selectedGoodCountClosure={
+            cell.selectedGoodCountClosure={ [weak self] in
                 self?.selectedGoodCount(model:model,indexPath:indexPath)
             }
             return cell

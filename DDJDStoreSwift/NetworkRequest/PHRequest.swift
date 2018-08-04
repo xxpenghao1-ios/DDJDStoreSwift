@@ -25,17 +25,17 @@ final public class PHRequest:NSObject{
     /// 共享实例
     static let shared=PHRequest()
     private override init(){}
-    private let failInfo="数据解析错误!"
+//    private let failInfo="数据解析错误!"
     ///获取json数据
     func requestJSONObject<T:TargetType>(target:T) -> Observable<ResponseResult>{
         let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
         return Observable<ResponseResult>.create { (observable) -> Disposable in
-            provider.request(target){ (result) -> () in
+            let callBack=provider.request(target){ (result) -> () in
                 switch result{
                 case let .success(response):
                     do {
                         let json = try response.mapJSON()
-                        print(JSON(json))
+                        phLog(JSON(json))
                         observable.onNext(ResponseResult.success(json:JSON(json)))
                     } catch {
                         observable.onNext(ResponseResult.faild(error:MoyaError.jsonMapping(response)))
@@ -44,14 +44,17 @@ final public class PHRequest:NSObject{
                     observable.onNext(ResponseResult.faild(error:error))
                 }
             }
-            return Disposables.create()
+            return Disposables.create{
+                callBack.cancel()
+            }
         }
     }
     ///获取Arr数据
     func requestJSONArrModel<T:TargetType,M:Mappable>(target:T,model:M.Type) ->Observable<[M]>{
         let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
+
         return Observable<[M]>.create { (observable) -> Disposable in
-            provider.request(target){ (result) -> () in
+           let callBack=provider.request(target){ (result) -> () in
                 switch result{
                 case let .success(response):
                     do {
@@ -63,14 +66,16 @@ final public class PHRequest:NSObject{
                     observable.onError(error)
                 }
             }
-            return Disposables.create()
+            return Disposables.create{
+                callBack.cancel()
+            }
         }
     }
     ///获取Model数据
     func requestJSONModel<T:TargetType,M:Mappable>(target:T,model:M.Type) ->Observable<M>{
         let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
         return Observable<M>.create { (observable) -> Disposable in
-            provider.request(target){ (result) -> () in
+            let callBack=provider.request(target){ (result) -> () in
                 switch result{
                 case let .success(response):
                     do {
@@ -83,7 +88,9 @@ final public class PHRequest:NSObject{
                     observable.onError(error)
                 }
             }
-            return Disposables.create()
+            return Disposables.create{
+                callBack.cancel()
+            }
         }
     }
 
@@ -158,17 +165,17 @@ public enum ResponseResult {
         }
     }
 }
-///加载相关
-struct HUDInfo{
-    ///加载类型(loading(页面不能进行操作),progress(可以进行操作))
-    var hudType:HUDType!
-    ///是否显示加载视图
-    var isShow:Bool!
-    init(hudType:HUDType,isShow:Bool=true) {
-        self.hudType=hudType
-        self.isShow=isShow
-    }
-}
+/////加载相关
+//struct HUDInfo{
+//    ///加载类型(loading(页面不能进行操作),progress(可以进行操作))
+//    var hudType:HUDType!
+//    ///是否显示加载视图
+//    var isShow:Bool!
+//    init(hudType:HUDType,isShow:Bool=true) {
+//        self.hudType=hudType
+//        self.isShow=isShow
+//    }
+//}
 ///插件
 fileprivate final class RequestLoadingPlugin:PluginType{
     ///不做处理

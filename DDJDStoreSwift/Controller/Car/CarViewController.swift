@@ -122,7 +122,7 @@ extension CarViewController{
 
     private func bindViewModel(){
         ///刷新数据
-        vm.arrPS.subscribe(onNext: { [weak self] (b) in
+        vm.arrPS.asDriver(onErrorJustReturn:false).drive(onNext: { [weak self] (_) in
             if self?.vm.arr.count > 0{//如果有数据显示底部view 显示清空按钮
                 self?.bottomView.isHidden=false
                 self?.navigationItem.rightBarButtonItem=self?.rightBar
@@ -136,17 +136,17 @@ extension CarViewController{
         }).disposed(by:rx_disposeBag)
 
         ///更新商品总价
-        vm.sumPriceBR.subscribe(onNext: { [weak self] (sumPrice) in
+        vm.sumPriceBR.asDriver(onErrorJustReturn:"0").drive(onNext: { [weak self] (sumPrice) in
             self?.lblSumPrice.text="￥\(sumPrice)"
         }).disposed(by:rx_disposeBag)
 
         ///全选按钮是否选中 true选中
-        vm.updateAllSelectedStatePS.subscribe(onNext: { [weak self] (isSelected) in
+        vm.updateAllSelectedStatePS.asDriver(onErrorJustReturn:true).drive(onNext: { [weak self] (isSelected) in
             self?.btnCheckAll.isSelected=isSelected
         }).disposed(by:rx_disposeBag)
 
         ///全部选择/或者全部取消
-        btnCheckAll.rx.controlEvent(.touchUpInside).subscribe(onNext: { [weak self] (_) in
+        btnCheckAll.rx.tap.asDriver(onErrorJustReturn:()).drive(onNext: { [weak self] (_) in
             if self?.btnCheckAll.isSelected == true{
                 self?.btnCheckAll.isSelected=false
             }else{
@@ -156,7 +156,7 @@ extension CarViewController{
         }).disposed(by:rx_disposeBag)
 
         ///查询购物车商品数量设置角标
-        addCarGoodCountVM.queryCarSumCountBR.asObservable().subscribe(onNext:{ [weak self] (count) in
+        addCarGoodCountVM.queryCarSumCountBR.asDriver(onErrorJustReturn:0).drive(onNext: { [weak self] (count) in
             if count > 0{
                 self?.tabBarItem.badgeValue=count.description
             }else{
@@ -165,7 +165,7 @@ extension CarViewController{
         }).disposed(by:rx_disposeBag)
 
         ///去结算
-        btnSettlement.rx.controlEvent(UIControlEvents.touchUpInside).subscribe(onNext: { [weak self] (_) in
+        btnSettlement.rx.tap.asDriver(onErrorJustReturn:()).drive(onNext: { [weak self] (_) in
             self?.pushPlaceOrder()
         }).disposed(by:rx_disposeBag)
     }

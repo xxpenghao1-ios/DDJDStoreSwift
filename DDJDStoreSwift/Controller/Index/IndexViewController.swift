@@ -179,11 +179,14 @@ extension IndexViewController{
         self.navigationItem.leftBarButtonItem=countyTitleItem
 
         ///公告按钮
-        let announcementItem=UIBarButtonItem.init(image:UIImage.init(named:"index_announcement")?.reSizeImage(reSize: CGSize.init(width:25, height: 25)), style: UIBarButtonItemStyle.done, target:self,action:#selector(showAnnouncementAction))
+        let btnAnnouncement=UIButton(frame: CGRect.init(x:0,y:0,width:25,height:25))
+        btnAnnouncement.setImage(UIImage(named:"index_announcement"), for: UIControlState.normal)
+        btnAnnouncement.addTarget(self,action:#selector(showAnnouncementAction), for: UIControlEvents.touchUpInside)
+        let announcementItem=UIBarButtonItem(customView:btnAnnouncement)
 
         //直接创建一个文本框
         let txtSearch=UITextField.buildTxt(font:14, placeholder:"请输入您要搜索的商品/分类", tintColor:UIColor.clear, keyboardType: UIKeyboardType.default)
-        txtSearch.frame=CGRect.init(x:0,y:0, width:SCREEN_WIDTH-135, height:30)
+        txtSearch.frame=CGRect.init(x:0,y:0, width:SCREEN_WIDTH-150, height:30)
         txtSearch.layer.cornerRadius=15
         txtSearch.backgroundColor=UIColor.RGBFromHexColor(hexString:"f0f0f0")
         txtSearch.rx.controlEvent(.editingDidBegin).asObservable().subscribe(onNext: { [weak self] (_) in
@@ -358,7 +361,7 @@ extension IndexViewController:WRCycleScrollViewDelegate{
      */
     func cycleScrollViewDidSelect(at index: Int, cycleScrollView: WRCycleScrollView) {
         let model=self.viewModel.advertisingArrModelBR.value[index]
-        if model.searchStatu == 2{///跳转到搜索页面
+        if model.searchStatu == 2 && model.advertisingDescription != nil {///跳转到搜索页面
             let vc=GoodListViewController()
             vc.flag=1
             vc.titleStr=model.advertisingDescription

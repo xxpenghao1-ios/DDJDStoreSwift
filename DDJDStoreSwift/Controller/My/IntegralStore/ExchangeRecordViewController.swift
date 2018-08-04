@@ -25,7 +25,6 @@ class ExchangeRecordViewController:BaseViewController{
         _table.register(UINib(nibName:"ExchangeRecordTableViewCell", bundle:nil), forCellReuseIdentifier:"exchangeRecordId")
         return _table
     }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="兑换记录"

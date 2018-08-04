@@ -34,7 +34,8 @@ class IndexHotGoodCollectionViewCell:UICollectionViewCell{
     }()
     ///商品价格
     private lazy var lblGoodPrice:UILabel={
-        let _lbl=UILabel.buildLabel(textColor:UIColor.priceColor(),font:19)
+        let _lbl=UILabel.buildLabel(textColor:UIColor.priceColor(),font:17)
+        _lbl.adapterFont=17
         return _lbl
     }()
     ///加入购物车

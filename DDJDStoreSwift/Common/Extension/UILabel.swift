@@ -19,4 +19,19 @@ extension UILabel{
         lbl.textAlignment=textAlignment
         return lbl
     }
+    ///适配字体  兼容不同屏幕字体大小  已iPhone6为中心  iPhone5 字体小2号  iPhone6以上Plus 大2号
+    @objc @IBInspectable public var adapterFont:CGFloat{
+        set {
+            if iPhone_5{
+                font=UIFont.systemFont(ofSize:newValue-2)
+            }else if iPhone_6Plus{
+                font=UIFont.systemFont(ofSize:newValue+2)
+            }else{
+                font=UIFont.systemFont(ofSize:newValue)
+            }
+        }
+        get{
+            return 0
+        }
+    }
 }

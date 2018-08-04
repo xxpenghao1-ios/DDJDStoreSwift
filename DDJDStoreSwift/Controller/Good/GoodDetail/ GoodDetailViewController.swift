@@ -77,9 +77,18 @@ class GoodDetailViewController:BaseViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
+        ///刷新布局
+        self.viewDidLayoutSubviews()
         bindViewModel()
     }
-
+    //修改table尾部高度
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        let height=SCREEN_WIDTH+117
+        var frame=self.table.tableHeaderView!.frame
+        frame.size.height=height
+        self.table.tableHeaderView!.frame=frame
+    }
     deinit{
         NotificationCenter.default.removeObserver(self)
     }
@@ -93,6 +102,7 @@ class GoodDetailViewController:BaseViewController{
         table.dataSource=self
         table.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0)
         table.backgroundColor=UIColor.clear
+        table.sectionFooterHeight=0
         ///加入收藏
         collectionImgView.isUserInteractionEnabled=true
         collectionImgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action:#selector(addCollection)))
@@ -132,6 +142,7 @@ extension GoodDetailViewController{
                 self?.addCarVM.queryCarSumCountPS.onNext(true)
                 self?.setData(model:model!)
             }
+
         },onError:{ [weak self] (_) in ///获取订单详情出错 返回上一页
             self?.navigationController?.popViewController(animated:true)
         }).disposed(by:rx_disposeBag)
@@ -151,7 +162,7 @@ extension GoodDetailViewController{
         }.disposed(by:rx_disposeBag)
 
         ///选择商品数量
-        btnSelectedGoodCount.rx.tap.asObservable().subscribe(onNext: { [weak self] (_) in
+        btnSelectedGoodCount.rx.tap.asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
             guard let `self` = self else { return }
             if self.vm.goodDetailBR.value == nil{
                 return
@@ -238,9 +249,9 @@ extension GoodDetailViewController{
             self?.txtNotification(textField:textField)
         }
         //确定
-        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ (action) in
+        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ [weak self] (action) in
             let text=(alertController.textFields?.first)! as UITextField
-            self.stepper.value=Double(text.text!)!
+            self?.stepper.value=Double(text.text!)!
         })
         //取消
         let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.cancel, handler: nil)

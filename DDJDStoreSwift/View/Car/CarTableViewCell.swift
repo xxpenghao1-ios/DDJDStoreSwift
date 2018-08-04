@@ -57,7 +57,6 @@ class CarTableViewCell: UITableViewCell {
         stepper.layer.masksToBounds=true
         ///默认隐藏
         goodFlagImgView.isHidden=true
-
         ///默认隐藏
         goodStateImgView.isHidden=true
 
@@ -77,7 +76,8 @@ class CarTableViewCell: UITableViewCell {
 
         ///点击图片跳转页面
         imgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodDetail)))
-
+        print(lblUpice.font)
+        print(SCREEN_WIDTH)
 
     }
     func updateCell(model:GoodDetailModel){
