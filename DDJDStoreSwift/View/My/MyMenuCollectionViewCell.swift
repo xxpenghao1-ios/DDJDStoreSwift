@@ -17,12 +17,16 @@ class MyMenuCollectionViewCell:UICollectionViewCell {
         let _lab=UILabel.buildLabel(text:nil, textColor: UIColor.black, font:12, textAlignment:.center)
         return _lab
     }()
+    var pushMenuClosure:(() -> Void)?
     override init(frame: CGRect) {
         super.init(frame:frame)
         imgView.frame=CGRect(x:(self.frame.width-40)/2,y:0,width:40,height:40)
         self.contentView.addSubview(imgView);
         lblName.frame=CGRect(x:0,y:imgView.frame.maxY+5,width:frame.width,height: 20)
         self.contentView.addSubview(lblName);
+        contentView.rx.tapGesture().when(.recognized).subscribe(onNext: { [weak self] (_) in
+            self?.pushMenuClosure?()
+        }).disposed(by:rx_disposeBag)
     }
     //传入数据
     func updateCell(name:String,imgStr:String){

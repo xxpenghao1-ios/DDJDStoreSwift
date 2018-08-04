@@ -146,6 +146,26 @@ extension MyViewController{
                         let orderCountModel=self?.vm.orderCountBR.value.filter{ $0.orderStatus == indexPath.row+1 }.first
                         cell.updateCell(name:element.name, imgStr:element.imgStr, orderCountModel:orderCountModel)
                     }
+                    cell.pushOrderClosure={
+                        ///跳转到对应订单页面
+                        let vc=OrderPageViewController()
+                        vc.hidesBottomBarWhenPushed=true
+                        var orderStatus=1
+                        switch indexPath.row{
+                        case 0:
+                            orderStatus=1
+                            break
+                        case 1:
+                            orderStatus=2
+                            break
+                        case 2:
+                            orderStatus=3
+                            break
+                        default:break
+                        }
+                        vc.orderStatus=orderStatus
+                        self?.navigationController?.pushViewController(vc,animated:true)
+                    }
                     return cell
             })
 
@@ -167,9 +187,12 @@ extension MyViewController{
 
         ///创建菜单数据源
         let menuDataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String,MyModel>>(
-            configureCell: { (dataSource, collectionView, indexPath, element)  in
+            configureCell: { [weak self] (dataSource, collectionView, indexPath, element)  in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier:"MyMenuCollectionViewCellId",for:indexPath) as! MyMenuCollectionViewCell
             cell.updateCell(name:element.name, imgStr:element.imgStr)
+            cell.pushMenuClosure={
+                self?.pushMenuVC(index:indexPath.row)
+            }
             return cell
         })
 
@@ -190,34 +213,6 @@ extension MyViewController{
 
     ///VM操作
     private func vmOperation(){
-
-        ///订单点击事件
-        orderCollectionView.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] (indexPath) in
-            ///跳转到对应订单页面
-            let vc=OrderPageViewController()
-            vc.hidesBottomBarWhenPushed=true
-            var orderStatus=1
-            switch indexPath.row{
-            case 0:
-                orderStatus=1
-                break
-            case 1:
-                orderStatus=2
-                break
-            case 2:
-                orderStatus=3
-                break
-            default:break
-            }
-            vc.orderStatus=orderStatus
-            self?.navigationController?.pushViewController(vc,animated:true)
-        }).disposed(by:rx_disposeBag)
-
-        ///点击菜单跳转页面
-        menuCollectionView.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] (indexPath) in
-            self?.menuPushVC(index:indexPath.row)
-        }).disposed(by:rx_disposeBag)
-
         ///退出登录
         btnReturnLogin.rx.controlEvent(UIControlEvents.touchUpInside).asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
             self?.returnLogin()
@@ -228,8 +223,9 @@ extension MyViewController{
 extension MyViewController{
     ///设置导航栏
     private func setNav(){
-        let lblTitle=UILabel()
+        let lblTitle=UILabel(frame: CGRect.init(x:0, y:0, width:200, height:44))
         lblTitle.textColor=UIColor.white
+        lblTitle.textAlignment = .center
         lblTitle.font=UIFont.boldSystemFont(ofSize:17)
         lblTitle.text="个人中心"
         self.navigationItem.titleView=lblTitle
@@ -245,7 +241,7 @@ extension MyViewController{
         self.navigationController?.pushViewController(vc, animated:true)
     }
     ///菜单跳转页面
-    private func menuPushVC(index:Int){
+    private func pushMenuVC(index:Int){
         switch index {
         case 0:
             ///收货地址

@@ -94,6 +94,7 @@ extension BaseViewController{
 
             ///设置导航栏颜色
             self.navigationController?.navigationBar.barTintColor=UIColor.RGBFromHexColor(hexString:"ff1261")
+            
 
 //            setStatusBarBackgroundColor(color:UIColor.RGBFromHexColor(hexString:"ff1261"))
         }else{

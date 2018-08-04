@@ -16,7 +16,7 @@ class GoodDetailViewController:BaseViewController{
     ///接收商品model
     var model:GoodDetailModel?
 
-    ///有值表示从购物车中跳转过来
+    ///有值表示不显示跳转到购物车页面
     var isCarFlag:Int?
 
     ///商品图片
@@ -163,11 +163,10 @@ extension GoodDetailViewController{
 
         ///选择商品数量
         btnSelectedGoodCount.rx.tap.asDriver(onErrorJustReturn: ()).drive(onNext: { [weak self] (_) in
-            guard let `self` = self else { return }
-            if self.vm.goodDetailBR.value == nil{
+            if self?.vm.goodDetailBR.value == nil{
                 return
             }
-            self.selectedGoodCount(model:self.vm.goodDetailBR.value!)
+            self?.selectedGoodCount()
         }).disposed(by:rx_disposeBag)
     }
 
@@ -234,24 +233,26 @@ extension GoodDetailViewController{
 
      - parameter sender:UIButton
      */
-    func selectedGoodCount(model:GoodDetailModel){
+    func selectedGoodCount(){
+        let model=self.vm.goodDetailBR.value!
+        var txt = UITextField()
         let alertController = UIAlertController(title:nil, message:"输入您要购买的数量", preferredStyle: UIAlertControllerStyle.alert);
         alertController.addTextField {
             [weak self] (textField: UITextField!) -> Void in
-            textField.keyboardType=UIKeyboardType.numberPad
+            txt=textField
+            txt.keyboardType=UIKeyboardType.numberPad
             if model.goodsStock == -1{//判断库存 等于-1 表示库存充足 由于UI大小最多显示3位数
-                textField.placeholder = "请输入\(model.miniCount ?? 1)~999之间\(model.goodsBaseCount ?? 1)的倍数"
-                textField.tag=999
+                txt.placeholder = "请输入\(model.miniCount ?? 1)~999之间\(model.goodsBaseCount ?? 1)的倍数"
+                txt.tag=999
             }else{
-                textField.placeholder = "请输入\(model.miniCount ?? 1)~\(model.goodsStock ?? 1)之间\(model.goodsBaseCount ?? 1)的倍数"
-                textField.tag=model.goodsStock ?? 1
+                txt.placeholder = "请输入\(model.miniCount ?? 1)~\(model.goodsStock ?? 1)之间\(model.goodsBaseCount ?? 1)的倍数"
+                txt.tag=model.goodsStock ?? 1
             }
-            self?.txtNotification(textField:textField)
+            self?.txtNotification(textField:txt)
         }
         //确定
-        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ [weak self] (action) in
-            let text=(alertController.textFields?.first)! as UITextField
-            self?.stepper.value=Double(text.text!)!
+        let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ [weak self] (_) in
+            self?.stepper.value=Double(txt.text!)!
         })
         //取消
         let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.cancel, handler: nil)

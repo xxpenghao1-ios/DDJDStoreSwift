@@ -186,7 +186,7 @@ extension IndexViewController{
 
         //直接创建一个文本框
         let txtSearch=UITextField.buildTxt(font:14, placeholder:"请输入您要搜索的商品/分类", tintColor:UIColor.clear, keyboardType: UIKeyboardType.default)
-        txtSearch.frame=CGRect.init(x:0,y:0, width:SCREEN_WIDTH-150, height:30)
+        txtSearch.frame=CGRect.init(x:0,y:0, width:SCREEN_WIDTH-135, height:30)
         txtSearch.layer.cornerRadius=15
         txtSearch.backgroundColor=UIColor.RGBFromHexColor(hexString:"f0f0f0")
         txtSearch.rx.controlEvent(.editingDidBegin).asObservable().subscribe(onNext: { [weak self] (_) in

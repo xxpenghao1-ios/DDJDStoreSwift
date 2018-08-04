@@ -113,6 +113,7 @@ extension PurchaseRecordsViewController:Refreshable{
         let vc=UIStoryboard(name:"GoodDetail", bundle:nil).instantiateViewController(withIdentifier:"GoodDetailVC") as! GoodDetailViewController
         vc.model=model
         vc.flag=2
+        vc.isCarFlag=1
         self.navigationController?.pushViewController(vc, animated:true)
     }
 }

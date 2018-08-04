@@ -124,7 +124,7 @@ extension GoodListViewController:Refreshable{
 
         vm=GoodListViewModel(flag:flag,goodsCategoryId:goodsCategoryId, subSupplierId:subSupplierId, searchCondition:titleStr)
         ///创建数据源
-        let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ (_,table,indexPath,model) in
+        let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"goodListId") as? GoodListTableViewCell ?? GoodListTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"goodListId")
             if indexPath.row % 2 == 0{
                 cell.contentView.backgroundColor=UIColor.white
@@ -133,15 +133,15 @@ extension GoodListViewController:Refreshable{
             }
             cell.updateCell(model:model)
             ///跳转到商品详情
-            cell.pushGoodDetailClosure={ [weak self] in
+            cell.pushGoodDetailClosure={
                 self?.pushGoodDetail(model:model)
             }
             ///加入购物车车
-            cell.addCarClosure={ [weak self] (goodCount) in
+            cell.addCarClosure={  (goodCount) in
                 self?.addCarVM.addCar(model:model, goodsCount:goodCount,flag:2)
             }
             ///选择商品数量
-            cell.selectedGoodCountClosure={ [weak self] in
+            cell.selectedGoodCountClosure={  
                 self?.selectedGoodCount(model:model,indexPath:indexPath)
             }
             return cell
@@ -217,22 +217,23 @@ extension GoodListViewController:Refreshable{
         if cell == nil{
             return
         }
+        var txt = UITextField()
         let alertController = UIAlertController(title:nil, message:"输入您要购买的数量", preferredStyle: UIAlertControllerStyle.alert);
         alertController.addTextField {
             [weak self] (textField: UITextField!) ->  Void in
-            textField.keyboardType=UIKeyboardType.numberPad
+            txt=textField
+            txt.keyboardType=UIKeyboardType.numberPad
             if model.goodsStock == -1{//判断库存 等于-1 表示库存充足 由于UI大小最多显示3位数
-                textField.placeholder = "请输入\(model.miniCount ?? 1)~999之间\(model.goodsBaseCount ?? 1)的倍数"
+                txt.placeholder = "请输入\(model.miniCount ?? 1)~999之间\(model.goodsBaseCount ?? 1)的倍数"
             }else{
-                textField.placeholder = "请输入\(model.miniCount ?? 1)~\(model.goodsStock ?? 0)之间\(model.goodsBaseCount ?? 1)的倍数"
+                txt.placeholder = "请输入\(model.miniCount ?? 1)~\(model.goodsStock ?? 0)之间\(model.goodsBaseCount ?? 1)的倍数"
             }
-            textField.tag=indexPath.row
-            self?.txtNotification(textField:textField)
+            txt.tag=indexPath.row
+            self?.txtNotification(textField:txt)
         }
         //确定
         let okAction = UIAlertAction(title: "确定", style: UIAlertActionStyle.default,handler:{ Void in
-            let text=(alertController.textFields?.first)! as UITextField
-            cell!.stepper.value=Double(text.text!)!
+            cell!.stepper.value=Double(txt.text!)!
         })
         //取消
         let cancelAction = UIAlertAction(title: "取消", style: UIAlertActionStyle.cancel, handler: nil)

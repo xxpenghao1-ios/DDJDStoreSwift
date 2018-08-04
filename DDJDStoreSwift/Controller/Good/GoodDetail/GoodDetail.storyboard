@@ -13,7 +13,7 @@
         <!--Good Detail View Controller-->
         <scene sceneID="QrO-nE-UBe">
             <objects>
-                <viewController storyboardIdentifier="GoodDetailVC" id="bbZ-ZZ-SqL" customClass="GoodDetailViewController" customModule="DDJDStoreSwift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GoodDetailVC" automaticallyAdjustsScrollViewInsets="NO" id="bbZ-ZZ-SqL" customClass="GoodDetailViewController" customModule="DDJDStoreSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nfc-If-mI9"/>
                         <viewControllerLayoutGuide type="bottom" id="gpd-D1-RsK"/>

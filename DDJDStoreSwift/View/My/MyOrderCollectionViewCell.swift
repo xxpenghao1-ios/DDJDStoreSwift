@@ -24,6 +24,7 @@ class MyOrderCollectionViewCell:UICollectionViewCell{
         _lbl.textAlignment = .center
         return _lbl
     }()
+    var pushOrderClosure:(() -> Void)?
     override init(frame: CGRect) {
         super.init(frame:frame)
 
@@ -36,7 +37,12 @@ class MyOrderCollectionViewCell:UICollectionViewCell{
 
         centerView.addSubview(imgView)
         centerView.addSubview(lblName)
+
         self.contentView.addSubview(centerView)
+
+        centerView.rx.tapGesture().when(.recognized).subscribe(onNext: { [weak self] (_) in
+            self?.pushOrderClosure?()
+        }).disposed(by:rx_disposeBag)
 
     }
     func updateCell(name:String,imgStr:String,orderCountModel:OrderCountModel?=nil){
