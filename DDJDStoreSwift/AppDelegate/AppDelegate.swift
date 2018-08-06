@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import Siren
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -20,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         setApp()
         //开启极光推送
         PHJPushHelper.setupWithOptions(launchOptions:launchOptions,delegate:self)
-        
         return true
     }
 
@@ -39,12 +39,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     ///后台进入前台
     func applicationDidBecomeActive(_ application: UIApplication) {
+        ///清空推荐badge
         JPUSHService.resetBadge()
+        ///清空appbadge
         application.applicationIconBadgeNumber=0;
         ///检查用户是否被其他人登录
         vm.memberDeviceVerificationPS.onNext(true)
-        ///上线
+        ///向后台发送上线请求
         vm.addSubStationMemberPS.onNext(true)
+        /*执行每日(.daily)或每周(.weekly)检查新版本的应用程序。
+        如果用户在长时间后从后台返回应用程序，这将非常有用。
+        */
+        Siren.shared.checkVersion(checkType: .daily)
     }
     ///接收到推送消息处理
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -61,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-        ///下线
+        ///向后台发送下线请求
         vm.subSubStationMemberPS.onNext(true)
     }
 
@@ -75,6 +81,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+
+        //如果用户在被发送到应用程序商店，但在回到你的应用程序之前不会更新他们的应用。只有使用Siren.AlertType.immediately
+        Siren.shared.checkVersion(checkType: .immediately)
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

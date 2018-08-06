@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import IQKeyboardManagerSwift
 import SwiftyJSON
+import Siren
 ///设置app
 extension AppDelegate{
     
@@ -63,6 +64,15 @@ extension AppDelegate{
         ///百度统计
         BaiduMobStat.default().start(withAppId:"ec2fbe36a3")
         BaiduMobStat.default().enableDebugOn=false
+
+        ///版本更新
+        let siren=Siren.shared
+        ///为用户提供更新app的选项(2个按钮提醒)
+        siren.alertType = .option
+        ///设置好后，只有在当前版本已经发布了X天之后，才会显示警报。设置0天
+        siren.showAlertAfterCurrentVersionHasBeenReleasedForDays=0
+        ///设置检测app更新情况
+        siren.checkVersion(checkType: .immediately)
 
     }
 }

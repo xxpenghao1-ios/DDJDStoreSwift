@@ -22,9 +22,8 @@ extension AppDelegateAPI:TargetType{
     public var baseURL:URL{
         switch self {
         case .subSubStationMember,.addSubStationMember:
-            return Foundation.URL(string:HTTP_URL.components(separatedBy:"/front/")[0])!
+            return Foundation.URL(string:"http://tj.hnddjd.com/")!
         default:return Foundation.URL(string:HTTP_URL)!
-
         }
     }
     public var path: String {

@@ -10,7 +10,6 @@ import Foundation
 import RxSwift
 import RxCocoa
 import RxDataSources
-import RxGesture
 ///品牌
 class BrandViewController:BaseViewController{
 
@@ -26,7 +25,7 @@ class BrandViewController:BaseViewController{
         flowLayout.itemSize = CGSize(width:widthH,height:50)
         flowLayout.scrollDirection = UICollectionViewScrollDirection.vertical//设置垂直显
         flowLayout.minimumLineSpacing = 10;//每个相邻layout的上下
-        flowLayout.minimumInteritemSpacing = 10;//每个相邻layout的左右
+        flowLayout.minimumInteritemSpacing = 5;//每个相邻layout的左右
         flowLayout.headerReferenceSize = CGSize(width:0, height: 0);
         let collectionView=UICollectionView(frame:CGRect.init(x:0, y:2,width:SCREEN_WIDTH,height:SCREEN_HEIGH-NAV_HEIGHT-44-BOTTOM_SAFETY_DISTANCE_HEIGHT-2), collectionViewLayout: flowLayout)
         collectionView.backgroundColor=UIColor.white
@@ -46,7 +45,7 @@ class BrandViewController:BaseViewController{
     private func  pushGoodListVC(model:GoodsCategoryModel){
         let vc=GoodListViewController()
         vc.flag=1
-        vc.goodsCategoryId=model.goodsCategoryId
+        vc.goodsCategoryId=goodsCategoryId
         vc.titleStr=model.brandName
         vc.hidesBottomBarWhenPushed=true
         self.navigationController?.pushViewController(vc,animated:true)

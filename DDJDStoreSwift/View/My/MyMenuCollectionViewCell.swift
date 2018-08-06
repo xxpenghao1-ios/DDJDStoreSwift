@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxGesture
 ///个人中心 菜单cell
 class MyMenuCollectionViewCell:UICollectionViewCell {
     private lazy var imgView:UIImageView={

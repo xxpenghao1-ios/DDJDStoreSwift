@@ -9,7 +9,7 @@ target ‘DDJDStoreSwift’ do
     pod 'IQKeyboardManagerSwift'  #管理键盘
     pod 'SnapKit' #自动布局库，swift版
     pod 'SVProgressHUD'    #菊花动画
-    pod 'XCGLogger' #日志管理类库
+#    pod 'XCGLogger' #日志管理类库
     pod 'BaiduMobStat'#百度统计
     pod 'SwiftyJSON' #json
     pod 'Kingfisher' #图片加载
@@ -21,6 +21,7 @@ target ‘DDJDStoreSwift’ do
     pod 'DZNEmptyDataSet'  #空视图提示
     pod 'WZLBadge' #小红点
     pod 'MLeaksFinder' #内存检测
+    pod 'Siren' #版本更新管理
     #rx
     pod 'RxSwift'
     pod 'RxCocoa'

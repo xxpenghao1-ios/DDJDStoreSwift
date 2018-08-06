@@ -38,7 +38,6 @@ class CarViewModel:NSObject{
             self?.updateCarAllGoodsNumForMember()
         }).disposed(by:rx_disposeBag)
 
-
     }
 }
 ///网络请求

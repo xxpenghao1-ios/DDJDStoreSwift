@@ -26,7 +26,7 @@ class OtherViewController:BaseViewController{
         table.delegate=self
         table.backgroundColor=UIColor.clear
         table.estimatedSectionFooterHeight=15
-        table.estimatedSectionHeaderHeight=15
+        table.estimatedSectionHeaderHeight=0
         table.estimatedRowHeight=0
         table.tableFooterView=UIView.init(frame:CGRect.zero)
         table.separatorInset=UIEdgeInsets.zero

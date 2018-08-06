@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import RxGesture
 ///个人中心  订单视图cell
 class MyOrderCollectionViewCell:UICollectionViewCell{
 

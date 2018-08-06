@@ -101,7 +101,7 @@ extension SearchViewController{
         txtSearch=UITextField(frame:CGRect(x:0,y:0, width:SCREEN_WIDTH-100, height:30))
         txtSearch.backgroundColor=UIColor.RGBFromHexColor(hexString:"f0f2f5")
         txtSearch.placeholder="请输入您要搜索的商品"
-        txtSearch.font=UIFont.systemFont(ofSize: 14)
+        txtSearch.adapterFont=13
         txtSearch.tintColor=UIColor.color666()
         txtSearch.returnKeyType = .search
         txtSearch.delegate=self
