@@ -22,6 +22,7 @@ target ‘DDJDStoreSwift’ do
     pod 'WZLBadge' #小红点
     pod 'MLeaksFinder' #内存检测
     pod 'Siren' #版本更新管理
+    pod 'Bugly' #错误统计
     #rx
     pod 'RxSwift'
     pod 'RxCocoa'

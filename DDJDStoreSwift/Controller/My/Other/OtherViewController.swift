@@ -21,6 +21,7 @@ class OtherViewController:BaseViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title="其他"
+        self.automaticallyAdjustsScrollViewInsets=false
         table=UITableView(frame:CGRect.init(x:0,y:NAV_HEIGHT+10,width:SCREEN_WIDTH, height:SCREEN_HEIGH-NAV_HEIGHT-BOTTOM_SAFETY_DISTANCE_HEIGHT-10),style:.grouped)
         table.dataSource=self
         table.delegate=self

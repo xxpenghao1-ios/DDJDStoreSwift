@@ -21,7 +21,6 @@ class ComplaintsAndSuggestionsViewController:BaseViewController{
         _txt.font=UIFont.systemFont(ofSize:15)
         return _txt
     }()
-
     private lazy var btnSubmit:UIButton={
         let btn=UIButton.buildBtn(text:"提交", textColor: UIColor.priceColor(), font:16, backgroundColor: UIColor.RGBFromHexColor(hexString:"ffe1e9"))
         btn.frame=CGRect.init(x:20, y:txtStr.frame.maxY+20, width: SCREEN_WIDTH-40, height:55)
@@ -30,11 +29,10 @@ class ComplaintsAndSuggestionsViewController:BaseViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.automaticallyAdjustsScrollViewInsets=false
         self.title="投诉与建议"
         self.view.addSubview(txtStr)
         self.view.addSubview(btnSubmit)
-
-
         txtStr.rx.text.orEmpty.map{ $0.count >= 10 && $0.count <= 300 }.bind(to:btnSubmit.rx.isDisable).disposed(by:rx_disposeBag)
 
         btnSubmit.rx.tap.asObservable().throttle(1, scheduler:MainScheduler.instance).subscribe(onNext: { [weak self] (_) in

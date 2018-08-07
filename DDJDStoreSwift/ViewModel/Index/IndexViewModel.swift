@@ -59,7 +59,7 @@ class IndexViewModel:NSObject,OutputRefreshProtocol{
                 self?.getMobileAdvertising()
                 self?.getOneCategory()
                 self?.getNewGood()
-                self?.getSpecialsAndPromotions()
+//                self?.getSpecialsAndPromotions()
                 self?.getHotGood(b:b)
             }else{
                 self?.currentPage+=1

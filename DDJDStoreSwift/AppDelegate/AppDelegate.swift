@@ -17,10 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal var vm=AppDelegateViewModel()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-
+//        let startTime = CFAbsoluteTimeGetCurrent()
         setApp()
         //开启极光推送
         PHJPushHelper.setupWithOptions(launchOptions:launchOptions,delegate:self)
+//        let endTime = CFAbsoluteTimeGetCurrent()
+//        debugPrint("代码执行时长：%f 毫秒", (endTime - startTime)*1000)
         return true
     }
 

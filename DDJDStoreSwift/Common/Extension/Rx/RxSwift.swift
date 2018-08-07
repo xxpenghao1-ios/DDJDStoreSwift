@@ -17,7 +17,7 @@ extension Response {
     public func mapObjectModel<T:Mappable>(_ type: T.Type) throws -> T {
         do{
             let json=JSON(try self.mapJSON())
-            phLog(json)
+//            phLog(json)
             guard let object = Mapper<T>().map(JSONObject:json.object) else {
                 throw MoyaError.jsonMapping(self)
             }
@@ -31,7 +31,7 @@ extension Response {
     public func mapArray<T:Mappable>(_ type: T.Type) throws -> [T] {
         do{
             let json=JSON(try self.mapJSON())
-            phLog(json)
+//            phLog(json)
             guard let objects = Mapper<T>().mapArray(JSONObject:json.object) else {
                     throw MoyaError.jsonMapping(self)
             }

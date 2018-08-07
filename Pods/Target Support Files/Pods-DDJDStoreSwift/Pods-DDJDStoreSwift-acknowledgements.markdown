@@ -28,6 +28,11 @@ THE SOFTWARE.
 
 Copyright 2018 Baidu. All rights reserved.
 
+## Bugly
+
+Copyright (C) 2017 Tencent Bugly, Inc. All rights reserved.
+
+
 ## DZNEmptyDataSet
 
 The MIT License (MIT)

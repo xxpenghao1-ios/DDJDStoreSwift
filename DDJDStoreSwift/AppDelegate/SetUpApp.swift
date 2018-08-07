@@ -23,7 +23,6 @@ extension AppDelegate{
             self.jumpToIndexVC()
         }
         setNav()
-
         setThirdPartyFramework()
 
     }
@@ -44,36 +43,38 @@ extension AppDelegate{
 
     internal func setThirdPartyFramework(){
 
-        //开启键盘框架
-        IQKeyboardManager.shared.enable = true
+        ///把一些第三方框架 放到异步线程中执行 加快页面加载速度
+        DispatchQueue.main.async {
+            ///版本更新
+            let siren=Siren.shared
+            ///为用户提供更新app的选项(2个按钮提醒)
+            siren.alertType = .option
+            ///设置好后，只有在当前版本已经发布了X天之后，才会显示警报。设置0天
+            siren.showAlertAfterCurrentVersionHasBeenReleasedForDays=0
+            ///设置检测app更新情况
+            siren.checkVersion(checkType: .immediately)
 
-        ///初始化 提示框架
-        PHProgressHUD.initProgressHUD()
+            //开启键盘框架
+            IQKeyboardManager.shared.enable = true
 
-        ///图片缓存
-        //设置最大缓存时间为3天，默认为1周
-        cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
-        //清空失效和过大的缓存
-        cache.cleanExpiredDiskCache()
+            ///初始化 提示框架
+            PHProgressHUD.initProgressHUD()
 
-        //监听极光推送自定义消息(只有在前端运行的时候才能收到自定义消息的推送。)
-        NotificationCenter.default.addObserver(self, selector:#selector(networkDidReceiveMessage), name:NSNotification.Name.jpfNetworkDidReceiveMessage, object:nil)
-        //关闭极光推送打印
-        JPUSHService.setLogOFF()
+            ///图片缓存
+            //设置最大缓存时间为3天，默认为1周
+            cache.maxCachePeriodInSecond = 60 * 60 * 24 * 3
+            //清空失效和过大的缓存
+            cache.cleanExpiredDiskCache()
 
-        ///百度统计
-        BaiduMobStat.default().start(withAppId:"ec2fbe36a3")
-        BaiduMobStat.default().enableDebugOn=false
+            //监听极光推送自定义消息(只有在前端运行的时候才能收到自定义消息的推送。)
+            NotificationCenter.default.addObserver(self, selector:#selector(self.networkDidReceiveMessage), name:NSNotification.Name.jpfNetworkDidReceiveMessage, object:nil)
+            //关闭极光推送打印
+            JPUSHService.setLogOFF()
 
-        ///版本更新
-        let siren=Siren.shared
-        ///为用户提供更新app的选项(2个按钮提醒)
-        siren.alertType = .option
-        ///设置好后，只有在当前版本已经发布了X天之后，才会显示警报。设置0天
-        siren.showAlertAfterCurrentVersionHasBeenReleasedForDays=0
-        ///设置检测app更新情况
-        siren.checkVersion(checkType: .immediately)
-
+            ///百度统计
+            BaiduMobStat.default().start(withAppId:"ec2fbe36a3")
+            BaiduMobStat.default().enableDebugOn=false
+        }
     }
 }
 
