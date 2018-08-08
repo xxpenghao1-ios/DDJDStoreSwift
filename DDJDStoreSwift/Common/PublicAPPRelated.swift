@@ -80,6 +80,5 @@ func phLog<T>(_ message : T, file : String = #file, funcName : String = #functio
     let fileName = (file as NSString).lastPathComponent
 
     print("\(fileName):\(funcName):(\(lineNum)line)-\(message)")
-
     #endif
 }

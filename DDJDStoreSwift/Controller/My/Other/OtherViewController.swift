@@ -22,11 +22,11 @@ class OtherViewController:BaseViewController{
         super.viewDidLoad()
         self.title="其他"
         self.automaticallyAdjustsScrollViewInsets=false
-        table=UITableView(frame:CGRect.init(x:0,y:NAV_HEIGHT+10,width:SCREEN_WIDTH, height:SCREEN_HEIGH-NAV_HEIGHT-BOTTOM_SAFETY_DISTANCE_HEIGHT-10),style:.grouped)
+        table=UITableView(frame:CGRect.init(x:0,y:NAV_HEIGHT,width:SCREEN_WIDTH, height:SCREEN_HEIGH-NAV_HEIGHT-BOTTOM_SAFETY_DISTANCE_HEIGHT),style:.grouped)
         table.dataSource=self
         table.delegate=self
         table.backgroundColor=UIColor.clear
-        table.estimatedSectionFooterHeight=15
+        table.estimatedSectionFooterHeight=10
         table.estimatedSectionHeaderHeight=0
         table.estimatedRowHeight=0
         table.tableFooterView=UIView.init(frame:CGRect.zero)

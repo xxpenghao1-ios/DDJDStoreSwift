@@ -1,6 +1,5 @@
 PODS:
   - Alamofire (4.7.2)
-  - BaiduMobStat (4.8.1)
   - Bugly (2.5.0)
   - Differentiator (3.0.2)
   - DZNEmptyDataSet (1.8.1)
@@ -42,7 +41,6 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - BaiduMobStat
   - Bugly
   - DZNEmptyDataSet
   - iCarousel
@@ -68,7 +66,6 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - Alamofire
-    - BaiduMobStat
     - Bugly
     - Differentiator
     - DZNEmptyDataSet
@@ -97,7 +94,6 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: e4fa87002c137ba2d8d634d2c51fabcda0d5c223
-  BaiduMobStat: 4104ba9d7ce7308dbed3c78fe6131eea1ec232c5
   Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
   Differentiator: a87be69eba49ec4ab460c7671143ee3a9eececfd
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
@@ -124,6 +120,6 @@ SPEC CHECKSUMS:
   WMPageController: 0c7624d2b48e4f1ab92371688cf6744ed701575d
   WZLBadge: 9ec779dcfd94c825518b395e8315fccaabff1bfa
 
-PODFILE CHECKSUM: a2372d6030592552501e96c112cc28b13d0c0721
+PODFILE CHECKSUM: 9ff45f4ece4a5512888c3a3d69f708a4c7fa3626
 
 COCOAPODS: 1.5.0

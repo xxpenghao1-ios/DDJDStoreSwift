@@ -13,8 +13,8 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
-//百度移动统计
-#import "BaiduMobStat.h"
+///腾讯bug统计
+#import <Bugly/Bugly.h>
 
 ///旋转木马效果
 #import "iCarousel.h"

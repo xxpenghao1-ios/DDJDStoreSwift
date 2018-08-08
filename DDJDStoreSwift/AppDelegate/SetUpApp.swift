@@ -71,9 +71,10 @@ extension AppDelegate{
             //关闭极光推送打印
             JPUSHService.setLogOFF()
 
-            ///百度统计
-            BaiduMobStat.default().start(withAppId:"ec2fbe36a3")
-            BaiduMobStat.default().enableDebugOn=false
+            ///腾讯错误统计
+//            let config=BuglyConfig()
+//            config.debugMode=true
+            Bugly.start(withAppId:"d98b089f84")
         }
     }
 }
