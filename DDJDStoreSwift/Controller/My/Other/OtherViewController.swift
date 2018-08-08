@@ -13,6 +13,7 @@ class OtherViewController:BaseViewController{
     private var section1NameArr=["是否开启活动语音提示"]
     private var section2NameArr=["清除缓存","当前版本"]
 
+    
     private var table:UITableView!
 
     ///是否开启 语音活动语音提示
