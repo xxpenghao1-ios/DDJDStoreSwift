@@ -47,7 +47,7 @@ class AddCarGoodCountViewModel:NSObject {
         if flag == 3{//如果是促销
             promotionNumber=model.promotionNumber
         }
-        PHRequest.shared.requestJSONObject(target:CarAPI.insertShoppingCar(memberId:member_Id!, goodId:model.goodsbasicinfoId ?? 0, supplierId: model.supplierId ?? 0, subSupplierId:model.subSupplier ?? 0,goodsCount: goodsCount,flag:flag, goodsStock:model.goodsStock ?? 0, storeId:store_Id!,promotionNumber:promotionNumber)).subscribe(onNext: { [weak self] (result) in
+        PHRequest.shared.requestJSONObject(target:CarAPI.insertShoppingCar(memberId:member_Id!, goodId:model.goodsbasicinfoId ?? 0, supplierId: model.supplierId ?? 0, subSupplierId:model.subSupplier ?? 0,goodsCount: goodsCount,flag:flag, goodsStock:model.goodsStock ?? 0, storeId:store_Id!,promotionNumber:promotionNumber)).take(1).subscribe(onNext: { [weak self] (result) in
             switch result{
             case let .success(json:json):
                 let success=json["success"].stringValue

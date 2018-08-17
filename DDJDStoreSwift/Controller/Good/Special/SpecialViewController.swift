@@ -90,7 +90,7 @@ extension SpecialViewController:Refreshable{
             cell.addCarClosure={
                 ///特价商品区id不一样 重新赋值
                 model.goodsbasicinfoId=model.goodsId
-                self?.addCarVM?.addCar(model:model, goodsCount:1, flag:1)
+                self?.addCarVM?.addCar(model:model, goodsCount:model.miniCount ?? 1, flag:1)
             }
             cell.pushGoodDetailClosure={
                 self?.pushGoodDetail(model:model)

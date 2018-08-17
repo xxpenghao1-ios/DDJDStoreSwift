@@ -94,7 +94,7 @@ extension PromotionViewController:Refreshable{
             cell.updateCell(model:model)
             ///加入购物车
             cell.addCarClosure={
-                self?.addCarVM?.addCar(model:model,goodsCount:1, flag:3)
+                self?.addCarVM?.addCar(model:model,goodsCount:model.miniCount ?? 1, flag:3)
             }
             cell.pushGoodDetailClosure={
                 self?.pushGoodDetail(model:model)
