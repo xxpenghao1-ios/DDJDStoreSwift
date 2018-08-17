@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 ///商品分类
-struct GoodsCategoryModel:Mappable {
+struct GoodsCategoryModel:Mappable{
     ///商品分类ID
     var goodsCategoryId:Int?
     ///商品分类名称
@@ -30,8 +30,9 @@ struct GoodsCategoryModel:Mappable {
     var goodscategoryId:Int?
     /// 分站ID
     var substationId:String?
-    init(){}
+    init() {}
     init?(map: Map) {
+
     }
     mutating func mapping(map: Map) {
         goodsCategoryId <- map["goodsCategoryId"]

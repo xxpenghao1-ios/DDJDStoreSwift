@@ -290,7 +290,7 @@ extension IndexViewController{
                     cell.updateCell(model:model)
                     ///点击加入购物车
                     cell.addCarClosure={
-                        self?.addCarVM.addCar(model:model,goodsCount:1, flag:2)
+                        self?.addCarVM.addCar(model:model,goodsCount:model.miniCount ?? 1, flag:2)
                     }
                     cell.pushGoodDetailClosure={ model in
                         self?.pushGoodDetail(model:model)

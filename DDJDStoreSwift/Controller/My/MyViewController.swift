@@ -296,8 +296,7 @@ extension MyViewController{
     }
     ///退出登录
     private func returnLogin(){
-        UIAlertController.showAlertYesNo(self, title:"提示", message:"您确认要退出登录吗?", cancelButtonTitle:"取消", okButtonTitle:"确定", okHandler: { [weak self] (action) in
-            self?.clearUserDefault()
+        UIAlertController.showAlertYesNo(self, title:"提示", message:"您确认要退出登录吗?", cancelButtonTitle:"取消", okButtonTitle:"确定", okHandler: { (action) in
             APP.jumpToLoginVC()
         })
     }

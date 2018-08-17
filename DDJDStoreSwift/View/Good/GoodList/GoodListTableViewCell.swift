@@ -55,6 +55,8 @@ class GoodListTableViewCell: UITableViewCell {
         btnAddCar.addTarget(self, action:#selector(addCar), for: UIControlEvents.touchUpInside)
         ///选择商品数量
         btnSelectedGoodCount.addTarget(self, action:#selector(selectedGoodCount), for: UIControlEvents.touchUpInside)
+
+
         
     }
     ///更新cell
@@ -66,12 +68,7 @@ class GoodListTableViewCell: UITableViewCell {
 
         lblGoodName.text=model.goodInfoName
 
-        ///默认值 最低起送量
-        stepper.value=Double(model.miniCount ?? 1)
-        ///最小值 最低起送量
-        stepper.minimumValue=Double(model.miniCount ?? 1)
-        ///每次加减值
-        stepper.stepValue=Double(model.goodsBaseCount ?? 1)
+
 
         if model.goodsStock == -1{
             lblStock.text="库存充足"
@@ -98,6 +95,13 @@ class GoodListTableViewCell: UITableViewCell {
         lblSalesCount.text=model.salesCount?.description
 
         lblUpice.text="￥\(model.uprice ?? "0")"
+
+        ///最小值 最低起送量
+        stepper.minimumValue=Double(model.miniCount ?? 1)
+        ///默认值 最低起送量
+        stepper.value=Double(model.miniCount ?? 1)
+        ///每次加减值
+        stepper.stepValue=Double(model.goodsBaseCount ?? 1)
 
     }
     ///显示已售罄图片

@@ -21,8 +21,6 @@ class SearchViewController:BaseViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.emptyDataType = .noData
-        self.emptyDataSetTextInfo="暂无搜索记录"
         setUI()
         setUpNav()
         bindViewModel()
@@ -77,13 +75,22 @@ extension SearchViewController:UITextFieldDelegate{
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
+    
 }
 
 extension SearchViewController{
     
     private func setUI(){
+        self.emptyDataType = .noData
+        self.emptyDataSetTextInfo="暂无搜索记录"
         let flowLayout = UICollectionViewFlowLayout()
         //给默认宽高 基于自动布局有效
+        if #available(iOS 10.0, *) {
+//            flowLayout.itemSize=CGSize(width:(SCREEN_WIDTH-55)/3, height:35)
+//            flowLayout.estimatedItemSize=UICollectionViewFlowLayoutAutomaticSize
+        } else {
+
+        }
         flowLayout.estimatedItemSize=CGSize(width:60, height:35)
         flowLayout.minimumLineSpacing = 10;//每个相邻layout的上下
         flowLayout.minimumInteritemSpacing = 10;//每个相邻layout的左右
@@ -94,6 +101,7 @@ extension SearchViewController{
         collection.emptyDataSetDelegate=self
         collection.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier:"searchId")
         self.view.addSubview(collection)
+
     }
     ///设置导航栏
     private func setUpNav(){

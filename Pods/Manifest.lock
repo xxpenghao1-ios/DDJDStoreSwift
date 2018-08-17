@@ -34,6 +34,9 @@ PODS:
   - RxSwift (4.2.0)
   - Siren (3.4.1)
   - SnapKit (4.0.0)
+  - SQLite.swift (0.11.5):
+    - SQLite.swift/standard (= 0.11.5)
+  - SQLite.swift/standard (0.11.5)
   - SVProgressHUD (2.2.5)
   - SwiftyJSON (4.1.0)
   - WMPageController (2.5.2)
@@ -58,6 +61,7 @@ DEPENDENCIES:
   - RxSwift
   - Siren
   - SnapKit
+  - SQLite.swift
   - SVProgressHUD
   - SwiftyJSON
   - WMPageController
@@ -87,6 +91,7 @@ SPEC REPOS:
     - RxSwift
     - Siren
     - SnapKit
+    - SQLite.swift
     - SVProgressHUD
     - SwiftyJSON
     - WMPageController
@@ -115,11 +120,12 @@ SPEC CHECKSUMS:
   RxSwift: 99e10317ddfcc7fbe01356aafd118fde4a0be104
   Siren: 94e13d40b48d8c0ddac053140d607c36bb487767
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SQLite.swift: 6e5356850bb1791459f8c16d6ee9195b28714a2e
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   WMPageController: 0c7624d2b48e4f1ab92371688cf6744ed701575d
   WZLBadge: 9ec779dcfd94c825518b395e8315fccaabff1bfa
 
-PODFILE CHECKSUM: 9ff45f4ece4a5512888c3a3d69f708a4c7fa3626
+PODFILE CHECKSUM: 701daa07c86234260d44eaa3b8d3f181dbf366f6
 
 COCOAPODS: 1.5.0

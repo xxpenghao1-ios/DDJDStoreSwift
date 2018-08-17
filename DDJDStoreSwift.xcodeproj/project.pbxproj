@@ -193,6 +193,7 @@
 		63E8D6442105FC91004EEE9F /* ExchangeRecordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E8D6422105FC91004EEE9F /* ExchangeRecordTableViewCell.swift */; };
 		63E8D6452105FC91004EEE9F /* ExchangeRecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 63E8D6432105FC91004EEE9F /* ExchangeRecordTableViewCell.xib */; };
 		63EA4E352109F4580067C004 /* AppDelegateAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63EA4E342109F4580067C004 /* AppDelegateAPI.swift */; };
+		63F01C3E2121294200EE9D43 /* BrandDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F01C3D2121294200EE9D43 /* BrandDB.swift */; };
 		63FBEE392091746B00BE6B81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE382091746B00BE6B81 /* AppDelegate.swift */; };
 		63FBEE3E2091746C00BE6B81 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63FBEE3C2091746C00BE6B81 /* Main.storyboard */; };
 		63FBEE412091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 63FBEE3F2091746C00BE6B81 /* DDJDStoreSwift.xcdatamodeld */; };
@@ -418,6 +419,7 @@
 		63E8D6422105FC91004EEE9F /* ExchangeRecordTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRecordTableViewCell.swift; sourceTree = "<group>"; };
 		63E8D6432105FC91004EEE9F /* ExchangeRecordTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ExchangeRecordTableViewCell.xib; sourceTree = "<group>"; };
 		63EA4E342109F4580067C004 /* AppDelegateAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateAPI.swift; sourceTree = "<group>"; };
+		63F01C3D2121294200EE9D43 /* BrandDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandDB.swift; sourceTree = "<group>"; };
 		63FBEE352091746B00BE6B81 /* DDJDStoreSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDJDStoreSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63FBEE382091746B00BE6B81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		63FBEE3D2091746C00BE6B81 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -1330,6 +1332,14 @@
 			path = LTNavigationBar;
 			sourceTree = "<group>";
 		};
+		63F01C3C2121286800EE9D43 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				63F01C3D2121294200EE9D43 /* BrandDB.swift */,
+			);
+			path = DB;
+			sourceTree = "<group>";
+		};
 		63FBEE2C2091746B00BE6B81 = {
 			isa = PBXGroup;
 			children = (
@@ -1399,6 +1409,7 @@
 		63FBEE6F2091A29F00BE6B81 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				63F01C3C2121286800EE9D43 /* DB */,
 				6341DB3F209460D000AC267D /* Tool */,
 				6333E7422092BFB900CEC3B7 /* Extension */,
 				63FBEE762091AB3300BE6B81 /* BaseViewController */,
@@ -1664,6 +1675,7 @@
 				"${BUILT_PRODUCTS_DIR}/RxDataSources/RxDataSources.framework",
 				"${BUILT_PRODUCTS_DIR}/RxGesture/RxGesture.framework",
 				"${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/Siren/Siren.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
@@ -1690,6 +1702,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxDataSources.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxGesture.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Siren.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
@@ -1827,6 +1840,7 @@
 				6346E8B520F4935E00E844F1 /* SpecialViewController.swift in Sources */,
 				63BD7E5020EB5A0400C01219 /* UINavigationBar+Awesome.m in Sources */,
 				637FAEF320EDFB1F00299D29 /* OrderDetailViewController.swift in Sources */,
+				63F01C3E2121294200EE9D43 /* BrandDB.swift in Sources */,
 				630BDCF8210220CF00EF98A1 /* UpdateAddAddressViewModel.swift in Sources */,
 				63FBEE782091AB5A00BE6B81 /* BaseViewController.swift in Sources */,
 				630A010D20C90C5D00DE104D /* RxSwift.swift in Sources */,

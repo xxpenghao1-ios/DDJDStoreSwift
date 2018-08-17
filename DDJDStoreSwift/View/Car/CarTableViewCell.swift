@@ -76,9 +76,6 @@ class CarTableViewCell: UITableViewCell {
 
         ///点击图片跳转页面
         imgView.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodDetail)))
-        print(lblUpice.font)
-        print(SCREEN_WIDTH)
-
     }
     func updateCell(model:GoodDetailModel){
 
@@ -107,30 +104,29 @@ class CarTableViewCell: UITableViewCell {
         }else{///未选中
             btnSelectedGood.isSelected=false
         }
-
         if model.flag == 1{//如果是特价
             lblGoodName.text=(model.goodInfoName ?? "")+"(限购~~\(model.eachCount ?? 0)\(model.goodUnit ?? ""))"
-            setStock(stock: model.goodsStock)
+            setStock(stock:model.stock)
             lblUpice.text="￥\(model.prefertialPrice ?? "0")"
             ///显示特价图标
             goodFlagImgView.image=UIImage(named:"special_good")
             goodFlagImgView.isHidden=false
-            if model.eachCount > model.goodsStock{//如果限购数量大于库存数量
+            if model.eachCount > model.stock{//如果限购数量大于库存数量
                 ///最大购买数量为库存数量
-                maxCarNumberCount=model.goodsStock ?? 0
+                maxCarNumberCount=model.stock ?? 0
             }else{
                 ///最大购买数量为限购数
                 maxCarNumberCount=model.eachCount ?? 0
             }
         }else if model.flag == 3{///如果是促销
             lblGoodName.text=(model.goodInfoName ?? "")+"(限购~~\(model.promotionStoreEachCount ?? 0)\(model.goodUnit ?? ""))"
-            setStock(stock: model.goodsStock)
+            setStock(stock: model.promotionEachCount)
             ///显示促销图标
             goodFlagImgView.image=UIImage(named:"promotion_good")
             goodFlagImgView.isHidden=false
-            if model.promotionStoreEachCount > model.goodsStock{//如果限购数量大于库存数量
+            if model.promotionStoreEachCount > model.promotionEachCount{//如果限购数量大于库存数量
                 ///最大购买数量为库存数量
-                maxCarNumberCount=model.goodsStock ?? 0
+                maxCarNumberCount=model.promotionEachCount ?? 0
             }else{
                 ///最大购买数量为限购数
                 maxCarNumberCount=model.promotionStoreEachCount ?? 0

@@ -23,8 +23,6 @@ class PurchaseRecordsViewController:BaseViewController{
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        vm.requestPurchaseRecordsPS.onNext(true)
         ///查询购物车商品数量
         addCarVM.queryCarSumCountPS.onNext(true)
     }
@@ -59,7 +57,7 @@ class PurchaseRecordsViewController:BaseViewController{
 extension PurchaseRecordsViewController:Refreshable{
 
     private func bindViewModel(){
-
+        vm.requestPurchaseRecordsPS.onNext(true)
         ///创建数据源
         let dataSources=RxTableViewSectionedReloadDataSource<SectionModel<String,GoodDetailModel>>(configureCell:{ [weak self] (_,table,indexPath,model) in
             let cell=table.dequeueReusableCell(withIdentifier:"purchaseRecordsId") as? PurchaseRecordsTableViewCell ?? PurchaseRecordsTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"purchaseRecordsId")
@@ -75,7 +73,7 @@ extension PurchaseRecordsViewController:Refreshable{
             }
             ///加入购物车车
             cell.addCarClosure={
-                self?.addCarVM.addCar(model:model, goodsCount:1,flag:2)
+                self?.addCarVM.addCar(model:model,goodsCount:model.miniCount ?? 1,flag:2)
             }
             cell.updateCell(model:model)
             return cell

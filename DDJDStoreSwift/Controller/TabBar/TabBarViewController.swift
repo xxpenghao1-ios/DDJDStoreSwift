@@ -90,6 +90,12 @@ extension TabBarViewController{
                     self.addCarGoodCountVM.queryCarSumCountBR.accept(count)
 
                 }
+            }else if obj == 4{///更新
+                if notification.userInfo != nil{
+                    let userInfo=JSON(notification.userInfo!)
+                    let count=userInfo["carCount"].intValue
+                    self.addCarGoodCountVM.queryCarSumCountBR.accept(count)
+                }
             }else {//读取服务器购物车总数量
                 updateCarBadgeValue.onNext(true)
             }

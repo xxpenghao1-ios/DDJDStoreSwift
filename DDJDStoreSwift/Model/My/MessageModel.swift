@@ -10,7 +10,6 @@ import Foundation
 import ObjectMapper
 ///消息model
 struct  MessageModel:Mappable{
-
     var adMessgInfo:Int?
     /// 分站id
     var substationId:Int?

@@ -162,6 +162,8 @@ extension CarViewController{
             }else{
                 self?.tabBarItem.badgeValue=nil
             }
+            ///tab页面更新购物车角标数据
+            NotificationCenter.default.post(name:NSNotification.Name(rawValue:"postBadgeValue"), object: 4, userInfo: ["carCount":count])
         }).disposed(by:rx_disposeBag)
 
         ///去结算
@@ -223,6 +225,7 @@ extension CarViewController{
 }
 
 extension CarViewController:UITableViewDelegate,UITableViewDataSource{
+
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell=table.dequeueReusableCell(withIdentifier:"carId") as? CarTableViewCell ?? CarTableViewCell(style: UITableViewCellStyle.default, reuseIdentifier:"carId")

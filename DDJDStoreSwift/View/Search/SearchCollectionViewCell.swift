@@ -49,10 +49,10 @@ class SearchCollectionViewCell:UICollectionViewCell{
         lblName.isUserInteractionEnabled=true
         lblName.addGestureRecognizer(UITapGestureRecognizer(target:self, action: #selector(pushGoodListVC)))
         lblName.snp.makeConstraints { (make) in
-            make.left.equalTo(self.contentView.snp.left)
+            make.left.equalTo(0)
             make.top.equalTo(7.5)
             make.height.equalTo(20)
-            make.right.equalTo(self.contentView.snp.right)
+            make.right.equalTo(0)
         }
     }
     @objc private func pushGoodListVC(){

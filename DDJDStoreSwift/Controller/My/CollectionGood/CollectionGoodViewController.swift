@@ -23,7 +23,6 @@ class CollectionGoodViewController:BaseViewController{
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
         vm.requestCollectionGoodPS.onNext(true)
         ///查询购物车商品数量
         addCarVM.queryCarSumCountPS.onNext(true)
@@ -167,12 +166,12 @@ extension CollectionGoodViewController:Refreshable{
             let model=self.vm.collectionGoodArr[text.tag]
             ///输入的最大输入数
             let goodsStock=model.goodsStock == -1 ? 999:(model.goodsStock ?? 0)
-            let okAction = alertController!.actions.last! as UIAlertAction
-            if text.text?.count > 0{
+            let okAction = alertController!.actions.last
+            if text.text != nil && text.text!.count > 0{
                 ///当输入数量 是goodsBaseCount的倍数  并且小于等于库存数  大于等于最低起送数量才可以点击确定按钮
-                okAction.isEnabled = Int(text.text!)! % (model.goodsBaseCount ?? 1) == 0 && Int(text.text!)! <= goodsStock && Int(text.text!)! >= (model.miniCount ?? 1)
+                okAction?.isEnabled = Int(text.text!)! % (model.goodsBaseCount ?? 1) == 0 && Int(text.text!)! <= goodsStock && Int(text.text!)! >= (model.miniCount ?? 1)
             }else{
-                okAction.isEnabled=false
+                okAction?.isEnabled=false
             }
         }
     }

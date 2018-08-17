@@ -1,3 +1,4 @@
+
 //
 //  SetUpApp.swift
 //  DDJDStoreSwift
@@ -17,13 +18,15 @@ extension AppDelegate{
     ///设置app
     internal func setApp(){
         
+        setNav()
+        setThirdPartyFramework()
+
         if member_Id == nil{
             self.jumpToLoginVC()
         }else{
             self.jumpToIndexVC()
         }
-        setNav()
-        setThirdPartyFramework()
+
 
     }
 
@@ -42,8 +45,6 @@ extension AppDelegate{
 extension AppDelegate{
 
     internal func setThirdPartyFramework(){
-
-        ///把一些第三方框架 放到异步线程中执行 加快页面加载速度
         DispatchQueue.main.async {
             ///版本更新
             let siren=Siren.shared
@@ -56,7 +57,6 @@ extension AppDelegate{
 
             //开启键盘框架
             IQKeyboardManager.shared.enable = true
-
             ///初始化 提示框架
             PHProgressHUD.initProgressHUD()
 
@@ -72,10 +72,12 @@ extension AppDelegate{
             JPUSHService.setLogOFF()
 
             ///腾讯错误统计
-//            let config=BuglyConfig()
-//            config.debugMode=true
+            //            let config=BuglyConfig()
+            //            config.debugMode=true
             Bugly.start(withAppId:"d98b089f84")
+            ///把一些第三方框架 放到异步线程中执行 加快页面加载速度
         }
+
     }
 }
 
@@ -88,6 +90,15 @@ extension AppDelegate{
     }
     //跳转到登录页面(切换根视图)
     func jumpToLoginVC(){
+        ///清除推送信息
+        PHJPushHelper.removeTagAndAlias()
+        USER_DEFAULTS.removeObject(forKey:"storeId")
+        USER_DEFAULTS.removeObject(forKey:"countyId")
+        USER_DEFAULTS.removeObject(forKey:"county")
+        USER_DEFAULTS.removeObject(forKey:"substationId")
+        USER_DEFAULTS.removeObject(forKey:"storeName")
+        USER_DEFAULTS.removeObject(forKey:"memberId")
+        USER_DEFAULTS.synchronize()
         let login=LoginController()
         self.window?.rootViewController=UINavigationController(rootViewController:login)
     }

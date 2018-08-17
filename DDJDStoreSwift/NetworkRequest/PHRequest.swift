@@ -14,18 +14,11 @@ import SwiftyJSON
 import RxSwift
 import RxCocoa
 
-typealias SuccessClosure = (JSON) -> Void
-
-typealias SuccessArrClosure = ([Mappable]?) -> Void
-
-typealias FailClosure = (String?) -> Void
-
 /// 网络请求
 final public class PHRequest:NSObject{
     /// 共享实例
     static let shared=PHRequest()
     private override init(){}
-//    private let failInfo="数据解析错误!"
     ///获取json数据
     func requestJSONObject<T:TargetType>(target:T) -> Observable<ResponseResult>{
         let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
@@ -35,7 +28,7 @@ final public class PHRequest:NSObject{
                 case let .success(response):
                     do {
                         let json = try response.mapJSON()
-//                        phLog(JSON(json))
+                        phLog(JSON(json))
                         observable.onNext(ResponseResult.success(json:JSON(json)))
                     } catch {
                         observable.onNext(ResponseResult.faild(error:MoyaError.jsonMapping(response)))
@@ -54,11 +47,11 @@ final public class PHRequest:NSObject{
         let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
 
         return Observable<[M]>.create { (observable) -> Disposable in
-           let callBack=provider.request(target){ (result) -> () in
+            let callBack=provider.request(target){ (result) -> () in
                 switch result{
                 case let .success(response):
                     do {
-                        observable.onNext(try response.mapArray(model))
+                        observable.onNext(try response.mapObjectArray(model))
                     } catch {
                         observable.onError(MoyaError.jsonMapping(response))
                     }
@@ -73,6 +66,7 @@ final public class PHRequest:NSObject{
     }
     ///获取Model数据
     func requestJSONModel<T:TargetType,M:Mappable>(target:T,model:M.Type) ->Observable<M>{
+
         let provider=MoyaProvider<T>(requestClosure:requestTimeoutClosure(target:target),plugins:[RequestLoadingPlugin()])
         return Observable<M>.create { (observable) -> Disposable in
             let callBack=provider.request(target){ (result) -> () in
@@ -93,32 +87,6 @@ final public class PHRequest:NSObject{
             }
         }
     }
-
-
-////    /// 请求JSON数据  数据结果自行处理  返回被观察对象
-////    func requestJSONData(target:LoginAndRegisterAPI,hudInfo:HUDInfo?=nil) -> Observable<ResponseResult> {
-////
-////
-////    }
-//    ///请求JSON数据 成功返回数组
-//    func requestJSONModelArr<T:TargetType,M:Mappable>(target:T,model:M,hudInfo:HUDInfo?=nil, successClosure:@escaping SuccessArrClosure,failClosure:@escaping FailClosure){
-//        let requestProvider = MoyaProvider<T>(requestClosure:requestTimeoutClosure(target: target),plugins:[RequestLoadingPlugin(hudInfo:hudInfo)])
-//        requestProvider.rx.request(target).mapJSON().subscribe(onSuccess: { (any) in
-//            let modelArr=Mapper<M>().mapArray(JSONObject:any)
-//            successClosure(modelArr)
-//        }, onError: { (error) in
-//            failClosure(error.localizedDescription)
-//        }).disposed(by:rx_disposeBag)
-//    }
-//    ///请求String数据
-//        func requestStringData<T:TargetType>(target:T,hudInfo:HUDInfo?=nil,successClosure:@escaping (_ str:String) -> Void,failClosure: @escaping FailClosure) {
-//        let requestProvider = MoyaProvider<T>(requestClosure:requestTimeoutClosure(target: target),plugins:[RequestLoadingPlugin(hudInfo:hudInfo)])
-//        requestProvider.rx.request(target).mapString().subscribe(onSuccess: { (str) in
-//            successClosure(str)
-//        }, onError: { (error) in
-//            failClosure(error.localizedDescription)
-//        }).disposed(by:rx_disposeBag)
-//    }
 
     //设置请求超时时间
     private func requestTimeoutClosure<T:TargetType>(target:T) -> MoyaProvider<T>.RequestClosure{
@@ -165,17 +133,7 @@ public enum ResponseResult {
         }
     }
 }
-/////加载相关
-//struct HUDInfo{
-//    ///加载类型(loading(页面不能进行操作),progress(可以进行操作))
-//    var hudType:HUDType!
-//    ///是否显示加载视图
-//    var isShow:Bool!
-//    init(hudType:HUDType,isShow:Bool=true) {
-//        self.hudType=hudType
-//        self.isShow=isShow
-//    }
-//}
+
 ///插件
 fileprivate final class RequestLoadingPlugin:PluginType{
     ///不做处理
@@ -186,7 +144,10 @@ fileprivate final class RequestLoadingPlugin:PluginType{
         switch result {
         case let .failure(error):
             PHProgressHUD.showError(error.localizedDescription)
-        default:self.dismissHUD()
+            break
+        default:
+            self.dismissHUD()
+            break
         }
     }
     //MARK:-隐藏请求加载框

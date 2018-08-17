@@ -30,6 +30,7 @@ class CarViewModel:NSObject{
         super.init()
         ///查询购物车商品
         requestNewDataCommond.subscribe(onNext: { [weak self] (_) in
+            self?.arr.removeAll()
             self?.getCarGoodList()
         }).disposed(by:rx_disposeBag)
 
@@ -43,32 +44,18 @@ class CarViewModel:NSObject{
 ///网络请求
 extension CarViewModel{
 
-    ///获取购物车商品数量
+    ///获取购物车商品
     private func getCarGoodList(){
         PHProgressHUD.show("正在加载...")
         PHRequest.shared.requestJSONArrModel(target:CarAPI.queryShoppingCarNew(memberId:member_Id!, storeId:store_Id!), model:CarModel.self).map({ (arr) -> [CarModel] in
+
             ///筛选出商品list有值的(万一后台sb返回了个空呢😆)
             let carArr=arr.filter({ (carModel) -> Bool in
                 return carModel.listGoods?.count > 0
             })
-            ///统一库存  把特价 促销  普通库存统一到goodsStock
-            let mapArr=carArr.map({ (carModel) -> CarModel in
-                let goodList=carModel.listGoods!.map({ (goodModel) -> GoodDetailModel in
-                    if goodModel.flag == 3{//促销
-                        goodModel.goodsStock=goodModel.promotionEachCount
-                    }else if goodModel.flag == 1{//特价
-                        goodModel.goodsStock=goodModel.stock
-                    }
-                    return goodModel
-                })
-                carModel.listGoods=goodList
-                return carModel
-            })
-            return mapArr
+            return carArr
         }).subscribe(onNext: { [weak self] (arr) in
-                self?.arr=arr
-                self?.setSumPriceArrModel(arr:arr)
-                self?.arrPS.onNext(true)
+            self?.setSumPriceArrModel(arr:arr)
         }, onError: { [weak self] (error) in
                 self?.arr=[]
                 self?.arrPS.onNext(true)
@@ -226,7 +213,6 @@ extension CarViewModel{
         }
         ///未选中组大于0 全选按钮 不选中 否则选中
         updateAllSelectedStatePS.onNext(uncheckArr.count > 0 ? false:true)
-
         ///刷新页面
         arrPS.onNext(true)
     }

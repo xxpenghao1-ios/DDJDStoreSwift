@@ -70,10 +70,9 @@ class AppDelegateViewModel:NSObject{
                     if deviceToken != "penghao"{//如果用户在打开app没有选择接收通知 直接在登录界面 给服务器传入了默认值(penghao) 不等于表示 用户开启了消息通知
                         if  deviceToken != USER_DEFAULTS.object(forKey:"deviceToken") as? String{//判断服务器返回的设备标识与当前本机的缓存中的设备标识是否相等  如果不等于表示该账号在另一台设备在登录
                             UIAlertController.showAlertYes(APP.window?.rootViewController, title:"重新登录", message: "您的账号于\(loginTime)在另一台设备\(deviceName)上登录。如非本人操作,则密码可能已泄露,建议您重新设置密码,以确保数据安全。", okButtonTitle:"确定", okHandler: { (_) in
-                                ///清除别名 tag
-                                PHJPushHelper.removeTagAndAlias()
                                 ///跳转到登录页面
                                 APP.jumpToLoginVC()
+                                
                             })
                         }
                     }

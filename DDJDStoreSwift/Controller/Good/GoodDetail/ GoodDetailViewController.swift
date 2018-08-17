@@ -270,12 +270,12 @@ extension GoodDetailViewController{
         let alertController = self.presentedViewController as! UIAlertController?
         if (alertController != nil) {
             let text = (alertController!.textFields?.first)! as UITextField
-            let okAction = alertController!.actions.last! as UIAlertAction
-            if text.text?.count > 0{
+            let okAction = alertController!.actions.last
+            if text.text != nil && text.text!.count > 0{
                 ///当输入数量 是goodsBaseCount的倍数  并且小于等于库存数  大于等于最低起送数量才可以点击确定按钮
-                okAction.isEnabled = Int(text.text!)! % (self.vm.goodDetailBR.value?.goodsBaseCount ?? 1) == 0 && Int(text.text!)! <= text.tag && Int(text.text!)! >= (self.vm.goodDetailBR.value?.miniCount ?? 1)
+                okAction?.isEnabled = Int(text.text!)! % (self.vm.goodDetailBR.value?.goodsBaseCount ?? 1) == 0 && Int(text.text!)! <= text.tag && Int(text.text!)! >= (self.vm.goodDetailBR.value?.miniCount ?? 1)
             }else{
-                okAction.isEnabled=false
+                okAction?.isEnabled=false
             }
         }
     }

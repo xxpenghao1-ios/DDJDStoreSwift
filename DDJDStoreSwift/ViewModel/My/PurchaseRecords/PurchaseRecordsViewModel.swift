@@ -31,7 +31,7 @@ class PurchaseRecordsViewModel:NSObject,OutputRefreshProtocol{
         super.init()
 
 
-        ///请求收藏商品
+        ///请求购买记录
         requestPurchaseRecordsPS.subscribe(onNext: { [weak self] (b) in
             if b{
                 self?.currentPage=1
@@ -46,7 +46,7 @@ class PurchaseRecordsViewModel:NSObject,OutputRefreshProtocol{
 extension PurchaseRecordsViewModel{
 
 
-    ///请求收藏商品
+    ///请求购买记录
     private func requestPurchaseRecords(b:Bool){
 
         PHRequest.shared.requestJSONArrModel(target:GoodAPI.queryStorePurchaseRecord(memberId: member_Id!, pageSize: pageSize, currentPage: currentPage), model:GoodDetailModel.self).debug().subscribe(onNext: { [weak self] (arr) in
